@@ -1,5 +1,4 @@
 # ECSE 223 Group Project 9
-#________________________
 # Block 223 Design Plan : 
 # 1.Add a Game 
 # 2.Define Game settings 
