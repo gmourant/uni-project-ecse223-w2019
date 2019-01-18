@@ -11,4 +11,4 @@
 ### 9.Move block one grid to another
 ### 10.Remove block level
 ### 11.Save game
-### 12.Log in/out player/admin
+### 12.Log in/out player/admin(Sofia and Imane)
