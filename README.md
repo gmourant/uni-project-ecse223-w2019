@@ -3,8 +3,8 @@
 ### 1.Add a Game 
 ### 2.Define Game settings 
 ### 3.Delete a Game
-### 4.Update a Game
-### 5.Add a block used in level
+### 4.Update a Game (Georges and Kelly)
+### 5.Add a block used in level 
 ### 6.Delete block can't use
 ### 7.Update block
 ### 8.Position block grid location
