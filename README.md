@@ -7,7 +7,7 @@
 ### 5.Add a block used in level 
 ### 6.Delete block can't use
 ### 7.Update block
-### 8.Position block grid location
+### 8.Position block grid location (Mathieu and Sabrina)
 ### 9.Move block one grid to another
 ### 10.Remove block level
 ### 11.Save game
