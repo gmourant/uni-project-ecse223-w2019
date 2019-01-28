@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Bonjour-hi! Welcome to our repository for ```Block223```, a model-oriented programming project. Please stay tuned as updates because updates will be added continuously through the Winter 2019 semester. 
+Bonjour-hi! Welcome to our repository for ```Block223```, a model-oriented programming project. Please stay tuned because updates will be added continuously through the Winter 2019 semester. 
 
 ## Organisation
 
