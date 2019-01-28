@@ -10,7 +10,7 @@ To better organise ourselves, we have opted to use GitHub's *project management*
 
 ### Minutes
 
-We are using the repository's wiki to document our team meetings. You can find our minutes here: https://github.com/kellydanma/mais-202-coding-challenge/blob/master/README.md
+We are using the repository's wiki to document our team meetings. You can find our minutes here: https://github.com/W2019-ECSE223/ecse223-group-project-p-9/wiki
 
 ### Projects
 
