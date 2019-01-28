@@ -1,14 +1,17 @@
 # ECSE 223 Group Project 9
-## Block 223 Design Plan : 
-### 1.Add a Game 
-### 2.Define Game settings 
-### 3.Delete a Game
-### 4.Update a Game (Georges and Kelly)
-### 5.Add a block used in level 
-### 6.Delete block can't use
-### 7.Update block
-### 8.Position block grid location (Mathieu and Sabrina)
-### 9.Move block one grid to another
-### 10.Remove block level
-### 11.Save game
-### 12.Log in/out player/admin(Sofia and Imane)
+
+## Introduction
+
+Bonjour-hi! Welcome to our repository for ```Block223```, a model-oriented programming project. Please stay tuned as updates because updates will be added continuously through the Winter 2019 semester. 
+
+## Organisation
+
+To better organise ourselves, we have opted to use GitHub's *project management* tools as a part of this group project. 
+
+### Minutes
+
+We are using the repository's wiki to document our team meetings. You can find our minutes here: https://github.com/kellydanma/mais-202-coding-challenge/blob/master/README.md
+
+### Projects
+
+We are using Kanban boards to facilitate the tracking of our progress (and to stay on track!). Each iteration is assigned its own project; our collection of projects can be viewed at: https://github.com/W2019-ECSE223/ecse223-group-project-p-9/projects
