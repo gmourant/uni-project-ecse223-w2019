@@ -27,5 +27,12 @@ public class Block223Controller {
     public static void updateGame(){
         // Method body to be written
     }
+    
+    /**
+     * This method returns a list of the names of all the games.
+     */
+    public static void getGames(){
+        // Method body to be written
+    }
 
 }
