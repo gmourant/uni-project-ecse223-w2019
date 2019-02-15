@@ -1,104 +1,110 @@
-package ca.mcgill.ecse223.block.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
+package ca.mcgill.ecse223.block.model;
+import java.util.*;
 
-
-// line 86 "Block223App.ump"
+// line 71 "../../../../../Block223.ump"
 public class Ball
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  public static final int BALL_DIAMETER = 10;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Ball Attributes
-  private int minimumSpeed;
-  private int speedIncreaseFactor;
-  private int diameter;
+  private int minBallSpeedX;
+  private int minBallSpeedY;
+  private double ballSpeedIncreaseFactor;
 
   //Ball Associations
-  private PlayArea playArea;
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Ball(int aMinimumSpeed, int aSpeedIncreaseFactor, PlayArea aPlayArea)
+  public Ball(int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, Game aGame)
   {
-    minimumSpeed = aMinimumSpeed;
-    speedIncreaseFactor = aSpeedIncreaseFactor;
-    diameter = 10;
-    if (aPlayArea == null || aPlayArea.getBall() != null)
+    minBallSpeedX = aMinBallSpeedX;
+    minBallSpeedY = aMinBallSpeedY;
+    ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
+    if (aGame == null || aGame.getBall() != null)
     {
-      throw new RuntimeException("Unable to create Ball due to aPlayArea");
+      throw new RuntimeException("Unable to create Ball due to aGame");
     }
-    playArea = aPlayArea;
+    game = aGame;
   }
 
-  public Ball(int aMinimumSpeed, int aSpeedIncreaseFactor, int aWidthForPlayArea, int aHeightForPlayArea, Block223 aBlock223ForPlayArea, Game aGameForPlayArea, Paddle aPaddleForPlayArea)
+  public Ball(int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, String aNameForGame, int aNrBlocksPerLevelForGame, int aWidthPlayAreaForGame, int aHeightPlayAreaForGame, Admin aAdminForGame, Paddle aPaddleForGame, Block223 aBlock223ForGame)
   {
-    minimumSpeed = aMinimumSpeed;
-    speedIncreaseFactor = aSpeedIncreaseFactor;
-    diameter = 10;
-    playArea = new PlayArea(aWidthForPlayArea, aHeightForPlayArea, aBlock223ForPlayArea, aGameForPlayArea, aPaddleForPlayArea, this);
+    minBallSpeedX = aMinBallSpeedX;
+    minBallSpeedY = aMinBallSpeedY;
+    ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
+    game = new Game(aNameForGame, aNrBlocksPerLevelForGame, aWidthPlayAreaForGame, aHeightPlayAreaForGame, aAdminForGame, this, aPaddleForGame, aBlock223ForGame);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setMinimumSpeed(int aMinimumSpeed)
+  public boolean setMinBallSpeedX(int aMinBallSpeedX)
   {
     boolean wasSet = false;
-    minimumSpeed = aMinimumSpeed;
+    minBallSpeedX = aMinBallSpeedX;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setSpeedIncreaseFactor(int aSpeedIncreaseFactor)
+  public boolean setMinBallSpeedY(int aMinBallSpeedY)
   {
     boolean wasSet = false;
-    speedIncreaseFactor = aSpeedIncreaseFactor;
+    minBallSpeedY = aMinBallSpeedY;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setDiameter(int aDiameter)
+  public boolean setBallSpeedIncreaseFactor(double aBallSpeedIncreaseFactor)
   {
     boolean wasSet = false;
-    diameter = aDiameter;
+    ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
     wasSet = true;
     return wasSet;
   }
 
-  public int getMinimumSpeed()
+  public int getMinBallSpeedX()
   {
-    return minimumSpeed;
+    return minBallSpeedX;
   }
 
-  public int getSpeedIncreaseFactor()
+  public int getMinBallSpeedY()
   {
-    return speedIncreaseFactor;
+    return minBallSpeedY;
   }
 
-  public int getDiameter()
+  public double getBallSpeedIncreaseFactor()
   {
-    return diameter;
+    return ballSpeedIncreaseFactor;
   }
   /* Code from template association_GetOne */
-  public PlayArea getPlayArea()
+  public Game getGame()
   {
-    return playArea;
+    return game;
   }
 
   public void delete()
   {
-    PlayArea existingPlayArea = playArea;
-    playArea = null;
-    if (existingPlayArea != null)
+    Game existingGame = game;
+    game = null;
+    if (existingGame != null)
     {
-      existingPlayArea.delete();
+      existingGame.delete();
     }
   }
 
@@ -106,9 +112,9 @@ public class Ball
   public String toString()
   {
     return super.toString() + "["+
-            "minimumSpeed" + ":" + getMinimumSpeed()+ "," +
-            "speedIncreaseFactor" + ":" + getSpeedIncreaseFactor()+ "," +
-            "diameter" + ":" + getDiameter()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "playArea = "+(getPlayArea()!=null?Integer.toHexString(System.identityHashCode(getPlayArea())):"null");
+            "minBallSpeedX" + ":" + getMinBallSpeedX()+ "," +
+            "minBallSpeedY" + ":" + getMinBallSpeedY()+ "," +
+            "ballSpeedIncreaseFactor" + ":" + getBallSpeedIncreaseFactor()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 }

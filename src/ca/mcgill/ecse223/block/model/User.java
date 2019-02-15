@@ -1,33 +1,46 @@
-package ca.mcgill.ecse223.block.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
-
+package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 13 "Block223App.ump"
+// line 9 "../../../../../Block223.ump"
 public class User
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static Map<String, User> usersByUsername = new HashMap<String, User>();
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //User Attributes
-  private String userName;
+  private String username;
 
   //User Associations
-  private List<UserRole> userRoles;
+  private List<UserRole> roles;
   private Block223 block223;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aUserName, Block223 aBlock223)
+  public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    userName = aUserName;
-    userRoles = new ArrayList<UserRole>();
+    if (!setUsername(aUsername))
+    {
+      throw new RuntimeException("Cannot create due to duplicate username");
+    }
+    roles = new ArrayList<UserRole>();
+    boolean didAddRoles = setRoles(allRoles);
+    if (!didAddRoles)
+    {
+      throw new RuntimeException("Unable to create User, must have 1 to 2 roles");
+    }
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
     {
@@ -39,46 +52,64 @@ public class User
   // INTERFACE
   //------------------------
 
-  public boolean setUserName(String aUserName)
+  public boolean setUsername(String aUsername)
   {
     boolean wasSet = false;
-    userName = aUserName;
+    String anOldUsername = getUsername();
+    if (hasWithUsername(aUsername)) {
+      return wasSet;
+    }
+    username = aUsername;
     wasSet = true;
+    if (anOldUsername != null) {
+      usersByUsername.remove(anOldUsername);
+    }
+    usersByUsername.put(aUsername, this);
     return wasSet;
   }
 
-  public String getUserName()
+  public String getUsername()
   {
-    return userName;
+    return username;
+  }
+  /* Code from template attribute_GetUnique */
+  public static User getWithUsername(String aUsername)
+  {
+    return usersByUsername.get(aUsername);
+  }
+  /* Code from template attribute_HasUnique */
+  public static boolean hasWithUsername(String aUsername)
+  {
+    return getWithUsername(aUsername) != null;
   }
   /* Code from template association_GetMany */
-  public UserRole getUserRole(int index)
+  public UserRole getRole(int index)
   {
-    UserRole aUserRole = userRoles.get(index);
-    return aUserRole;
+    UserRole aRole = roles.get(index);
+    return aRole;
   }
 
-  public List<UserRole> getUserRoles()
+  public List<UserRole> getRoles()
   {
-    List<UserRole> newUserRoles = Collections.unmodifiableList(userRoles);
-    return newUserRoles;
+    List<UserRole> newRoles = Collections.unmodifiableList(roles);
+    return newRoles;
   }
 
-  public int numberOfUserRoles()
+  public int numberOfRoles()
   {
-    int number = userRoles.size();
+    int number = roles.size();
     return number;
   }
 
-  public boolean hasUserRoles()
+  public boolean hasRoles()
   {
-    boolean has = userRoles.size() > 0;
+    boolean has = roles.size() > 0;
     return has;
   }
 
-  public int indexOfUserRole(UserRole aUserRole)
+  public int indexOfRole(UserRole aRole)
   {
-    int index = userRoles.indexOf(aUserRole);
+    int index = roles.indexOf(aRole);
     return index;
   }
   /* Code from template association_GetOne */
@@ -86,111 +117,99 @@ public class User
   {
     return block223;
   }
-  /* Code from template association_IsNumberOfValidMethod */
-  public boolean isNumberOfUserRolesValid()
-  {
-    boolean isValid = numberOfUserRoles() >= minimumNumberOfUserRoles() && numberOfUserRoles() <= maximumNumberOfUserRoles();
-    return isValid;
-  }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfUserRoles()
+  public static int minimumNumberOfRoles()
   {
     return 1;
   }
   /* Code from template association_MaximumNumberOfMethod */
-  public static int maximumNumberOfUserRoles()
+  public static int maximumNumberOfRoles()
   {
     return 2;
   }
-  /* Code from template association_AddMNToOnlyOne */
-  public UserRole addUserRole(String aPassword, Block223 aBlock223)
-  {
-    if (numberOfUserRoles() >= maximumNumberOfUserRoles())
-    {
-      return null;
-    }
-    else
-    {
-      return new UserRole(aPassword, aBlock223, this);
-    }
-  }
-
-  public boolean addUserRole(UserRole aUserRole)
+  /* Code from template association_AddUnidirectionalMN */
+  public boolean addRole(UserRole aRole)
   {
     boolean wasAdded = false;
-    if (userRoles.contains(aUserRole)) { return false; }
-    if (numberOfUserRoles() >= maximumNumberOfUserRoles())
+    if (roles.contains(aRole)) { return false; }
+    if (numberOfRoles() < maximumNumberOfRoles())
     {
-      return wasAdded;
-    }
-
-    User existingUser = aUserRole.getUser();
-    boolean isNewUser = existingUser != null && !this.equals(existingUser);
-
-    if (isNewUser && existingUser.numberOfUserRoles() <= minimumNumberOfUserRoles())
-    {
-      return wasAdded;
-    }
-
-    if (isNewUser)
-    {
-      aUserRole.setUser(this);
-    }
-    else
-    {
-      userRoles.add(aUserRole);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeUserRole(UserRole aUserRole)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aUserRole, as it must always have a user
-    if (this.equals(aUserRole.getUser()))
-    {
-      return wasRemoved;
-    }
-
-    //user already at minimum (1)
-    if (numberOfUserRoles() <= minimumNumberOfUserRoles())
-    {
-      return wasRemoved;
-    }
-    userRoles.remove(aUserRole);
-    wasRemoved = true;
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addUserRoleAt(UserRole aUserRole, int index)
-  {  
-    boolean wasAdded = false;
-    if(addUserRole(aUserRole))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUserRoles()) { index = numberOfUserRoles() - 1; }
-      userRoles.remove(aUserRole);
-      userRoles.add(index, aUserRole);
+      roles.add(aRole);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveUserRoleAt(UserRole aUserRole, int index)
+  public boolean removeRole(UserRole aRole)
   {
+    boolean wasRemoved = false;
+    if (!roles.contains(aRole))
+    {
+      return wasRemoved;
+    }
+
+    if (numberOfRoles() <= minimumNumberOfRoles())
+    {
+      return wasRemoved;
+    }
+
+    roles.remove(aRole);
+    wasRemoved = true;
+    return wasRemoved;
+  }
+  /* Code from template association_SetUnidirectionalMN */
+  public boolean setRoles(UserRole... newRoles)
+  {
+    boolean wasSet = false;
+    ArrayList<UserRole> verifiedRoles = new ArrayList<UserRole>();
+    for (UserRole aRole : newRoles)
+    {
+      if (verifiedRoles.contains(aRole))
+      {
+        continue;
+      }
+      verifiedRoles.add(aRole);
+    }
+
+    if (verifiedRoles.size() != newRoles.length || verifiedRoles.size() < minimumNumberOfRoles() || verifiedRoles.size() > maximumNumberOfRoles())
+    {
+      return wasSet;
+    }
+
+    roles.clear();
+    roles.addAll(verifiedRoles);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addRoleAt(UserRole aRole, int index)
+  {  
     boolean wasAdded = false;
-    if(userRoles.contains(aUserRole))
+    if(addRole(aRole))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfUserRoles()) { index = numberOfUserRoles() - 1; }
-      userRoles.remove(aUserRole);
-      userRoles.add(index, aUserRole);
+      if(index > numberOfRoles()) { index = numberOfRoles() - 1; }
+      roles.remove(aRole);
+      roles.add(index, aRole);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveRoleAt(UserRole aRole, int index)
+  {
+    boolean wasAdded = false;
+    if(roles.contains(aRole))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfRoles()) { index = numberOfRoles() - 1; }
+      roles.remove(aRole);
+      roles.add(index, aRole);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addUserRoleAt(aUserRole, index);
+      wasAdded = addRoleAt(aRole, index);
     }
     return wasAdded;
   }
@@ -216,11 +235,8 @@ public class User
 
   public void delete()
   {
-    for(int i=userRoles.size(); i > 0; i--)
-    {
-      UserRole aUserRole = userRoles.get(i - 1);
-      aUserRole.delete();
-    }
+    usersByUsername.remove(getUsername());
+    roles.clear();
     Block223 placeholderBlock223 = block223;
     this.block223 = null;
     if(placeholderBlock223 != null)
@@ -233,7 +249,7 @@ public class User
   public String toString()
   {
     return super.toString() + "["+
-            "userName" + ":" + getUserName()+ "]" + System.getProperties().getProperty("line.separator") +
+            "username" + ":" + getUsername()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "block223 = "+(getBlock223()!=null?Integer.toHexString(System.identityHashCode(getBlock223())):"null");
   }
 }

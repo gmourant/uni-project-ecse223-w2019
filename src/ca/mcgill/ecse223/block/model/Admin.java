@@ -1,11 +1,10 @@
-package ca.mcgill.ecse223.block.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
-
+package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 29 "Block223App.ump"
+// line 19 "../../../../../Block223.ump"
 public class Admin extends UserRole
 {
 
@@ -20,9 +19,9 @@ public class Admin extends UserRole
   // CONSTRUCTOR
   //------------------------
 
-  public Admin(String aPassword, Block223 aBlock223, User aUser)
+  public Admin(String aPassword, Block223 aBlock223)
   {
-    super(aPassword, aBlock223, aUser);
+    super(aPassword, aBlock223);
     games = new ArrayList<Game>();
   }
 
@@ -65,9 +64,9 @@ public class Admin extends UserRole
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(String aName, PlayArea aPlayArea, Block223 aBlock223)
+  public Game addGame(String aName, int aNrBlocksPerLevel, int aWidthPlayArea, int aHeightPlayArea, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    return new Game(aName, aPlayArea, aBlock223, this);
+    return new Game(aName, aNrBlocksPerLevel, aWidthPlayArea, aHeightPlayArea, this, aBall, aPaddle, aBlock223);
   }
 
   public boolean addGame(Game aGame)

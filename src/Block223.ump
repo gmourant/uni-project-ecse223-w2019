@@ -1,92 +1,83 @@
-class Block223
-{
- 1 <@>- * PlayArea;
- 1 <@>- * User;
- 1 <@>- * Game;
- 1 <@>- * Level;
- 1 <@>- * UserRole;
- 1 <@>- * BlockType;
- 1 <@>- * SpecificBlock;
- 1 <@>- * LeaderboardEntry;
+namespace ca.mcgill.ecse223.block.model;
+
+class Block223 {
+   1 <@>- * User users;
+   1 <@>- * UserRole roles;
+   1 <@>- * Game games;
 }
 
-class User
-{
-  userName;
-  1 -- 1..2 UserRole;
+class User {
+   unique username;
+   1 -> 1..2 UserRole roles;
 }
 
-class UserRole
-{
-  password;
+class UserRole {
+   abstract;
+   password;
 }
 
-class Player
-{
-  isA UserRole;
+class Admin {
+   isA UserRole;
 }
 
-class Admin
-{
-  isA UserRole;
-  1 -- * Game;
+class Player {
+   isA UserRole;
 }
 
-class Game
-{
-  name;
-  1 -- 0..99 Level;
-  1 -- 1 PlayArea;
-  1 -- * BlockType;
+class Game {
+   const Integer MIN_NR_LEVELS = 1;
+   const Integer MAX_NR_LEVELS = 99; // this is somewhat redundant because the max multiplicity is enforced by Umple
+   const Integer MIN_PLAY_AREA_SIDE = 200;
+   const Integer MAX_PLAY_AREA_SIDE = 500;
+   const Integer WALL_PADDING = 10;
+   const Integer COLUMNS_PADDING = 5;
+   const Integer ROW_PADDING = 2;
+   unique name;
+   Integer nrBlocksPerLevel;
+   Integer widthPlayArea;
+   Integer heightPlayArea;
+   * -- 1 Admin admin;
+   1 <@>- * Block blocks;
+   1 <@>- 1..99 Level levels;
+   1 <@>- * BlockAssignment blockAssignments;
+   1 <@>- 1 Ball ball;
+   1 <@>- 1 Paddle paddle;
 }
 
-class BlockType
-{
-  Integer pointValue;
-  String color;
-  Integer sideLength = 20;
-  1 <- * SpecificBlock;
+class Block {
+   const Integer MIN_COLOR = 0;
+   const Integer MAX_COLOR = 255;
+   const Integer MIN_POINTS = 1;
+   const Integer MAX_POINTS = 1000; 
+   const Integer SIZE = 20;
+   autounique id;
+   Integer red;
+   Integer green;
+   Integer blue;
+   Integer points;
 }
 
-class Level
-{
-  Integer number;
-  Boolean isRandom;
-  Integer numberOfBlocks;
-  1 -- * SpecificBlock;
+class Level {
+   Boolean isRandom;
 }
 
-class SpecificBlock
-{
-  Integer xCoordinate;
-  Integer yCoordinate;
+class BlockAssignment {
+   Integer gridHorizontalPosition;
+   Integer gridVerticalPosition;
+   * -- 1 Level level;
+   * -- 1 Block block;
 }
 
-class LeaderboardEntry
-{
-  
- *-- 1 Player;
-  *-- 1 Game;
+class Ball {
+   const Integer BALL_DIAMETER = 10;
+   Integer minBallSpeedX;
+   Integer minBallSpeedY;
+   Double ballSpeedIncreaseFactor;
 }
 
-class PlayArea
-{
-  Integer width;
-  Integer height;
-}
-
-class Paddle
-{
-  Integer maximumLength;
-  Integer minimumLength;
-  Integer width = 5;
-  1 -<@> 1 PlayArea;
-}
-
-class Ball
-{
-  Integer minimumSpeed;
-  Integer speedIncreaseFactor;
-  Integer diameter = 10;
-  1 -<@> 1 PlayArea;
+class Paddle {
+   const Integer PADDLE_WIDTH = 5;
+   const Integer VERTICAL_DISTANCE = 30;
+   Integer maxPaddleLength;
+   Integer minPaddleLength;
 }

@@ -4,18 +4,35 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 60 "../../../../../Block223.ump"
-public class Level
+// line 47 "../../../../../Block223.ump"
+public class Block
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  public static final int MIN_COLOR = 0;
+  public static final int MAX_COLOR = 255;
+  public static final int MIN_POINTS = 1;
+  public static final int MAX_POINTS = 1000;
+  public static final int SIZE = 20;
+  private static int nextId = 1;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Level Attributes
-  private boolean isRandom;
+  //Block Attributes
+  private int red;
+  private int green;
+  private int blue;
+  private int points;
 
-  //Level Associations
+  //Autounique Attributes
+  private int id;
+
+  //Block Associations
   private Game game;
   private List<BlockAssignment> blockAssignments;
 
@@ -23,13 +40,17 @@ public class Level
   // CONSTRUCTOR
   //------------------------
 
-  public Level(boolean aIsRandom, Game aGame)
+  public Block(int aRed, int aGreen, int aBlue, int aPoints, Game aGame)
   {
-    isRandom = aIsRandom;
+    red = aRed;
+    green = aGreen;
+    blue = aBlue;
+    points = aPoints;
+    id = nextId++;
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
-      throw new RuntimeException("Unable to create level due to game");
+      throw new RuntimeException("Unable to create block due to game");
     }
     blockAssignments = new ArrayList<BlockAssignment>();
   }
@@ -38,22 +59,61 @@ public class Level
   // INTERFACE
   //------------------------
 
-  public boolean setIsRandom(boolean aIsRandom)
+  public boolean setRed(int aRed)
   {
     boolean wasSet = false;
-    isRandom = aIsRandom;
+    red = aRed;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean getIsRandom()
+  public boolean setGreen(int aGreen)
   {
-    return isRandom;
+    boolean wasSet = false;
+    green = aGreen;
+    wasSet = true;
+    return wasSet;
   }
-  /* Code from template attribute_IsBoolean */
-  public boolean isIsRandom()
+
+  public boolean setBlue(int aBlue)
   {
-    return isRandom;
+    boolean wasSet = false;
+    blue = aBlue;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public boolean setPoints(int aPoints)
+  {
+    boolean wasSet = false;
+    points = aPoints;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getRed()
+  {
+    return red;
+  }
+
+  public int getGreen()
+  {
+    return green;
+  }
+
+  public int getBlue()
+  {
+    return blue;
+  }
+
+  public int getPoints()
+  {
+    return points;
+  }
+
+  public int getId()
+  {
+    return id;
   }
   /* Code from template association_GetOne */
   public Game getGame()
@@ -90,34 +150,22 @@ public class Level
     int index = blockAssignments.indexOf(aBlockAssignment);
     return index;
   }
-  /* Code from template association_SetOneToAtMostN */
+  /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
   {
     boolean wasSet = false;
-    //Must provide game to level
     if (aGame == null)
     {
       return wasSet;
     }
 
-    //game already at maximum (99)
-    if (aGame.numberOfLevels() >= Game.maximumNumberOfLevels())
-    {
-      return wasSet;
-    }
-    
     Game existingGame = game;
     game = aGame;
     if (existingGame != null && !existingGame.equals(aGame))
     {
-      boolean didRemove = existingGame.removeLevel(this);
-      if (!didRemove)
-      {
-        game = existingGame;
-        return wasSet;
-      }
+      existingGame.removeBlock(this);
     }
-    game.addLevel(this);
+    game.addBlock(this);
     wasSet = true;
     return wasSet;
   }
@@ -127,20 +175,20 @@ public class Level
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public BlockAssignment addBlockAssignment(int aGridHorizontalPosition, int aGridVerticalPosition, Block aBlock, Game aGame)
+  public BlockAssignment addBlockAssignment(int aGridHorizontalPosition, int aGridVerticalPosition, Level aLevel, Game aGame)
   {
-    return new BlockAssignment(aGridHorizontalPosition, aGridVerticalPosition, this, aBlock, aGame);
+    return new BlockAssignment(aGridHorizontalPosition, aGridVerticalPosition, aLevel, this, aGame);
   }
 
   public boolean addBlockAssignment(BlockAssignment aBlockAssignment)
   {
     boolean wasAdded = false;
     if (blockAssignments.contains(aBlockAssignment)) { return false; }
-    Level existingLevel = aBlockAssignment.getLevel();
-    boolean isNewLevel = existingLevel != null && !this.equals(existingLevel);
-    if (isNewLevel)
+    Block existingBlock = aBlockAssignment.getBlock();
+    boolean isNewBlock = existingBlock != null && !this.equals(existingBlock);
+    if (isNewBlock)
     {
-      aBlockAssignment.setLevel(this);
+      aBlockAssignment.setBlock(this);
     }
     else
     {
@@ -153,8 +201,8 @@ public class Level
   public boolean removeBlockAssignment(BlockAssignment aBlockAssignment)
   {
     boolean wasRemoved = false;
-    //Unable to remove aBlockAssignment, as it must always have a level
-    if (!this.equals(aBlockAssignment.getLevel()))
+    //Unable to remove aBlockAssignment, as it must always have a block
+    if (!this.equals(aBlockAssignment.getBlock()))
     {
       blockAssignments.remove(aBlockAssignment);
       wasRemoved = true;
@@ -200,7 +248,7 @@ public class Level
     this.game = null;
     if(placeholderGame != null)
     {
-      placeholderGame.removeLevel(this);
+      placeholderGame.removeBlock(this);
     }
     for(int i=blockAssignments.size(); i > 0; i--)
     {
@@ -213,7 +261,11 @@ public class Level
   public String toString()
   {
     return super.toString() + "["+
-            "isRandom" + ":" + getIsRandom()+ "]" + System.getProperties().getProperty("line.separator") +
+            "id" + ":" + getId()+ "," +
+            "red" + ":" + getRed()+ "," +
+            "green" + ":" + getGreen()+ "," +
+            "blue" + ":" + getBlue()+ "," +
+            "points" + ":" + getPoints()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 }

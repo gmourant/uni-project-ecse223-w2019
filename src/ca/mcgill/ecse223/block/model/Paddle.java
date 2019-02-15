@@ -1,104 +1,95 @@
-package ca.mcgill.ecse223.block.model;
 /*PLEASE DO NOT EDIT THIS CODE*/
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
+package ca.mcgill.ecse223.block.model;
+import java.util.*;
 
-
-// line 78 "Block223App.ump"
+// line 78 "../../../../../Block223.ump"
 public class Paddle
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  public static final int PADDLE_WIDTH = 5;
+  public static final int VERTICAL_DISTANCE = 30;
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Paddle Attributes
-  private int maximumLength;
-  private int minimumLength;
-  private int width;
+  private int maxPaddleLength;
+  private int minPaddleLength;
 
   //Paddle Associations
-  private PlayArea playArea;
+  private Game game;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Paddle(int aMaximumLength, int aMinimumLength, PlayArea aPlayArea)
+  public Paddle(int aMaxPaddleLength, int aMinPaddleLength, Game aGame)
   {
-    maximumLength = aMaximumLength;
-    minimumLength = aMinimumLength;
-    width = 5;
-    if (aPlayArea == null || aPlayArea.getPaddle() != null)
+    maxPaddleLength = aMaxPaddleLength;
+    minPaddleLength = aMinPaddleLength;
+    if (aGame == null || aGame.getPaddle() != null)
     {
-      throw new RuntimeException("Unable to create Paddle due to aPlayArea");
+      throw new RuntimeException("Unable to create Paddle due to aGame");
     }
-    playArea = aPlayArea;
+    game = aGame;
   }
 
-  public Paddle(int aMaximumLength, int aMinimumLength, int aWidthForPlayArea, int aHeightForPlayArea, Block223 aBlock223ForPlayArea, Game aGameForPlayArea, Ball aBallForPlayArea)
+  public Paddle(int aMaxPaddleLength, int aMinPaddleLength, String aNameForGame, int aNrBlocksPerLevelForGame, int aWidthPlayAreaForGame, int aHeightPlayAreaForGame, Admin aAdminForGame, Ball aBallForGame, Block223 aBlock223ForGame)
   {
-    maximumLength = aMaximumLength;
-    minimumLength = aMinimumLength;
-    width = 5;
-    playArea = new PlayArea(aWidthForPlayArea, aHeightForPlayArea, aBlock223ForPlayArea, aGameForPlayArea, this, aBallForPlayArea);
+    maxPaddleLength = aMaxPaddleLength;
+    minPaddleLength = aMinPaddleLength;
+    game = new Game(aNameForGame, aNrBlocksPerLevelForGame, aWidthPlayAreaForGame, aHeightPlayAreaForGame, aAdminForGame, aBallForGame, this, aBlock223ForGame);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setMaximumLength(int aMaximumLength)
+  public boolean setMaxPaddleLength(int aMaxPaddleLength)
   {
     boolean wasSet = false;
-    maximumLength = aMaximumLength;
+    maxPaddleLength = aMaxPaddleLength;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setMinimumLength(int aMinimumLength)
+  public boolean setMinPaddleLength(int aMinPaddleLength)
   {
     boolean wasSet = false;
-    minimumLength = aMinimumLength;
+    minPaddleLength = aMinPaddleLength;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setWidth(int aWidth)
+  public int getMaxPaddleLength()
   {
-    boolean wasSet = false;
-    width = aWidth;
-    wasSet = true;
-    return wasSet;
+    return maxPaddleLength;
   }
 
-  public int getMaximumLength()
+  public int getMinPaddleLength()
   {
-    return maximumLength;
-  }
-
-  public int getMinimumLength()
-  {
-    return minimumLength;
-  }
-
-  public int getWidth()
-  {
-    return width;
+    return minPaddleLength;
   }
   /* Code from template association_GetOne */
-  public PlayArea getPlayArea()
+  public Game getGame()
   {
-    return playArea;
+    return game;
   }
 
   public void delete()
   {
-    PlayArea existingPlayArea = playArea;
-    playArea = null;
-    if (existingPlayArea != null)
+    Game existingGame = game;
+    game = null;
+    if (existingGame != null)
     {
-      existingPlayArea.delete();
+      existingGame.delete();
     }
   }
 
@@ -106,9 +97,8 @@ public class Paddle
   public String toString()
   {
     return super.toString() + "["+
-            "maximumLength" + ":" + getMaximumLength()+ "," +
-            "minimumLength" + ":" + getMinimumLength()+ "," +
-            "width" + ":" + getWidth()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "playArea = "+(getPlayArea()!=null?Integer.toHexString(System.identityHashCode(getPlayArea())):"null");
+            "maxPaddleLength" + ":" + getMaxPaddleLength()+ "," +
+            "minPaddleLength" + ":" + getMinPaddleLength()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
   }
 }
