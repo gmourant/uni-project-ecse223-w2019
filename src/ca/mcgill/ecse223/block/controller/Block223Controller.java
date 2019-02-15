@@ -25,6 +25,8 @@ public class Block223Controller {
      * This method updates the game settings for an instance of Game.
      * @param name name of the game used to identify the game
      * @param newName the new game name
+     * @param nrLevels sets the number of levels
+     * @param areLevelsRandom toogles whether new levels are random or not
      * @param nrBlocksPerLevel sets the number of blocks for an instance of Game
      * @param minBallSpeedX sets the minimum x-axis ball speed for an instance of Game
      * @param minBallSpeedY sets the minimum y-axis ball speed for an instance of Game
@@ -34,10 +36,11 @@ public class Block223Controller {
      * @param heightPlayArea sets the height of the PlayArea for an instance of Game
      * @param widthPlayArea sets the width of the PlayArea for an instance of Game\
      */
-    public static void updateGame(String name, String newName, 
-            int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY, 
-            double ballSpeedIncreaseFactor, int maxPaddleLength, 
-            int minPaddleLength, int heightPlayArea, int widthPlayArea){
+    public static void updateGame(String name, String newName, int nrLevels, 
+            boolean areLevelsRandom, int nrBlocksPerLevel, int minBallSpeedX, 
+            int minBallSpeedY, double ballSpeedIncreaseFactor, 
+            int maxPaddleLength, int minPaddleLength, int heightPlayArea, 
+            int widthPlayArea){
         // Method body to be written
     }
     
