@@ -27,15 +27,12 @@ class Player {
 class Game {
    const Integer MIN_NR_LEVELS = 1;
    const Integer MAX_NR_LEVELS = 99; // this is somewhat redundant because the max multiplicity is enforced by Umple
-   const Integer MIN_PLAY_AREA_SIDE = 200;
-   const Integer MAX_PLAY_AREA_SIDE = 500;
+   const Integer PLAY_AREA_SIDE = 400; // play area is now constant
    const Integer WALL_PADDING = 10;
    const Integer COLUMNS_PADDING = 5;
    const Integer ROW_PADDING = 2;
    unique name;
    Integer nrBlocksPerLevel;
-   Integer widthPlayArea;
-   Integer heightPlayArea;
    * -- 1 Admin admin;
    1 <@>- * Block blocks;
    1 <@>- 1..99 Level levels;
@@ -57,8 +54,9 @@ class Block {
    Integer points;
 }
 
+// random attribute not needed anymore
+// Each level is filled up with random blocks just before playing the level to reach the nrBlocksPerLevel defined in Game
 class Level {
-   Boolean isRandom;
 }
 
 class BlockAssignment {

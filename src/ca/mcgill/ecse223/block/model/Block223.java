@@ -268,9 +268,9 @@ public class Block223
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(String aName, int aNrBlocksPerLevel, int aWidthPlayArea, int aHeightPlayArea, Admin aAdmin, Ball aBall, Paddle aPaddle)
+  public Game addGame(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle)
   {
-    return new Game(aName, aNrBlocksPerLevel, aWidthPlayArea, aHeightPlayArea, aAdmin, aBall, aPaddle, this);
+    return new Game(aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, this);
   }
 
   public boolean addGame(Game aGame)

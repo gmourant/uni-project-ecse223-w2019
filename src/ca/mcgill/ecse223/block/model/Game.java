@@ -18,8 +18,11 @@ public class Game
    * this is somewhat redundant because the max multiplicity is enforced by Umple
    */
   public static final int MAX_NR_LEVELS = 99;
-  public static final int MIN_PLAY_AREA_SIDE = 200;
-  public static final int MAX_PLAY_AREA_SIDE = 500;
+
+  /**
+   * play area is now constant
+   */
+  public static final int PLAY_AREA_SIDE = 400;
   public static final int WALL_PADDING = 10;
   public static final int COLUMNS_PADDING = 5;
   public static final int ROW_PADDING = 2;
@@ -32,8 +35,6 @@ public class Game
   //Game Attributes
   private String name;
   private int nrBlocksPerLevel;
-  private int widthPlayArea;
-  private int heightPlayArea;
 
   //Game Associations
   private Admin admin;
@@ -48,11 +49,9 @@ public class Game
   // CONSTRUCTOR
   //------------------------
 
-  public Game(String aName, int aNrBlocksPerLevel, int aWidthPlayArea, int aHeightPlayArea, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
+  public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
     nrBlocksPerLevel = aNrBlocksPerLevel;
-    widthPlayArea = aWidthPlayArea;
-    heightPlayArea = aHeightPlayArea;
     if (!setName(aName))
     {
       throw new RuntimeException("Cannot create due to duplicate name");
@@ -82,12 +81,10 @@ public class Game
     }
   }
 
-  public Game(String aName, int aNrBlocksPerLevel, int aWidthPlayArea, int aHeightPlayArea, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
+  public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
-    widthPlayArea = aWidthPlayArea;
-    heightPlayArea = aHeightPlayArea;
     boolean didAddAdmin = setAdmin(aAdmin);
     if (!didAddAdmin)
     {
@@ -133,22 +130,6 @@ public class Game
     return wasSet;
   }
 
-  public boolean setWidthPlayArea(int aWidthPlayArea)
-  {
-    boolean wasSet = false;
-    widthPlayArea = aWidthPlayArea;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setHeightPlayArea(int aHeightPlayArea)
-  {
-    boolean wasSet = false;
-    heightPlayArea = aHeightPlayArea;
-    wasSet = true;
-    return wasSet;
-  }
-
   public String getName()
   {
     return name;
@@ -167,16 +148,6 @@ public class Game
   public int getNrBlocksPerLevel()
   {
     return nrBlocksPerLevel;
-  }
-
-  public int getWidthPlayArea()
-  {
-    return widthPlayArea;
-  }
-
-  public int getHeightPlayArea()
-  {
-    return heightPlayArea;
   }
   /* Code from template association_GetOne */
   public Admin getAdmin()
@@ -396,7 +367,7 @@ public class Game
     return 99;
   }
   /* Code from template association_AddMNToOnlyOne */
-  public Level addLevel(boolean aIsRandom)
+  public Level addLevel()
   {
     if (numberOfLevels() >= maximumNumberOfLevels())
     {
@@ -404,7 +375,7 @@ public class Game
     }
     else
     {
-      return new Level(aIsRandom, this);
+      return new Level(this);
     }
   }
 
@@ -634,9 +605,7 @@ public class Game
   {
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
-            "nrBlocksPerLevel" + ":" + getNrBlocksPerLevel()+ "," +
-            "widthPlayArea" + ":" + getWidthPlayArea()+ "," +
-            "heightPlayArea" + ":" + getHeightPlayArea()+ "]" + System.getProperties().getProperty("line.separator") +
+            "nrBlocksPerLevel" + ":" + getNrBlocksPerLevel()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "admin = "+(getAdmin()!=null?Integer.toHexString(System.identityHashCode(getAdmin())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "ball = "+(getBall()!=null?Integer.toHexString(System.identityHashCode(getBall())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "paddle = "+(getPaddle()!=null?Integer.toHexString(System.identityHashCode(getPaddle())):"null") + System.getProperties().getProperty("line.separator") +

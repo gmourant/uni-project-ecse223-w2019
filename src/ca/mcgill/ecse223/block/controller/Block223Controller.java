@@ -1,54 +1,82 @@
 package ca.mcgill.ecse223.block.controller;
-import ca.mcgill.ecse223.block.model.*;
 
-/**
- * This is a controller interface for our app that implements
- * the concepts of MVC: Model, View, Controller.
- */
+import java.util.List;
+
 public class Block223Controller {
 
-    /**
-     * Constructor for controller.
-     */
-    public Block223Controller(){
-    }
+	// ****************************
+	// Modifier methods
+	// ****************************
+	public static void createGame(String name) throws InvalidInputException {
+	}
 
-    /**
-     * This method deletes a game in the Block223 application.
-     * @param name is used to find the instance of Game
-     */
-    public static void deleteGame(String name){
-        // Method body to be written
-    }
+	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+	}
 
-    /**
-     * This method updates the game settings for an instance of Game.
-     * @param name name of the game used to identify the game
-     * @param newName the new game name
-     * @param nrLevels sets the number of levels
-     * @param areLevelsRandom toogles whether new levels are random or not
-     * @param nrBlocksPerLevel sets the number of blocks for an instance of Game
-     * @param minBallSpeedX sets the minimum x-axis ball speed for an instance of Game
-     * @param minBallSpeedY sets the minimum y-axis ball speed for an instance of Game
-     * @param ballSpeedIncreaseFactor sets the speed increase factor of the ball for an instance of Game
-     * @param maxPaddleLength sets the maximum paddle length for an instance of Game
-     * @param minPaddleLength sets the minimum paddle length for an instance of Game
-     * @param heightPlayArea sets the height of the PlayArea for an instance of Game
-     * @param widthPlayArea sets the width of the PlayArea for an instance of Game\
-     */
-    public static void updateGame(String name, String newName, int nrLevels, 
-            boolean areLevelsRandom, int nrBlocksPerLevel, int minBallSpeedX, 
-            int minBallSpeedY, double ballSpeedIncreaseFactor, 
-            int maxPaddleLength, int minPaddleLength, int heightPlayArea, 
-            int widthPlayArea){
-        // Method body to be written
-    }
-    
-    /**
-     * This method returns a list of the names of all the games.
-     */
-    public static void getGames(){
-        // Method body to be written
-    }
+	public static void deleteGame(String name) throws InvalidInputException {
+	}
+
+	public static void selectGame(String name) throws InvalidInputException {
+	}
+
+	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+	}
+
+	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
+	}
+
+	public static void deleteBlock(int id) throws InvalidInputException {
+	}
+
+	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
+	}
+
+	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+	}
+
+	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
+			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
+	}
+
+	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+	}
+
+	public static void saveGame() throws InvalidInputException {
+	}
+
+	public static void register(String username, String playerPassword, String adminPassword)
+			throws InvalidInputException {
+	}
+
+	public static void login(String username, String password) throws InvalidInputException {
+	}
+
+	public static void logout() {
+	}
+
+	// ****************************
+	// Query methods
+	// ****************************
+	public static List<TOGame> getDesignableGames() {
+	}
+
+	public static TOGame getCurrentDesignableGame() {
+	}
+
+	public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
+	}
+
+	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+	}
+
+	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+	}
+
+	public static TOUserMode getUserMode() {
+	}
 
 }

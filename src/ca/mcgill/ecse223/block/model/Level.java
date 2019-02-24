@@ -4,16 +4,17 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 60 "../../../../../Block223.ump"
+/**
+ * random attribute not needed anymore
+ * Each level is filled up with random blocks just before playing the level to reach the nrBlocksPerLevel defined in Game
+ */
+// line 59 "../../../../../Block223.ump"
 public class Level
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
-
-  //Level Attributes
-  private boolean isRandom;
 
   //Level Associations
   private Game game;
@@ -23,9 +24,8 @@ public class Level
   // CONSTRUCTOR
   //------------------------
 
-  public Level(boolean aIsRandom, Game aGame)
+  public Level(Game aGame)
   {
-    isRandom = aIsRandom;
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -37,24 +37,6 @@ public class Level
   //------------------------
   // INTERFACE
   //------------------------
-
-  public boolean setIsRandom(boolean aIsRandom)
-  {
-    boolean wasSet = false;
-    isRandom = aIsRandom;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean getIsRandom()
-  {
-    return isRandom;
-  }
-  /* Code from template attribute_IsBoolean */
-  public boolean isIsRandom()
-  {
-    return isRandom;
-  }
   /* Code from template association_GetOne */
   public Game getGame()
   {
@@ -209,11 +191,4 @@ public class Level
     }
   }
 
-
-  public String toString()
-  {
-    return super.toString() + "["+
-            "isRandom" + ":" + getIsRandom()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
-  }
 }
