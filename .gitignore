@@ -1,4 +1,8 @@
+bin/
+.metadata/
+.classpath
+.project
+.settings/
 nbproject/
 build.xml
 manifest.mf
-bin/
