@@ -3,5 +3,5 @@ external interface Serializable {}
 class BlockAssignment {
   depend java.io.Serializable;
   isA Serializable;
-  private static final long serialVersionUID = 8896099581655989380L; 
+  private static final long serialVersionUID = 8896022581633989380L;
 }
