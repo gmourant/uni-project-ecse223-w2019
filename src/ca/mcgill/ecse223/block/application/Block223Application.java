@@ -6,7 +6,8 @@ import ca.mcgill.ecse223.block.view.Block223Page;
 public class Block223Application {
 
 	private static Block223 block223;
-	private static User currentUser;
+	private static UserRole currentUserRole;
+	private static Game currentGame;
 
 	public static void main(String[] args) {
 		// UI Implementation to be added
@@ -18,9 +19,26 @@ public class Block223Application {
 		}
  		return block223;
 	}
+	
+	public static void resetBlock223() {
+		// Method that forces a load from the file
+		// Return the root Block223 object
+	}
+	
+	public static void setCurrentUserRole(UserRole aUserRole) {
+		currentUserRole = aUserRole;
+	}
 
 	public static UserRole getCurrentUserRole() {
-		return currentUser.getRole(1); // let 1 be the index of the current role
+		return currentUserRole;
+	}
+	
+	public static void setCurrentGame(Game aGame) {
+		currentGame = aGame;
+	}
+	
+	public static Game getCurrentGame() {
+		return currentGame;
 	}
 
 }
