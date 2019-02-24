@@ -1,8 +1,5 @@
 package ca.mcgill.ecse223.block.controller;
 
-import java.util.List;
-import java.sql.Date;
-import java.util.Calendar;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.model.*;
 
@@ -21,10 +18,10 @@ public class Block223Controller {
 	public static void createGame(String name) throws InvalidInputException {
 
 		// Verify that the user is an admin before proceeding
-		if(!(Block223Application.getCurrentUserRole instanceof Admin)) {
-			throw InvalidInputException("Admin privileges are required to create a game.");
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to create a game.");
 		}
-
+		
 		// Verify that the game name is unique before proceeding
 		Game foundGame = findGame(name);
 		if (foundGame != null) throw new RuntimeException("The name of a game must be unique.");
@@ -33,8 +30,11 @@ public class Block223Controller {
 		if (name == null) throw new RuntimeException("The name of a game must be specified.");
 
 		// If all else is good, create game
+		Block223 block223 = Block223Application.getBlock223();
+		Admin admin = (Admin) Block223Application.getCurrentUserRole();
 		try {
-			block223.addGame(name, 1, admin, 1, 1, 1, 10, 10, block223);
+			Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
+			block223.addGame(game);
 		}
 		catch (RuntimeException e) {
 			throw new InvalidInputException(e.getMessage());
@@ -119,7 +119,7 @@ public class Block223Controller {
 	private static Game findGame(String name) {
 		Game foundGame = null;
 		for (Game game : Block223Application.getBlock223().getGames()) {
-			if (game.getName().equalsIgnoresCase(name)) {
+			if (game.getName().equals(name)) {
 				foundGame = game;
 				break;
 			}

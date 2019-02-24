@@ -1,6 +1,6 @@
 package ca.mcgill.ecse223.block.application;
 
-import ca.mcgill.ecse223.block.model.Block223;
+import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.view.Block223Page;
 
 public class Block223Application {
@@ -20,7 +20,7 @@ public class Block223Application {
 	}
 
 	public static UserRole getCurrentUserRole() {
-		return currentUser.getRole(0); // let 0 be the index of the current role
+		return currentUser.getRole(1); // let 1 be the index of the current role
 	}
 
 }
