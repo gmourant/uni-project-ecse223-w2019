@@ -51,6 +51,56 @@ public class Block223Controller {
     */
 
 	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition) throws InvalidInputException {
+		
+		// Perform basic input validation to ensure the numeric values are valid.
+		
+		if (level > 98 || level < 0) {
+			throw new InvalidInputException("Level index not valid");
+		}
+		
+		// Get the block list for the selected game.
+		
+		Game game = Block223Application.getCurrentGame();
+		if (game == null) {
+			throw new InvalidInputException("No game selected")
+		}
+		
+		// Get the desired level.
+		
+		Level level = game.getLevel(level);
+		if (level == null) {
+			throw new InvalidInputException("Level not found")
+		}
+		
+		// Find the desired block in the block list.
+		
+		Block foundBlock == null;
+		for (Block block : blocks) {
+			int blockID = block.getId();
+			if (blockID == id) {
+				foundBlock = block;
+				break;
+			}
+		}
+		if (foundBlock == null) {
+			throw new InvalidInputException("Invalid block ID")
+		}
+		
+		// Delete the block assignment at xy coords if it exists.
+		
+		List<BlockAssignment> assignments = foundLevel.getBlockAssignments()
+		for (BlockAssignment block : assignments) {
+			int x = block.getGridHorizontalPosition();
+			int y = block.getGridVerticalPosition();
+			if (x == gridHorizontalPosition && y == gridVerticalPosition) {
+				block.delete();
+			}
+		}
+		
+		// Create a new BlockAssignment.
+		
+		foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
+		
 	}
 
 	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
