@@ -33,8 +33,24 @@ public class Block223Controller {
 	public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
 	}
 
-	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
-			throws InvalidInputException {
+    /**
+    *
+    * This method assigns a block to a position in a game's level. It needs
+    * a level index, a block ID and a x/y grid position.
+    *
+    * @param id    The ID of the desired block.
+    * @param level The index of the desired level.
+    * @param gridHorizontalPosition        The grid horizontal position where the block will be positioned.
+    * @param gridVerticalPosition          The grid vertical position where the block will be positioned.
+    *
+    * @throws InvalidInputException        if the level index is < 0 or > 98.
+    * @throws InvalidInputException        if the level index or the block ID
+    *                                 	   do not correspond to an existing
+    *                                      entity.
+    *
+    */
+
+	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition) throws InvalidInputException {
 	}
 
 	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
@@ -72,6 +88,19 @@ public class Block223Controller {
 
 	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
 	}
+
+	/**
+	*
+	* This method returns a list of GridCells associated to a level.
+	* It needs a level index.
+	*
+	* @param level The index of the desired level.
+	*
+	* @return A list of the GridCells objects associated to a level.
+	*
+	* @throws InvalidInputException        if the level doesn't exists.
+	*
+	*/
 
 	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 	}
