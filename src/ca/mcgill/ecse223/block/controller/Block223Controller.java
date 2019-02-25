@@ -1,6 +1,9 @@
 package ca.mcgill.ecse223.block.controller;
 
 import ca.mcgill.ecse223.block.model.*;
+import ca.mcgill.ecse223.block.application.Block223Application;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Block223Controller {
@@ -15,14 +18,15 @@ public class Block223Controller {
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 	}
         
+        /**
+         * This method does what Umple's Game.getWithName(…) method would do if
+         * it worked properly aka get the game using the name.
+         * Author: Georges Mourant
+        */
         private static Game findGame(String name){
-            // get the block
-            Block223 block = Block223Application.getBlock223();
-            
             // finding game
-            List<Game> games = block.getGames();
             Game foundGame = null;
-            for(Game game : games){
+            for(Game game : Block223Application.getBlock223().getGames()){
                 if(game.getName().equals(name)){
                     foundGame = game;
                     break;
@@ -31,40 +35,75 @@ public class Block223Controller {
             return foundGame;
         }
 
+        /**
+         * This method deletes a game.
+         * Author: Georges Mourant
+         * @param name name of the game
+         * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+        */
 	public static void deleteGame(String name) throws InvalidInputException {
             Game foundGame = findGame(name);
             
             // error if not an Admin
-            if(!(Block223Application.currentUser instanceof Admin))
-                throw InvalidInputException("Admin privileges are required to delete a game.");
+            if(!(Block223Application.getCurrentUser() instanceof Admin))
+                throw new InvalidInputException("Admin privileges are required to delete a game.");
 
+            Block223 block;
+            
             // make sure the game exists
-            if(foundGame != null){
+            if(foundGame != null) {
                 // error if it's the wrong admin
-                if(Block223Application.currentUser != foundGame.getAdmin())
-                    throw InvalidInputException("Admin privileges are required to delete a game.");
-                
+                if (Block223Application.getCurrentUser() != foundGame.getAdmin()) {
+                    throw new InvalidInputException("Admin privileges are required to delete a game.");
+                }
+
+                // get Block223 so can save
+                block = foundGame.getBlock223();
+
                 // delete the game
                 foundGame.delete();
+
+                // save
+                Block223Persistence.save(block);
             }
 	}
 
+        /**
+         * This method takes finds a game, and sets it as the currently played 
+         * game in Block223Application.
+         * Author: Georges Mourant
+         * @param name name of the game
+         * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+        */
 	public static void selectGame(String name) throws InvalidInputException {
             Game game = findGame(name);
             
             // error if game does not exist
             if(game == null)
-                throw InvalidInputException("A game with the name " + name + " does not exist.");
+                throw new InvalidInputException("A game with the name " + name + " does not exist.");
             // error if not an Admin
-            if(!(Block223Application.currentUser instanceof Admin))
-                throw InvalidInputException("Admin privileges are required to delete a game.");
+            if(!(Block223Application.getCurrentUser() instanceof Admin))
+                throw new InvalidInputException("Admin privileges are required to delete a game.");
             // error if it's the wrong admin
-            if(Block223Application.currentUser != foundGame.getAdmin())
-                throw InvalidInputException("Admin privileges are required to delete a game.");
+            if(Block223Application.getCurrentUser() != game.getAdmin())
+                throw new InvalidInputException("Admin privileges are required to delete a game.");
             
             Block223Application.setCurrentGame(game);
 	}
 
+        /**
+         * This method updates game information.
+         * Author: Georges Mourant
+         * @param name name of the game
+         * @param nrLevels number of levels in the game
+         * @param nrBlocksPerLevel number of blocks per level
+         * @param minBallSpeedX minimum speed of the ball in X coordinates
+         * @param minBallSpeedY minimum speed of the ball in Y coordinates
+         * @param ballSpeedIncreaseFactor the increase factor of the ball's speed
+         * @param maxPaddleLength Maximum length of the paddle
+         * @param minPaddleLength Minimum length of the paddle
+         * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+        */
 	public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
             // getting current game's name
@@ -118,10 +157,45 @@ public class Block223Controller {
 	// ****************************
 	// Query methods
 	// ****************************
-	public static List<TOGame> getDesignableGames() {
+        
+        /**
+         * Descrition.
+         * Author: Georges Mourant
+         * @return list of games
+         * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+        */
+	public static List<TOGame> getDesignableGames() throws InvalidInputException {
+            Block223 block = Block223Application.getBlock223();
+            
+            // error if not an Admin, save Admin
+            Admin admin;
+            if(Block223Application.getCurrentUser() instanceof Admin){
+                admin = (Admin)Block223Application.getCurrentUser();
+            } else {
+                throw new InvalidInputException("Admin privileges are required to delete a game.");
+            }
+            
+            List<TOGame> result = new ArrayList();
+            
+            List<Game> games = block.getGames();
+            
+            for(Game game : games){
+                Admin gameAdmin = game.getAdmin();
+                if(gameAdmin.equals(admin)){
+                    // create TOGame
+                    // add to list
+                }
+            }
 	}
 
-	public static TOGame getCurrentDesignableGame() {
+        /**
+         * Descrition.
+         * Author: Georges Mourant
+         * @return the currently played game
+         * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+        */
+	public static TOGame getCurrentDesignableGame() throws InvalidInputException {
+            
 	}
 
 	public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
