@@ -39,6 +39,26 @@ public class Block223Controller {
 
 	}
 
+	/**
+	 * This method defines game settings for a game in Block223
+	 * @param nrLevels The number of levels available in the game
+	 * @param nrBlocksPerLevel The number of blocks per level in the game
+	 * @param minBallSpeedX The minimum ball speed in the x-direction
+	 * @param minBallSpeedY The minimum ball speed in the y-direction
+	 * @param ballSpeedIncreaseFactor The minimum factor by which ball speed increases
+	 * @param maxPaddleLength The maximum length of the paddle
+	 * @param minPaddleLength The minimum length of the paddle
+	 * @throws InvalidInputException If the currentUserRole is not set to an AdminRole
+	 * @throws InvalidInputException If the user is not the admin who created the game
+	 * @throws InvalidInputException If a game is not selected to define game settings
+	 * @throws InvalidInputException If the number of levels is not between [1, 99]
+	 * @throws InvalidInputException If nrBlocksPerLevel is negative or zero
+	 * @throws InvalidInputException If minBallSpeedX is negative or zero
+	 * @throws InvalidInputException If minBallSpeedY is negative or zero
+	 * @throws InvalidInputException If ballSpeedIncreaseFactor is negative or zero
+	 * @throws InvalidInputException If maxPaddleLength is negative or zero or larger than the play area
+	 * @throws InvalidInputException  If minPaddleLength is negative or zero
+	 */
 	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
 			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
@@ -139,6 +159,12 @@ public class Block223Controller {
 	public static void deleteGame(String name) throws InvalidInputException {
 	}
 
+	/**
+	 * This method selects a game from the Block223 application
+	 * @param name The unique name of the game
+	 * @throws InvalidInputException If the game does not exist
+	 * @throws InvalidInputException If the user is not an admin
+	 */
 	public static void selectGame(String name) throws InvalidInputException {
 		
 		// Verify the game exists
