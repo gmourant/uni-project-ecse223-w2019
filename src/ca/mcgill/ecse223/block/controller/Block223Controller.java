@@ -146,7 +146,7 @@ public class Block223Controller {
 	*
 	* @param level The index of the desired level.
 	*
-	* @return A list of the GridCells objects associated to a level.
+	* @return A list of the GridCells transfert objects associated to a level.
 	*
 	* @throws InvalidInputException        if the level doesn't exists.
 	*
