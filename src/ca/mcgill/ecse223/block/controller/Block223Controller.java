@@ -1,6 +1,9 @@
 package ca.mcgill.ecse223.block.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import ca.mcgill.ecse223.block.model.*;
+import ca.mcgill.ecse223.block.application.*;
 
 public class Block223Controller {
 
@@ -62,19 +65,23 @@ public class Block223Controller {
 		
 		Game game = Block223Application.getCurrentGame();
 		if (game == null) {
-			throw new InvalidInputException("No game selected")
+			throw new InvalidInputException("No game selected");
 		}
 		
 		// Get the desired level.
 		
-		Level level = game.getLevel(level);
-		if (level == null) {
-			throw new InvalidInputException("Level not found")
+		Level foundLevel = game.getLevel(level);
+		if (foundLevel == null) {
+			throw new InvalidInputException("Level not found");
 		}
+		
+		// Get the block list from the game.
+		
+		List<Block> blocks = game.getBlocks();
 		
 		// Find the desired block in the block list.
 		
-		Block foundBlock == null;
+		Block foundBlock = null;
 		for (Block block : blocks) {
 			int blockID = block.getId();
 			if (blockID == id) {
@@ -83,7 +90,7 @@ public class Block223Controller {
 			}
 		}
 		if (foundBlock == null) {
-			throw new InvalidInputException("Invalid block ID")
+			throw new InvalidInputException("Invalid block ID");
 		}
 		
 		// Delete the block assignment at xy coords if it exists.
@@ -160,11 +167,12 @@ public class Block223Controller {
 			throw new InvalidInputException("Level index not valid");
 		}
 		
-		// Get the desired level.
+		// Get the desired level from the current game.
 		
-		Level level = game.getLevel(level);
-		if (level == null) {
-			throw new InvalidInputException("Level not found")
+		Game game = Block223Application.getCurrentGame();
+		Level foundLevel = game.getLevel(level);
+		if (foundLevel == null) {
+			throw new InvalidInputException("Level not found");
 		}
 		
 		// Get the list of block assignments of the level
@@ -173,9 +181,9 @@ public class Block223Controller {
 		
 		// Create a list of TOGridCell objects and populate it.
 		
-		List<TOGridCell> result = new ArrayList<TOGridCell>;
+		List<TOGridCell> result = new ArrayList<TOGridCell>();
 		for (BlockAssignment assignment : assignments) {
-			Block block = assignment.getBlock();\
+			Block block = assignment.getBlock();
 			TOGridCell cell = new TOGridCell(	assignment.getGridHorizontalPosition(), 
 												assignment.getGridVerticalPosition(), 
 												block.getId(), 
