@@ -55,6 +55,7 @@ public class Block223Controller {
 		Game game = Block223Application.getCurrentGame();
 		try {
 			game.addBlock(red, green, blue, points); //Can I do it like this instead of "create(..)"?
+			Block223Persistence.save(block223);//Should this be here if we save from the current game?
 		}
 		catch (RuntimeException e) { //Do I need to make catch and rethrow statements individually?
 			error = e.getMessage();
