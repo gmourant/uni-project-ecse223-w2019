@@ -153,6 +153,7 @@ public class Block223Controller {
 	*/
 
 	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+		
 		// Perform basic input validation to ensure the numeric values are valid.
 		
 		if (level > 98 || level < 0) {
