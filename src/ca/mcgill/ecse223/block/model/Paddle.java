@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 76 "../../../../../Block223.ump"
+// line 96 "../../../../../Block223.ump"
 public class Paddle
 {
 
@@ -55,6 +55,9 @@ public class Paddle
   public boolean setMaxPaddleLength(int aMaxPaddleLength)
   {
     boolean wasSet = false;
+    // line 101 "../../../../../Block223.ump"
+    if (aMaxPaddleLength > 400 || aMaxPaddleLength <= 0) throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 400.");
+    // END OF UMPLE BEFORE INJECTION
     maxPaddleLength = aMaxPaddleLength;
     wasSet = true;
     return wasSet;
@@ -63,6 +66,9 @@ public class Paddle
   public boolean setMinPaddleLength(int aMinPaddleLength)
   {
     boolean wasSet = false;
+    // line 105 "../../../../../Block223.ump"
+    if (aMinPaddleLength <= 0) throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
+    // END OF UMPLE BEFORE INJECTION
     minPaddleLength = aMinPaddleLength;
     wasSet = true;
     return wasSet;
