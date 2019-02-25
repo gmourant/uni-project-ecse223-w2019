@@ -32,7 +32,18 @@ class Game {
    const Integer COLUMNS_PADDING = 5;
    const Integer ROW_PADDING = 2;
    unique name;
+   before constructor {
+      if (aName == null) throw new RuntimeException("The name of a game must be specified.");
+      for (Game game : block223.getGames()) {
+	     if (game.getName().equals(aName)) {
+		    throw new RuntimeException("The name of a game must be unique.");
+		 }
+	  }
+   }
    Integer nrBlocksPerLevel;
+   before setNrBlocksPerLevel {
+      if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
+   }
    * -- 1 Admin admin;
    1 <@>- * Block blocks;
    1 <@>- 1..99 Level levels;
@@ -69,13 +80,28 @@ class BlockAssignment {
 class Ball {
    const Integer BALL_DIAMETER = 10;
    Integer minBallSpeedX;
+   before setMinBallSpeedX {
+      if (aMinBallSpeedX <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+   }
    Integer minBallSpeedY;
+   before setMinBallSpeedY {
+      if (aMinBallSpeedY <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+   }
    Double ballSpeedIncreaseFactor;
+   before setBallSpeedIncreaseFactor {
+      if (aBallSpeedIncreaseFactor <= 0) throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
+   }
 }
 
 class Paddle {
    const Integer PADDLE_WIDTH = 5;
    const Integer VERTICAL_DISTANCE = 30;
    Integer maxPaddleLength;
+   before setMaxPaddleLength {
+      if (aMaxPaddleLength > 400 || aMaxPaddleLength <= 0) throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 400.");
+   }
    Integer minPaddleLength;
+   before setMinPaddleLength {
+      if (aMinPaddleLength <= 0) throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
+   }
 }
