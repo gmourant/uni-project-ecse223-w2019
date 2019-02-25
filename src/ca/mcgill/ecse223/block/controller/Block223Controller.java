@@ -1,5 +1,4 @@
 package ca.mcgill.ecse223.block.controller;
-
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
@@ -11,40 +10,165 @@ public class Block223Controller {
     // ****************************
     // Modifier methods
     // ****************************
-    public static void createGame(String name) throws InvalidInputException {
-    }
+    
+    /**
+	 * This method creates a new game within the Block223 Application
+	 * @param name The unique name of the game
+	 * @throws InvalidInputException If the user is not an admin
+	 * @throws InvalidInputException If the name selected by the user is not unique
+	 */
+	public static void createGame(String name) throws InvalidInputException {
 
-    public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
-            Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-    }
+		// Verify that the user is an admin before proceeding
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to create a game.");
+		}
+		
+		// Get block223 and admin
+		Block223 block223 = Block223Application.getBlock223();
+		Admin admin = (Admin) Block223Application.getCurrentUserRole();
+		
+		// Create game and catch runtime exceptions
+		// Exceptions are specified in the injected UMPLE code
+		try {
+			Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
+			block223.addGame(game);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+
+	}
 
     /**
-     * This method does what Umple's Game.getWithName(…) method would do if it
-     * worked properly aka get the game using the name. Author: Georges Mourant
-     */
-    private static Game findGame(String name) {
-        // finding game
-        Game foundGame = null;
-        for (Game game : Block223Application.getBlock223().getGames()) {
-            if (game.getName().equals(name)) {
-                foundGame = game;
-                break;
-            }
-        }
-        return foundGame;
-    }
+	 * This method defines game settings for a game in Block223
+	 * @param nrLevels The number of levels available in the game
+	 * @param nrBlocksPerLevel The number of blocks per level in the game
+	 * @param minBallSpeedX The minimum ball speed in the x-direction
+	 * @param minBallSpeedY The minimum ball speed in the y-direction
+	 * @param ballSpeedIncreaseFactor The minimum factor by which ball speed increases
+	 * @param maxPaddleLength The maximum length of the paddle
+	 * @param minPaddleLength The minimum length of the paddle
+	 * @throws InvalidInputException If the currentUserRole is not set to an AdminRole
+	 * @throws InvalidInputException If the user is not the admin who created the game
+	 * @throws InvalidInputException If a game is not selected to define game settings
+	 * @throws InvalidInputException If the number of levels is not between [1, 99]
+	 * @throws InvalidInputException If nrBlocksPerLevel is negative or zero
+	 * @throws InvalidInputException If minBallSpeedX is negative or zero
+	 * @throws InvalidInputException If minBallSpeedY is negative or zero
+	 * @throws InvalidInputException If ballSpeedIncreaseFactor is negative or zero
+	 * @throws InvalidInputException If maxPaddleLength is negative or zero or larger than the play area
+	 * @throws InvalidInputException  If minPaddleLength is negative or zero
+	 */
+	public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
+			Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+
+		// Obtain the selected game
+		Game game = Block223Application.getCurrentGame();
+		
+		// Verify that the user is an admin
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to define game settings.");
+		}
+				
+		// Verify that a game is selected 
+		if (game == null) {
+			throw new InvalidInputException("A game must be selected to define game settings.");
+		}
+				
+		// Verify that the admin is the same user who created the game
+		if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
+			throw new InvalidInputException("Only the admin who created the game can define its game settings.");
+		}
+		
+		// Verify the nrLevels is between [1, 99]
+		if (nrLevels < 1 || nrLevels > 99) {
+			throw new InvalidInputException("The number of levels must be between 1 and 99.");
+		}
+		
+		// Set nrBlocksPerLevel
+		try {
+			game.setNrBlocksPerLevel(nrBlocksPerLevel);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+		
+		// Obtain ball
+		Ball ball = game.getBall();
+		
+		// Set minBallSpeedX
+		try {
+			ball.setMinBallSpeedX(minBallSpeedX);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+
+		// Set minBallSpeedY
+		try {
+			ball.setMinBallSpeedY(minBallSpeedY);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+
+		// Set ballSpeedIncreaseFactor
+		try {
+			ball.setBallSpeedIncreaseFactor(ballSpeedIncreaseFactor);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+		
+		// Obtain paddle
+		Paddle paddle = game.getPaddle();
+		
+		// Set maxPaddleLength
+		try {
+			paddle.setMaxPaddleLength(maxPaddleLength);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+		
+		// Set minPaddleLength
+		try {
+			paddle.setMinPaddleLength(minPaddleLength);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
+		
+		// Obtain the number of levels and size of list
+		List<Level> levels = game.getLevels();
+		int size = levels.size();
+		
+		// Modify nrLevels
+		while (nrLevels > size) {
+			game.addLevel();
+			size = levels.size();
+		}
+		while (nrLevels < size) {
+			Level level = game.getLevel(size - 1);
+			level.delete();
+			size = levels.size();
+		}
+		
+	}
 
     /**
      * This method deletes a game. Author: Georges Mourant
      *
      * @param name name of the game
-     * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+     * @throws ca.mcgill.ecse223.block.controller.InvalidInputException If the game does not exist
+	 * @throws ca.mcgill.ecse223.block.controller.InvalidInputException If the user is not an admin
      */
     public static void deleteGame(String name) throws InvalidInputException {
         Game foundGame = findGame(name);
 
         // error if not an Admin
-        if (!(Block223Application.getCurrentUser() instanceof Admin)) {
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
 
@@ -53,7 +177,7 @@ public class Block223Controller {
         // make sure the game exists
         if (foundGame != null) {
             // error if it's the wrong admin
-            if (Block223Application.getCurrentUser() != foundGame.getAdmin()) {
+            if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
                 throw new InvalidInputException("Admin privileges are required to delete a game.");
             }
 
@@ -70,10 +194,13 @@ public class Block223Controller {
 
     /**
      * This method takes finds a game, and sets it as the currently played game
-     * in Block223Application. Author: Georges Mourant
+     * in Block223Application.
+     * Authors: Georges Mourant & Kelly Ma
      *
-     * @param name name of the game
-     * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+     * @param name unique name of the game
+     * @throws ca.mcgill.ecse223.block.controller.InvalidInputException If the game does not exist
+	 * @throws ca.mcgill.ecse223.block.controller.InvalidInputException If the user is not an admin
+	 * @throws ca.mcgill.ecse223.block.controller.InvalidInputException If the current admin is not the game creator
      */
     public static void selectGame(String name) throws InvalidInputException {
         Game game = findGame(name);
@@ -83,14 +210,15 @@ public class Block223Controller {
             throw new InvalidInputException("A game with the name " + name + " does not exist.");
         }
         // error if not an Admin
-        if (!(Block223Application.getCurrentUser() instanceof Admin)) {
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
         // error if it's the wrong admin
-        if (Block223Application.getCurrentUser() != game.getAdmin()) {
-            throw new InvalidInputException("Admin privileges are required to delete a game.");
+        if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
+            throw new InvalidInputException("Only the admin who created the game can delete the game.");
         }
 
+        // If all else is good, select the game
         Block223Application.setCurrentGame(game);
     }
 
@@ -157,6 +285,7 @@ public class Block223Controller {
     public static void logout() {
     }
 
+    
     // ****************************
     // Query methods
     // ****************************
@@ -174,8 +303,8 @@ public class Block223Controller {
 
         // error if not an Admin, save Admin
         Admin admin; // holder
-        if (Block223Application.getCurrentUser() instanceof Admin) {
-            admin = (Admin) Block223Application.getCurrentUser(); // set val
+        if (Block223Application.getCurrentUserRole() instanceof Admin) {
+            admin = (Admin) Block223Application.getCurrentUserRole(); // set val
         } else { // throw error
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
@@ -206,7 +335,7 @@ public class Block223Controller {
      * Author: Georges Mourant
      *
      * @return the currently played game
-     * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
+     * @throws ca.mcgill.ecse223.block.controller.InvalidInputException If the user is not an admin
      */
     public static TOGame getCurrentDesignableGame() throws InvalidInputException {
         // get current game
@@ -218,7 +347,7 @@ public class Block223Controller {
                 game.getPaddle().getMaxPaddleLength(), game.getPaddle().getMinPaddleLength());
     }
 
-    public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
+    public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
     }
 
     public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
@@ -227,7 +356,28 @@ public class Block223Controller {
     public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
     }
 
-    public static TOUserMode getUserMode() {
+    public static TOUserMode getUserMode() throws InvalidInputException {
     }
+
+    
+	// ****************************
+	// Private Helper Methods
+	// ****************************
+
+    /**
+     * This method does what Umple's Game.getWithName(…) method would do if it
+     * worked properly aka get the game using the name.
+     * Authors: Georges Mourant & Kelly Ma
+     */
+	private static Game findGame(String name) {
+		Game foundGame = null;
+		for (Game game : Block223Application.getBlock223().getGames()) {
+			if (game.getName().equals(name)) {
+				foundGame = game;
+				break;
+			}
+		}
+		return foundGame;
+	}
 
 }

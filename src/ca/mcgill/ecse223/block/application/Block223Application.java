@@ -7,7 +7,7 @@ import ca.mcgill.ecse223.block.view.Block223Page;
 public class Block223Application {
 
     private static Block223 block223;
-    private static UserRole currentUser;
+    private static UserRole currentUserRole;
     private static Game currentGame;
 
     public static void main(String[] args) {
@@ -21,6 +21,8 @@ public class Block223Application {
     }
 
     public static Block223 resetBlock223() {
+        // Method that forces a load from the file
+		    // Return the root Block223 object
         if (block223 == null) {
             // load model
             block223 = Block223Persistence.load();
@@ -29,19 +31,22 @@ public class Block223Application {
     }
 
     public static Block223 getBlock223() {
+        if (block223 == null) {
+            block223 = new Block223();
+        }
         return block223;
     }
     
-    public static void setCurrentUser(UserRole user){
-        currentUser = user;
+    public static void setCurrentUserRole(UserRole aUserRole){
+        currentUserRole = aUserRole;
     }
     
-    public static UserRole getCurrentUser(){
-        return currentUser;
+    public static UserRole getCurrentUserRole(){
+        return currentUserRole;
     }
     
-    public static void setCurrentGame(Game game){
-        currentGame = game;
+    public static void setCurrentGame(Game aGame){
+        currentGame = aGame;
     }
     
     public static Game getCurrentGame(){
