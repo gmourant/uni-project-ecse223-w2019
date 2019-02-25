@@ -1,7 +1,7 @@
 package ca.mcgill.ecse223.block.application;
 
 import ca.mcgill.ecse223.block.model.*;
-import ca.mcgill.ecse223.block.view.Block223Page;
+// import ca.mcgill.ecse223.block.view.Block223Page;
 
 public class Block223Application {
 
