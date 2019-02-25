@@ -2,6 +2,9 @@ package ca.mcgill.ecse223.block.controller;
 
 import java.util.List;
 
+import ca.mcgill.ecse223.block.application.*;
+import ca.mcgill.ecse223.block.model.*;
+
 public class Block223Controller {
 
 	// ****************************
@@ -69,13 +72,13 @@ public class Block223Controller {
 		
 		Game game = Block223Application.getCurrentGame();
 		if (game == null) {
-			throw new InvalidInputException("No game selected")
+			throw new InvalidInputException("No game selected");
 		}
 		List<Block> blocks = game.getBlocks();
 		
 		// Find the desired block in the block list.
 		
-		Block foundBlock == null;
+		Block foundBlock = null;
 		for (Block block : blocks) {
 			int blockID = block.getId();
 			if (blockID == id) {
@@ -85,7 +88,7 @@ public class Block223Controller {
 		}
 		
 		if (foundBlock == null) {
-			throw new InvalidInputException("Invalid block ID")
+			throw new InvalidInputException("Invalid block ID");
 		}
 		
 		// Update block data
