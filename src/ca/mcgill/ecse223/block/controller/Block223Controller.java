@@ -88,7 +88,7 @@ public class Block223Controller {
 		
 		// Delete the block assignment at xy coords if it exists.
 		
-		List<BlockAssignment> assignments = foundLevel.getBlockAssignments()
+		List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
 		for (BlockAssignment block : assignments) {
 			int x = block.getGridHorizontalPosition();
 			int y = block.getGridVerticalPosition();
@@ -153,6 +153,42 @@ public class Block223Controller {
 	*/
 
 	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+		// Perform basic input validation to ensure the numeric values are valid.
+		
+		if (level > 98 || level < 0) {
+			throw new InvalidInputException("Level index not valid");
+		}
+		
+		// Get the desired level.
+		
+		Level level = game.getLevel(level);
+		if (level == null) {
+			throw new InvalidInputException("Level not found")
+		}
+		
+		// Get the list of block assignments of the level
+		
+		List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
+		
+		// Create a list of TOGridCell objects and populate it.
+		
+		List<TOGridCell> result = new ArrayList<TOGridCell>;
+		for (BlockAssignment assignment : assignments) {
+			Block block = assignment.getBlock();\
+			TOGridCell cell = new TOGridCell(	assignment.getGridHorizontalPosition(), 
+												assignment.getGridVerticalPosition(), 
+												block.getId(), 
+												block.getRed(), 
+												block.getGreen(), 
+												block.getBlue(), 
+												block.getPoints() );
+			result.add(cell);
+		}
+		
+		// Return the result.
+		
+		return result;
+		
 	}
 
 	public static TOUserMode getUserMode() {
