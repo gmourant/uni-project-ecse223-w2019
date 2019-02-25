@@ -71,6 +71,7 @@ public class Block223Controller {
 			if ((points < 1) || (red > 1000))
 				throw new InvalidInputException("Points must be between 1 and 1000.");
 		}
+		//block223 = Block223Persistence.load(); Where should this be put if we want to load the game after we have created the block? 
 	}
 
 	public static void deleteBlock(int id) throws InvalidInputException {
