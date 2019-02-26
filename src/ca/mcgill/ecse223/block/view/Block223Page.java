@@ -29,7 +29,7 @@ import javax.swing.table.TableCellRenderer;
 
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
-
+// UI will be implemented here
 public class Block223Page extends JFrame{
 	
 	private static final long serialVersionUID = -4416310869335015542L;
