@@ -332,7 +332,7 @@ public class Block223Controller {
 			throw new InvalidInputException("Only the admin who created the block can delete the block");
 		}
 		
-		Block block = game.findBlock(id); //Go to find block method for the declaration
+		Block block = findBlock(id); //Go to find block method for the declaration
 		
 		if(block != null)
 			block.delete();
@@ -345,14 +345,14 @@ public class Block223Controller {
     * color values (RGB) and the point value of the block.
     *
     * @param id	The ID of the desired block.
-    * @param red The red component of the block color.
-    * @param green The green component of the block color.
-    * @param blue The blue component of the block color.
-    * @param points The point value of the block.
+    * @param red	The red component of the block color.
+    * @param green	The green component of the block color.
+    * @param blue	The blue component of the block color.
+    * @param points	The point value of the block.
     *
-    * @throws InvalidInputException if red, green, or blue < 0 or > 255 or if
+    * @throws InvalidInputException	if red, green, or blue < 0 or > 255 or if
     *                                  points < 0 or > 1000
-    * @throws InvalidInputException if the block ID does not correspond to an
+    * @throws InvalidInputException	if the block ID does not correspond to an
     *                                  existing entity.
     */
    public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
@@ -480,7 +480,7 @@ public class Block223Controller {
                 game.getBall().getMinBallSpeedY(), game.getBall().getBallSpeedIncreaseFactor(),
                 game.getPaddle().getMaxPaddleLength(), game.getPaddle().getMinPaddleLength());
     }
-	public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
+	public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
 		Game game = Block223Application.getCurrentGame();
 		if(!(Block223Application.getCurrentUserRole() instanceof Admin))
 			throw new InvalidInputException("Admin privileges are required to access game information.");
@@ -500,12 +500,15 @@ public class Block223Controller {
 		}
 
 	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+		return null;
 	}
 
 	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+		return null;
 	}
 
 	public static TOUserMode getUserMode() {
+		return null;
 	}
 
 
@@ -533,8 +536,9 @@ private static Game findGame(String name) {
  * This method finds a block inside a list of blocks depending on its
  * ID. Author : Imane Chafi */
 
-public Block Game.findBlock(int id) { //Here, this is how the method was written in the solution document. 
+public static Block findBlock(int id) { //Here, this is how the method was written in the solution document. 
 	//I've emailed the teacher about this to have clarification, and whether the "." is necessary. 
+	Game game = Block223Application.getCurrentGame();
 	List<Block> blocks = game.getBlocks();//Here, I would need to get the current game first, put I need to ask the teacher about the Game.find to understand what it means.
 	
 	for (Block block : blocks) {
