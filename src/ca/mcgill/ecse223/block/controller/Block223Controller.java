@@ -13,7 +13,7 @@ public class Block223Controller {
     // ****************************
     /**
      * This method creates a new game within the Block223 Application
-     *
+     * Author: Kelly Ma
      * @param name The unique name of the game
      * @throws InvalidInputException If the user is not an admin
      * @throws InvalidInputException If the name selected by the user is not
@@ -43,7 +43,7 @@ public class Block223Controller {
 
     /**
      * This method defines game settings for a game in Block223
-     *
+     * Author: Kelly Ma
      * @param nrLevels The number of levels available in the game
      * @param nrBlocksPerLevel The number of blocks per level in the game
      * @param minBallSpeedX The minimum ball speed in the x-direction
