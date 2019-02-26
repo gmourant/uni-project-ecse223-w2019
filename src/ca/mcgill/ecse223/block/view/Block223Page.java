@@ -29,7 +29,7 @@ import javax.swing.table.TableCellRenderer;
 
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
-// UI will be implemented here
+// TODO UI will be implemented here
 public class Block223Page extends JFrame {
 	// Update block
 	private jButton updateButton;
@@ -37,11 +37,11 @@ public class Block223Page extends JFrame {
 	private String error = null;
 	
 	private void initComponents() {
-		// Elements for updating a block.
+		// TODO Elements for creating a block assignment.
 			updateButton = new JButton();
 			updateButton.setText("Update");
 			
-		// Listeners for updating a block.
+		// TODO Listeners for creating a block assignment.
 			updateButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
 					updateButtonActionPerformed(evt);
@@ -49,7 +49,7 @@ public class Block223Page extends JFrame {
 			});
 	}
 	
-	private void updateButtonActionPerformed(ActionEvent evt) {
+	private void updateButtonActionPerformed(ActionEvent evt) { // TODO
 		// clear error message
 				error = null;
 				
