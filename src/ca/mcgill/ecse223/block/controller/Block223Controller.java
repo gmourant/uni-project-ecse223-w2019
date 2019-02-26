@@ -41,21 +41,23 @@ public class Block223Controller {
 
 	//Methods to implement : Add Block and Delete Block
 	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
+		// Obtain the selected game
+        Game game = Block223Application.getCurrentGame();
 		String error = "";
-		if(Block223Application.currentUserRole != UserRole.Admin) {
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
 			throw new InvalidInputException("Admin privileges are required to add a block.");
 		}
 		if(Block223Application.currentGame == null) {
 			throw new InvalidInputException("A game must be selected to add a block");
 		}
-		if(Block223Application.currentUserRole != getCurrentDesignableGame.Admin ) {
-			throw new InvalidInputException("A game must be selected to add a block");
+		if(Block223Application.getCurrentUserRole() != game.getAdmin()) {
+			throw new InvalidInputException("Only the admin who created the game can add a block");
 		}
-		//Needs if statement for the check of another block
-		Game game = Block223Application.getCurrentGame();
+		if(game.hasBlocks()) {
+			throw new InvalidInputException("A block with the same color already exists for the game");
+		}
 		try {
 			game.addBlock(red, green, blue, points); //Can I do it like this instead of "create(..)"?
-			Block223Persistence.save(block223);//Should this be here if we save from the current game?
 		}
 		catch (RuntimeException e) { //Do I need to make catch and rethrow statements individually?
 			error = e.getMessage();
@@ -71,21 +73,20 @@ public class Block223Controller {
 			if ((points < 1) || (red > 1000))
 				throw new InvalidInputException("Points must be between 1 and 1000.");
 		}
-		//block223 = Block223Persistence.load(); Where should this be put if we want to load the game after we have created the block? 
 	}
 
 	public static void deleteBlock(int id) throws InvalidInputException {
-		if(Block223Application.currentUserRole != getUserMode()) {
+		Game game = Block223Application.getCurrentGame();
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
 			throw new InvalidInputException("Admin privileges are required to delete a block.");
 		}
 		if(Block223Application.currentGame == null) {
 			throw new InvalidInputException("A game must be selected to delete a block");
 		}
-		if(Block223Application.currentUserRole != currentGame.Admin) {
+		if(Block223Application.getCurrentUserRole() != game.getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the block can delete the block");
 		}
 		
-		Game game = Block223Application.getCurrentGame();
 		Block block = game.findBlock(id);
 		
 		if(block != null)
@@ -93,9 +94,9 @@ public class Block223Controller {
 	}
 	
 	public Block Game.findBlock(int id) { //Here, should we get the Game field beforehand or does the Game. do it for us?
-		blocks = getBlocks();
+		List<Block> blocks = game.getBlocks();
 		
-		for (Block block : game.getBlocks()) {
+		for (Block block : blocks) {
 			
 			int blockId = block.getId(); //Here, the type of blockID should be integer
 			if(id == blockId)
@@ -143,14 +144,15 @@ public class Block223Controller {
 	}
 
 	public static List<TOBlock> getBlocksOfCurrentDesignableGame() {
-		if(Block223Application.currentUserRole != getUserMode())
+		Game game = Block223Application.getCurrentGame();
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin))
 			throw new InvalidInputException("Admin privileges are required to access game information.");
-		if(Block223Application.currentGame != setCurrentGame())
+		if(Block223Application.currentGame == null)
 			throw new InvalidInputException("A game must be selected to access its information");
-		if(Block223Application.currentUSerRole != currentGame.Admin())
+		if(Block223Application.getCurrentUserRole() != game.getAdmin())
 			throw new InvalidInputException("Only the admin who created the game can acess its information");
 		
-		Game game = Block223Application.getCurrentGame();
+		
 		List<TOBlock> result = new ArrayList<TOBlock>();
 		//Block blocks = (Block) game.getBlocks(); Ask teacher how to implement this without casting it. 
 		
