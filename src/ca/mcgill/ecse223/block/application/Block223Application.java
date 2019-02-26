@@ -6,9 +6,9 @@ import ca.mcgill.ecse223.block.view.Block223Page;
 
 public class Block223Application {
 
-    public static Block223 block223;
-    public static UserRole currentUserRole;
-    public static Game currentGame;
+    private static Block223 block223;
+    private static UserRole currentUserRole;
+    private static Game currentGame;
 
     public static void main(String[] args) {
         // start UI
@@ -25,7 +25,7 @@ public class Block223Application {
 		    // Return the root Block223 object
         if (block223 == null) {
             // load model
-           block223 = Block223Persistence.load();
+            block223 = Block223Persistence.load();
         }
         return block223;
     }
