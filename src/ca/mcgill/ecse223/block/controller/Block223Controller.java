@@ -611,12 +611,6 @@ public class Block223Controller {
 
     }
 
-    public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
-    }
-
-    public static TOUserMode getUserMode() throws InvalidInputException {
-    }
-
     // ****************************
     // Private Helper Methods
     // ****************************
