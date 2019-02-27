@@ -20,7 +20,7 @@ We are using Kanban boards to facilitate the tracking of our progress (and to st
 
 ### Iteration 1
 
-The first iteration includes a domain model of the Block223 game as an ```.ump``` file. It can be found in the ```Block223Iteration1``` directory on ```master```. In addition, the generated Java files are included from Eclipse. 
+The first iteration includes a domain model of the Block223 game as an ```.ump``` file. It can be found in the ```src``` directory on ```master```. In addition, the generated Java files are included from Eclipse. 
 
 ### Iteration 2
 

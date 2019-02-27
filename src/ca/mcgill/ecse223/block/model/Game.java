@@ -51,6 +51,14 @@ public class Game
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
+    // line 36 "../../../../../Block223.ump"
+    if (aName == null) throw new RuntimeException("The name of a game must be specified.");
+          for (Game game : block223.getGames()) {
+    	     if (game.getName().equals(aName)) {
+    		    throw new RuntimeException("The name of a game must be unique.");
+    		 }
+    	  }
+    // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     if (!setName(aName))
     {
@@ -83,6 +91,14 @@ public class Game
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
+    // line 36 "../../../../../Block223.ump"
+    if (aName == null) throw new RuntimeException("The name of a game must be specified.");
+          for (Game game : block223.getGames()) {
+    	     if (game.getName().equals(aName)) {
+    		    throw new RuntimeException("The name of a game must be unique.");
+    		 }
+    	  }
+    // END OF UMPLE BEFORE INJECTION
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     boolean didAddAdmin = setAdmin(aAdmin);
@@ -125,6 +141,9 @@ public class Game
   public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel)
   {
     boolean wasSet = false;
+    // line 45 "../../../../../Block223.ump"
+    if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
+    // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     wasSet = true;
     return wasSet;
