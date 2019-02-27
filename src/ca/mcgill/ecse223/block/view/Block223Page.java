@@ -32,7 +32,7 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 // TODO UI will be implemented here
 public class Block223Page extends JFrame {
 	// Update block
-	private jButton updateButton;
+	private JButton updateButton;
 	//data elements
 	private String error = null;
 	
