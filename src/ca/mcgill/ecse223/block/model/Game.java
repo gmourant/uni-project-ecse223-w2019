@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 27 "../../../../../Block223.ump"
-public class Game
+// line 27 "../../../../../Block223Persistence.ump"
+// line 29 "../../../../../Block223.ump"
+public class Game implements Serializable
 {
 
   //------------------------
@@ -22,7 +24,7 @@ public class Game
   /**
    * play area is now constant
    */
-  public static final int PLAY_AREA_SIDE = 400;
+  public static final int PLAY_AREA_SIDE = 390;
   public static final int WALL_PADDING = 10;
   public static final int COLUMNS_PADDING = 5;
   public static final int ROW_PADDING = 2;
@@ -51,7 +53,7 @@ public class Game
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    // line 36 "../../../../../Block223.ump"
+    // line 38 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
           for (Game game : block223.getGames()) {
     	     if (game.getName().equals(aName)) {
@@ -91,7 +93,7 @@ public class Game
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
-    // line 36 "../../../../../Block223.ump"
+    // line 38 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
           for (Game game : block223.getGames()) {
     	     if (game.getName().equals(aName)) {
@@ -141,7 +143,7 @@ public class Game
   public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel)
   {
     boolean wasSet = false;
-    // line 45 "../../../../../Block223.ump"
+    // line 47 "../../../../../Block223.ump"
     if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
@@ -629,5 +631,13 @@ public class Game
             "  " + "ball = "+(getBall()!=null?Integer.toHexString(System.identityHashCode(getBall())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "paddle = "+(getPaddle()!=null?Integer.toHexString(System.identityHashCode(getPaddle())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "block223 = "+(getBlock223()!=null?Integer.toHexString(System.identityHashCode(getBlock223())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 30 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 8896099581655989380L ;
+
+  
 }

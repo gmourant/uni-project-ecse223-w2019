@@ -34,7 +34,7 @@ public class Block223Page extends JFrame {
 	//UI Elements
   private JLabel errorMessage;
   // Update block
-	private jButton updateButton;
+	private JButton updateButton;
   // addBlock
 	private JTextField idTextField;
 	private JLabel idLabel;
@@ -228,7 +228,7 @@ public class Block223Page extends JFrame {
 				// call the controller
 				try {
 					// Update the selected block with the specified values.
-					Block223Controller.updateBlock(IdList.getSelectedItem(), redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue(), nbrePointSlider.getValue());
+					Block223Controller.updateBlock((int)IdList.getSelectedItem(), redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue(), nbrePointSlider.getValue());
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 				}

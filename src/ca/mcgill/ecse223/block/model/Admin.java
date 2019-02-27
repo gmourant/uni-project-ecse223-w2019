@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 19 "../../../../../Block223.ump"
+// line 21 "../../../../../Block223.ump"
 public class Admin extends UserRole
 {
 
