@@ -367,7 +367,7 @@ public class Block223 implements Serializable
   //------------------------
   
   // line 12 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 02L ;
+  private static final long serialVersionUID = 2L ;
 
   
 }

@@ -198,7 +198,7 @@ public class Level implements Serializable
   //------------------------
   
   // line 54 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 09L ;
+  private static final long serialVersionUID = 9L ;
 
   
 }

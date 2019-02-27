@@ -3,55 +3,55 @@ external interface Serializable {}
 class BlockAssignment {
   depend java.io.Serializable;
   isA Serializable;
-  private static final long serialVersionUID = 01L;
+  private static final long serialVersionUID = 1L;
 }
 	
 class Block223 {  
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 02L;
+	private static final long serialVersionUID = 2L;
 }
 
 class Block {  
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 03L; 
+	private static final long serialVersionUID = 3L; 
 }
 
 class Game {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 04L;
+	private static final long serialVersionUID = 4L;
 }
 
 class User {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 05L;
+	private static final long serialVersionUID = 5L;
 }
 
 class UserRole {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 06L;
+	private static final long serialVersionUID = 6L;
 }
 
 class Admin {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 07L;
+	private static final long serialVersionUID = 7L;
 }
 
 class Player {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 08L;
+	private static final long serialVersionUID = 8L;
 }
 
 class Level {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 09L;
+	private static final long serialVersionUID = 9L;
 }
 
 class Paddle {

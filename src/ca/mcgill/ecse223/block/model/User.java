@@ -259,7 +259,7 @@ public class User implements Serializable
   //------------------------
   
   // line 30 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 05L ;
+  private static final long serialVersionUID = 5L ;
 
   
 }

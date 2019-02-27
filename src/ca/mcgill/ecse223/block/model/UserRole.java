@@ -96,7 +96,7 @@ public abstract class UserRole implements Serializable
   //------------------------
   
   // line 36 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 06L ;
+  private static final long serialVersionUID = 6L ;
 
   
 }

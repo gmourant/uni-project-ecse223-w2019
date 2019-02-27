@@ -36,7 +36,7 @@ public class Player extends UserRole implements Serializable
   //------------------------
   
   // line 48 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 08L ;
+  private static final long serialVersionUID = 8L ;
 
   
 }
