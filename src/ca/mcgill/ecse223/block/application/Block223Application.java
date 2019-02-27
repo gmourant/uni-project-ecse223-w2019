@@ -1,6 +1,7 @@
 package ca.mcgill.ecse223.block.application;
 
 import ca.mcgill.ecse223.block.model.*;
+
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 import ca.mcgill.ecse223.block.view.Block223Page;
 
