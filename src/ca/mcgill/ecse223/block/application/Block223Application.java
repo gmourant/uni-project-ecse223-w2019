@@ -22,14 +22,11 @@ public class Block223Application {
 
     public static Block223 resetBlock223() {
         // Method that forces a load from the file
-		    // Return the root Block223 object
-        if (block223 == null) {
-            // load model
-            block223 = Block223Persistence.load();
-        }
-        return block223;
+        block223 = Block223Persistence.load();
+	// Return the root Block223 object
+	return block223;
     }
-
+	
     public static Block223 getBlock223() {
         if (block223 == null) {
             block223 = new Block223();
