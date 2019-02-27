@@ -2,29 +2,17 @@ package ca.mcgill.ecse223.block.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import ca.mcgill.ecse223.block.application.Block223Application;
-import ca.mcgill.ecse223.block.model.Game;
-import ca.mcgill.ecse223.block.model.Admin;
-import ca.mcgill.ecse223.block.model.Ball;
-import ca.mcgill.ecse223.block.model.Block;
-import ca.mcgill.ecse223.block.model.Block223;
-import ca.mcgill.ecse223.block.model.BlockAssignment;
-import ca.mcgill.ecse223.block.model.Level;
-import ca.mcgill.ecse223.block.model.Paddle;
-import ca.mcgill.ecse223.block.model.Player;
-import ca.mcgill.ecse223.block.model.User;
-import ca.mcgill.ecse223.block.model.UserRole;
-import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import ca.mcgill.ecse223.block.model.*;
+import ca.mcgill.ecse223.block.application.*;
 
 public class Block223Controller {
 
-	// ****************************
-	// Modifier methods
-	// ****************************
-	 /**
+    // ****************************
+    // Modifier methods
+    // ****************************
+    /**
      * This method creates a new game within the Block223 Application
-     *
+     * Author: Kelly Ma
      * @param name The unique name of the game
      * @throws InvalidInputException If the user is not an admin
      * @throws InvalidInputException If the name selected by the user is not
@@ -54,7 +42,7 @@ public class Block223Controller {
 
     /**
      * This method defines game settings for a game in Block223
-     *
+     * Author: Kelly Ma
      * @param nrLevels The number of levels available in the game
      * @param nrBlocksPerLevel The number of blocks per level in the game
      * @param minBallSpeedX The minimum ball speed in the x-direction
@@ -157,6 +145,7 @@ public class Block223Controller {
         // Obtain the number of levels and size of list
         List<Level> levels = game.getLevels();
         int size = levels.size();
+
 
         // Modify nrLevels
         while (nrLevels > size) {
@@ -311,7 +300,7 @@ public class Block223Controller {
 				throw new InvalidInputException("Points must be between 1 and 1000.");
 		}
 	}
-	/**
+/**
      * This method deletes a block from a game. Author: Imane Chafi
      *
      * @param id of block to be deleted
@@ -337,95 +326,164 @@ public class Block223Controller {
 		if(block != null)
 			block.delete();
 	}
-	
-	//End of method implementation
-	 /**
+
+    /**
+     *
+     * This method updates a block with new values. It requires a block ID,
+     * color values (RGB) and the point value of the block.
+     *
+     * @param id	The ID of the desired block.
+     * @param red	The red component of the block color.
+     * @param green	The green component of the block color.
+     * @param blue	The blue component of the block color.
+     * @param points	The point value of the block.
+     *
+     * @throws InvalidInputException	if red, green, or blue < 0 or > 255 or if
+     *                                  points < 0 or > 1000
+     * @throws InvalidInputException	if the block ID does not correspond to an
+     *                                  existing entity.
+     */
+    public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
+
+        // Perform basic input validation to ensure the numeric values are valid.
+        if (red > 255 || red < 0) {
+            throw new InvalidInputException("Red value not valid");
+        } else if (green > 255 || green < 0) {
+            throw new InvalidInputException("Green value not valid");
+        } else if (blue > 255 || blue < 0) {
+            throw new InvalidInputException("Blue value not valid");
+        } else if (points > 1000 || points < 1) {
+            throw new InvalidInputException("Point value not valid");
+        }
+
+        // Get the block list for the selected game.
+        Game game = Block223Application.getCurrentGame();
+        if (game == null) {
+            throw new InvalidInputException("No game selected");
+        }
+        List<Block> blocks = game.getBlocks();
+
+        // Find the desired block in the block list.
+        Block foundBlock = null;
+        for (Block block : blocks) {
+            int blockID = block.getId();
+            if (blockID == id) {
+                foundBlock = block;
+                break;
+            }
+        }
+
+        if (foundBlock == null) {
+            throw new InvalidInputException("Invalid block ID");
+        }
+
+        // Update block data
+        foundBlock.setRed(red);
+        foundBlock.setGreen(green);
+        foundBlock.setBlue(blue);
+        foundBlock.setPoints(points);
+
+    }
+
+    /**
     *
-    * This method updates a block with new values. It requires a block ID,
-    * color values (RGB) and the point value of the block.
+    * This method assigns a block to a position in a game's level. It needs
+    * a level index, a block ID and a x/y grid position.
     *
-    * @param id	The ID of the desired block.
-    * @param red	The red component of the block color.
-    * @param green	The green component of the block color.
-    * @param blue	The blue component of the block color.
-    * @param points	The point value of the block.
+    * @param id    The ID of the desired block.
+    * @param level The index of the desired level.
+    * @param gridHorizontalPosition        The grid horizontal position where the block will be positioned.
+    * @param gridVerticalPosition          The grid vertical position where the block will be positioned.
     *
-    * @throws InvalidInputException	if red, green, or blue < 0 or > 255 or if
-    *                                  points < 0 or > 1000
-    * @throws InvalidInputException	if the block ID does not correspond to an
-    *                                  existing entity.
+    * @throws InvalidInputException        if the level index is < 0 or > 98.
+    * @throws InvalidInputException        if the level index or the block ID
+    *                                 	   do not correspond to an existing
+    *                                      entity.
+    *
     */
-   public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
 
-       // Perform basic input validation to ensure the numeric values are valid.
-       if (red > 255 || red < 0) {
-           throw new InvalidInputException("Red value not valid");
-       } else if (green > 255 || green < 0) {
-           throw new InvalidInputException("Green value not valid");
-       } else if (blue > 255 || blue < 0) {
-           throw new InvalidInputException("Blue value not valid");
-       } else if (points > 1000 || points < 1) {
-           throw new InvalidInputException("Point value not valid");
-       }
+	  public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition) throws InvalidInputException {
+		
+      // Perform basic input validation to ensure the numeric values are valid.
 
-       // Get the block list for the selected game.
-       Game game = Block223Application.getCurrentGame();
-       if (game == null) {
-           throw new InvalidInputException("No game selected");
-       }
-       List<Block> blocks = game.getBlocks();
+      if (level > 98 || level < 0) {
+        throw new InvalidInputException("Level index not valid");
+      }
 
-       // Find the desired block in the block list.
-       Block foundBlock = null;
-       for (Block block : blocks) {
-           int blockID = block.getId();
-           if (blockID == id) {
-               foundBlock = block;
-               break;
-           }
-       }
+      // Get the block list for the selected game.
 
-       if (foundBlock == null) {
-           throw new InvalidInputException("Invalid block ID");
-       }
+      Game game = Block223Application.getCurrentGame();
+      if (game == null) {
+        throw new InvalidInputException("No game selected");
+      }
 
-       // Update block data
-       foundBlock.setRed(red);
-       foundBlock.setGreen(green);
-       foundBlock.setBlue(blue);
-       foundBlock.setPoints(points);
+      // Get the desired level.
 
-   }
+      Level foundLevel = game.getLevel(level);
+      if (foundLevel == null) {
+        throw new InvalidInputException("Level not found");
+      }
 
-	public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition)
-			throws InvalidInputException {
-	}
+      // Get the block list from the game.
 
-	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
-			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
-	}
+      List<Block> blocks = game.getBlocks();
 
-	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
-			throws InvalidInputException {
-	}
+      // Find the desired block in the block list.
 
-	public static void saveGame() throws InvalidInputException {
-	}
+      Block foundBlock = null;
+      for (Block block : blocks) {
+        int blockID = block.getId();
+        if (blockID == id) {
+          foundBlock = block;
+          break;
+        }
+      }
+      if (foundBlock == null) {
+        throw new InvalidInputException("Invalid block ID");
+      }
 
-	public static void register(String username, String playerPassword, String adminPassword)
-			throws InvalidInputException {
-	}
+      // Delete the block assignment at xy coords if it exists.
 
-	public static void login(String username, String password) throws InvalidInputException {
-	}
+      List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
+      for (BlockAssignment block : assignments) {
+        int x = block.getGridHorizontalPosition();
+        int y = block.getGridVerticalPosition();
+        if (x == gridHorizontalPosition && y == gridVerticalPosition) {
+          block.delete();
+        }
+      }
 
-	public static void logout() {
-	}
+      // Create a new BlockAssignment.
 
-	// ****************************
-	// Query methods
-	// ****************************
-	/**
+      foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
+
+    }
+
+    public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
+            int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
+    }
+
+    public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
+            throws InvalidInputException {
+    }
+
+    public static void saveGame() throws InvalidInputException {
+    }
+
+    public static void register(String username, String playerPassword, String adminPassword)
+            throws InvalidInputException {
+    }
+
+    public static void login(String username, String password) throws InvalidInputException {
+    }
+
+    public static void logout() {
+    }
+
+    // ****************************
+    // Query methods
+    // ****************************
+    /**
      * This method returns a list of designable games for the current admin.
      * Author: Georges Mourant
      *
@@ -480,7 +538,8 @@ public class Block223Controller {
                 game.getBall().getMinBallSpeedY(), game.getBall().getBallSpeedIncreaseFactor(),
                 game.getPaddle().getMaxPaddleLength(), game.getPaddle().getMinPaddleLength());
     }
-	public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
+
+    public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
 		Game game = Block223Application.getCurrentGame();
 		if(!(Block223Application.getCurrentUserRole() instanceof Admin))
 			throw new InvalidInputException("Admin privileges are required to access game information.");
@@ -491,7 +550,6 @@ public class Block223Controller {
 		
 		
 		List<TOBlock> result = new ArrayList<TOBlock>();
-		//Block blocks = (Block) game.getBlocks(); Ask teacher how to implement this without casting it. 
 		
 		for (Block block : game.getBlocks()) {
 			TOBlock to = new TOBlock(block.getId(), block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
@@ -499,39 +557,84 @@ public class Block223Controller {
 		return result;
 		}
 
-	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
-		return null;
-	}
+    /**
+    *
+    * This method returns a list of GridCells associated to a level.
+    * It needs a level index.
+    *
+    * @param level The index of the desired level.
+    *
+    * @return A list of the GridCells transfer objects associated to a level.
+    *
+    * @throws InvalidInputException        if the level doesn't exists.
+    *
+    */
 
-	public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
-		return null;
-	}
+    public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 
-	public static TOUserMode getUserMode() {
-		return null;
-	}
+      // Perform basic input validation to ensure the numeric values are valid.
 
+      if (level > 98 || level < 0) {
+        throw new InvalidInputException("Level index not valid");
+      }
 
+      // Get the desired level from the current game.
 
-//****************************
-// Private Helper Methods
-// ****************************
-/**
- * This method does what Umple's Game.getWithName(…) method would do if it
- * worked properly aka get the game using the name. Authors: Georges Mourant
- * & Kelly Ma
- */
-private static Game findGame(String name) {
-    Game foundGame = null;
-    for (Game game : Block223Application.getBlock223().getGames()) {
-        if (game.getName().equals(name)) {
-            foundGame = game;
-            break;
-        }
+      Game game = Block223Application.getCurrentGame();
+      Level foundLevel = game.getLevel(level);
+      if (foundLevel == null) {
+        throw new InvalidInputException("Level not found");
+      }
+
+      // Get the list of block assignments of the level
+
+      List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
+
+      // Create a list of TOGridCell objects and populate it.
+
+      List<TOGridCell> result = new ArrayList<TOGridCell>();
+      for (BlockAssignment assignment : assignments) {
+        Block block = assignment.getBlock();
+        TOGridCell cell = new TOGridCell(	assignment.getGridHorizontalPosition(), 
+                          assignment.getGridVerticalPosition(), 
+                          block.getId(), 
+                          block.getRed(), 
+                          block.getGreen(), 
+                          block.getBlue(), 
+                          block.getPoints() );
+        result.add(cell);
+      }
+
+      // Return the result.
+
+      return result;
+
     }
-    return foundGame;
-}
 
+    public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+    }
+
+    public static TOUserMode getUserMode() throws InvalidInputException {
+    }
+
+    // ****************************
+    // Private Helper Methods
+    // ****************************
+    /**
+     * This method does what Umple's Game.getWithName(…) method would do if it
+     * worked properly aka get the game using the name. Authors: Georges Mourant
+     * & Kelly Ma
+     */
+    private static Game findGame(String name) {
+        Game foundGame = null;
+        for (Game game : Block223Application.getBlock223().getGames()) {
+            if (game.getName().equals(name)) {
+                foundGame = game;
+                break;
+            }
+        }
+        return foundGame;
+    }
 /**
  * This method finds a block inside a list of blocks depending on its
  * ID. Author : Imane Chafi */
@@ -549,9 +652,4 @@ public static Block findBlock(int id) { //Here, this is how the method was writt
 	}
 	return null;	
 }
-
-
-
 }
-
-

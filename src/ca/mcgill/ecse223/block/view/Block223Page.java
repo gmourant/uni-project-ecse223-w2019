@@ -29,14 +29,13 @@ import javax.swing.table.TableCellRenderer;
 
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
-// UI will be implemented here
-public class Block223Page extends JFrame{
-	
-	private static final long serialVersionUID = -4416310869335015542L;
-
-	// UI elements
-	private JLabel errorMessage;
-	// addBlock
+// TODO UI will be implemented here
+public class Block223Page extends JFrame {
+	//UI Elements
+  private JLabel errorMessage;
+  // Update block
+	private jButton updateButton;
+  // addBlock
 	private JTextField idTextField;
 	private JLabel idLabel;
 	private JButton addBlockButton;
@@ -53,22 +52,22 @@ public class Block223Page extends JFrame{
 	private JComboBox<Integer> IdList;
 	private JButton deleteBlockButton;
 	private JLabel deleteLabel;
+  
 	//data elements
 	private String error = null;
 	//Available IDs for ComboBox
 	private HashMap<Integer, Integer> ids;
-	
-	/** Creates new form Block223Page */
+  
+  /** Creates new form Block223Page */
 	public Block223Page() {
 		initComponents();
 		refreshData();
 	}
-
-	//Refresh methods and creating new from block223Page
+  //Refresh methods and creating new from block223Page
 	/** This method is called from within the constructor to initialize the form.
 	 */
 	private void initComponents() {
-		// elements for error message
+    // elements for error message
 				errorMessage = new JLabel();
 				errorMessage.setForeground(Color.RED);
 				
@@ -102,8 +101,18 @@ public class Block223Page extends JFrame{
 				deleteLabel = new JLabel();
 				deleteLabel.setText("Choose the ID of the block to be deleted :");
 				IdList = new JComboBox<Integer>(new Integer[0]);
-	
-		//Listeners for adding a block
+    
+		// TODO Elements for creating a block assignment.
+			updateButton = new JButton();
+			updateButton.setText("Update");
+			
+		// TODO Listeners for creating a block assignment.
+			updateButton.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					updateButtonActionPerformed(evt);
+				}
+			});
+    //Listeners for adding a block
 				//Do we need listeners for the JSliders?or the combo box?
 				addBlockButton.addActionListener(new java.awt.event.ActionListener() {
 					public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,8 +130,7 @@ public class Block223Page extends JFrame{
 						deleteBlockButtonActionPerformed(evt);
 					}
 				});
-
-		// horizontal line elements
+    // horizontal line elements
 			JSeparator horizontalLineTop = new JSeparator();
 			JSeparator horizontalLineMiddle = new JSeparator();
 			JSeparator horizontalLineBottom = new JSeparator();
@@ -131,10 +139,10 @@ public class Block223Page extends JFrame{
 			getContentPane().setLayout(layout);
 			layout.setAutoCreateGaps(true);
 			layout.setAutoCreateContainerGaps(true);
-			layout.setHorizontalGroup(
+				layout.setHorizontalGroup(
 					layout.createSequentialGroup()
 					.addGroup(layout.createParallelGroup()
-							.addComponent(errorMessage)
+								.addComponent(errorMessage)
 							.addComponent(horizontalLineTop)
 							.addComponent(horizontalLineMiddle)
 							.addComponent(horizontalLineBottom)
@@ -145,15 +153,15 @@ public class Block223Page extends JFrame{
 											.addComponent(greenLabel)
 											.addComponent(blueLabel)
 											.addComponent(nbrePointLabel)
-											.addComponent(addBlockButton))
+											.addComponent(addBlockButton)))
 									.addGroup(layout.createParallelGroup()
-											.addComponent(idTextField)
+											.addComponent(idTextField, 200, 200, 400)
 											.addComponent(redSlider)
 											.addComponent(greenSlider)
 											.addComponent(blueSlider)
 											.addComponent(nbrePointSlider)
 											.addComponent(cancelButton))
-									))
+									)
 									);
 					layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {idLabel, redLabel, greenLabel, blueLabel, nbrePointLabel});
 					layout.linkSize(SwingConstants.VERTICAL, new java.awt.Component[] {redSlider, greenSlider, blueSlider, nbrePointSlider});
@@ -195,9 +203,8 @@ public class Block223Page extends JFrame{
 									));
 					//I also need to add the groups for delete block from game
 							
-							pack();
-						}
-		
+							pack();		
+	}
 	private void refreshData() {
 		// error
 				errorMessage.setText(error);
@@ -210,12 +217,27 @@ public class Block223Page extends JFrame{
 					//delete a block (how to implement scrollbars?)
 			
 				//How should I implement the added JSlider in the refresh data to show up in the
-				//Image of a rectangle?
+				//Image of a rectangle?//
 				
-				pack();
+				//pack();
 	}
-	
-	//add a block
+	private void updateButtonActionPerformed(ActionEvent evt) { // TODO
+		// clear error message
+				error = null;
+				
+				// call the controller
+				try {
+					// Update the selected block with the specified values.
+					Block223Controller.updateBlock(IdList.getSelectedItem(), redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue(), nbrePointSlider.getValue());
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+				}
+				
+				// update visuals
+				refreshData();
+		
+	}
+//add a block
 	private void addBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		// clear error message
 		error = null;
@@ -260,6 +282,5 @@ public class Block223Page extends JFrame{
 				refreshData();
 		
 	}
-
 
 }
