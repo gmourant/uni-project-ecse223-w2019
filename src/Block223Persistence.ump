@@ -10,6 +10,9 @@ class Block223 {
 	depend java.io.Serializable;
 	isA Serializable; 
 	private static final long serialVersionUID = 2L;
+	
+	public void reinitialize() {
+    }
 }
 
 class Block {  

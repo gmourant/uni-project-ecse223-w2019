@@ -361,6 +361,11 @@ public class Block223 implements Serializable
     }
     
   }
+
+  // line 15 "../../../../../Block223Persistence.ump"
+   public void reinitialize(){
+    
+  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
