@@ -1,0 +1,32 @@
+external interface Serializable{}
+	
+class Block223{  
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = -2683593616927798071L;
+	public static void save(Block223 block223){
+	 PersistenceObjectStream.serialize(block223); 
+	 } 
+	public static Block223 load() {
+		PersistenceObjectStream.setFilename(filename);
+		block223 = (Block223) PersistenceObjectStream.deserialize();// model cannot be loaded - create empty Block223 
+		if (block223 == null){
+				block223 = new Block223();
+		} 
+		return block223;
+	}
+}
+
+class Block{  
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 2315072607928790501L; 
+	//Question : Does the location of the block or its colors and points need to be saved in the persistence layer?
+}
+
+class Game{
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 8896099581655989380L;
+	//Question : Do I need to implement this if the game class is being used in my controller methods?
+}
