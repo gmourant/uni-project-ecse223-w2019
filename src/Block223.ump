@@ -27,7 +27,7 @@ class Player {
 class Game {
    const Integer MIN_NR_LEVELS = 1;
    const Integer MAX_NR_LEVELS = 99; // this is somewhat redundant because the max multiplicity is enforced by Umple
-   const Integer PLAY_AREA_SIDE = 400; // play area is now constant
+   const Integer PLAY_AREA_SIDE = 390; // play area is now constant
    const Integer WALL_PADDING = 10;
    const Integer COLUMNS_PADDING = 5;
    const Integer ROW_PADDING = 2;
@@ -98,7 +98,7 @@ class Paddle {
    const Integer VERTICAL_DISTANCE = 30;
    Integer maxPaddleLength;
    before setMaxPaddleLength {
-      if (aMaxPaddleLength > 400 || aMaxPaddleLength <= 0) throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 400.");
+      if (aMaxPaddleLength > 390 || aMaxPaddleLength <= 0) throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
    }
    Integer minPaddleLength;
    before setMinPaddleLength {
