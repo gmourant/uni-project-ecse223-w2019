@@ -13,7 +13,7 @@ public class Block223Persistence {
     public static Block223 load() {
         PersistenceObjectStream.setFilename(filename);
         Block223 block223 = (Block223) PersistenceObjectStream.deserialize();
-        // model cannot be loaded - create empty BTMS
+        // model cannot be loaded - create empty Block223
         if (block223 == null) {
             block223 = new Block223();
         } else {

@@ -3,30 +3,65 @@ external interface Serializable {}
 class BlockAssignment {
   depend java.io.Serializable;
   isA Serializable;
-  private static final long serialVersionUID = 8896022581633989380L;
+  private static final long serialVersionUID = 01L;
 }
 	
-class Block223{  
+class Block223 {  
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = -2683593616927798071L;
-        public void reinitialize() {
-            Driver.reinitializeAutouniqueID(this.getDrivers());
-            BusVehicle.reinitializeUniqueLicencePlate(this.getVehicles());
-            Route.reinitializeUniqueNumber(this.getRoutes());
-        }
+	private static final long serialVersionUID = 02L;
 }
 
-class Block{  
+class Block {  
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 2315072607928790501L; 
-	//Question : Does the location of the block or its colors and points need to be saved in the persistence layer?
+	private static final long serialVersionUID = 03L; 
 }
 
-class Game{
+class Game {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 8896099581655989380L;
-	//Question : Do I need to implement this if the game class is being used in my controller methods?
+	private static final long serialVersionUID = 04L;
+}
+
+class User {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 05L;
+}
+
+class UserRole {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 06L;
+}
+
+class Admin {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 07L;
+}
+
+class Player {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 08L;
+}
+
+class Level {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 09L;
+}
+
+class Paddle {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 10L;
+}
+
+class Ball {
+	depend java.io.Serializable;
+	isA Serializable; 
+	private static final long serialVersionUID = 11L;
 }
