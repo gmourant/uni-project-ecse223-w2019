@@ -186,7 +186,7 @@ public class BlockAssignment implements Serializable
   //------------------------
   
   // line 6 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 8896022581633989380L ;
+  private static final long serialVersionUID = 01L ;
 
   
 }

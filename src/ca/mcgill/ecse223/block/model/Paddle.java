@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
+// line 57 "../../../../../Block223Persistence.ump"
 // line 98 "../../../../../Block223.ump"
-public class Paddle
+public class Paddle implements Serializable
 {
 
   //------------------------
@@ -106,5 +108,13 @@ public class Paddle
             "maxPaddleLength" + ":" + getMaxPaddleLength()+ "," +
             "minPaddleLength" + ":" + getMinPaddleLength()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 60 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 10L ;
+
+  
 }

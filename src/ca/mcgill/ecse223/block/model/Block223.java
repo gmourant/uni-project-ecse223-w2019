@@ -361,20 +361,13 @@ public class Block223 implements Serializable
     }
     
   }
-
-  // line 14 "../../../../../Block223Persistence.ump"
-   public void reinitialize(){
-    Driver.reinitializeAutouniqueID(this.getDrivers());
-            BusVehicle.reinitializeUniqueLicencePlate(this.getVehicles());
-            Route.reinitializeUniqueNumber(this.getRoutes());
-  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
   // line 12 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = -2683593616927798071L ;
+  private static final long serialVersionUID = 02L ;
 
   
 }

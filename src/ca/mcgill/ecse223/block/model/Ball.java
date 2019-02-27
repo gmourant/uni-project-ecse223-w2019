@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
+// line 63 "../../../../../Block223Persistence.ump"
 // line 82 "../../../../../Block223.ump"
-public class Ball
+public class Ball implements Serializable
 {
 
   //------------------------
@@ -125,5 +127,13 @@ public class Ball
             "minBallSpeedY" + ":" + getMinBallSpeedY()+ "," +
             "ballSpeedIncreaseFactor" + ":" + getBallSpeedIncreaseFactor()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 66 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 11L ;
+
+  
 }
