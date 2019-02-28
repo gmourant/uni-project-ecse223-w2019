@@ -49,7 +49,7 @@ public class Block223MainPage extends JFrame {
     
     /**
      * This method changes the current page.
-     * Author: Georges Mourant
+     * @author Georges Mourant
      * @param newPage the enum representing the desired page
      */
     public void changePage(Page newPage){
@@ -129,7 +129,7 @@ public class Block223MainPage extends JFrame {
 
     /**
      * This method initalises all the information for the top menu.
-     *  Author: Georges Mourant
+     * @author Georges Mourant
      */
     private void setupTopMenu() {
         topMenu = new JPanel(new GridLayout(1, 5));
@@ -186,7 +186,8 @@ public class Block223MainPage extends JFrame {
     
     /**
      * This method initalises all the information for the slider menu on the 
-     * left. Author: Georges Mourant
+     * left.
+     * @author Georges Mourant
      */
     private void setupSlideMenu(){
         sideMenuItems = new JList();
@@ -201,7 +202,7 @@ public class Block223MainPage extends JFrame {
     
     /**
      * This method returns the JList of the side menu so that it may be modified.
-     * Author: Georges Mourant
+     * @author Georges Mourant
      * @return the JList of the side menu
      */
     public JList getSideMenuItems(){
@@ -214,7 +215,8 @@ public class Block223MainPage extends JFrame {
     
     /**
      * Creates and returns a formatted JButton following this application's
-     * design. Author: Georges Mourant
+     * design.
+     * @author Georges Mourant
      * @param text Text of the JButton
      * @return a formatted JButton
      */
@@ -228,7 +230,7 @@ public class Block223MainPage extends JFrame {
     
     /**
      * This method applies a font to the entire application.
-     * Author: the World Wide Web
+     * @author the World Wide Web
      * @param f the desired font
      */
     private static void setUIFont(javax.swing.plaf.FontUIResource f) {

@@ -30,7 +30,7 @@ public abstract class ContentPage extends JPanel{
     
     /**
      * This method changes the page to Block223MainPage.Page.adminMenu.
-     * Author: Georges Mourant
+     * @author Georges Mourant
      */
     public void cancel(){
         framework.changePage(Block223MainPage.Page.adminMenu);
@@ -38,7 +38,7 @@ public abstract class ContentPage extends JPanel{
     
     /**
      * This method changes the page using a Block223MainPage.Page enum.
-     * Author: Georges Mourant
+     * @author Georges Mourant
      * @param page the desired page
      */
     public void changePage(Block223MainPage.Page page){
@@ -47,7 +47,7 @@ public abstract class ContentPage extends JPanel{
     
     /**
      * Creates a formatted button calling it's Block223MainPage sister method.
-     * Author: Georges Mourant
+     * @author Georges Mourant
      * @param text String for the button
      * @return the formatted JButton
      */
@@ -57,7 +57,8 @@ public abstract class ContentPage extends JPanel{
     
     /**
      * Returns the JList object which is displayed on the side menu.
-     * For editing the side menu. Author: Georges Mourant
+     * For editing the side menu.
+     * @author Georges Mourant
      * @return the JList object of items on the side menu
      */
     public JList getSideMenuList(){
