@@ -101,10 +101,10 @@ public class Block223MainPage extends JFrame {
                 
                 break;
             case addBlock:
-                
+                displayedPage = new PageAddBlock(this);
                 break;
             case deleteBlock:
-                
+                displayedPage = new PageDeleteBlock(this);
                 break;
             case updateBlock:
                 
