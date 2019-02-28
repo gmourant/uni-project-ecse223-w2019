@@ -18,7 +18,8 @@ public class PageAdminHome extends ContentPage {
             updateBlock, positionBlock,
             moveBlock, removeBlock;
 
-    public PageAdminHome() {
+    public PageAdminHome(Block223MainPage frame) {
+        super(frame);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel l = new JLabel("Welcome!");
         l.setAlignmentX(Component.CENTER_ALIGNMENT);

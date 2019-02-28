@@ -7,7 +7,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 
 public abstract class ContentPage extends JPanel{
-    public ContentPage(){
+    private final Block223MainPage framework;
+    
+    public ContentPage(Block223MainPage framework){
+        this.framework = framework;
         setBackground(Color.WHITE);
     }
     
@@ -16,7 +19,7 @@ public abstract class ContentPage extends JPanel{
      * Author: Georges Mourant
      */
     public void cancel(){
-        Block223MainPage.getInstance().changePage(Block223MainPage.Page.adminMenu);
+        framework.changePage(Block223MainPage.Page.adminMenu);
     }
     
     /**
@@ -25,7 +28,7 @@ public abstract class ContentPage extends JPanel{
      * @param page the desired page
      */
     public void changePage(Block223MainPage.Page page){
-        Block223MainPage.getInstance().changePage(page);
+        framework.changePage(page);
     }
     
     /**
@@ -39,11 +42,11 @@ public abstract class ContentPage extends JPanel{
     }
     
     /**
-     * Returns the JList object which is displayed on the side menu. For editing
-     * the side menu. Author: Georges Mourant
+     * Returns the JList object which is displayed on the side menu.
+     * For editing the side menu. Author: Georges Mourant
      * @return the JList object of items on the side menu
      */
-    public static JList getSideMenuList(){
-        return Block223MainPage.getInstance().getSideMenuItems();
+    public JList getSideMenuList(){
+        return framework.getSideMenuItems();
     }
 }

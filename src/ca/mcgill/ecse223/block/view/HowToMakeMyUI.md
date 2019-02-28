@@ -1,3 +1,5 @@
+By Georges Mourant
+
 # Background
 
 Okay guys so I finished the UI framework as we discussed in tutorial on Wednesday.
@@ -10,8 +12,22 @@ which will change the UI. [This superclass extends JPanel so when you extend it 
 will also become a JPanel.]
 
 ## Steps
-1. Create/Modify a class and extend `ContentPage` (`ContentPage` already extends JPanel).
-2. Write your JPanel as you normally would
+1. Create/Modify a class in the `view` package and extend `ContentPage` (`ContentPage` already extends `JPanel`).
+
+``` java
+public class NameOfMyUIClass extends ContentPage {
+```
+
+2. Create your constructor to take 1 parameter of type `Block223MainPage` and pass it to `super`.
+
+``` java
+public NameOfMyUIClass(Block223MainPage frame){
+    super(frame);
+    // rest of constructor code
+}
+```
+
+3. Write your `JPanel` as you normally would
 
 ## Help methods that are inheirited
 - **`createButton(String txt)`** this method will return a JButton that is formatted 
@@ -22,7 +38,7 @@ Modifying this JList will display directly on the side menu.
 
 ## How to include your UI into `Block223MainPage` for testing
 See lines 80-125 in `Block223MainPage`.
-Under the case for your feature, add the line `displayedPage = new NameOfMyUIClass();`.
+Under the case for your feature, add the line `displayedPage = new NameOfMyUIClass(this);`.
 (As shown in the comments on lines 82, 85, and 88.)
 [`displayPage` is the instance variable which holds the currently dispalyed page 
 which is an object of `ContentPage`.]

@@ -9,15 +9,13 @@ public class Block223Application {
     private static Block223 block223;
     private static UserRole currentUserRole;
     private static Game currentGame;
-    public static Block223MainPage view;
 
     public static void main(String[] args) {
         // start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                view = new Block223MainPage();
-                view.setVisible(true);
+                new Block223MainPage().setVisible(true);
             }
         });
     }

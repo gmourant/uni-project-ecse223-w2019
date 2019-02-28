@@ -79,13 +79,13 @@ public class Block223MainPage extends JFrame {
         // in the toDisplay enum
         switch (toDisplay) {
             case login:
-                //displayedPage = new PageLogin();
+                //displayedPage = new PageLogin(this);
                 break;
             case logout:
-                //displayedPage = new PageLogout();
+                //displayedPage = new PageLogout(this);
                 break;
             case signUp:
-                //displayedPage = new PageSignUp();
+                //displayedPage = new PageSignUp(this);
                 break;
             case addGame:
                 
@@ -121,7 +121,7 @@ public class Block223MainPage extends JFrame {
                 
                 break;
             default:
-                displayedPage = new PageAdminHome();
+                displayedPage = new PageAdminHome(this);
         }
         add(displayedPage, BorderLayout.CENTER); // adds panel to JFrame
     }
@@ -196,16 +196,6 @@ public class Block223MainPage extends JFrame {
         add(sideMenu, BorderLayout.WEST);
         
         sideMenu.setVisible(false);
-    }
-    
-    /**
-     * This method is for view classes only: it returns the instance of this 
-     * application to allow other classes to call this class's methods.
-     * Author: Georges Mourant
-     * @return 
-     */
-    protected static Block223MainPage getInstance(){
-        return Block223Application.view;
     }
     
     /**
