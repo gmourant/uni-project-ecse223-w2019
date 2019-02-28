@@ -44,7 +44,9 @@ Modifying this `JList` will display directly on the side menu.
 [header in this case means title NOT a graphics header such as a menu]
   - `createHeader(String txt, float alignment)` this is an overlaoded version accepting
 alignment in addition to text. The alignment can be one of three constants from Java's Component class:
-*Component.CENTER_ALIGNMENT*, *Component.LEFT_ALIGNMENT* or *Component.RIGHT_ALIGNMENT*
+    - *Component.CENTER_ALIGNMENT*
+    - *Component.LEFT_ALIGNMENT*, or
+    - *Component.RIGHT_ALIGNMENT*
   - `createHeader(String txt, float alignment, boolean padding)` another overload which accepts
 padding in addition to text and alignment. It is a boolean so *true* if you want padding
 *false* if you do not.
