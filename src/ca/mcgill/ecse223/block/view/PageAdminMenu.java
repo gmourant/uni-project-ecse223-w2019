@@ -10,7 +10,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
-public class PageAdminHome extends ContentPage {
+public class PageAdminMenu extends ContentPage {
 
     JButton addGame, defineGame,
             deleteGame, updateGame,
@@ -18,7 +18,7 @@ public class PageAdminHome extends ContentPage {
             updateBlock, positionBlock,
             moveBlock, removeBlock;
 
-    public PageAdminHome(Block223MainPage frame) {
+    public PageAdminMenu(Block223MainPage frame) {
         super(frame);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         JLabel l = new JLabel("Welcome!");

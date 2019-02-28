@@ -1,6 +1,5 @@
 package ca.mcgill.ecse223.block.view;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -121,7 +120,7 @@ public class Block223MainPage extends JFrame {
                 
                 break;
             default:
-                displayedPage = new PageAdminHome(this);
+                displayedPage = new PageAdminMenu(this);
         }
         add(displayedPage, BorderLayout.CENTER); // adds panel to JFrame
     }
