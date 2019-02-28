@@ -2,20 +2,22 @@ package ca.mcgill.ecse223.block.application;
 
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
-import ca.mcgill.ecse223.block.view.Block223Page;
+import ca.mcgill.ecse223.block.view.Block223MainPage;
 
 public class Block223Application {
 
     private static Block223 block223;
     private static UserRole currentUserRole;
     private static Game currentGame;
+    public static Block223MainPage view;
 
     public static void main(String[] args) {
         // start UI
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Block223Page().setVisible(true);
+                view = new Block223MainPage();
+                view.setVisible(true);
             }
         });
     }
