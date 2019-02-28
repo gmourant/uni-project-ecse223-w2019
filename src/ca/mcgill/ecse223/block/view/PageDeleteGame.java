@@ -64,6 +64,4 @@ public class PageDeleteGame extends ContentPage {
                 }
         });
     }
-    
-    
 }
