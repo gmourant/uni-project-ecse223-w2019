@@ -348,7 +348,7 @@ public class Block223Controller {
 	    		throw new InvalidInputException("A game must be selected to save it.");
 	    	}
 	    	if(Block223Application.getCurrentUserRole().getPassword() != Block223Application.getCurrentGame().getAdmin().getPassword()) {
-	    		throw new InvalidInputException("Only the admin who created the game can save it.");
+			throw new InvalidInputException("Only the admin who created the game can save it.");
 	    	}
 	    	
 	    	Block223 block223 = Block223Application.getBlock223();
@@ -394,6 +394,7 @@ public class Block223Controller {
 				user = new User(username, block223, player);//Create User instance
 			} catch(RuntimeException e){
 				if(e.getMessage().equals("The username has already been taken.")) {//check for generic error message
+					player = null;// delete player instance 
 					throw new InvalidInputException("The username must be specified.");//specific error message
 				}
 			}
