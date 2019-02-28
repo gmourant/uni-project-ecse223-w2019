@@ -500,7 +500,7 @@ public class Block223Controller {
         if (Block223Application.getCurrentUserRole() instanceof Admin) {
             admin = (Admin) Block223Application.getCurrentUserRole(); // set val
         } else { // throw error
-            throw new InvalidInputException("Admin privileges are required to delete a game.");
+            throw new InvalidInputException("Admin privileges are required to access game information.");
         }
 
         // create transfer object list

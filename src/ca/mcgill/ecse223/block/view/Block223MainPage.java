@@ -9,6 +9,8 @@ public class Block223MainPage extends JFrame {
     
     public final static Color HEADER_BACKGROUND = new Color(229, 248, 255);
     public final static Color BUTTON_BACKGROUND = new Color(206, 242, 255);
+    public final static Font UI_FONT = new Font("Calibri",Font.PLAIN,14);
+    public final static int TITLE_SIZE_INCREASE = 4;
 
     // enums for tetermining current page
     public enum Page {
@@ -38,7 +40,7 @@ public class Block223MainPage extends JFrame {
         this.setVisible(true); // Makes it visible
 
         // setting up
-        setUIFont(new javax.swing.plaf.FontUIResource("Calibri",Font.PLAIN,14));
+        setUIFont(new javax.swing.plaf.FontUIResource(UI_FONT.getFontName(),UI_FONT.getStyle(),UI_FONT.getSize()));
         setLayout(new BorderLayout());
         setupTopMenu();
         setupSlideMenu();
@@ -93,7 +95,7 @@ public class Block223MainPage extends JFrame {
                 
                 break;
             case deleteGame:
-                
+                displayedPage = new PageDeleteGame(this);
                 break;
             case updateGame:
                 
