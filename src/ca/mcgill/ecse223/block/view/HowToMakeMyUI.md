@@ -56,10 +56,13 @@ and returns a formatted JCheckBox (which already has the text build into it).
 
 ## How to include your UI into `Block223MainPage` for testing
 See lines 79-124 in `Block223MainPage`.
-Under the case for your feature, add the line `displayedPage = new NameOfMyUIClass(this);`.
-(As shown in the comments on lines 81, 84, and 87.)
-[`displayPage` is the instance variable which holds the currently dispalyed page 
-which is an object of `ContentPage`.]
+Under the case for your feature, add the line
+```java
+displayedPage = new PageNameOfMyUIClass(this);
+```
+(As shown in the comments on lines 81, 84, and 87.)  
+`displayPage` is the instance variable which holds the currently dispalyed page 
+which is an object of `ContentPage`.
 
 # Notes
 - I have not created methods to format/setup `JTextField` or `JSlider` so if any of you want to
