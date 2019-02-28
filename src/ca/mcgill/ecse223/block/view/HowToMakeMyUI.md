@@ -33,11 +33,26 @@ public PageNameOfMyUIClass(Block223MainPage frame){
 3. Write your `JPanel` as you normally would
 
 ## Help methods that are inheirited
+- **`changePage(Block223MainPage.Page desiredPage)`** this method will change the page for you
 - **`createButton(String txt)`** this method will return a `JButton` that is formatted 
 to follow the design style of the design style of the application.
 - **`cancel()`** will return to the admin menu (for the *Cancel* button at the bottom of your UI)
 - **`getSideMenuList()`** will return the `JList` which makes up the side menu.
 Modifying this `JList` will display directly on the side menu.
+### Updates 28/02/19
+- **`createHeader(String txt)`** this method will return a formatted JLabel
+[header in this case means title NOT a graphics header such as a menu]
+  - `createHeader(String txt, float alignment)` this is an overlaoded version accepting
+alignment in addition to text. The alignment can be one of three constants from Java's Component class:
+    - *Component.CENTER_ALIGNMENT*
+    - *Component.LEFT_ALIGNMENT*, or
+    - *Component.RIGHT_ALIGNMENT*
+  - `createHeader(String txt, float alignment, boolean padding)` another overload which accepts
+padding in addition to text and alignment. It is a boolean so *true* if you want padding
+*false* if you do not.
+- **`createComboBox()`** this method returns a formatted JComboBox<String>
+- **`createCheckBox(String txt)`** this method takes the text to go beside the check box
+and returns a formatted JCheckBox (which already has the text build into it).
 
 ## How to include your UI into `Block223MainPage` for testing
 See lines 79-124 in `Block223MainPage`.
@@ -47,7 +62,7 @@ Under the case for your feature, add the line `displayedPage = new NameOfMyUICla
 which is an object of `ContentPage`.]
 
 # Notes
-- I have not created methods to format/setup JTextField, JComboBox, or JSlider so if any of you want to
+- I have not created methods to format/setup `JTextField` or `JSlider` so if any of you want to
 implement that please share.
 - The *Save* and *Load* buttons currently do not do anything.
 - If you want to see a page appear, change the default value of `currentPage` (`Block223MainPage`, line 25) to `Page.adminMenu`.

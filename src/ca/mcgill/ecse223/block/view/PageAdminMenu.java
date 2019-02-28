@@ -2,14 +2,16 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
+/**
+ * The page for displaying the admin menu.
+ * @author Georges Mourant
+ */
 public class PageAdminMenu extends ContentPage {
 
     JButton addGame, defineGame,
@@ -21,11 +23,10 @@ public class PageAdminMenu extends ContentPage {
     public PageAdminMenu(Block223MainPage frame) {
         super(frame);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        JLabel l = new JLabel("Welcome!");
-        l.setAlignmentX(Component.CENTER_ALIGNMENT);
-        l.setFont(new javax.swing.plaf.FontUIResource("Calibri",Font.BOLD,14));
-        l.setBorder(BorderFactory.createCompoundBorder(l.getBorder(), BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+        
+        JLabel l = createHeader("Welcome!", Component.CENTER_ALIGNMENT, true);
         add(l);
+        
         addGame = createButton("Add a Game");
         defineGame = createButton("Define a Game's Settings");
         deleteGame = createButton("Delete a Game");
