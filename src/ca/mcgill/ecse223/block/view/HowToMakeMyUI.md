@@ -32,3 +32,5 @@ which is an object of `ContentPage`.]
 implement that please share.
 - The *Save* and *Load* buttons currently do not do anything.
 - If you want to see a page appear, change the default value of `currentPage` (`Block223MainPage`, line 26) to `Page.adminMenu`.
+- For now, just display errors using Java's `showMessageDialog`. I will try to create a custom error box
+to match our design later but this is not a priority.
