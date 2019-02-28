@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import ca.mcgill.ecse223.block.controller.*;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -55,6 +57,12 @@ public class PageDeleteGame extends ContentPage {
         exitButtons.add(cancel);
         
         add(exitButtons);
+        
+        cancel.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    cancel();
+                }
+        });
     }
     
     
