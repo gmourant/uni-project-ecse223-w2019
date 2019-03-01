@@ -7,8 +7,8 @@ import javax.swing.*;
 
 public class Block223MainPage extends JFrame {
     
-    public final static Color HEADER_BACKGROUND = new Color(229, 248, 255);
-    public final static Color BUTTON_BACKGROUND = new Color(206, 242, 255);
+    public final static Color HEADER_BACKGROUND = new Color(224, 249, 246);
+    public final static Color BUTTON_BACKGROUND = new Color(207, 243, 238);
     public final static Font UI_FONT = new Font("Calibri",Font.PLAIN,14);
     public final static int TITLE_SIZE_INCREASE = 4;
 
@@ -101,10 +101,10 @@ public class Block223MainPage extends JFrame {
                 
                 break;
             case addBlock:
-                
+                displayedPage = new PageAddBlock(this);
                 break;
             case deleteBlock:
-                
+                displayedPage = new PageDeleteBlock(this);
                 break;
             case updateBlock:
                 
