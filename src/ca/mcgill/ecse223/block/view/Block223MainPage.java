@@ -9,7 +9,7 @@ public class Block223MainPage extends JFrame {
     
     public final static Color HEADER_BACKGROUND = new Color(224, 249, 246);
     public final static Color BUTTON_BACKGROUND = new Color(207, 243, 238);
-    public final static Font UI_FONT = new Font("Calibri",Font.PLAIN,14);
+    public final static Font UI_FONT = new Font("Century Gothic",Font.PLAIN,14);
     public final static int TITLE_SIZE_INCREASE = 4;
 
     // enums for tetermining current page
