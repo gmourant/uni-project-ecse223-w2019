@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -22,22 +23,24 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 
-import test.test.EditorMode;
-import test.test.EditorPanel;
-import test.test.EditorPanel.CellPane;
-import test.test.EditorPanel.EditorGrid;
+import ca.mcgill.ecse223.block.controller.Block223Controller;
+import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOBlock;
 
-public class PagePositionBlock extends ContentPage{
+public class PagePositionBlock extends ContentPage {
 	
 	enum EditorMode {
     	ADD, CUT, PASTE, REMOVE
     }
 	
-	public PagePositionBlock(Block223MainPage parent) {
+	static EditorMode editorMode = EditorMode.ADD;
+	
+	public PagePositionBlock(PagePositionBlock parent) {
 		super(parent);
 		initializeEditor();
 	    
 	    EditorMode editorMode = EditorMode.ADD;
+	    
 	}
 
     public void initializeEditor() {
@@ -51,14 +54,19 @@ public class PagePositionBlock extends ContentPage{
             }
     }
     
-    public class EditorPanel extends JPanel {
-
+    class EditorPanel extends JPanel {
+    	
+    	static JComboBox<Integer> levelSelector;
+    	
+    	static JComboBox<TOBlock> blockList;
+    	
     	EditorPanel() {
         	
             setLayout(new BorderLayout());
             add(new EditorGrid(), BorderLayout.CENTER);
             
             // Set up the tool radio buttons.
+            
             ButtonGroup toolbarGroup = new ButtonGroup();
 	            JRadioButton addButton = new JRadioButton("Add", true);
 	            addButton.setActionCommand("ADD");
@@ -71,14 +79,30 @@ public class PagePositionBlock extends ContentPage{
 	            toolbarGroup.add(moveButton);
 	        
             // ComboBox block type selector.
-	            
 	        
+            List<TOBlock> blocks = null;
+	        try {
+	        	blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
+	        } catch(InvalidInputException e) {
+	        	
+	        }
+	        blockList = new JComboBox<TOBlock>();
+	        for (TOBlock block : blocks) {
+	        	blockList.addItem(block);
+	        }
 	        
-	        JComboBox blockList = new JComboBox();
+	        // ComboBox level selector.
+	        
+	        levelSelector = new JComboBox<Integer>();
+	        for (int i = 0; i > 100; i++) {
+	        	levelSelector.addItem((Integer) i);
+	        }
 
 	        // Add elements to the toolbar.
+	        
 	        JPanel toolbar = new JPanel();
-	        toolbar.setLayout(new GridLayout(4,1));
+	        toolbar.setLayout(new GridLayout(5,1));
+	        toolbar.add(levelSelector);
 	        toolbar.add(blockList);
 	        toolbar.add(addButton);
 	        toolbar.add(removeButton);
@@ -99,7 +123,7 @@ public class PagePositionBlock extends ContentPage{
 	                    gbc.gridx = col;
 	                    gbc.gridy = row;
 	
-	                    CellPane cellPane = new CellPane();
+	                    CellPane cellPane = new CellPane((col+1), (row+1));
 	                    Border border = null;
 	                    if (row < 7) {
 	                        if (col < 7) {
@@ -125,14 +149,21 @@ public class PagePositionBlock extends ContentPage{
 	
 	        private Color defaultBackground;
 	        private boolean empty = true;
+	        
+	        int x;
+	        int y;
 	
-	        public CellPane() {
+	        public CellPane(int xpos, int ypos) {
+	        	
+	        	x = xpos;
+	        	y = ypos;
+	        	
 	            addMouseListener(new MouseAdapter() {
 	                @Override
 					                public void mouseEntered(MouseEvent e) {
 					                    defaultBackground = getBackground();
 					                    if (empty)
-					                    	if (editorMode == EditorMode.PASTE) {
+					                    	if (PagePositionBlock.editorMode == PagePositionBlock.EditorMode.PASTE) {
 					                    		setBackground(Color.GRAY);
 					                		} else {
 					                    		setBackground(Color.LIGHT_GRAY);
@@ -147,11 +178,31 @@ public class PagePositionBlock extends ContentPage{
 					                
 					                @Override
 					                public void mousePressed(MouseEvent e) {
-					                    switch (editorMode) {
+					                    switch (PagePositionBlock.editorMode) {
 					                    case ADD: {
-						                	setBackground(Color.RED);
-						                    empty = false;
+					                    	try {
+					                    		Block223Controller.positionBlock( ((TOBlock)blockList.getSelectedItem()).getId(),
+					                    			Block223Controller.getCurrentDesignableLevel(),
+					                    			((CellPane)e.getComponent()).getX(),
+					                    			((CellPane)e.getComponent()).getX() );
+							                	setBackground(new Color( 
+							                			((TOBlock)blockList.getSelectedItem()).getRed(),
+							                			((TOBlock)blockList.getSelectedItem()).getGreen(), 
+							                			((TOBlock)blockList.getSelectedItem()).getBlue()
+						                			)
+					                			);
+							                    empty = false;
+					                    	}
+					                    break;
 					                    }
+										case CUT:
+											break;
+										case PASTE:
+											break;
+										case REMOVE:
+											break;
+										default:
+											break;
 					                    }
 					                    repaint();
 					                }
