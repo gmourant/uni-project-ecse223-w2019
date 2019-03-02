@@ -37,7 +37,6 @@ public class Block223MainPage extends JFrame {
         this.setLocationRelativeTo(null); // Places in the center of the screen
         this.setResizable(false); // stops user from resizing the dialog box
         this.setUndecorated(true);
-        this.setVisible(true); // Makes it visible
 
         // setting up
         setUIFont(new javax.swing.plaf.FontUIResource(UI_FONT.getFontName(),UI_FONT.getStyle(),UI_FONT.getSize()));
