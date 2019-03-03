@@ -6,6 +6,9 @@ import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
+import ca.mcgill.ecse223.block.application.*;
+import ca.mcgill.ecse223.block.model.*;
+
 public class Block223Controller {
 
     // ****************************
@@ -323,7 +326,6 @@ public class Block223Controller {
 		}
 		
 		Block block = findBlock(id); //Go to find block method for the declaration
-		
 		if(block != null)
 			block.delete();
 	}
