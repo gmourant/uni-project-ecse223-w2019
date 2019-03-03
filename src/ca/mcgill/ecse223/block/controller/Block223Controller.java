@@ -334,6 +334,8 @@ public class Block223Controller {
      *
      * This method updates a block with new values. It requires a block ID,
      * color values (RGB) and the point value of the block.
+     * 
+     * @author Mathieu Bissonnette
      *
      * @param id	The ID of the desired block.
      * @param red	The red component of the block color.
