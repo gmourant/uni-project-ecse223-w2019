@@ -59,7 +59,7 @@ public class ViewError extends JFrame{
     private void setupTopMenu() {
         topMenu = new JPanel(new GridLayout(1, 2));
         topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
-                BorderFactory.createEmptyBorder(5, 5, 5, 5)));
+                BorderFactory.createEmptyBorder(5, 10, 5, 5)));
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
         topMenu.setBackground(ERROR_HEADER_BACKGROUND);
 
