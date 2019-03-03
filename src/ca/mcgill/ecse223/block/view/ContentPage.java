@@ -132,6 +132,18 @@ public abstract class ContentPage extends JPanel{
     }
     
     /**
+     * Formats a passed JComboBox.
+     * @author Georges Mourant
+     * @param box the JComboBox to be formatted
+     */
+    public static void formatComboBox(JComboBox box){
+        box.setPreferredSize(new Dimension(150, 30));
+        box.setAlignmentX(Component.CENTER_ALIGNMENT);
+        box.setBackground(Block223MainPage.BUTTON_BACKGROUND);
+        box.setForeground(Color.DARK_GRAY);
+    }
+    
+    /**
      * Creates a formatted JCheckBox.
      * @author Georges Mourant
      * @param txt takes a String for the text next to the check box
@@ -144,5 +156,9 @@ public abstract class ContentPage extends JPanel{
         cb.setFont(new Font(Block223MainPage.UI_FONT.getFontName(),Font.BOLD,
                 Block223MainPage.UI_FONT.getSize()));
         return cb;
+    }
+    
+    public void displayError(String message){
+        new ViewError(message, framework);
     }
 }

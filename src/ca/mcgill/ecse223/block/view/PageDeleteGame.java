@@ -6,8 +6,9 @@ import javax.swing.JLabel;
 import ca.mcgill.ecse223.block.controller.*;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -26,16 +27,17 @@ public class PageDeleteGame extends ContentPage {
         JPanel b = new JPanel();
         b.setBackground(this.getBackground());
         JComboBox<String> gameList = createComboBox();
-        List<TOGame> games = null;
-//        try{
-//            games = Block223Controller.getDesignableGames();
-//        }
-//        catch(InvalidInputException e){
-//            javax.swing.JOptionPane.showMessageDialog(null, e.getMessage());
-//        }
-//        for(TOGame game : games){
-//            gameList.addItem(game.getName());
-//        }
+        List<TOGame> games;
+        try{
+            games = Block223Controller.getDesignableGames();
+        }
+        catch(InvalidInputException e){
+            displayError(e.getMessage());
+            return;
+        }
+        for(TOGame game : games){
+            gameList.addItem(game.getName());
+        }
         gameList.addItem("Test game");
         b.add(gameList);
         add(b);
@@ -46,8 +48,6 @@ public class PageDeleteGame extends ContentPage {
         add(question);
         
         JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        exitButtons.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
-                    BorderFactory.createEmptyBorder(5, 0, 0, 10)));
         exitButtons.setBackground(this.getBackground());
         JButton delete = createButton("Delete");
         JButton cancel = createButton("Cancel");
@@ -55,7 +55,11 @@ public class PageDeleteGame extends ContentPage {
         exitButtons.add(cancel);
         
         add(exitButtons);
+        
+        cancel.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    cancel();
+                }
+        });
     }
-    
-    
 }
