@@ -7,6 +7,7 @@ import java.awt.EventQueue;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +59,7 @@ public class PagePositionBlock extends ContentPage {
     	
     	static JComboBox<Integer> levelSelector;
     	
-    	static JComboBox<TOBlock> blockList;
+    	static JComboBox<Integer> blockList;
     	
     	EditorPanel() {
         	
@@ -86,17 +87,18 @@ public class PagePositionBlock extends ContentPage {
 	        } catch(InvalidInputException e) {
 	        	
 	        }
-	        blockList = new JComboBox<TOBlock>();
+	        blockList = new JComboBox<Integer>();
 	        for (TOBlock block : blocks) {
-	        	blockList.addItem(block);
+	        	blockList.addItem(block.getId());
 	        }
 	        
 	        // ComboBox level selector.
 	        
 	        levelSelector = new JComboBox<Integer>();
-	        for (int i = 0; i > 100; i++) {
-	        	levelSelector.addItem((Integer) i);
+	        for (int i = 0; i < 99; i++) {
+	        	levelSelector.addItem(i);
 	        }
+	        
 
 	        // Add elements to the toolbar.
 	        
@@ -182,7 +184,7 @@ public class PagePositionBlock extends ContentPage {
 					                    case ADD: {
 					                    	try {
 					                    		Block223Controller.positionBlock( ((TOBlock)blockList.getSelectedItem()).getId(),
-					                    			Block223Controller.getCurrentDesignableLevel(),
+					                    			(int) levelSelector.getSelectedItem(),
 					                    			((CellPane)e.getComponent()).getX(),
 					                    			((CellPane)e.getComponent()).getX() );
 							                	setBackground(new Color( 
@@ -192,6 +194,9 @@ public class PagePositionBlock extends ContentPage {
 						                			)
 					                			);
 							                    empty = false;
+					                    	
+					                    	} catch (InvalidInputException ex) {
+					                    		System.out.println(ex.getMessage());
 					                    	}
 					                    break;
 					                    }
@@ -219,10 +224,10 @@ public class PagePositionBlock extends ContentPage {
 				    class RadioListener implements ActionListener {
 				    	public void actionPerformed(ActionEvent e) {
 				    		switch (e.getActionCommand()) {
-				    			case "ADD": editorMode = EditorMode.ADD;
-				    			case "REMOVE": editorMode = EditorMode.REMOVE;
-				    			case "MOVE": editorMode = EditorMode.CUT;
+				    			case "ADD": PagePositionBlock.editorMode = PagePositionBlock.EditorMode.ADD;
+				    			case "REMOVE": PagePositionBlock.editorMode = PagePositionBlock.EditorMode.REMOVE;
+				    			case "MOVE": PagePositionBlock.editorMode = PagePositionBlock.EditorMode.CUT;
 				    			default: break;
 				    		}
-					    	}
+			    	}
 }
