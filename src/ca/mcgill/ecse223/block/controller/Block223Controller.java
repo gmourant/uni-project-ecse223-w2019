@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+
+import ca.mcgill.ecse223.block.application.*;
+import ca.mcgill.ecse223.block.model.*;
 
 public class Block223Controller {
 
@@ -254,11 +258,77 @@ public class Block223Controller {
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
 
-    public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
-    }
-
-    public static void deleteBlock(int id) throws InvalidInputException {
-    }
+    /**
+     * This method creates a block in a game. Author: Imane Chafi
+     *
+     * @param RGB values
+     * @param number of points
+     * @throws InvalidInputException If the game is not selected
+     * @throws InvalidInputException If the user is not an admin
+     * @throws InvalidInputException If the user is not the admin who created the game
+     * @throws InvalidInputException If the block used already exists
+     * @throws InvalidInputException If the color values are not between 0 and 255
+     * @throws InvalidInputException If the user if the points are not between 1 and 1000
+     */
+	public static void addBlock(int red, int green, int blue, int points) throws InvalidInputException {
+		// Obtain the selected game
+        Game game = Block223Application.getCurrentGame();
+		String error = "";
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to add a block.");
+		}
+		if(Block223Application.getCurrentGame() == null) {
+			throw new InvalidInputException("A game must be selected to add a block");
+		}
+		if(Block223Application.getCurrentUserRole() != game.getAdmin()) {
+			throw new InvalidInputException("Only the admin who created the game can add a block");
+		}
+		if(game.hasBlocks()) { //Question for teacher about getting the blocks with the same colors
+			throw new InvalidInputException("A block with the same color already exists for the game");
+		}
+		try {
+			game.addBlock(red, green, blue, points); //Can I do it like this instead of "create(..)"?
+		}
+		catch (RuntimeException e) { //Do I need to make catch and rethrow statements individually?
+			error = e.getMessage();
+			if ((red < 0) || (red > 255))
+				throw new InvalidInputException("Red must be between 0 and 255.");
+			
+			if ((green < 0) || (green > 255))
+				throw new InvalidInputException("Green must be between 0 and 255.");
+			
+			if ((blue < 0) || (blue > 255))
+				throw new InvalidInputException("Blue must be between 0 and 255.");
+			
+			if ((points < 1) || (red > 1000))
+				throw new InvalidInputException("Points must be between 1 and 1000.");
+		}
+	}
+/**
+     * This method deletes a block from a game. Author: Imane Chafi
+     *
+     * @param id of block to be deleted
+     * @throws InvalidInputException If the game is not selected
+     * @throws InvalidInputException If the user is not an admin
+     * @throws InvalidInputException If the user is not the admin who created the game
+     * 
+     * */
+	public static void deleteBlock(int id) throws InvalidInputException {
+		Game game = Block223Application.getCurrentGame();
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to delete a block.");
+		}
+		if(Block223Application.getCurrentGame() == null) {
+			throw new InvalidInputException("A game must be selected to delete a block");
+		}
+		if(Block223Application.getCurrentUserRole() != game.getAdmin()) {
+			throw new InvalidInputException("Only the admin who created the block can delete the block");
+		}
+		
+		Block block = findBlock(id); //Go to find block method for the declaration
+		if(block != null)
+			block.delete();
+	}
 
     /**
      *
@@ -448,7 +518,7 @@ public class Block223Controller {
         if (Block223Application.getCurrentUserRole() instanceof Admin) {
             admin = (Admin) Block223Application.getCurrentUserRole(); // set val
         } else { // throw error
-            throw new InvalidInputException("Admin privileges are required to delete a game.");
+            throw new InvalidInputException("Admin privileges are required to access game information.");
         }
 
         // create transfer object list
@@ -489,7 +559,22 @@ public class Block223Controller {
     }
 
     public static List<TOBlock> getBlocksOfCurrentDesignableGame() throws InvalidInputException {
-    }
+		Game game = Block223Application.getCurrentGame();
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin))
+			throw new InvalidInputException("Admin privileges are required to access game information.");
+		if(Block223Application.getCurrentGame() == null)
+			throw new InvalidInputException("A game must be selected to access its information");
+		if(Block223Application.getCurrentUserRole() != game.getAdmin())
+			throw new InvalidInputException("Only the admin who created the game can acess its information");
+		
+		
+		List<TOBlock> result = new ArrayList<TOBlock>();
+		
+		for (Block block : game.getBlocks()) {
+			TOBlock to = new TOBlock(block.getId(), block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
+			result.add(to);}
+		return result;
+		}
 
     /**
     *
@@ -522,30 +607,8 @@ public class Block223Controller {
 	
 	  // Get the list of block assignments of the level
 	
-	  List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
-	
-	  // Create a list of TOGridCell objects and populate it.
-	
-	  List<TOGridCell> result = new ArrayList<TOGridCell>();
-	  for (BlockAssignment assignment : assignments) {
-	    Block block = assignment.getBlock();
-	    TOGridCell cell = new TOGridCell(	assignment.getGridHorizontalPosition(), 
-	                      assignment.getGridVerticalPosition(), 
-	                      block.getId(), 
-	                      block.getRed(), 
-	                      block.getGreen(), 
-	                      block.getBlue(), 
-	                      block.getPoints() );
-	    result.add(cell);
-	  }
-	
-	  // Return the result.
-	
-	  return result;
-
-    }
-
-    public static TOUserMode getUserMode() throws InvalidInputException {
+	  List<BlockAssignment> assignments = foundLevel.getBlockAssignments()
+      
     }
 
     // ****************************
@@ -566,5 +629,21 @@ public class Block223Controller {
         }
         return foundGame;
     }
+/**
+ * This method finds a block inside a list of blocks depending on its
+ * ID. Author : Imane Chafi */
 
- }
+public static Block findBlock(int id) { //Here, this is how the method was written in the solution document. 
+	//I've emailed the teacher about this to have clarification, and whether the "." is necessary. 
+	Game game = Block223Application.getCurrentGame();
+	List<Block> blocks = game.getBlocks();//Here, I would need to get the current game first, put I need to ask the teacher about the Game.find to understand what it means.
+	
+	for (Block block : blocks) {
+		
+		int blockId = block.getId(); //Here, the type of blockID should be integer
+		if(id == blockId)
+			return block;
+	}
+	return null;	
+}
+}

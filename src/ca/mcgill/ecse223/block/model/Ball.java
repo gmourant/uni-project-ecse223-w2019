@@ -2,10 +2,12 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 import java.util.*;
 
-// line 80 "../../../../../Block223.ump"
-public class Ball
+// line 66 "../../../../../Block223Persistence.ump"
+// line 82 "../../../../../Block223.ump"
+public class Ball implements Serializable
 {
 
   //------------------------
@@ -57,7 +59,7 @@ public class Ball
   public boolean setMinBallSpeedX(int aMinBallSpeedX)
   {
     boolean wasSet = false;
-    // line 84 "../../../../../Block223.ump"
+    // line 86 "../../../../../Block223.ump"
     if (aMinBallSpeedX <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     minBallSpeedX = aMinBallSpeedX;
@@ -68,7 +70,7 @@ public class Ball
   public boolean setMinBallSpeedY(int aMinBallSpeedY)
   {
     boolean wasSet = false;
-    // line 88 "../../../../../Block223.ump"
+    // line 90 "../../../../../Block223.ump"
     if (aMinBallSpeedY <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     minBallSpeedY = aMinBallSpeedY;
@@ -79,7 +81,7 @@ public class Ball
   public boolean setBallSpeedIncreaseFactor(double aBallSpeedIncreaseFactor)
   {
     boolean wasSet = false;
-    // line 92 "../../../../../Block223.ump"
+    // line 94 "../../../../../Block223.ump"
     if (aBallSpeedIncreaseFactor <= 0) throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
@@ -125,5 +127,13 @@ public class Ball
             "minBallSpeedY" + ":" + getMinBallSpeedY()+ "," +
             "ballSpeedIncreaseFactor" + ":" + getBallSpeedIncreaseFactor()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 69 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 11L ;
+
+  
 }

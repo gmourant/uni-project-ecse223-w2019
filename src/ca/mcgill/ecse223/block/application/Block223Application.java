@@ -1,9 +1,8 @@
 package ca.mcgill.ecse223.block.application;
 
 import ca.mcgill.ecse223.block.model.*;
-
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
-import ca.mcgill.ecse223.block.view.Block223Page;
+import ca.mcgill.ecse223.block.view.Block223MainPage;
 
 public class Block223Application {
 
@@ -16,7 +15,7 @@ public class Block223Application {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new Block223Page().setVisible(true);
+                new Block223MainPage().setVisible(true);
             }
         });
     }
