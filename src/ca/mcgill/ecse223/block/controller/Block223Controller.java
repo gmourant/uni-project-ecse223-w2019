@@ -593,24 +593,43 @@ public class Block223Controller {
 
     public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 
-	  // Perform basic input validation to ensure the numeric values are valid.
+    	// Perform basic input validation to ensure the numeric values are valid.
 	
-	  if (level > 98 || level < 0) {
-	    throw new InvalidInputException("Level index not valid");
-	  }
+    	if (level > 98 || level < 0) {
+    		throw new InvalidInputException("Level index not valid");
+    	}
 	
-	  // Get the desired level from the current game.
+    	// Get the desired level from the current game.
 	
-	  Game game = Block223Application.getCurrentGame();
-	  Level foundLevel = game.getLevel(level);
-	  if (foundLevel == null) {
-	    throw new InvalidInputException("Level not found");
-	  }
+    	Game game = Block223Application.getCurrentGame();
+    	Level foundLevel = game.getLevel(level);
+    	if (foundLevel == null) {
+    		throw new InvalidInputException("Level not found");
+    	}
 	
-	  // Get the list of block assignments of the level
+    	// Get the list of block assignments of the level
 	
-	  List<BlockAssignment> assignments = foundLevel.getBlockAssignments()
-      
+    	List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
+	  
+    	// Create a list of TOGridCell objects and populate it.
+		
+    	List<TOGridCell> result = new ArrayList<TOGridCell>();
+    	for (BlockAssignment assignment : assignments) {
+		  Block block = assignment.getBlock();
+		  TOGridCell cell = new TOGridCell(	assignment.getGridHorizontalPosition(), 
+											assignment.getGridVerticalPosition(), 
+											block.getId(), 
+											block.getRed(), 
+											block.getGreen(), 
+											block.getBlue(), 
+											block.getPoints() );
+		  result.add(cell);
+    	}
+	
+    	// Return the result.
+	
+    	return result;
+	
     }
 
     // ****************************
