@@ -28,7 +28,7 @@ import ca.mcgill.ecse223.block.controller.TOGame;
  */
 public class PageUpdateBlock extends ContentPage{
 
-	public PageAddBlock(Block223MainPage parent){
+	public PageUpdateBlock(Block223MainPage parent){
 	    super(parent);
 	    setLayout(new GridLayout(7,1));
         
