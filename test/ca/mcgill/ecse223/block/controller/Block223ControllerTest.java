@@ -37,6 +37,22 @@ public class Block223ControllerTest {
 		block233.delete();
 	}
 	
+
+	// updateBlock tests
+	
+	@Test
+	public void testUpdateBlockSuccess {
+		// TODO
+	}
+	
+	@Test
+	public void testUpdateBlockTooBigSmallVal {
+		// TODO
+	}
+	
+	@Test
+	public void testUpdateBlockNullGame {
+
 	// positionBlock tests
 	
 	@Test
@@ -66,6 +82,15 @@ public class Block223ControllerTest {
 	}
 	
 	@Test
+	public void testUpdateBlockInvalidGame {
+		// TODO
+	}
+	
+	@Test
+	public void testUpdateBlock0ID {
+		// TODO
+	}
+
 	public void testCreateBlockAssignmentInvalidBlock {
 		// TODO
 	}

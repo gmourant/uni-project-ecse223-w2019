@@ -6,6 +6,9 @@ import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
+import ca.mcgill.ecse223.block.application.*;
+import ca.mcgill.ecse223.block.model.*;
+
 public class Block223Controller {
 
     // ****************************
@@ -325,7 +328,6 @@ public class Block223Controller {
 		}
 		
 		Block block = findBlock(id); //Go to find block method for the declaration
-		
 		if(block != null)
 			block.delete();
 	}
@@ -347,8 +349,15 @@ public class Block223Controller {
      *                                  existing entity.
      */
     public static void updateBlock(int id, int red, int green, int blue, int points) throws InvalidInputException {
-
+    	
+        // Verify that the user is an admin before proceeding.
+    	
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+            throw new InvalidInputException("Admin privileges are required to update a block.");
+        }
+    	
         // Perform basic input validation to ensure the numeric values are valid.
+        
         if (red > 255 || red < 0) {
             throw new InvalidInputException("Red value not valid");
         } else if (green > 255 || green < 0) {
@@ -360,6 +369,7 @@ public class Block223Controller {
         }
 
         // Get the block list for the selected game.
+        
         Game game = Block223Application.getCurrentGame();
         if (game == null) {
             throw new InvalidInputException("No game selected");
@@ -367,6 +377,7 @@ public class Block223Controller {
         List<Block> blocks = game.getBlocks();
 
         // Find the desired block in the block list.
+        
         Block foundBlock = null;
         for (Block block : blocks) {
             int blockID = block.getId();
@@ -381,6 +392,7 @@ public class Block223Controller {
         }
 
         // Update block data
+        
         foundBlock.setRed(red);
         foundBlock.setGreen(green);
         foundBlock.setBlue(blue);
@@ -405,60 +417,66 @@ public class Block223Controller {
     *
     */
 
-	  public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition) throws InvalidInputException {
+    public static void positionBlock(int id, int level, int gridHorizontalPosition, int gridVerticalPosition) throws InvalidInputException {
 		
-      // Perform basic input validation to ensure the numeric values are valid.
+		// Verify that the user is an admin before proceeding.
+    	
+		if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+		    throw new InvalidInputException("Admin privileges are required to create a game.");
+		}
+			  
+		// Perform basic input validation to ensure the numeric values are valid.
+		
+		if (level > 98 || level < 0) {
+			throw new InvalidInputException("Level index not valid");
+		}
 
-      if (level > 98 || level < 0) {
-        throw new InvalidInputException("Level index not valid");
-      }
-
-      // Get the block list for the selected game.
-
-      Game game = Block223Application.getCurrentGame();
-      if (game == null) {
-        throw new InvalidInputException("No game selected");
-      }
-
-      // Get the desired level.
-
-      Level foundLevel = game.getLevel(level);
-      if (foundLevel == null) {
-        throw new InvalidInputException("Level not found");
-      }
-
-      // Get the block list from the game.
-
-      List<Block> blocks = game.getBlocks();
-
-      // Find the desired block in the block list.
-
-      Block foundBlock = null;
-      for (Block block : blocks) {
-        int blockID = block.getId();
-        if (blockID == id) {
-          foundBlock = block;
-          break;
-        }
-      }
-      if (foundBlock == null) {
-        throw new InvalidInputException("Invalid block ID");
-      }
-
-      // Delete the block assignment at xy coords if it exists.
-
-      List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
-      for (BlockAssignment block : assignments) {
-        int x = block.getGridHorizontalPosition();
-        int y = block.getGridVerticalPosition();
-        if (x == gridHorizontalPosition && y == gridVerticalPosition) {
-          block.delete();
-        }
-      }
-
-      // Create a new BlockAssignment.
-
-      foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
+		// Get the block list for the selected game.
+		
+		Game game = Block223Application.getCurrentGame();
+		if (game == null) {
+			throw new InvalidInputException("No game selected");
+		}
+		
+		// Get the desired level.
+		
+		Level foundLevel = game.getLevel(level);
+		if (foundLevel == null) {
+			throw new InvalidInputException("Level not found");
+		}
+		
+		// Get the block list from the game.
+		
+		List<Block> blocks = game.getBlocks();
+		
+		// Find the desired block in the block list.
+		
+		Block foundBlock = null;
+		for (Block block : blocks) {
+			int blockID = block.getId();
+	    	if (blockID == id) {
+				foundBlock = block;
+				break;
+		    }
+	  	}
+		if (foundBlock == null) {
+	    throw new InvalidInputException("Invalid block ID");
+		}
+		
+		// Delete the block assignment at xy coords if it exists.
+		
+		List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
+		  	for (BlockAssignment block : assignments) {
+		  		int x = block.getGridHorizontalPosition();
+		  		int y = block.getGridVerticalPosition();
+		  		if (x == gridHorizontalPosition && y == gridVerticalPosition) {
+		  			block.delete();
+		  		}
+		  	}
+		
+	  	// Create a new BlockAssignment.
+		  	
+	  	foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
 
     }
 
@@ -575,43 +593,24 @@ public class Block223Controller {
 
     public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 
-      // Perform basic input validation to ensure the numeric values are valid.
-
-      if (level > 98 || level < 0) {
-        throw new InvalidInputException("Level index not valid");
-      }
-
-      // Get the desired level from the current game.
-
-      Game game = Block223Application.getCurrentGame();
-      Level foundLevel = game.getLevel(level);
-      if (foundLevel == null) {
-        throw new InvalidInputException("Level not found");
-      }
-
-      // Get the list of block assignments of the level
-
-      List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
-
-      // Create a list of TOGridCell objects and populate it.
-
-      List<TOGridCell> result = new ArrayList<TOGridCell>();
-      for (BlockAssignment assignment : assignments) {
-        Block block = assignment.getBlock();
-        TOGridCell cell = new TOGridCell(	assignment.getGridHorizontalPosition(), 
-                          assignment.getGridVerticalPosition(), 
-                          block.getId(), 
-                          block.getRed(), 
-                          block.getGreen(), 
-                          block.getBlue(), 
-                          block.getPoints() );
-        result.add(cell);
-      }
-
-      // Return the result.
-
-      return result;
-
+	  // Perform basic input validation to ensure the numeric values are valid.
+	
+	  if (level > 98 || level < 0) {
+	    throw new InvalidInputException("Level index not valid");
+	  }
+	
+	  // Get the desired level from the current game.
+	
+	  Game game = Block223Application.getCurrentGame();
+	  Level foundLevel = game.getLevel(level);
+	  if (foundLevel == null) {
+	    throw new InvalidInputException("Level not found");
+	  }
+	
+	  // Get the list of block assignments of the level
+	
+	  List<BlockAssignment> assignments = foundLevel.getBlockAssignments()
+      
     }
 
     // ****************************
