@@ -106,7 +106,7 @@ public class Block223MainPage extends JFrame {
                 displayedPage = new PageDeleteBlock(this);
                 break;
             case updateBlock:
-                
+            	displayedPage = new PageUpdateBlock(this);
                 break;
             case positionBlock:
                 
