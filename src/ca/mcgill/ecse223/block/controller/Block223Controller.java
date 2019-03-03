@@ -13,7 +13,7 @@ public class Block223Controller {
     // ****************************
     /**
      * This method creates a new game within the Block223 Application
-     * Author: Kelly Ma
+     * @author Kelly Ma
      * @param name The unique name of the game
      * @throws InvalidInputException If the user is not an admin
      * @throws InvalidInputException If the name selected by the user is not
@@ -43,7 +43,7 @@ public class Block223Controller {
 
     /**
      * This method defines game settings for a game in Block223
-     * Author: Kelly Ma
+     * @author Kelly Ma
      * @param nrLevels The number of levels available in the game
      * @param nrBlocksPerLevel The number of blocks per level in the game
      * @param minBallSpeedX The minimum ball speed in the x-direction
@@ -198,8 +198,10 @@ public class Block223Controller {
 
     /**
      * This method takes finds a game, and sets it as the currently played game
-     * in Block223Application. Authors: Georges Mourant & Kelly Ma
+     * in Block223Application. 
      *
+     * @author Kelly Ma
+     * @author Georges Mourant
      * @param name unique name of the game
      * @throws InvalidInputException If the game does not exist
      * @throws InvalidInputException If the user is not an admin
@@ -617,8 +619,9 @@ public class Block223Controller {
     // ****************************
     /**
      * This method does what Umple's Game.getWithName(…) method would do if it
-     * worked properly aka get the game using the name. Authors: Georges Mourant
-     * & Kelly Ma
+     * worked properly aka get the game using the name. 
+	 * @author Kelly Ma
+	 * @author Georges Mourant
      */
     private static Game findGame(String name) {
         Game foundGame = null;
