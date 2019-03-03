@@ -23,6 +23,11 @@ public class Slider {
 	JSlider slider;
 	int min;
 	int max;
+	double dmin;
+	double dmax;
+	
+	private static final int SMIN = 1;
+	private static final int SMAX = 100;
 
 	/**
 	 * The constructor to create a JSlider for this application.
@@ -47,10 +52,33 @@ public class Slider {
 	}
 	
 	/**
+	 * The constructor to create a JSlider for this application.
+	 * Overloaded to accept double values.
+	 * @param name The name of the slider
+	 * @param min The minimum value permitted
+	 * @param max The maximum value permitted
+	 * @param val A starting value for the slider 
+	 */
+	public Slider(String name, Double min, Double max, Double val) {
+		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		nameLabel = new JLabel(name);
+		minLabel = new JLabel(min.toString());
+		maxLabel = new JLabel(max.toString());
+		slider = new JSlider(SMIN, SMAX, (int) ((SMAX-SMAX)*(val/(max-min))));
+		readOut = new JLabel(val.toString());
+		defineFont(nameLabel);
+		defineFont(maxLabel);
+		defineFont(minLabel);
+		defineFont(readOut);
+		dmin = min;
+		dmax = max;
+	}
+	
+	/**
 	 * Returns the value at the slider as an integer.
 	 * @return The slider value
 	 */
-	public int getValue() {
+	public int getIValue() {
 		return slider.getValue();
 	}
 	
@@ -58,7 +86,24 @@ public class Slider {
 	 * Sets the value upon readout as a String.
 	 * @param arg An integer value
 	 */
-	void setSlider(Integer arg) {
+	void setISlider(Integer arg) {
+		readOut.setText(arg.toString());
+	}
+	
+	/**
+	 * Returns the value at the slider as a double.
+	 * @return The slider value
+	 */
+	public double getDValue() {
+		double scale = ((double)slider.getValue())/SMAX;
+		return dmin + scale * (dmax - dmin);
+	}
+	
+	/**
+	 * Sets the value upon readout as a String.
+	 * @param arg An integer value
+	 */
+	void setDSlider(Double arg) {
 		readOut.setText(arg.toString());
 	}
 	
