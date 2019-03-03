@@ -54,7 +54,9 @@ padding in addition to text and alignment. It is a boolean so *true* if you want
 - **`createCheckBox(String txt)`** this method takes the text to go beside the check box
 and returns a formatted JCheckBox (which already has the text build into it).
 ### Updates 02/03/19
-- **`displayError(String message)`** this message displays an popup error following this UI's style.
+- **`displayError(String message, boolean redirect)`** this message displays an
+popup error following this UI's style. It takes the error message and a boolean which
+defines if the user should redirected back to the menu or not. `true` for redirect, otherwise `false`.
 
 ## How to include your UI into `Block223MainPage` for testing
 See lines 79-124 in `Block223MainPage`.

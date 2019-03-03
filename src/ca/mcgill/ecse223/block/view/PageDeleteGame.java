@@ -42,7 +42,7 @@ public class PageDeleteGame extends ContentPage {
             games = Block223Controller.getDesignableGames();
         }
         catch(InvalidInputException e){
-            displayError(e.getMessage());
+            displayError(e.getMessage(), true);
             // stop now to prevent future errors based on this exception
             return;
         }
