@@ -582,6 +582,8 @@ public class Block223Controller {
     *
     * This method returns a list of GridCells associated to a level.
     * It needs a level index.
+    * 
+    * @author Mathieu Bissonnette
     *
     * @param level The index of the desired level.
     *
