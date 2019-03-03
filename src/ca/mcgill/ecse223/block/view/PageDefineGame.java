@@ -26,29 +26,25 @@ public class PageDefineGame extends ContentPage {
 	    setLayout(new GridLayout(7,1));
         add(createHeader("Define Game Settings"));
         
-        // Set up nrLevels
-     	JPanel nrLevelsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-     	nrLevelsPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
-                BorderFactory.createEmptyBorder(1, 0, 0, 0)));
-     	JLabel nrLevelsLabel = new JLabel("Number of Levels:");
-    	nrLevelsLabel.setFont(new Font("Century Gothic", Font.PLAIN, 9));
-        JSlider nrLevelsSlider = new JSlider(1, 99, 30);
+        // All sliders necessary on the page
+        Slider nrLevels = new Slider("Number of Levels:", 1, 99, 30);
+        Slider nrBlocksPerLevel = new Slider("Number of blocks per level:", 1, 50, 15);
+        Slider minBallSpeedX = new Slider("Minimum ball speed (X):", 1, 10, 3);
+        Slider minBallSpeedY = new Slider("Minimum ball speed (X):", 1, 10, 3);
+        Slider ballSpeedIncreaseFactor = new Slider("Ball Speed Increase Factor:", 0.1, 1.0, 0.2);
+        Slider maxPaddleLength = new Slider("Maximum paddle length:", 1, 390, 50);
+        Slider minPaddleLength = new Slider("Minimum paddle length:", 1, 50, 20);
         
-        // Change Listener for nrLevels
-        nrLevelsSlider.addChangeListener(new ChangeListener(){
-            public void stateChanged(ChangeEvent e) {
-                int nrLevels = nrLevelsSlider.getValue();
-                JLabel display = new JLabel(""+nrLevels);
-                nrLevelsPanel.add(display);
-            }
-        });
-        
-        // Add nrLevelsPanel
-    	nrLevelsPanel.add(nrLevelsLabel);
-        nrLevelsPanel.add(nrLevelsSlider);
-        add(nrLevelsPanel);
-       
+        // Add sliders
+        add(nrLevels.panel);
+        add(nrBlocksPerLevel.panel);
+        add(minBallSpeedX.panel);
+        add(minBallSpeedY.panel);
+        add(ballSpeedIncreaseFactor.panel);
+        add(maxPaddleLength.panel);
+        add(minPaddleLength.panel);
         
 	}
+	
 	
 }
