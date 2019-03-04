@@ -11,11 +11,24 @@ class Block223 {
 class User {
    unique username;
    1 -> 1..2 UserRole roles;
+   
+   before constructor, setUsername{
+   		if(username.equals("") || username == null){
+   			throw new RuntimeException("The username has already been taken.");
+   		}	
+   }
+   
 }
 
 class UserRole {
    abstract;
    password;
+   
+   before constructor {
+   		if(password == null || password.equals("")){
+   			throw new RuntimeException("The player password needs to be specified.");
+   		}
+   }
 }
 
 class Admin {
