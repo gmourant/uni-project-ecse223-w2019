@@ -1,10 +1,15 @@
 package ca.mcgill.ecse223.block.view;
 
+import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
+import static ca.mcgill.ecse223.block.view.Block223MainPage.UI_FONT;
+import static ca.mcgill.ecse223.block.view.Block223MainPage.createButton;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -20,6 +25,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
@@ -237,7 +244,90 @@ public class PagePositionBlock extends ContentPage {
        //Side menu editing
        //JList sideMenu = getSideMenuList();
        //add(sideMenu);
-     
+
+	}
+	
+	private TOGridCell coordInList(int x, int y, List<TOGridCell> list) {
+		for (TOGridCell cell : list) {
+			if (x == cell.getGridHorizontalPosition() && y == cell.getGridVerticalPosition()) {
+				return cell;
+			}
+		}
+		return null;
+	}
+	
+	public class LevelView extends JFrame{
+
+	    public static final Color HEADER_BACKGROUND = 
+	            new Color(255 + (255 - 255)*5/8, 204 + (255 - 204)*5/8, 204 + (255 - 204)*5/8);
+	    
+	    private final Block223MainPage framework;
+	    private final boolean errorRedirect;
+	    private final JPanel windowHolder;
+	    private JPanel topMenu;
+	    private JTextArea body;
+	    private final String errorMessage;
+	    private JButton exit;
+	    
+	    public LevelView(List<TOGridCell> assignments, boolean errorRedirect,  Block223MainPage parent){
+	        framework = parent;
+	        this.errorRedirect = errorRedirect;
+	        this.setSize(300, 200); // Specifies the size should adjust to the needs for space
+	        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
+	        this.setLocationRelativeTo(null); // Places in the center of the screen
+	        this.setResizable(false); // stops user from resizing the dialog box
+	        this.setUndecorated(true);
+	        this.setVisible(true);
+	        windowHolder = new JPanel(new BorderLayout());
+	        windowHolder.setBorder(BorderFactory.createLineBorder(Color.darkGray));
+	        
+	        setupTopMenu();
+	        add(windowHolder);
+	    }
+	    
+	    /**
+	     * This method initalises all the information for the top menu.
+	     * @author Georges Mourant
+	     */
+	    private void setupTopMenu() {
+	        topMenu = new JPanel(new GridLayout(1, 2));
+	        topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
+	                BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
+	        topMenu.setBackground(ERROR_HEADER_BACKGROUND);
+
+	        JLabel title = new JLabel("View"); // empty by default
+	        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
+	        topMenu.add(title);
+
+	        JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	        exitMin.setBackground(topMenu.getBackground()); // match to background
+	        exit = createButton("X");
+	        exit.setBackground(exitMin.getBackground()); // match to background
+	        exitMin.add(exit);
+	        topMenu.add(exitMin);
+
+	        windowHolder.add(topMenu, BorderLayout.NORTH);
+	        
+	        JPanel holder = new JPanel(new BorderLayout());
+	        holder.setBorder(BorderFactory.createCompoundBorder(holder.getBorder(), 
+	                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+	        holder.setBackground(Color.WHITE);
+	        holder.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()*3/4));
+	       
+	        
+	        holder.add(body, BorderLayout.CENTER);
+	        
+	        windowHolder.add(holder, BorderLayout.CENTER);
+	        
+	        exit.addActionListener(new ActionListener(){
+	                public void actionPerformed(ActionEvent e){
+	                    if(errorRedirect)
+	                        framework.changePage(Block223MainPage.Page.adminMenu);
+	                    dispose(); // quit program
+	                }
+	        });
+	    }
 	}
 	
 }
