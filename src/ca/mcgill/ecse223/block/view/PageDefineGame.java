@@ -1,10 +1,12 @@
 package ca.mcgill.ecse223.block.view;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
@@ -47,7 +49,7 @@ public class PageDefineGame extends ContentPage {
         add(minBallSpeedYSlider.panel);
         
         // ballSpeedIncreaseFactor Slider
-        Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.1, 1.0, 0.4);
+        Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.01, 1.0, 0.4);
         add(ballSpeedIncreaseFactorSlider.panel);
         
         // maxPaddleLength Slider
@@ -59,6 +61,7 @@ public class PageDefineGame extends ContentPage {
         add(minPaddleLengthSlider.panel);
        
         // ChangeListener that displays the selected parameter
+        // This ChangeListener indicates the current selected value to the user
         ChangeListener slide = new ChangeListener() {
         	@Override
         	public void stateChanged(ChangeEvent e) {
@@ -100,6 +103,38 @@ public class PageDefineGame extends ContentPage {
         ballSpeedIncreaseFactorSlider.slider.addChangeListener(slide);
         maxPaddleLengthSlider.slider.addChangeListener(slide);
         minPaddleLengthSlider.slider.addChangeListener(slide);
+        
+        // Save and Cancel buttons
+        JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        exitButtons.setBackground(this.getBackground());
+        JButton save = createButton("Save");
+        JButton cancel = createButton("Cancel");
+        exitButtons.add(save);
+        exitButtons.add(cancel);
+        add(exitButtons);
+        
+        // Listener for Save button
+        save.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent a){
+            	try{ // Retrieve user's slider parameters
+                    Block223Controller.setGameDetails(nrLevelsSlider.getIValue(), 
+                    		nrBlocksPerLevelSlider.getIValue(), minBallSpeedXSlider.getIValue(), 
+                    		minBallSpeedYSlider.getIValue(), ballSpeedIncreaseFactorSlider.getDValue(), 
+                    		maxPaddleLengthSlider.getIValue(), minPaddleLengthSlider.getIValue());
+                }
+                catch(InvalidInputException e){
+                    displayError(e.getMessage(), false);
+                    return;
+                }
+            }
+        });
+        
+        // Listener for Cancel button
+        cancel.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                cancel(); // Returns to the admin menu
+            }
+        });
         
 	}
 	
