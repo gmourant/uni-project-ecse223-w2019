@@ -5,6 +5,7 @@ import java.util.List;
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import javax.management.RuntimeErrorException;
 
 public class Block223Controller {
 
@@ -474,13 +475,106 @@ public class Block223Controller {
 
     }
 
-    public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
-            int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
-    }
+     /**
+	 * Author: Sabrina Chan
+	 * This method selects a block and sets a new position
+	 * @param level
+	 * @param oldGridHorizontalPosition
+	 * @param oldGridVerticalPosition
+	 * @param newGridHorizontalPosition
+	 * @param newGridVerticalPosition
+	 * @throws InvalidInputException
+	 */
+	public static void moveBlock(int level, int oldGridHorizontalPosition, int oldGridVerticalPosition,
+			int newGridHorizontalPosition, int newGridVerticalPosition) throws InvalidInputException {
 
-    public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
-            throws InvalidInputException {
-    }
+		//invalid input exception if the user isn't an admin
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to remove a block.");
+		}
+
+		// invalid input exception if the current game isn't selected
+		if(Block223Application.getCurrentGame() == null) {
+			throw new InvalidInputException("A game must be selected to remove a block.");
+		}
+
+		//invalid input exception is the user isn't current admin of the game
+		if(!(Block223Application.getCurrentGame().getAdmin().equals(Block223Application.getCurrentUserRole()) )) {
+			throw new InvalidInputException("Only the admin who created the game can remove a block.");
+		}
+
+		// get the current game
+		Game game = Block223Application.getCurrentGame();
+
+		// get the selected level and check if the level is within the bounds
+		Level selectedLevel;
+		try{
+			selectedLevel = game.getLevel(level);
+		}
+		catch (IndexOutOfBoundsException e) {
+			throw new InvalidInputException("Level " + level + " does not exist for the game.");
+		}
+
+		// find the block assignment
+		BlockAssignment assignment = findBlockAssignment(selectedLevel, oldGridHorizontalPosition, oldGridVerticalPosition);
+		if((assignment == null)) {
+			throw new InvalidInputException("A block does not exist at location" + oldGridHorizontalPosition + "/" + oldGridVerticalPosition + ".");
+		}
+
+		// set the new horizontal position for the block and check if the position is available
+		try{
+			assignment.setGridHorizontalPosition(newGridHorizontalPosition);
+		}
+		catch (RuntimeErrorException e) {
+			throw new InvalidInputException(e.getLocalizedMessage());
+		}	
+			// set the new vertical position for the block and check if the position is available
+		try{
+			assignment.setGridVerticalPosition(newGridVerticalPosition);
+		}
+		catch (RuntimeErrorException e) {
+			throw new InvalidInputException(e.getLocalizedMessage());
+		}	
+
+	}
+	/**
+	 * Author: Sabrina Chan
+	 * @param level
+	 * @param gridHorizontalPosition
+	 * @param gridVerticalPosition
+	 * @throws InvalidInputException
+	 */
+	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
+			throws InvalidInputException {
+
+		// invalid input exception statements
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+			throw new InvalidInputException("Admin privileges are required to remove a block.");
+		}
+		// checks if a game is selected
+		if(Block223Application.getCurrentGame() == null) {
+			throw new InvalidInputException("A game must be selected to remove a block.");
+		}
+		// checks if the user is an admin
+		if(!(Block223Application.getCurrentUserRole() instanceof Admin )) {
+			throw new InvalidInputException("Only the admin who created the game can remove a block.");
+		}
+
+		// get the current game
+		Game game = Block223Application.getCurrentGame();
+
+		// get the selected level
+		Level selectedLevel =  game.getLevel(level);
+
+		// find the block assignment
+		BlockAssignment assignment = findBlockAssignment(selectedLevel, gridHorizontalPosition, gridVerticalPosition);
+
+		// deleting the block
+		if(assignment != null) {
+			assignment.delete();
+		}
+
+	}
 
     public static void saveGame() throws InvalidInputException {
     }
@@ -590,7 +684,7 @@ public class Block223Controller {
      *
      */
   
-    public List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
+    public static List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 
         // Perform basic input validation to ensure the numeric values are valid.
         if (level > 98 || level < 0) {
@@ -665,4 +759,27 @@ public class Block223Controller {
         }
         return null;
     }
+	/**
+	 * Private helper method to find the block assignment at a specific level
+	 * author: Sabrina Chan 
+	 * @param theLevel
+	 * @param gridHorizontalPosition
+	 * @param gridVerticalPosition
+	 * @return
+	 */
+
+	private static BlockAssignment findBlockAssignment(Level theLevel, int gridHorizontalPosition, int gridVerticalPosition) {
+
+		List<BlockAssignment> assignments = theLevel.getBlockAssignments();
+		for(BlockAssignment assignment: assignments) {
+			int h = assignment.getGridHorizontalPosition();
+			int v = assignment.getGridVerticalPosition();
+
+			if((h==gridHorizontalPosition)&&(v==gridVerticalPosition)){ 
+				return assignment;
+			}
+
+		}
+		return null;
+	}
 }
