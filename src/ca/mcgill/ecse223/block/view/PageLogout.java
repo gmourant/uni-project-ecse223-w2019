@@ -27,6 +27,7 @@ import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.view.PageLogin;
 
 /**
  * Welcome page with log out option
@@ -37,14 +38,22 @@ public class PageLogout extends ContentPage {
 	//data elements
 	private String error = null;
 	private static boolean isAdmin = (Block223Application.getCurrentUserRole() instanceof Admin);
+	
+	//UI elements
 	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
 	private static Font titleFont = new Font("Century Gothic",Font.PLAIN,20);
 
+	//*******************
+	//Constructor method
+	//*******************
 	public PageLogout(Block223MainPage parent) {
 		super(parent);
 		setLayout(new GridLayout(4,1));
 		setBackground(Color.WHITE);
 
+		//******************
+		//UI Logout elements
+		//******************
 		//Welcome page panel
 		JPanel welcomePanel = new JPanel(new BorderLayout());
 		welcomePanel.setBackground(new Color(229, 248, 255));
@@ -65,7 +74,9 @@ public class PageLogout extends ContentPage {
 		JButton logOutButton = createButton("Log out");
 		logOutBtnPanel.add(logOutButton);
 
-		//Add panels to the screen
+		//****************************
+		//Adding panels to the screen
+		//****************************
 		add(welcomePanel);
 		add(Box.createRigidArea(new Dimension(5,0)));
 		if(isAdmin) {
@@ -73,26 +84,37 @@ public class PageLogout extends ContentPage {
 		}
 		add(logOutBtnPanel);
 
+		//***********************
+		//Adding ActionListeners 
+		//***********************
 		logOutButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//clear error message
-				error=null;
-				
-				Block223Controller.logout();
-				//refreshDataLogIn();//TODO
+				logOutButtonActionPerformed(evt);
 			}
-		});//End of logOutButton action listener
-		
+		});
+
 		createGameButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				//clear error message
-				error=null;
-				
-				//displayPage(Block223MainPage.Page.signUp);//TODO
-				//refreshDataLogIn();//TODO
+				createGameButtonButtonActionPerformed(evt);
 			}
-		});//End of createGameButton action listener
-		
+		});
+
 	}//End of PageLogout constructor
+
+	//***********************
+	//ActionPerformed methods
+	//***********************
+	private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		//clear error message
+		error = null;
+		Block223Controller.logout();
+		changePage(Block223MainPage.Page.login);
+	}//End of logOutButtonActionPerformed
+
+	private void createGameButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		//clear error message
+		error=null;
+		changePage(Block223MainPage.Page.adminMenu);
+	}//End of createGameButtonButtonActionPerformed
 
 }//End of PageLogout class
