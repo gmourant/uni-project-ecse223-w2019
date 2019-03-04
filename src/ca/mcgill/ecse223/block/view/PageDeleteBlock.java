@@ -1,15 +1,33 @@
 package ca.mcgill.ecse223.block.view;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.ListModel;
+import javax.swing.border.Border;
+
+import ca.mcgill.ecse223.block.controller.Block223Controller;
+import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOBlock;
+import ca.mcgill.ecse223.block.model.Block;
 
 /**
  * The page for deleting a block.
@@ -17,23 +35,53 @@ import javax.swing.JPanel;
  */
 public class PageDeleteBlock extends ContentPage {
 
+	
+    //data elements
+	private String error = null;
+	
 	public PageDeleteBlock(Block223MainPage framework) {
 		super(framework);
-		 setLayout(new GridLayout(7,1));
+		 setLayout(new GridLayout(6,4));
+		 
+		 //Delete a block Layout  
 	        add(createHeader("Delete a Block"));
-	        add(new JLabel("Choose the ID of the block to be deleted:"));
-	        JPanel b = new JPanel();
+	       JLabel choosingID = new JLabel("Choose the ID of the block to be deleted:");
+	       choosingID.setFont(new Font("Century Gothic",Font.PLAIN,16 )); 
+	       add(choosingID);
+	       JPanel b = new JPanel();
 	        b.setBackground(this.getBackground());
-	        JComboBox<String> ids = createComboBox();
-	        ids.addItem("Block id");
+	        JComboBox<Integer> ids = new JComboBox<Integer>();
+	        ids.setPreferredSize(new Dimension(150, 30));
+	        ids.setAlignmentX(Component.CENTER_ALIGNMENT);
+	        ids.setBackground(Block223MainPage.HEADER_BACKGROUND);
+	        ids.setForeground(Color.DARK_GRAY);
+	        ids.addItem(12345);
 	        b.add(ids);
 	        add(b);
 	        
-	        add(new JLabel ("View:"));
+	        //View Layout
+	        JPanel colorPatch; 
+	         colorPatch = new JPanel();
+	         JLabel viewLabel = new JLabel ("          View:");
+	         viewLabel.setFont(new Font("Century Gothic",Font.PLAIN,17 ));
+	         add(viewLabel);
+	         JPanel gridbagPanel = new JPanel();
+	         gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+	         //colorPatch.setBounds(230,40,50,50);
+	         gridbagPanel.setPreferredSize(new Dimension(10, 10));
+	         gridbagPanel.setLocation(130,40);
+	         colorPatch.setPreferredSize(new Dimension(57,60));
+	         gridbagPanel.add(colorPatch);
+	         add(gridbagPanel);
+	         gridbagPanel.setBackground(this.getBackground());
+	         colorPatch.setBackground(Color.black);
+	         Color borderColorBlock = new Color(0, 0, 0);
+	         Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
+	         colorPatch.setBorder(blockBorder);
 	   
 	        JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 	        exitButtons.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
-	                    BorderFactory.createEmptyBorder(3, 0, 0, 10)));
+	                    BorderFactory.createEmptyBorder(1, 0, 0, 0)));
 	        exitButtons.setBackground(this.getBackground());
 	        JButton delete = createButton("Delete");
 	        JButton cancel = createButton("Cancel");
@@ -42,13 +90,56 @@ public class PageDeleteBlock extends ContentPage {
 	        
 	        add(exitButtons);
 	        
-	}
-	 protected void paintComponent(Graphics g) {
+	       //Side Menu
+	        JList list = getSideMenuList();
+	        //list.setBackground(Block223MainPage.HEADER_BACKGROUND);
+	        
+	        //add(list);
+	        
+	        list.setVisible(true);
+	        
+	           
+	      //deleteBlock and Cancel listeners
+	        delete.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					// call the controller
+					try {
+						Block223Controller.deleteBlock((int)ids.getSelectedItem());
+					} catch (InvalidInputException e) {
+						displayError(e.getMessage(), false);
+						return;
+					}
+					
+					// update visuals
+					//refreshData();
+				}
+				
+			});
+	        
+	       //View ActionListener
+	       ids.addActionListener(new java.awt.event.ActionListener() {
+				public void actionPerformed(java.awt.event.ActionEvent evt) {
+					// call the controller
+					Block block = Block223Controller.findBlock((int)ids.getSelectedItem());
+					int R = block.getRed();
+					int G = block.getGreen();
+					int B = block.getBlue();
+					colorPatch.setBackground(new Color(R,G,B));
+	        
+	}});
+	       
+	       cancel.addActionListener(new ActionListener() {
+
+   			public void actionPerformed(ActionEvent evt) {
+   				cancel();}
+       });
+	 /*protected void paintComponent(Graphics g) {
          super.paintComponent(g);  
          g.drawRect(230,150,50,50);  
          g.setColor(Color.BLUE);  
          g.fillRect(230,150,50,50);
          
-       }
+       }*/
 
-}
+}}
+
