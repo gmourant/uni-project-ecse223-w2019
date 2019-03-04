@@ -49,6 +49,11 @@ public class Slider {
 		defineFont(readOut);
 		min = this.min;
 		max = this.max;
+		panel.add(nameLabel);
+		panel.add(minLabel);
+		panel.add(slider);
+		panel.add(maxLabel);
+		panel.add(readOut);
 	}
 	
 	/**

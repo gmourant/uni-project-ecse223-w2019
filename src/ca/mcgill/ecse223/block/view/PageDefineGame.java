@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.block.view;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -17,15 +18,16 @@ import javax.swing.event.ChangeListener;
  */
 public class PageDefineGame extends ContentPage {
 
+	
 	private static final long serialVersionUID = 5362736975311160954L;
 
 	public PageDefineGame(Block223MainPage parent) {
 		
 		// Inherit features from ContentPage
 	    super(parent);
-	    setLayout(new GridLayout(7,1));
+	    setLayout(new GridLayout(10,1));
         add(createHeader("Define Game Settings"));
-        
+       
         // All sliders necessary on the page
         Slider nrLevels = new Slider("Number of Levels:", 1, 99, 30);
         Slider nrBlocksPerLevel = new Slider("Number of blocks per level:", 1, 50, 15);
@@ -43,6 +45,23 @@ public class PageDefineGame extends ContentPage {
         add(ballSpeedIncreaseFactor.panel);
         add(maxPaddleLength.panel);
         add(minPaddleLength.panel);
+        
+        // Change Listener
+        ChangeListener actionListener = new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+            int nrLevelsVal, nrBlocksPerLevelVal, minBallSpeedXVal, 
+            	minBallSpeedYVal, maxPaddleLengthVal, minPaddleLengthVal;
+            double ballSpeedIncreaseFactorVal;
+            nrLevelsVal = nrLevels.getIValue();
+            nrBlocksPerLevelVal = nrBlocksPerLevel.getIValue();
+            minBallSpeedXVal = minBallSpeedX.getIValue();
+            minBallSpeedYVal = minBallSpeedY.getIValue();
+            maxPaddleLengthVal =  maxPaddleLength.getIValue();  
+            minPaddleLengthVal =  minPaddleLength.getIValue();  
+            ballSpeedIncreaseFactorVal = ballSpeedIncreaseFactor.getDValue();
+            }
+        };
         
 	}
 	
