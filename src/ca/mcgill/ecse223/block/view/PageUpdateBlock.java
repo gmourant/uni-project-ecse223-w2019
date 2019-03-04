@@ -46,7 +46,7 @@ public class PageUpdateBlock extends ContentPage{
         
          
 	    //Header
-	    add(createHeader("Create a Block"));
+	    add(createHeader("Update a Block"));
 	 
 	    //Rectangle changes color with slider
          JPanel colorPatch; 
@@ -173,9 +173,18 @@ public class PageUpdateBlock extends ContentPage{
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				// call the controller
 				try {
-					Block223Controller.updateBlock(Integer.parseInt((idTextField.getText())), redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue(),(int) points.getValue());
+					Block223Controller.updateBlock(
+							Integer.parseInt((idTextField.getText())), 
+							redSlider.getValue(),
+							greenSlider.getValue(),
+							blueSlider.getValue(),
+							(int) points.getValue());
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
+					new ViewError(error, false, parent);
+				} catch (NumberFormatException e) {
+					error = "The block ID must be a valid number.";
+					new ViewError(error, false, parent);
 				}
 				
 				// update visuals
