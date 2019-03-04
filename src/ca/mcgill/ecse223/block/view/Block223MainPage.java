@@ -189,6 +189,9 @@ public class Block223MainPage extends JFrame {
             		}
                 }//End of actionPerformed by save method
         });
+        
+        
+        
         minimize.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     setState(JFrame.ICONIFIED); // minimize window

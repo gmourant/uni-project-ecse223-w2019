@@ -104,15 +104,14 @@ public class PageLogout extends ContentPage {
 	//ActionPerformed methods
 	//***********************
 	private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
 		//call to controller
 		Block223Controller.logout();
+		//Go back to login screen
 		changePage(Block223MainPage.Page.login);
 	}//End of logOutButtonActionPerformed
 
 	private void createGameButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		
-		//Bring
+		//Change page to adminMenu
 		changePage(Block223MainPage.Page.adminMenu);
 	}//End of createGameButtonButtonActionPerformed
 

@@ -577,7 +577,7 @@ public class Block223Controller {
 			
 			for( UserRole role : roles) {
 				String rolePassword = role.getPassword();
-				if(rolePassword == password) {
+				if(rolePassword.equals(password)) {
 					Block223Application.setCurrentUserRole(role);
 				}//End of if
 			}//End of foreach loop
