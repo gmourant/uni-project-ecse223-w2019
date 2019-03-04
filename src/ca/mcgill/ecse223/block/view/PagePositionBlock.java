@@ -40,6 +40,7 @@ import javax.swing.event.ChangeListener;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
+import ca.mcgill.ecse223.block.controller.TOGridCell;
 
 public class PagePositionBlock extends ContentPage {
 	
@@ -55,8 +56,6 @@ public class PagePositionBlock extends ContentPage {
 		
 		//Header
 	    add(createHeader("Position a Block"));
-	    
-	    // TODO Implement a current bloc visualizer.
 	 
 	    //Rectangle changes color with slider
         JPanel colorPatch; 
@@ -134,6 +133,7 @@ public class PagePositionBlock extends ContentPage {
         coordPanel.add(coordTextField);
         coordPanel.setBackground(this.getBackground());
         add(coordPanel);
+        
 
         //Button Panels
         JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -141,6 +141,7 @@ public class PagePositionBlock extends ContentPage {
                     BorderFactory.createEmptyBorder(1, 0, 0, 2)));
         exitButtons.setBackground(this.getBackground());
         JButton addButton = createButton("Position Block");
+        JButton viewButton = createButton("Level view");
         JButton cancelButton = createButton("Cancel");
         exitButtons.add(addButton);
         exitButtons.add(cancelButton);
@@ -189,6 +190,26 @@ public class PagePositionBlock extends ContentPage {
 			}
 			
 		});
+        
+        // viewButton listener
+        
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent evt) {
+        		
+        		// Get the block assignments of the current level.
+        		
+        		List<TOGridCell> assignments = new ArrayList<TOGridCell>();
+        		try {
+        			assignments = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((Integer)levelSelector.getSelectedItem());
+        		} catch (InvalidInputException e) {
+        			error = e.getMessage();
+					new ViewError(error, false, parent);
+        		}
+        		
+        		// TODO Implement level view window.
+        		
+        	}
+        });
 
         //Action listener idComboBox 
         //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
