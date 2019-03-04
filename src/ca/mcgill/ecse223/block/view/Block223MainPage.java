@@ -27,9 +27,11 @@ public class Block223MainPage extends JFrame {
         login, logout, signUp
     }
 
-    private Page currentPage = Page.adminMenu;
+    private Page currentPage = Page.login;
     
     private JPanel topMenu;
+    private JButton save;
+    private JButton logout;
     private JScrollPane sideMenu;
     private JList sideMenuItems;
     private ContentPage displayedPage;
@@ -71,11 +73,15 @@ public class Block223MainPage extends JFrame {
             remove(displayedPage);
             repaint();
         }
+        // make sure all buttons are visible
+        save.setVisible(false);
+        logout.setVisible(false);
         
         // show menus if appropriate
         if(toDisplay != Page.login && toDisplay != Page.logout && toDisplay != Page.signUp) {
-            topMenu.setVisible(true);
             sideMenu.setVisible(true);
+            save.setVisible(true);
+            logout.setVisible(true);
         }
         
         // creates the correct JPanel depending on the selected page specified 
@@ -134,18 +140,16 @@ public class Block223MainPage extends JFrame {
      * @author Georges Mourant
      */
     private void setupTopMenu() {
-        topMenu = new JPanel(new GridLayout(1, 5));
+        topMenu = new JPanel(new GridLayout(1, 4));
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/10));
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
         topMenu.setBackground(HEADER_BACKGROUND);
 
         JLabel adminName = new JLabel(""); // empty by default
-        JButton save = createButton("Save");
-        JButton load = createButton("Load");
-        JButton logout = createButton("Logout");
+        save = createButton("Save");
+        logout = createButton("Logout");
         topMenu.add(adminName);
         topMenu.add(save);
-        topMenu.add(load);
         topMenu.add(logout);
 
         JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -160,18 +164,13 @@ public class Block223MainPage extends JFrame {
 
         add(topMenu, BorderLayout.NORTH);
         
-        // hide by default
-        topMenu.setVisible(false);
+        // always show
+        topMenu.setVisible(true);
         
         // listeners
         save.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     // action save takes
-                }
-        });
-        load.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    // action load takes
                 }
         });
         minimize.addActionListener(new ActionListener(){
@@ -233,7 +232,8 @@ public class Block223MainPage extends JFrame {
         //To center the text
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) sideMenuItems.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        sideMenu.setVisible(true); }
+        sideMenu.setVisible(false);
+        }
         
         //Action Listeners 
        /* listModel.addActionListener(new java.awt.event.ActionListener() {
