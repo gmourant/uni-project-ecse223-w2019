@@ -30,6 +30,22 @@ public class Block223MainPage extends JFrame {
     private JScrollPane sideMenu;
     private JList sideMenuItems;
     private ContentPage displayedPage;
+    
+    // kelly stuff start
+	static JPanel panel;
+	JLabel nameLabel;
+	JLabel minLabel;
+	JLabel maxLabel;
+	JLabel readOut;
+	JSlider slider;
+	private int min;
+	private int max;
+	private double dmin;
+	private double dmax;
+	
+	private static final int SMIN = 1;
+	private static final int SMAX = 100;
+	// kelly stuff end
 
     public Block223MainPage() {
         this.setSize(500, 400); // Specifies the size should adjust to the needs for space
@@ -242,4 +258,24 @@ public class Block223MainPage extends JFrame {
             }
         }
     }
+    
+    public static void addSlider(JPanel panel, String name, Integer min, Integer max, Integer val) {
+		nameLabel = new JLabel(name);
+		minLabel = new JLabel(min.toString());
+		maxLabel = new JLabel(max.toString());
+		slider = new JSlider(min, max, val);
+		readOut = new JLabel(val.toString());
+		defineFont(nameLabel);
+		defineFont(maxLabel);
+		defineFont(minLabel);
+		defineFont(readOut);
+		min = this.min;
+		max = this.max;
+		panel.add(nameLabel);
+		panel.add(minLabel);
+		panel.add(slider);
+		panel.add(maxLabel);
+		panel.add(readOut);
+	}
+    
 }

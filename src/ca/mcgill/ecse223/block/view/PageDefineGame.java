@@ -28,40 +28,14 @@ public class PageDefineGame extends ContentPage {
 	    setLayout(new GridLayout(10,1));
         add(createHeader("Define Game Settings"));
        
-        // All sliders necessary on the page
-        Slider nrLevels = new Slider("Number of Levels:", 1, 99, 30);
-        Slider nrBlocksPerLevel = new Slider("Number of blocks per level:", 1, 50, 15);
-        Slider minBallSpeedX = new Slider("Minimum ball speed (X):", 1, 10, 3);
-        Slider minBallSpeedY = new Slider("Minimum ball speed (X):", 1, 10, 3);
-        Slider ballSpeedIncreaseFactor = new Slider("Ball Speed Increase Factor:", 0.1, 1.0, 0.2);
-        Slider maxPaddleLength = new Slider("Maximum paddle length:", 1, 390, 50);
-        Slider minPaddleLength = new Slider("Minimum paddle length:", 1, 50, 20);
+        // nrLevels Slider
+        JPanel nrLevelsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        nrLevelsPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                BorderFactory.createEmptyBorder(1, 0, 0, 0)));
+        JSlider nrLevelsSlider = addSlider(nrLevelsPanel, "Number of Levels:", 1, 99, 30);
+        nrLevelsPanel.setBackground(this.getBackground());
+        add(nrLevelsPanel);
         
-        // Add sliders
-        add(nrLevels.panel);
-        add(nrBlocksPerLevel.panel);
-        add(minBallSpeedX.panel);
-        add(minBallSpeedY.panel);
-        add(ballSpeedIncreaseFactor.panel);
-        add(maxPaddleLength.panel);
-        add(minPaddleLength.panel);
-        
-        // Change Listener
-        ChangeListener actionListener = new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-            int nrLevelsVal, nrBlocksPerLevelVal, minBallSpeedXVal, 
-            	minBallSpeedYVal, maxPaddleLengthVal, minPaddleLengthVal;
-            double ballSpeedIncreaseFactorVal;
-            nrLevelsVal = nrLevels.getIValue();
-            nrBlocksPerLevelVal = nrBlocksPerLevel.getIValue();
-            minBallSpeedXVal = minBallSpeedX.getIValue();
-            minBallSpeedYVal = minBallSpeedY.getIValue();
-            maxPaddleLengthVal =  maxPaddleLength.getIValue();  
-            minPaddleLengthVal =  minPaddleLength.getIValue();  
-            ballSpeedIncreaseFactorVal = ballSpeedIncreaseFactor.getDValue();
-            }
-        };
         
 	}
 	
