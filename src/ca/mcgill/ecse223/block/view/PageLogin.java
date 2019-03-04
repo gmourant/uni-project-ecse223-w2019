@@ -35,13 +35,10 @@ import ca.mcgill.ecse223.block.view.Block223MainPage;
  * */
 public class PageLogin extends ContentPage {
 	
-	//data elements
-	private String error = null;
-	
 	//UI elements
 	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
 	private static Font titleFont = new Font("Century Gothic",Font.BOLD,20);
-	JLabel errorMessage;
+	
 	JTextField usernameTextField;
 	JPasswordField passwordPField;
 	
@@ -58,7 +55,7 @@ public class PageLogin extends ContentPage {
 	    //*****************
 	    //Login elements 
 	    Border border = BorderFactory.createLineBorder(Block223MainPage.HEADER_BACKGROUND, 3);
-	    
+	   
 	    //Title page panel
 	    JPanel titlePanel = new JPanel(new BorderLayout());
 	    titlePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
@@ -153,8 +150,6 @@ public class PageLogin extends ContentPage {
 	//RefreshData method
 	//*******************
 	private void refreshDataLogIn() {
-		//error
-		errorMessage.setText(error);
 		//populate page with data
 		usernameTextField.setText("");
 		passwordPField.setText("");
@@ -166,7 +161,7 @@ public class PageLogin extends ContentPage {
 	//***********************
 	private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//clear error message
-		error = null;
+		
 
 		//Convert array of characters into a String
 		String password = new String(passwordPField.getPassword());
@@ -182,8 +177,6 @@ public class PageLogin extends ContentPage {
 	}//End of logInButtonActionPerformed method
 	
 	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		//clear error message
-		error = null;
 		changePage(Block223MainPage.Page.signUp);
 
 	}//End of signUpActionPerformed method
