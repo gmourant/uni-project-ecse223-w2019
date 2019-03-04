@@ -4,25 +4,38 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JSlider;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
@@ -30,204 +43,150 @@ import ca.mcgill.ecse223.block.controller.TOBlock;
 
 public class PagePositionBlock extends ContentPage {
 	
-	enum EditorMode {
-    	ADD, CUT, PASTE, REMOVE
-    }
+	private static final String Regex = "\\d+";
+	private static final Pattern pattern = Pattern.compile(Regex);
 	
-	static EditorMode editorMode = EditorMode.ADD;
-	
+	private String error = "";
+
 	public PagePositionBlock(Block223MainPage parent) {
 		super(parent);
-		initializeEditor();
+		
+		setLayout(new GridLayout(8,1));
+		
+		//Header
+	    add(createHeader("Position a Block"));
 	    
-	    EditorMode editorMode = EditorMode.ADD;
+	    // TODO Implement a current bloc visualizer.
+	 
+//	    //Rectangle changes color with slider
+//    	JPanel colorPatch; 
+//    	colorPatch = new JPanel();
+//    	JPanel gridbagPanel = new JPanel();
+//    	gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+//    	//colorPatch.setBounds(230,40,50,50);
+//    	gridbagPanel.setPreferredSize(new Dimension(20, 20));
+//    	gridbagPanel.setLocation(230,40);
+//    	add(gridbagPanel);
+//    	colorPatch.setPreferredSize(new Dimension(40,37));
+//    	gridbagPanel.add(colorPatch);
+//    	gridbagPanel.setBackground(this.getBackground());
+//    	colorPatch.setBackground(Color.black);
+//    	Color borderColorBlock = new Color(0, 0, 0);
+//    	Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
+//    	colorPatch.setBorder(blockBorder);
 	    
-	}
-
-    public void initializeEditor() {
-                JFrame frame = new JFrame("Testing");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setLayout(new BorderLayout());
-                frame.add(new EditorPanel());
-                frame.pack();
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-    }
-    
-    class EditorPanel extends JPanel {
-    	
-    	static JComboBox<Integer> levelSelector;
-    	
-    	static JComboBox<Integer> blockList;
-    	
-    	EditorPanel() {
-        	
-            setLayout(new BorderLayout());
-            add(new EditorGrid(), BorderLayout.CENTER);
-            
-            // Set up the tool radio buttons.
-            
-            ButtonGroup toolbarGroup = new ButtonGroup();
-	            JRadioButton addButton = new JRadioButton("Add", true);
-	            addButton.setActionCommand("ADD");
-	            JRadioButton removeButton = new JRadioButton("Remove");
-	            removeButton.setActionCommand("REMOVE");
-	            JRadioButton moveButton = new JRadioButton("Move");
-	            moveButton.setActionCommand("MOVE");
-	            toolbarGroup.add(addButton);
-	            toolbarGroup.add(removeButton);
-	            toolbarGroup.add(moveButton);
-	        
-            // ComboBox block type selector.
-	        
-            List<TOBlock> blocks = null;
-	        try {
-	        	blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
-	        } catch(InvalidInputException e) {
-	        	
-	        }
-	        blockList = new JComboBox<Integer>();
-	        for (TOBlock block : blocks) {
-	        	blockList.addItem(block.getId());
-	        }
-	        
-	        // ComboBox level selector.
-	        
-	        levelSelector = new JComboBox<Integer>();
-	        for (int i = 0; i < 99; i++) {
-	        	levelSelector.addItem(i);
-	        }
-	        
-
-	        // Add elements to the toolbar.
-	        
-	        JPanel toolbar = new JPanel();
-	        toolbar.setLayout(new GridLayout(5,1));
-	        toolbar.add(levelSelector);
-	        toolbar.add(blockList);
-	        toolbar.add(addButton);
-	        toolbar.add(removeButton);
-	        toolbar.add(moveButton);
-            add(toolbar, BorderLayout.EAST);
+        //ID panel
+        JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        idPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                 BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        JLabel idLabel = new JLabel("ID : ");
+        idPanel.add(idLabel);
+        JTextField idTextField = new JTextField();
+        idTextField.setPreferredSize(new Dimension(253, 27));
+        // Color aqua = new Color(224, 249, 246);
+        // Color greenForest = new Color(50,205,50);
+        Color borderColor = new Color(207, 243, 238);
+        Border border = BorderFactory.createLineBorder(borderColor, 3);
+        idTextField.setBorder(border);
+        idPanel.add(idTextField);
+        idPanel.setBackground(this.getBackground());
+        add(idPanel);
+        
+        //Level combobox
+        JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        levelPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                 BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        JLabel levelLabel = new JLabel("Level : ");
+        levelPanel.add(levelLabel);
+        JComboBox<Integer> levelSelector = new JComboBox<Integer>();
+        levelSelector.setPreferredSize(new Dimension(230, 27));
+        levelSelector.setBorder(border);
+        // Populate combobox
+        for (Integer i = 0; i < 99; i++) {
+        	levelSelector.addItem(i);
         }
-  
+        levelPanel.add(levelSelector);
+        levelPanel.setBackground(this.getBackground());
+        add(levelPanel);
+        
+        //Coordinates panel
+        JPanel coordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        coordPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                 BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        JLabel coordLabel = new JLabel("X,Y :    ");
+        coordPanel.add(coordLabel);
+        JTextField coordTextField = new JTextField();
+        coordTextField.setPreferredSize(new Dimension(230, 27));
+        coordTextField.setBorder(border);
+        coordPanel.add(coordTextField);
+        coordPanel.setBackground(this.getBackground());
+        add(coordPanel);
 
-	    class EditorGrid extends JPanel {
+        //Button Panels
+        JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        exitButtons.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                    BorderFactory.createEmptyBorder(1, 0, 0, 2)));
+        exitButtons.setBackground(this.getBackground());
+        JButton addButton = createButton("Position Block");
+        JButton cancelButton = createButton("Cancel");
+        exitButtons.add(addButton);
+        exitButtons.add(cancelButton);
+        add(exitButtons);
+        
+        // addButton and CancelButton listeners
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				
+				// Parse the coordinate textField.
+				String coord = coordTextField.getText();
+				Integer x = 0;
+				Integer y = 0;
+				Matcher matcher = null;
+				
+				try {
+					matcher = pattern.matcher(coord);
+					matcher.find();
+					x = Integer.parseInt(matcher.group());
+					matcher.find();
+					y = Integer.parseInt(matcher.group());
+				} catch(NumberFormatException e) {
+					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
+					new ViewError(error, false, parent);
+				} catch(IllegalStateException e) {
+					error = "Could not match coordinates.";
+					new ViewError(error, false, parent);
+				}
+				
+				// Call the controller.
+				try {
+					Block223Controller.positionBlock(
+							(int)Integer.parseInt(idTextField.getText()),
+							(int)levelSelector.getSelectedItem(),
+							x, y);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					new ViewError(error, false, parent);
+				} catch (NumberFormatException e) {
+					error = "The block ID must be a valid number.";
+					new ViewError(error, false, parent);
+				}
+				
+				// update visuals
+				//refreshData();
+			}
+			
+		});
+        
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent evt) {
+        		cancel();
+        	}
+        });
+        
+       //Side menu editing
+       //JList sideMenu = getSideMenuList();
+       //add(sideMenu);
+     
+	}
 	
-	    	EditorGrid() {
-	        	
-	            setLayout(new GridBagLayout());
-	
-	            GridBagConstraints gbc = new GridBagConstraints();
-	            for (int row = 0; row < 8; row++) {
-	                for (int col = 0; col < 8; col++) {
-	                    gbc.gridx = col;
-	                    gbc.gridy = row;
-	
-	                    CellPane cellPane = new CellPane((col+1), (row+1));
-	                    Border border = null;
-	                    if (row < 7) {
-	                        if (col < 7) {
-	                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
-	                        } else {
-	                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
-	                        }
-	                    } else {
-	                        if (col < 7) {
-	                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
-	                        } else {
-	                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-	                        }
-	                    }
-	                    cellPane.setBorder(border);
-	                    add(cellPane, gbc);
-	                }
-	            }
-	        }
-	    }
-	
-	    class CellPane extends JPanel {
-	
-	        private Color defaultBackground;
-	        private boolean empty = true;
-	        
-	        int x;
-	        int y;
-	
-	        public CellPane(int xpos, int ypos) {
-	        	
-	        	x = xpos;
-	        	y = ypos;
-	        	
-	            addMouseListener(new MouseAdapter() {
-	                @Override
-					                public void mouseEntered(MouseEvent e) {
-					                    defaultBackground = getBackground();
-					                    if (empty)
-					                    	if (PagePositionBlock.editorMode == PagePositionBlock.EditorMode.PASTE) {
-					                    		setBackground(Color.GRAY);
-					                		} else {
-					                    		setBackground(Color.LIGHT_GRAY);
-					                		}
-					                }
-					
-					                @Override
-					                public void mouseExited(MouseEvent e) {
-					                	if (empty)
-					                		setBackground(defaultBackground);
-					                }
-					                
-					                @Override
-					                public void mousePressed(MouseEvent e) {
-					                    switch (PagePositionBlock.editorMode) {
-					                    case ADD: {
-					                    	try {
-					                    		Block223Controller.positionBlock( ((TOBlock)blockList.getSelectedItem()).getId(),
-					                    			(int) levelSelector.getSelectedItem(),
-					                    			((CellPane)e.getComponent()).getX(),
-					                    			((CellPane)e.getComponent()).getX() );
-							                	setBackground(new Color( 
-							                			((TOBlock)blockList.getSelectedItem()).getRed(),
-							                			((TOBlock)blockList.getSelectedItem()).getGreen(), 
-							                			((TOBlock)blockList.getSelectedItem()).getBlue()
-						                			)
-					                			);
-							                    empty = false;
-					                    	
-					                    	} catch (InvalidInputException ex) {
-					                    		System.out.println(ex.getMessage());
-					                    	}
-					                    break;
-					                    }
-										case CUT:
-											break;
-										case PASTE:
-											break;
-										case REMOVE:
-											break;
-										default:
-											break;
-					                    }
-					                    repaint();
-					                }
-					            });
-					        }
-					
-					        @Override
-					        public Dimension getPreferredSize() {
-					            return new Dimension(50, 50);
-					        }
-					    }
-				    }
-				    
-				    class RadioListener implements ActionListener {
-				    	public void actionPerformed(ActionEvent e) {
-				    		switch (e.getActionCommand()) {
-				    			case "ADD": PagePositionBlock.editorMode = PagePositionBlock.EditorMode.ADD;
-				    			case "REMOVE": PagePositionBlock.editorMode = PagePositionBlock.EditorMode.REMOVE;
-				    			case "MOVE": PagePositionBlock.editorMode = PagePositionBlock.EditorMode.CUT;
-				    			default: break;
-				    		}
-			    	}
 }

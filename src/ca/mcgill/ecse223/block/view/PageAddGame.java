@@ -51,7 +51,7 @@ public class PageAddGame extends ContentPage {
                     Block223Controller.createGame(gameName);
                 }
                 catch(InvalidInputException e){
-                    displayError(e.getMessage());
+                    displayError(e.getMessage(), false);
                     return;
                 }
             }

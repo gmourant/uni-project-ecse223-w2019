@@ -3,6 +3,9 @@ package ca.mcgill.ecse223.block.view;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.*;
 
 public class Block223MainPage extends JFrame {
@@ -122,10 +125,10 @@ public class Block223MainPage extends JFrame {
                 displayedPage = new PageDeleteBlock(this);
                 break;
             case updateBlock:
-                
+            	displayedPage = new PageUpdateBlock(this);
                 break;
             case positionBlock:
-                
+            	displayedPage = new PagePositionBlock(this);
                 break;
             case moveBlock:
                 
@@ -199,21 +202,61 @@ public class Block223MainPage extends JFrame {
         });
     }
     
-    /**
+     /**
      * This method initalises all the information for the slider menu on the 
      * left.
-     * @author Georges Mourant
+     * @author Georges Mourant, Imane Chafi helped :) 
      */
-    private void setupSlideMenu(){
-        sideMenuItems = new JList();
+    @SuppressWarnings("unchecked")
+	private void setupSlideMenu(){
+    	DefaultListModel listModel;
+	    listModel = new DefaultListModel();
+	    JLabel Label = new JLabel("Main Menu");
+	    Label.setFont(new Font("Century Gothic",Font.PLAIN,16 ));
+	    listModel.addElement("Main Menu :");
+	    listModel.addElement("Add Game");
+	    listModel.addElement("Delete Game");
+        sideMenuItems = new JList(listModel);
+        listModel.addElement("Add Block");
+        listModel.addElement("Delete Block");
+        
+        //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
         sideMenu.createVerticalScrollBar();
         sideMenu.setPreferredSize(new Dimension(this.getWidth()/4, this.getHeight()));
-        
         add(sideMenu, BorderLayout.WEST);
         
-        sideMenu.setVisible(false);
-    }
+        //If statements to change page
+         sideMenuItems.addMouseListener(new MouseAdapter(){
+            public void mouseClicked(MouseEvent e) {
+                String s = (String) sideMenuItems.getSelectedValue();
+                if (s.equals("Add Game"))
+                	changePage(Block223MainPage.Page.addGame);
+                else if(s.equals("Delete Game"))
+                	changePage(Block223MainPage.Page.deleteGame);
+                else if(s.equals("Add Block"))
+                	changePage(Block223MainPage.Page.addBlock);
+                else if(s.equals("Update Block"))
+                	changePage(Block223MainPage.Page.updateBlock);
+                else if(s.equals("Delete Block"))
+                	changePage(Block223MainPage.Page.deleteBlock);
+                else if(s.equals("Main Menu :"))
+                	changePage(Block223MainPage.Page.adminMenu);
+            }
+      });
+        	
+        
+        //To center the text
+        DefaultListCellRenderer renderer = (DefaultListCellRenderer) sideMenuItems.getCellRenderer();
+        renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        sideMenu.setVisible(true); }
+        
+        //Action Listeners 
+       /* listModel.addActionListener(new java.awt.event.ActionListener() {
+            public void valueChanged(ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+             
+            });*/
     
     /**
      * This method returns the JList of the side menu so that it may be modified.
