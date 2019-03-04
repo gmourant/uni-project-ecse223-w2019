@@ -14,6 +14,7 @@ public class Block223MainPage extends JFrame {
     public final static Color BUTTON_BACKGROUND = new Color(207, 243, 238);
     public final static Font UI_FONT = new Font("Century Gothic",Font.PLAIN,14);
     public final static int TITLE_SIZE_INCREASE = 4;
+    int level;//We are still working on how to get the levels from the game
 
     // enums for tetermining current page
     public enum Page {
@@ -121,10 +122,10 @@ public class Block223MainPage extends JFrame {
             	displayedPage = new PagePositionBlock(this);
                 break;
             case moveBlock:
-                
+                displayedPage = new PageMoveBlock(this, level);
                 break;
             case removeBlock:
-                
+                displayedPage = new PageRemoveBlock(this, level);
                 break;
             case saveGame:
                 
@@ -193,15 +194,17 @@ public class Block223MainPage extends JFrame {
     @SuppressWarnings("unchecked")
 	private void setupSlideMenu(){
     	DefaultListModel listModel;
-	    listModel = new DefaultListModel();
-	    JLabel Label = new JLabel("Main Menu");
-	    Label.setFont(new Font("Century Gothic",Font.PLAIN,16 ));
-	    listModel.addElement("Main Menu :");
-	    listModel.addElement("Add Game");
-	    listModel.addElement("Delete Game");
+	listModel = new DefaultListModel();
+	JLabel Label = new JLabel("Main Menu");
+	Label.setFont(new Font("Century Gothic",Font.PLAIN,16 ));
+	 listModel.addElement("Main Menu :");
+	 listModel.addElement("Add Game");
+	 listModel.addElement("Delete Game");
         sideMenuItems = new JList(listModel);
         listModel.addElement("Add Block");
         listModel.addElement("Delete Block");
+	listModel.addElement("Position Block");
+        listModel.addElement("Update Block");
         
         //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
@@ -225,6 +228,10 @@ public class Block223MainPage extends JFrame {
                 	changePage(Block223MainPage.Page.deleteBlock);
                 else if(s.equals("Main Menu :"))
                 	changePage(Block223MainPage.Page.adminMenu);
+		else if(s.equals("Position Block"))
+                	changePage(Block223MainPage.Page.positionBlock);
+                else if(s.equals("Update Block"))
+                	changePage(Block223MainPage.Page.updateBlock);
             }
       });
         	
