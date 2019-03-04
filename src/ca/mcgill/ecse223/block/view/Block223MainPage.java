@@ -195,18 +195,28 @@ public class Block223MainPage extends JFrame {
         });
         
         
+        logout.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent evt){
+                	//call to controller
+            		Block223Controller.logout();
+            		//Go back to login screen
+            		changePage(Block223MainPage.Page.login);
+                }
+        });//End of actionPerformed by logout method
         
         minimize.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     setState(JFrame.ICONIFIED); // minimize window
                 }
-            }//End of actionPerformed by save method
         });
+        
         minimize.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 setState(JFrame.ICONIFIED); // minimize window
             }
         });
+        
+        
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 System.exit(0); // quit program
