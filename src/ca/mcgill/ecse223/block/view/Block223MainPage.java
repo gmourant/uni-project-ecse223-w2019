@@ -109,7 +109,7 @@ public class Block223MainPage extends JFrame {
                 
                 break;
             case positionBlock:
-                
+            	displayedPage = new PagePositionBlock(this);
                 break;
             case moveBlock:
                 
