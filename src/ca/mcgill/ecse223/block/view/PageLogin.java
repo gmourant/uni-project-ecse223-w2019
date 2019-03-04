@@ -126,6 +126,9 @@ public class PageLogin extends ContentPage {
 	    add(loginBtnPanel);
 	    add(signUpBtnPanel);
 	    
+	    JList sideMenu = getSideMenuList();
+	    sideMenu.setVisible(false);
+	    
 	    //***********************
 	  	//Adding ActionListeners 
 	  	//***********************
