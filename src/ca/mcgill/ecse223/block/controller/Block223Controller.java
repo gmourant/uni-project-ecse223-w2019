@@ -33,12 +33,20 @@ public class Block223Controller {
 
         // Create game and catch runtime exceptions
         // Exceptions are specified in the injected UMPLE code
+        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
         try {
-            Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
             block223.addGame(game);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
         }
+        
+        // Save to persistence
+        try {
+    		Block223Persistence.save(block223);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
 
     }
 
@@ -77,6 +85,7 @@ public class Block223Controller {
         Game game = Block223Application.getCurrentGame();
 
         // Verify that the user is an admin
+        
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to define game settings.");
         }
@@ -158,6 +167,7 @@ public class Block223Controller {
             level.delete();
             size = levels.size();
         }
+
 
     }
 
