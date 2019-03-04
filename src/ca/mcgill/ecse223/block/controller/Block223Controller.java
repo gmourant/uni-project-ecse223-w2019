@@ -688,14 +688,17 @@ public class Block223Controller {
 
         // Perform basic input validation to ensure the numeric values are valid.
         if (level > 98 || level < 0) {
-            throw new InvalidInputException("Level index not valid");
+            throw new InvalidInputException("Level index not valid.");
         }
 
         // Get the desired level from the current game.
         Game game = Block223Application.getCurrentGame();
+        if (game == null) {
+        	throw new InvalidInputException("No game selected.");
+        }
         Level foundLevel = game.getLevel(level);
         if (foundLevel == null) {
-            throw new InvalidInputException("Level not found");
+            throw new InvalidInputException("Level not found.");
         }
 
         // Get the list of block assignments of the level
