@@ -26,6 +26,7 @@ import javax.swing.plaf.ColorChooserUI;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.view.Block223MainPage;
 
 /**
  * Page where the user will have to log in.
@@ -35,14 +36,25 @@ public class PageLogin extends ContentPage {
 	
 	//data elements
 	private String error = null;
+	
+	//UI elements
 	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
 	private static Font titleFont = new Font("Century Gothic",Font.BOLD,20);
+	JLabel errorMessage;
+	JTextField usernameTextField;
+	JPasswordField passwordPField;
 	
-	public PageLogin(Block223MainPage parent){
-	    super(parent);
+	//*******************
+	//Constructor method
+	//*******************
+	public PageLogin(Block223MainPage frame){
+	    super(frame);
 	    setLayout(new GridLayout(7,1));
 	    setBackground(Color.WHITE);
 	    
+	    //*****************
+	    //UI Login elements
+	    //*****************
 	    //Login elements 
 	    Border border = BorderFactory.createLineBorder(new Color(207,243,238), 3);
 	    
@@ -64,7 +76,7 @@ public class PageLogin extends ContentPage {
 	    //Username text field panel
 	    JPanel usernameTxtFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    usernameTxtFieldPanel.setBackground(Color.WHITE);
-	    JTextField usernameTextField = new JTextField();
+	    usernameTextField = new JTextField();
 	    usernameTextField.setPreferredSize(new Dimension(253, 27));
 	    usernameTextField.setBorder(border);
 	    usernameTextField.setFont(defaultFont);
@@ -79,7 +91,7 @@ public class PageLogin extends ContentPage {
 	
 	    //Password password field panel
 	    JPanel passwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    JPasswordField passwordPField = new JPasswordField();
+	    passwordPField = new JPasswordField();
 	    passwordPField.setPreferredSize(new Dimension(253, 27));
 	    passwordPField.setBorder(border);
 	    passwordPFieldPanel.add(passwordPField);
@@ -102,8 +114,10 @@ public class PageLogin extends ContentPage {
         signUpButton.setBorder(emptyBorder);
         signUpBtnPanel.add(recommendSignUp);
         signUpBtnPanel.add(signUpButton);
-	    
-        //Add panels to the screen
+        
+        //****************************
+      	//Adding panels to the screen
+      	//****************************
 	    add(titlePanel);
 	    add(usernameLabelPanel);
 	    add(usernameTxtFieldPanel);
@@ -112,33 +126,61 @@ public class PageLogin extends ContentPage {
 	    add(loginBtnPanel);
 	    add(signUpBtnPanel);
 	    
-        //Add action listeners
+	    //***********************
+	  	//Adding ActionListeners 
+	  	//***********************
         logInButton.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		//clear error message
-        		error = null;
-        		
-        		//Convert array of characters into a String
-        		String password = new String(passwordPField.getPassword());
-        		
-        		//call the controller
-        		try {
-        			Block223Controller.login(usernameTextField.getText(), password);
-        		} catch(InvalidInputException e) {
-        			error=e.getMessage();
-        			//refreshDataLogIn()//TODO
-        		}
-        		//ViewError//TODO
-        	}//End of logInActionPerformed method
-        	
+        		logInButtonActionPerformed(evt);
+        	}
         });//End of logInButton action listener
         
         signUpButton.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		//displayPage(Block223MainPage.Page.signUp);//TODO
+        		signUpButtonActionPerformed(evt);
         	}
         });//End of signUpButton action listener
        
 	}//End of PageLogin constructor
+	
+	//*******************
+	//RefreshData method
+	//*******************
+	private void refreshDataLogIn() {
+		//error
+		errorMessage.setText(error);
+		//populate page with data
+		usernameTextField.setText("");
+		passwordPField.setText("");
+		//pack();
+	}//End of refreshDataLogin
+	
+	//***********************
+	//ActionPerformed methods
+	//***********************
+	private void logInButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		//clear error message
+		error = null;
+
+		//Convert array of characters into a String
+		String password = new String(passwordPField.getPassword());
+
+		//call the controller
+		try {
+			Block223Controller.login(usernameTextField.getText(), password);
+		} catch(InvalidInputException e) {
+			error=e.getMessage();
+			refreshDataLogIn();
+		}
+		//ViewError//TODO
+	}//End of logInButtonActionPerformed method
+	
+	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		//clear error message
+		error = null;
+		changePage(Block223MainPage.Page.signUp);
+
+	}//End of signUpActionPerformed method
+
 	
 }//End of the PageLogin class
