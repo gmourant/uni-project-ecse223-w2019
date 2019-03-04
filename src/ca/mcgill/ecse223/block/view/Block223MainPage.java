@@ -100,7 +100,7 @@ public class Block223MainPage extends JFrame {
                 displayedPage = new PageDeleteGame(this);
                 break;
             case updateGame:
-                
+                displayedPage = new PageUpdateGame(this);
                 break;
             case addBlock:
                 displayedPage = new PageAddBlock(this);
