@@ -580,7 +580,7 @@ public class Block223Controller {
 			
 			User user = null; 
 			if(User.getWithUsername(username) == null) {
-				throw new InvalidInputException("User ain't existent.");
+				throw new InvalidInputException("The username and password do not match.");
 			} else {
 				user = User.getWithUsername(username);
 			}
