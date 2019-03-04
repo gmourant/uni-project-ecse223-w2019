@@ -42,10 +42,10 @@ public class Block223MainPage extends JFrame {
     private final Block223MainPage thisInstance;
 
     public Block223MainPage() {
-        this.setSize(500, 400); // Specifies the size should adjust to the needs for space
+        this.setSize(500, 500); // Specifies the size should adjust to the needs for space
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
         this.setLocationRelativeTo(null); // Places in the center of the screen
-        this.setResizable(false); // stops user from resizing the dialog box
+        this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
 
         thisInstance = this;
