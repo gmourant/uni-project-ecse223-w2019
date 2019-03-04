@@ -244,7 +244,9 @@ public class Block223MainPage extends JFrame {
         listModel.addElement("Delete Block");
         listModel.addElement("Position Block");
         listModel.addElement("Update Block");
-
+        listModel.addElement("Move Block");
+        listModel.addElement("Remove Block");
+        
         //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
         sideMenu.createVerticalScrollBar();
@@ -266,11 +268,17 @@ public class Block223MainPage extends JFrame {
                 } else if (s.equals("Delete Block")) {
                     changePage(Block223MainPage.Page.deleteBlock);
                 } else if (s.equals("Main Menu :")) {
-                    changePage(Block223MainPage.Page.adminMenu);
+                    changePage(Block223MainPage.Page.logout);
                 } else if (s.equals("Position Block")) {
                     changePage(Block223MainPage.Page.positionBlock);
                 } else if (s.equals("Update Block")) {
                     changePage(Block223MainPage.Page.updateBlock);
+                }
+                else if (s.equals("Move Block")) {
+                    changePage(Block223MainPage.Page.moveBlock);
+                }
+                else if (s.equals("Remove Block")) {
+                    changePage(Block223MainPage.Page.removeBlock);
                 }
             }
         });
