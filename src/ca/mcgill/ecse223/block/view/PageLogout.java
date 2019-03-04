@@ -107,6 +107,7 @@ public class PageLogout extends ContentPage {
 	private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//clear error message
 		error = null;
+		//call to controller
 		Block223Controller.logout();
 		changePage(Block223MainPage.Page.login);
 	}//End of logOutButtonActionPerformed
@@ -114,6 +115,7 @@ public class PageLogout extends ContentPage {
 	private void createGameButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//clear error message
 		error=null;
+		//Bring
 		changePage(Block223MainPage.Page.adminMenu);
 	}//End of createGameButtonButtonActionPerformed
 
