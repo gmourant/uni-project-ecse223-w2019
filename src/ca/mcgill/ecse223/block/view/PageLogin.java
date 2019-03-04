@@ -170,8 +170,7 @@ public class PageLogin extends ContentPage {
 			displayError(e.getMessage(), false);
 			refreshDataLogIn();
 		}
-		//ViewError//TODO
-                changePage(Block223MainPage.Page.logout);
+		changePage(Block223MainPage.Page.logout);
 	}//End of logInButtonActionPerformed method
 	
 	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
