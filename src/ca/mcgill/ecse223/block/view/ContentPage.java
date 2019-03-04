@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.block.view;
 
+import ca.mcgill.ecse223.block.view.Block223MainPage.Page;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -166,6 +167,10 @@ public abstract class ContentPage extends JPanel{
      */
     public void displayError(String message, boolean redirect){
         new ViewError(message, redirect, framework);
+    }
+    
+    public void displayError(String message, Page redirectPage){
+        new ViewError(message, true, redirectPage, framework);
     }
     
     /**
