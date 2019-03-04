@@ -50,6 +50,7 @@ public class PageAddGame extends ContentPage {
                 try{
                     Block223Controller.createGame(gameName);
                     Block223Controller.selectGame(gameName);
+                    changePage(Block223MainPage.Page.defineGame);
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);

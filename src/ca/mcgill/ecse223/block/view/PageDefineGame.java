@@ -22,7 +22,6 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
  */
 public class PageDefineGame extends ContentPage {
 
-	
 	private static final long serialVersionUID = 5362736975311160954L;
 
 	public PageDefineGame(Block223MainPage parent) {
