@@ -26,8 +26,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.plaf.ColorChooserUI;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
+import static ca.mcgill.ecse223.block.controller.Block223Controller.getUserMode;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOUserMode;
 import ca.mcgill.ecse223.block.view.Block223MainPage;
+import ca.mcgill.ecse223.block.view.Block223MainPage.Page;
 
 /**
  * Page where the user will have to log in.
@@ -171,7 +174,19 @@ public class PageLogin extends ContentPage {
 			displayError(e.getMessage(), false);
 			refreshDataLogIn();
 		}
-		changePage(Block223MainPage.Page.logout);
+                
+                switch (getUserMode().getMode()) {
+                case Design:
+                    changePage(Block223MainPage.Page.logout);
+                    break;
+                case Play:
+                    Block223Controller.logout();
+                    displayError("Wait 2 weeks... We're getting there!", Page.login);
+                    break;
+                default:
+                    //WTF
+            }
+                
 	}//End of logInButtonActionPerformed method
 	
 	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
