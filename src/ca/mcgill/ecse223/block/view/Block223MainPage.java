@@ -94,7 +94,7 @@ public class Block223MainPage extends JFrame {
             	displayedPage = new PageAddGame(this);
                 break;
             case defineGame:
-                
+            	displayedPage = new PageDefineGame(this);
                 break;
             case deleteGame:
                 displayedPage = new PageDeleteGame(this);
@@ -285,4 +285,5 @@ public class Block223MainPage extends JFrame {
             }
         }
     }
+    
 }

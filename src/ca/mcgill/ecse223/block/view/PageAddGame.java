@@ -31,7 +31,7 @@ public class PageAddGame extends ContentPage {
         // Add a new Game
         add(new JLabel("Please enter the name of a new game:")); // Prompts user
         RandomNameGenerator rgen = new RandomNameGenerator(); // Offers name suggestions
-        JTextField newGame = new JTextField("How about: " + rgen.generateName());
+        JTextField newGame = new JTextField("How about... " + rgen.generateName() + "?");
         add(newGame);
         
         // AddGame and Cancel buttons
@@ -43,24 +43,25 @@ public class PageAddGame extends ContentPage {
         exitButtons.add(cancel);
         add(exitButtons);
         
-        // Listener for Cancel button
-        cancel.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                cancel(); // Returns to the admin menu
-            }
-        });
-        
         // Listener for addGame button
         addGame.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a){
             	String gameName = newGame.getText(); // Retrieves user input
                 try{
                     Block223Controller.createGame(gameName);
+                    Block223Controller.selectGame(gameName);
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);
                     return;
                 }
+            }
+        });
+        
+        // Listener for Cancel button
+        cancel.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                cancel(); // Returns to the admin menu
             }
         });
 	}

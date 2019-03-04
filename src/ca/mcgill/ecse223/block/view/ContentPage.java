@@ -4,6 +4,7 @@ package ca.mcgill.ecse223.block.view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -12,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 /**
  * This class is the superclass of each individual page class.
@@ -166,4 +168,30 @@ public abstract class ContentPage extends JPanel{
     public void displayError(String message, boolean redirect){
         new ViewError(message, redirect, framework);
     }
+    
+    /**
+     * @author Kelly Ma
+     * @param name The name of the slider
+     * @param min The minimum value of the slider
+     * @param max The maximum value of the slider
+     * @param val The default value of the slider
+     * @return A Slider containing a JPanel, JLabel, and JSlider
+     */
+    public static Slider addSlider(String name, Integer min, Integer max, Integer val) {
+    	Slider slider = new Slider(name, min, max, val);
+    	return slider;
+	}
+    
+    /**
+     * @author Kelly Ma
+     * @param name The name of the slider
+     * @param min The minimum value of the slider
+     * @param max The maximum value of the slider
+     * @param val The default value of the slider
+     * @return A Slider containing a JPanel, JLabel, and JSlider
+     */
+    public static Slider addSlider(String name, Double min, Double max, Double val) {
+    	Slider slider = new Slider(name, min, max, val);
+    	return slider;
+	}
 }
