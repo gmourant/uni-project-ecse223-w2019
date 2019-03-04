@@ -85,7 +85,16 @@ public class PageAddBlock extends ContentPage{
         idTextField.setBorder(border);
         idPanel.add(idTextField);
         idPanel.setBackground(this.getBackground());
+        
+        /*if(!(input.equals("^[0-9]") && input.length() < 2)) {
+        	System.out.println("is not a number");
+        	JLabel errorNumber = new JLabel("The ID entered must be a number");
+        	errorNumber.setSize(20, 10);
+        	errorNumber.setForeground(Color.RED);
+        	add(errorNumber);
+		} */
         add(idPanel);
+      
         
         
         //RGB Panel
@@ -129,7 +138,7 @@ public class PageAddBlock extends ContentPage{
         add(greenColorSlider);
        
          
-         //Action listener colorChooser 
+        //Action listener colorChooser 
         //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
         ChangeListener actionListener = new ChangeListener() {
             @Override
@@ -140,7 +149,7 @@ public class PageAddBlock extends ContentPage{
             	r = redSlider.getValue();
                 g = greenSlider.getValue();
                 b = blueSlider.getValue();   
-                System.out.println(((JSlider) e.getSource()).getValue());
+                //System.out.println(((JSlider) e.getSource()).getValue());
                 colorPatch.setBackground(new Color(r,g,b));
             }
         };
@@ -153,7 +162,7 @@ public class PageAddBlock extends ContentPage{
         //Number of points panel
         JPanel pointSliders = new JPanel(new GridLayout(1,1));
         pointSliders.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
-                BorderFactory.createEmptyBorder(1, 0, 0, 10)));
+                BorderFactory.createEmptyBorder(1, 0, 0, 0)));
         pointSliders.add(new JLabel("Number of Points:"));
         SpinnerNumberModel points = new SpinnerNumberModel(1,1,1000,1);
         JSpinner spinner = new JSpinner(points);
@@ -164,7 +173,7 @@ public class PageAddBlock extends ContentPage{
         //Button Panels
         JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         exitButtons.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
-                    BorderFactory.createEmptyBorder(1, 0, 0, 2)));
+                    BorderFactory.createEmptyBorder(1, 0, 0, 0)));
         exitButtons.setBackground(this.getBackground());
         JButton addBlock = createButton("Add Block");
         JButton cancel = createButton("Cancel");
@@ -172,27 +181,37 @@ public class PageAddBlock extends ContentPage{
         exitButtons.add(cancel);
         add(exitButtons);
         
+      //Side Menu
+        JList sideMenu = getSideMenuList();
+        sideMenu.add(createButton("Game1"));
+        sideMenu.add(createButton("Blocks"));
+        
         //AddBlock and Cancel listeners
-        addBlock.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
+        addBlock.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				String input = idTextField.getText();
 				// call the controller
 				try {
 					Block223Controller.addBlock(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue(),(int) points.getValue());
 				} catch (InvalidInputException e) {
-					error = e.getMessage();
+					displayError(e.getMessage(), false);
+					return;
 				}
 				
-				// update visuals
-				//refreshData();
 			}
 			
 		});
+        cancel.addActionListener(new ActionListener() {
+
+    			public void actionPerformed(ActionEvent evt) {
+    				cancel();}
+        });
+        
        //Side menu editing
        //JList sideMenu = getSideMenuList();
        //add(sideMenu);
         
 	}
 	}
-
 
 
