@@ -51,46 +51,59 @@ public class PagePositionBlock extends ContentPage {
 	public PagePositionBlock(Block223MainPage parent) {
 		super(parent);
 		
-		setLayout(new GridLayout(8,1));
+		setLayout(new GridLayout(9,1));
 		
 		//Header
 	    add(createHeader("Position a Block"));
 	    
 	    // TODO Implement a current bloc visualizer.
 	 
-//	    //Rectangle changes color with slider
-//    	JPanel colorPatch; 
-//    	colorPatch = new JPanel();
-//    	JPanel gridbagPanel = new JPanel();
-//    	gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-//    	//colorPatch.setBounds(230,40,50,50);
-//    	gridbagPanel.setPreferredSize(new Dimension(20, 20));
-//    	gridbagPanel.setLocation(230,40);
-//    	add(gridbagPanel);
-//    	colorPatch.setPreferredSize(new Dimension(40,37));
-//    	gridbagPanel.add(colorPatch);
-//    	gridbagPanel.setBackground(this.getBackground());
-//    	colorPatch.setBackground(Color.black);
-//    	Color borderColorBlock = new Color(0, 0, 0);
-//    	Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
-//    	colorPatch.setBorder(blockBorder);
-	    
+	    //Rectangle changes color with slider
+        JPanel colorPatch; 
+        colorPatch = new JPanel();
+        JPanel gridbagPanel = new JPanel();
+        gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //colorPatch.setBounds(230,40,50,50);
+        gridbagPanel.setPreferredSize(new Dimension(20, 20));
+        gridbagPanel.setLocation(230,40);
+        add(gridbagPanel);
+        colorPatch.setPreferredSize(new Dimension(40,37));
+        gridbagPanel.add(colorPatch);
+        gridbagPanel.setBackground(this.getBackground());
+        colorPatch.setBackground(Color.black);
+        Color borderColorBlock = new Color(0, 0, 0);
+        Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
+        colorPatch.setBorder(blockBorder);
+
         //ID panel
         JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         idPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                  BorderFactory.createEmptyBorder(0, 0, 0, 0)));
         JLabel idLabel = new JLabel("ID : ");
         idPanel.add(idLabel);
-        JTextField idTextField = new JTextField();
-        idTextField.setPreferredSize(new Dimension(253, 27));
+        JComboBox<Integer> idComboBox = new JComboBox<Integer>();
+        idComboBox.setPreferredSize(new Dimension(253, 27));
         // Color aqua = new Color(224, 249, 246);
         // Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
+        // Populate the ID combobox.
+        List<TOBlock> blocks = new ArrayList<TOBlock>();
+        try {
+        blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
+        } catch (InvalidInputException e) {
+        	error = e.getMessage();
+        	new ViewError(error, false, parent);
+        }
+        for (TOBlock block : blocks) {
+        	idComboBox.addItem(block.getId());
+        }
+        // Set visuals and add ID panel.
         Border border = BorderFactory.createLineBorder(borderColor, 3);
-        idTextField.setBorder(border);
-        idPanel.add(idTextField);
+        idComboBox.setBorder(border);
+        idPanel.add(idComboBox);
         idPanel.setBackground(this.getBackground());
         add(idPanel);
+
         
         //Level combobox
         JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -160,7 +173,7 @@ public class PagePositionBlock extends ContentPage {
 				// Call the controller.
 				try {
 					Block223Controller.positionBlock(
-							(int)Integer.parseInt(idTextField.getText()),
+							(Integer)idComboBox.getSelectedItem(),
 							(int)levelSelector.getSelectedItem(),
 							x, y);
 				} catch (InvalidInputException e) {
@@ -176,6 +189,23 @@ public class PagePositionBlock extends ContentPage {
 			}
 			
 		});
+
+        //Action listener idComboBox 
+        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+        ActionListener actionListenerId = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r,g,b;
+				Integer id = (Integer) idComboBox.getSelectedItem();
+				TOBlock block = Block223Controller.findBlock(id);
+				r = block.getRed();
+				g = block.getGreen();
+				b = block.getBlue();
+				colorPatch.setBackground(new Color(r,g,b));
+			}
+        };
+        
+        idComboBox.addActionListener(actionListenerId);
         
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent evt) {
