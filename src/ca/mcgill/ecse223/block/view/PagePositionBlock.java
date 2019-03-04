@@ -262,6 +262,13 @@ public class PagePositionBlock extends ContentPage {
 		return null;
 	}
 	
+	/**
+	 *  This class creates a new level grid view to visualize the designed levels.
+	 *  
+	 *  @author Georges Mourant modified by @author Mathieu Bissonnette
+	 *  
+	 */
+	
 	public class LevelView extends JFrame{
 
 	    final Color HEADER_BACKGROUND = 
