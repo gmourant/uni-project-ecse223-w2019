@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 30 "../../../../../Block223Persistence.ump"
+// line 39 "../../../../../Block223Persistence.ump"
 // line 11 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -33,6 +33,11 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
+    // line 16 "../../../../../Block223.ump"
+    if(username.equals("") || username == null){
+       			throw new RuntimeException("The username has already been taken.");
+       		}
+    // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
     {
       throw new RuntimeException("Cannot create due to duplicate username");
@@ -57,6 +62,11 @@ public class User implements Serializable
   public boolean setUsername(String aUsername)
   {
     boolean wasSet = false;
+    // line 16 "../../../../../Block223.ump"
+    if(username.equals("") || username == null){
+       			throw new RuntimeException("The username has already been taken.");
+       		}
+    // END OF UMPLE BEFORE INJECTION
     String anOldUsername = getUsername();
     if (hasWithUsername(aUsername)) {
       return wasSet;
@@ -247,6 +257,14 @@ public class User implements Serializable
     }
   }
 
+  // line 44 "../../../../../Block223Persistence.ump"
+   public static  void reinitializeUniqueUsername(List<User> users){
+    usersByUsername = new HashMap<String, User>();
+	    for (User user : users) {
+	      	usersByUsername.put(user.getUsername(), user);
+    	}
+  }
+
 
   public String toString()
   {
@@ -258,7 +276,7 @@ public class User implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 33 "../../../../../Block223Persistence.ump"
+  // line 42 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 5L ;
 
   
