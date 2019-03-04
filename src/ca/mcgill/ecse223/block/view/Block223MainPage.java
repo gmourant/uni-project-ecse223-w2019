@@ -88,7 +88,7 @@ public class Block223MainPage extends JFrame {
                 //displayedPage = new PageSignUp(this);
                 break;
             case addGame:
-                
+            	displayedPage = new PageAddGame(this);
                 break;
             case defineGame:
                 

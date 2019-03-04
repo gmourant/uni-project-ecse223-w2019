@@ -36,7 +36,7 @@ public class PagePositionBlock extends ContentPage {
 	
 	static EditorMode editorMode = EditorMode.ADD;
 	
-	public PagePositionBlock(PagePositionBlock parent) {
+	public PagePositionBlock(Block223MainPage parent) {
 		super(parent);
 		initializeEditor();
 	    

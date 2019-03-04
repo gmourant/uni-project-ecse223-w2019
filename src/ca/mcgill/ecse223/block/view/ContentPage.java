@@ -158,7 +158,12 @@ public abstract class ContentPage extends JPanel{
         return cb;
     }
     
-    public void displayError(String message){
-        new ViewError(message, framework);
+    /**
+     * This method displays a custom error following the UI's style.
+     * @param message the String to be displayed
+     * @param redirect whether the error redirects to menu after displaying or not
+     */
+    public void displayError(String message, boolean redirect){
+        new ViewError(message, redirect, framework);
     }
 }

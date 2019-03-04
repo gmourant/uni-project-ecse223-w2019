@@ -30,14 +30,16 @@ public class ViewError extends JFrame{
             new Color(255 + (255 - 255)*5/8, 204 + (255 - 204)*5/8, 204 + (255 - 204)*5/8);
     
     private final Block223MainPage framework;
+    private final boolean errorRedirect;
     private final JPanel windowHolder;
     private JPanel topMenu;
     private JTextArea body;
     private final String errorMessage;
     private JButton exit;
     
-    public ViewError(String message, Block223MainPage parent){
+    public ViewError(String message, boolean errorRedirect,  Block223MainPage parent){
         framework = parent;
+        this.errorRedirect = errorRedirect;
         this.setSize(300, 200); // Specifies the size should adjust to the needs for space
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
         this.setLocationRelativeTo(null); // Places in the center of the screen
@@ -96,7 +98,8 @@ public class ViewError extends JFrame{
         
         exit.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    framework.changePage(Block223MainPage.Page.adminMenu);
+                    if(errorRedirect)
+                        framework.changePage(Block223MainPage.Page.adminMenu);
                     dispose(); // quit program
                 }
         });
