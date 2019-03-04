@@ -544,7 +544,7 @@ public class Block223Controller {
 				}
 			}
 			
-			if((adminPassword!= null) && (adminPassword!="")) {
+			if((adminPassword!= null) && (!adminPassword.equals(""))) {
 				Admin admin = new Admin(adminPassword, block223);//Create Admin instance
 				user.addRole(admin);//add admin role
 			}

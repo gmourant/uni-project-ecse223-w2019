@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.block.view;
 
+import ca.mcgill.ecse223.block.application.Block223Application;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -52,6 +53,9 @@ public class PageLogin extends ContentPage {
     //*******************
     public PageLogin(Block223MainPage frame) {
         super(frame);
+        
+        refreshDataLogIn();
+        
         setLayout(new GridLayout(7, 1));
         setBackground(Color.WHITE);
 
@@ -153,8 +157,7 @@ public class PageLogin extends ContentPage {
     //*******************
     private void refreshDataLogIn() {
         //populate page with data
-        usernameTextField.setText("");
-        passwordPField.setText("");
+        Block223Application.resetBlock223();
         //pack();
     }//End of refreshDataLogin
 

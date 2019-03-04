@@ -1,5 +1,6 @@
 package ca.mcgill.ecse223.block.view;
 
+import ca.mcgill.ecse223.block.application.Block223Application;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,6 +11,7 @@ import javax.swing.*;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 
 public class Block223MainPage extends JFrame {
 
@@ -181,15 +183,11 @@ public class Block223MainPage extends JFrame {
         // listeners
         save.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent evt){
-                	//clear error message
-            		String error = null;
-            		
             		//call the controller
             		try {
             			Block223Controller.saveGame();
             		} catch(InvalidInputException e) {
             			new ViewError(e.getMessage(), false, thisInstance);
-            			//refreshDataOfCurrentScreen//TODO
             		}
                 }//End of actionPerformed by save method
         });

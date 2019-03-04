@@ -29,7 +29,7 @@ public class Block223Application {
 	
     public static Block223 getBlock223() {
         if (block223 == null) {
-            block223 = new Block223();
+            resetBlock223();
         }
         return block223;
     }
