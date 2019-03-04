@@ -58,7 +58,7 @@ public class PageAddGame extends ContentPage {
                 	Block223Controller.selectGame(gameName); // Sets the game in Block223Application
                 }
                 catch(InvalidInputException e){
-                    displayError(e.getMessage(), false);
+                	displayError(e.getMessage(), false);
                     return;
                 }
                 changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
