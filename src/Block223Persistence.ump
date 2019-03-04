@@ -11,6 +11,8 @@ class Block223 {
 	isA Serializable; 
 	private static final long serialVersionUID = 2L;
 	public void reinitialize() {
+		Game.reinitializeUniqueName(this.getGames());
+		User.reinitializeUniqueUsername(this.getUsers());
     }
 }
 
@@ -18,18 +20,32 @@ class Block {
 	depend java.io.Serializable;
 	isA Serializable; 
 	private static final long serialVersionUID = 3L; 
+	
+	// TODO Reinitialize autounique
 }
 
 class Game {
 	depend java.io.Serializable;
 	isA Serializable; 
 	private static final long serialVersionUID = 4L;
+	public static void reinitializeUniqueName(List<Game> games) {
+	    gamesByName = new HashMap<String, Game>();
+	    for (Game game : games) {
+	      gamesByName.put(game.getName(), game);
+    	}
+  	}
 }
 
 class User {
 	depend java.io.Serializable;
 	isA Serializable; 
 	private static final long serialVersionUID = 5L;
+	public static void reinitializeUniqueUsername(List<User> users) {
+	    usersByUsername = new HashMap<String, User>();
+	    for (User user : users) {
+	      	usersByUsername.put(user.getUsername(), user);
+    	}
+  	}
 }
 
 class UserRole {
