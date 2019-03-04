@@ -39,6 +39,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
@@ -59,7 +60,7 @@ public class PagePositionBlock extends ContentPage {
 	public PagePositionBlock(Block223MainPage parent) {
 		super(parent);
 		
-		setLayout(new GridLayout(9,1));
+		setLayout(new GridLayout(7,1));
 		
 		//Header
 	    add(createHeader("Position a Block"));
@@ -118,7 +119,7 @@ public class PagePositionBlock extends ContentPage {
         JLabel levelLabel = new JLabel("Level : ");
         levelPanel.add(levelLabel);
         JComboBox<Integer> levelSelector = new JComboBox<Integer>();
-        levelSelector.setPreferredSize(new Dimension(230, 27));
+        levelSelector.setPreferredSize(new Dimension(230, 30));
         levelSelector.setBorder(border);
         // Populate combobox
         for (Integer i = 0; i < 99; i++) {
@@ -135,11 +136,15 @@ public class PagePositionBlock extends ContentPage {
         JLabel coordLabel = new JLabel("X,Y :    ");
         coordPanel.add(coordLabel);
         JTextField coordTextField = new JTextField();
-        coordTextField.setPreferredSize(new Dimension(230, 27));
+        coordTextField.setPreferredSize(new Dimension(230, 30));
         coordTextField.setBorder(border);
         coordPanel.add(coordTextField);
         coordPanel.setBackground(this.getBackground());
         add(coordPanel);
+        
+        //View button
+        JButton viewButton = createButton("Level view");
+        add(viewButton);
         
 
         //Button Panels
@@ -148,7 +153,6 @@ public class PagePositionBlock extends ContentPage {
                     BorderFactory.createEmptyBorder(1, 0, 0, 2)));
         exitButtons.setBackground(this.getBackground());
         JButton addButton = createButton("Position Block");
-        JButton viewButton = createButton("Level view");
         JButton cancelButton = createButton("Cancel");
         exitButtons.add(addButton);
         exitButtons.add(cancelButton);
@@ -190,6 +194,9 @@ public class PagePositionBlock extends ContentPage {
 				} catch (NumberFormatException e) {
 					error = "The block ID must be a valid number.";
 					new ViewError(error, false, parent);
+				} catch (NullPointerException e) {
+					error = "No block selected.";
+					new ViewError(error, false, parent);
 				}
 				
 				// update visuals
@@ -208,12 +215,11 @@ public class PagePositionBlock extends ContentPage {
         		List<TOGridCell> assignments = new ArrayList<TOGridCell>();
         		try {
         			assignments = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((Integer)levelSelector.getSelectedItem());
+        			new LevelView(assignments, false, parent);
         		} catch (InvalidInputException e) {
         			error = e.getMessage();
 					new ViewError(error, false, parent);
         		}
-        		
-        		// TODO Implement level view window.
         		
         	}
         });
@@ -258,21 +264,19 @@ public class PagePositionBlock extends ContentPage {
 	
 	public class LevelView extends JFrame{
 
-	    public static final Color HEADER_BACKGROUND = 
+	    final Color HEADER_BACKGROUND = 
 	            new Color(255 + (255 - 255)*5/8, 204 + (255 - 204)*5/8, 204 + (255 - 204)*5/8);
 	    
 	    private final Block223MainPage framework;
 	    private final boolean errorRedirect;
 	    private final JPanel windowHolder;
 	    private JPanel topMenu;
-	    private JTextArea body;
-	    private final String errorMessage;
 	    private JButton exit;
 	    
 	    public LevelView(List<TOGridCell> assignments, boolean errorRedirect,  Block223MainPage parent){
 	        framework = parent;
 	        this.errorRedirect = errorRedirect;
-	        this.setSize(300, 200); // Specifies the size should adjust to the needs for space
+	        this.setSize(900, 600); // Specifies the size should adjust to the needs for space
 	        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
 	        this.setLocationRelativeTo(null); // Places in the center of the screen
 	        this.setResizable(false); // stops user from resizing the dialog box
@@ -280,9 +284,52 @@ public class PagePositionBlock extends ContentPage {
 	        this.setVisible(true);
 	        windowHolder = new JPanel(new BorderLayout());
 	        windowHolder.setBorder(BorderFactory.createLineBorder(Color.darkGray));
-	        
+	        windowHolder.add(new Grid(assignments));
 	        setupTopMenu();
 	        add(windowHolder);
+	    }
+	    
+	    class Grid extends JPanel {
+	    	
+	    	Grid(List<TOGridCell> assignments) {
+	        	
+	            setLayout(new GridBagLayout());
+	
+	            GridBagConstraints gbc = new GridBagConstraints();
+	            for (int row = 0; row < 8; row++) {
+	                for (int col = 0; col < 8; col++) {
+	                    gbc.gridx = col;
+	                    gbc.gridy = row;
+	
+	                    CellPane cellPane = new CellPane();
+	                    Border border = null;
+	                    if (row < 7) {
+	                        if (col < 7) {
+	                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+	                        } else {
+	                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+	                        }
+	                    } else {
+	                        if (col < 7) {
+	                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+	                        } else {
+	                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+	                        }
+	                    }
+                    	TOGridCell cell = coordInList(col, row, assignments);
+                    	if (cell != null)
+                    		cellPane.setBackground(new Color(cell.getRed(), cell.getGreen(), cell.getBlue()));
+	                    cellPane.setBorder(border);
+	                    add(cellPane, gbc);
+	                }
+	            }
+	        }
+	    }
+	
+	    class CellPane extends JPanel {
+	
+	        private Color defaultBackground;
+	    
 	    }
 	    
 	    /**
@@ -294,7 +341,7 @@ public class PagePositionBlock extends ContentPage {
 	        topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
 	                BorderFactory.createEmptyBorder(5, 10, 5, 5)));
 	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
-	        topMenu.setBackground(ERROR_HEADER_BACKGROUND);
+	        topMenu.setBackground(HEADER_BACKGROUND);
 
 	        JLabel title = new JLabel("View"); // empty by default
 	        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
@@ -314,9 +361,6 @@ public class PagePositionBlock extends ContentPage {
 	                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 	        holder.setBackground(Color.WHITE);
 	        holder.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()*3/4));
-	       
-	        
-	        holder.add(body, BorderLayout.CENTER);
 	        
 	        windowHolder.add(holder, BorderLayout.CENTER);
 	        
