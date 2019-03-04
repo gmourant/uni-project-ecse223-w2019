@@ -55,7 +55,7 @@ public class PageLogout extends ContentPage {
 		//******************
 		//Welcome page panel
 		JPanel welcomePanel = new JPanel(new BorderLayout());
-		welcomePanel.setBackground(new Color(229, 248, 255));
+		welcomePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
 		JLabel welcomeLabel = new JLabel("Welcome to BLOCK223", JLabel.CENTER);
 		welcomeLabel.setFont(titleFont);
 		welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
@@ -81,7 +81,7 @@ public class PageLogout extends ContentPage {
 		if(isAdmin) {
 			add(createGameBtnPanel);
 		}
-		add(logOutBtnPanel);
+		//add(logOutBtnPanel);
 
 		//***********************
 		//Adding ActionListeners 

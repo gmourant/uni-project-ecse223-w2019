@@ -160,7 +160,7 @@ public class Block223MainPage extends JFrame {
 
         JLabel adminName = new JLabel(""); // empty by default
         save = createButton("Save");
-        logout = createButton("Logout");
+        logout = createButton("Log out");
         topMenu.add(adminName);
         topMenu.add(save);
         topMenu.add(logout);
