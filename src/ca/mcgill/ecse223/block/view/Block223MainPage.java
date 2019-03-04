@@ -302,23 +302,4 @@ public class Block223MainPage extends JFrame {
         }
     }
     
-    public static void addSlider(JPanel panel, String name, Integer min, Integer max, Integer val) {
-		nameLabel = new JLabel(name);
-		minLabel = new JLabel(min.toString());
-		maxLabel = new JLabel(max.toString());
-		slider = new JSlider(min, max, val);
-		readOut = new JLabel(val.toString());
-		defineFont(nameLabel);
-		defineFont(maxLabel);
-		defineFont(minLabel);
-		defineFont(readOut);
-		min = this.min;
-		max = this.max;
-		panel.add(nameLabel);
-		panel.add(minLabel);
-		panel.add(slider);
-		panel.add(maxLabel);
-		panel.add(readOut);
-	}
-    
 }
