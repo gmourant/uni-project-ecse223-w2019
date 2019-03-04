@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.block.view;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -62,11 +63,17 @@ public class Slider {
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		nameLabel = new JLabel(name);
 		slider = new JSlider(SMIN, SMAX, (int) ((SMAX-SMIN)*(val/(max-min))));
-		readOut = new JLabel(val.toString());
+		DecimalFormat numberFormat = new DecimalFormat("#.00");
+		readOut = new JLabel(""+numberFormat.format(val));
 		defineFont(nameLabel);
 		defineFont(readOut);
 		dmin = min;
 		dmax = max;
+		panel.add(nameLabel);
+		panel.add(slider);
+		panel.add(readOut);
+		slider.setBackground(Color.WHITE);
+		panel.setBackground(Color.WHITE);
 	}
 	
 	/**
@@ -107,7 +114,7 @@ public class Slider {
 	 * @param label A particular JLabel
 	 */
 	private void defineFont(JLabel label) {
-		label.setFont(new Font(Block223MainPage.UI_FONT.getFamily(), Font.PLAIN, 9));
+		label.setFont(new Font(Block223MainPage.UI_FONT.getFamily(), Font.PLAIN, 8));
 	}
 	
 }

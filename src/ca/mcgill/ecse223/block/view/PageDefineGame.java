@@ -3,6 +3,7 @@ package ca.mcgill.ecse223.block.view;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -30,10 +31,34 @@ public class PageDefineGame extends ContentPage {
         add(createHeader("Define Game Settings")); 
        
         // nrLevels Slider
-        Slider nrLevelsSlider = addSlider("Number of Levels:", 1, 99, 30);
+        Slider nrLevelsSlider = addSlider("Number of Levels", 1, 99, 30);
         add(nrLevelsSlider.panel);
         
+        // nrBlocksPerLevel Slider
+        Slider nrBlocksPerLevelSlider = addSlider("Blocks per Level", 1, 50, 15);
+        add(nrBlocksPerLevelSlider.panel);
+        
+        // minBallSpeedX Slider
+        Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 1, 50, 5);
+        add(minBallSpeedXSlider.panel);
+        
+        // minBallSpeedY Slider
+        Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 1, 50, 5);
+        add(minBallSpeedYSlider.panel);
+        
+        // ballSpeedIncreaseFactor Slider
+        Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.1, 1.0, 0.4);
+        add(ballSpeedIncreaseFactorSlider.panel);
+        
+        // maxPaddleLength Slider
+        Slider maxPaddleLengthSlider = addSlider("Maximum Paddle Length", 1, 390, 300);
+        add(maxPaddleLengthSlider.panel);
+        
+        // minPaddleLength Slider
+        Slider minPaddleLengthSlider = addSlider("Minimum Paddle Length", 1, 390, 20);
+        add(minPaddleLengthSlider.panel);
        
+        // ChangeListener that displays the selected parameter
         ChangeListener slide = new ChangeListener() {
         	@Override
         	public void stateChanged(ChangeEvent e) {
@@ -41,15 +66,40 @@ public class PageDefineGame extends ContentPage {
         		if (source == nrLevelsSlider.slider) {
         			int nrLevels = nrLevelsSlider.getIValue();
         			nrLevelsSlider.setISlider(nrLevels);
-        		} 
-        			
-        	}
-        			
-           
+        		} else if (source == nrBlocksPerLevelSlider.slider) {
+        			int nrBlocksPerLevel = nrBlocksPerLevelSlider.getIValue();
+        			nrBlocksPerLevelSlider.setISlider(nrBlocksPerLevel);
+        		} else if (source == nrBlocksPerLevelSlider.slider) {
+        			int nrBlocksPerLevel = nrBlocksPerLevelSlider.getIValue();
+        			nrBlocksPerLevelSlider.setISlider(nrBlocksPerLevel);
+        		} else if (source == minBallSpeedXSlider.slider) {
+        			int minBallSpeedX = minBallSpeedXSlider.getIValue();
+        			minBallSpeedXSlider.setISlider(minBallSpeedX);
+        		} else if (source == minBallSpeedYSlider.slider) {
+        			int minBallSpeedY = minBallSpeedYSlider.getIValue();
+        			minBallSpeedYSlider.setISlider(minBallSpeedY);
+        		} else if (source == ballSpeedIncreaseFactorSlider.slider) {
+        			DecimalFormat numberFormat = new DecimalFormat("#.00");
+        			double ballSpeedIncreaseFactor = ballSpeedIncreaseFactorSlider.getDValue();
+        			ballSpeedIncreaseFactorSlider.setDSlider(Double.parseDouble(numberFormat.format(ballSpeedIncreaseFactor)));
+        		} else if (source == maxPaddleLengthSlider.slider) {
+        			int maxPaddleLength = maxPaddleLengthSlider.getIValue();
+        			maxPaddleLengthSlider.setISlider(maxPaddleLength);
+        		} else if (source == minPaddleLengthSlider.slider) {
+        			int minPaddleLength = minPaddleLengthSlider.getIValue();
+        			minPaddleLengthSlider.setISlider(minPaddleLength);
+        		}
+        	}	
         };
         
-        // Add ChangeListeners to sliders
+        // Add ChangeListeners to sliders to help user select parameters
         nrLevelsSlider.slider.addChangeListener(slide);
+        nrBlocksPerLevelSlider.slider.addChangeListener(slide);
+        minBallSpeedXSlider.slider.addChangeListener(slide);
+        minBallSpeedYSlider.slider.addChangeListener(slide);
+        ballSpeedIncreaseFactorSlider.slider.addChangeListener(slide);
+        maxPaddleLengthSlider.slider.addChangeListener(slide);
+        minPaddleLengthSlider.slider.addChangeListener(slide);
         
 	}
 	
