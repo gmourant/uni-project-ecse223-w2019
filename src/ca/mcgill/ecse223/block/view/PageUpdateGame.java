@@ -40,7 +40,7 @@ public class PageUpdateGame extends ContentPage {
             games = Block223Controller.getDesignableGames();
         }
         catch(InvalidInputException e){
-            displayError(e.getMessage(), false);
+            displayError(e.getMessage(), true); // Set true to return to main menu
             return;
         }
         
@@ -58,7 +58,7 @@ public class PageUpdateGame extends ContentPage {
         for(TOGame game : games){ 
             gamesMenu.addItem(game.getName());
         }
-        
+
         // Add to screen
         panel.add(gamesMenu);
         add(panel);
@@ -82,6 +82,7 @@ public class PageUpdateGame extends ContentPage {
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);
+                    // Does not redirect to main menu because user can try selecting another game
                     return;
                 }
             }
