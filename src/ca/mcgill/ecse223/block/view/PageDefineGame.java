@@ -1,16 +1,7 @@
 package ca.mcgill.ecse223.block.view;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSlider;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 /**
  * This page defines game settings for a game within Block223.
@@ -29,12 +20,7 @@ public class PageDefineGame extends ContentPage {
         add(createHeader("Define Game Settings"));
        
         // nrLevels Slider
-        JPanel nrLevelsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        nrLevelsPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
-                BorderFactory.createEmptyBorder(1, 0, 0, 0)));
-        JSlider nrLevelsSlider = addSlider(nrLevelsPanel, "Number of Levels:", 1, 99, 30);
-        nrLevelsPanel.setBackground(this.getBackground());
-        add(nrLevelsPanel);
+        add(addSlider("Number of Levels:", 1, 99, 30));
         
         
 	}

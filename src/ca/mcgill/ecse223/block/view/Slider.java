@@ -1,9 +1,9 @@
 package ca.mcgill.ecse223.block.view;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 
-import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -17,8 +17,6 @@ public class Slider {
 	
 	JPanel panel;
 	JLabel nameLabel;
-	JLabel minLabel;
-	JLabel maxLabel;
 	JLabel readOut;
 	JSlider slider;
 	int min;
@@ -39,21 +37,17 @@ public class Slider {
 	public Slider(String name, Integer min, Integer max, Integer val) {
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		nameLabel = new JLabel(name);
-		minLabel = new JLabel(min.toString());
-		maxLabel = new JLabel(max.toString());
 		slider = new JSlider(min, max, val);
 		readOut = new JLabel(val.toString());
 		defineFont(nameLabel);
-		defineFont(maxLabel);
-		defineFont(minLabel);
 		defineFont(readOut);
 		this.min = min;
 		this.max = max;
 		panel.add(nameLabel);
-		panel.add(minLabel);
 		panel.add(slider);
-		panel.add(maxLabel);
 		panel.add(readOut);
+		slider.setBackground(Color.WHITE);
+		panel.setBackground(Color.WHITE);
 	}
 	
 	/**
@@ -67,13 +61,9 @@ public class Slider {
 	public Slider(String name, Double min, Double max, Double val) {
 		panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		nameLabel = new JLabel(name);
-		minLabel = new JLabel(min.toString());
-		maxLabel = new JLabel(max.toString());
 		slider = new JSlider(SMIN, SMAX, (int) ((SMAX-SMIN)*(val/(max-min))));
 		readOut = new JLabel(val.toString());
 		defineFont(nameLabel);
-		defineFont(maxLabel);
-		defineFont(minLabel);
 		defineFont(readOut);
 		dmin = min;
 		dmax = max;
