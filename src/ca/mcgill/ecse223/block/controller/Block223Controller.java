@@ -73,7 +73,7 @@ public class Block223Controller {
      * @throws InvalidInputException If minPaddleLength is negative or zero
      */
     public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
-            Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+            double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
         // Obtain the selected game
         Game game = Block223Application.getCurrentGame();

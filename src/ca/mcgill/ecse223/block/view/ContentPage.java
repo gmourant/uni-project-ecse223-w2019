@@ -170,11 +170,11 @@ public abstract class ContentPage extends JPanel{
      * @param min The minimum value of the slider
      * @param max The maximum value of the slider
      * @param val The default value of the slider
-     * @return
+     * @return A Slider containing a JPanel, JLabel, and JSlider
      */
-    public static JPanel addSlider(String name, Integer min, Integer max, Integer val) {
+    public static Slider addSlider(String name, Integer min, Integer max, Integer val) {
     	Slider slider = new Slider(name, min, max, val);
-    	return slider.panel;
+    	return slider;
 	}
     
     /**
@@ -183,10 +183,10 @@ public abstract class ContentPage extends JPanel{
      * @param min The minimum value of the slider
      * @param max The maximum value of the slider
      * @param val The default value of the slider
-     * @return
+     * @return A Slider containing a JPanel, JLabel, and JSlider
      */
-    public static JPanel addSlider(String name, Double min, Double max, Double val) {
+    public static Slider addSlider(String name, Double min, Double max, Double val) {
     	Slider slider = new Slider(name, min, max, val);
-    	return slider.panel;
+    	return slider;
 	}
 }

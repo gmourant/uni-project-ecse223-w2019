@@ -43,13 +43,6 @@ public class PageAddGame extends ContentPage {
         exitButtons.add(cancel);
         add(exitButtons);
         
-        // Listener for Cancel button
-        cancel.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                cancel(); // Returns to the admin menu
-            }
-        });
-        
         // Listener for addGame button
         addGame.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a){
@@ -61,6 +54,13 @@ public class PageAddGame extends ContentPage {
                     displayError(e.getMessage());
                     return;
                 }
+            }
+        });
+        
+        // Listener for Cancel button
+        cancel.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                cancel(); // Returns to the admin menu
             }
         });
 	}
