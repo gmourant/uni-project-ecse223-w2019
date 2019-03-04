@@ -181,7 +181,8 @@ public class PageLogin extends ContentPage {
                 break;
             case Play:
                 Block223Controller.logout();
-                displayError("Wait 2 weeks... We're getting there!", Page.login);
+                displayError("Sorry, we're doing some work on the player section. Please try again after the next iteration.", 
+                		Page.login);
                 break;
             default:
             //WTF
