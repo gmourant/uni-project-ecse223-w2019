@@ -14,6 +14,7 @@ public class Block223MainPage extends JFrame {
     public final static Color BUTTON_BACKGROUND = new Color(207, 243, 238);
     public final static Font UI_FONT = new Font("Century Gothic",Font.PLAIN,14);
     public final static int TITLE_SIZE_INCREASE = 4;
+    int level;//We are still working on how to get the levels from the game
 
     // enums for tetermining current page
     public enum Page {
@@ -27,9 +28,11 @@ public class Block223MainPage extends JFrame {
         login, logout, signUp
     }
 
-    private Page currentPage = Page.adminMenu;
+    private Page currentPage = Page.login;
     
     private JPanel topMenu;
+    private JButton save;
+    private JButton logout;
     private JScrollPane sideMenu;
     private JList sideMenuItems;
     private ContentPage displayedPage;
@@ -71,54 +74,58 @@ public class Block223MainPage extends JFrame {
             remove(displayedPage);
             repaint();
         }
+        // make sure all buttons are visible
+        save.setVisible(false);
+        logout.setVisible(false);
         
         // show menus if appropriate
         if(toDisplay != Page.login && toDisplay != Page.logout && toDisplay != Page.signUp) {
-            topMenu.setVisible(true);
             sideMenu.setVisible(true);
+            save.setVisible(true);
+            logout.setVisible(true);
         }
         
         // creates the correct JPanel depending on the selected page specified 
         // in the toDisplay enum
         switch (toDisplay) {
             case login:
-                displayedPage = new PageLogin(this);
+                //displayedPage = new PageLogin(this);
                 break;
             case logout:
-                displayedPage = new PageLogout(this);
+                //displayedPage = new PageLogout(this);
                 break;
             case signUp:
-                displayedPage = new PageSignUp(this);
+                //displayedPage = new PageSignUp(this);
                 break;
             case addGame:
-            	//displayedPage = new PageAddGame(this);
+            	displayedPage = new PageAddGame(this);
                 break;
             case defineGame:
-                
+            	displayedPage = new PageDefineGame(this);
                 break;
             case deleteGame:
-                //displayedPage = new PageDeleteGame(this);
+                displayedPage = new PageDeleteGame(this);
                 break;
             case updateGame:
-                
+                displayedPage = new PageUpdateGame(this);
                 break;
             case addBlock:
-                //displayedPage = new PageAddBlock(this);
+                displayedPage = new PageAddBlock(this);
                 break;
             case deleteBlock:
-                //displayedPage = new PageDeleteBlock(this);
+                displayedPage = new PageDeleteBlock(this);
                 break;
             case updateBlock:
-            	//displayedPage = new PageUpdateBlock(this);
+            	displayedPage = new PageUpdateBlock(this);
                 break;
             case positionBlock:
-                
+            	displayedPage = new PagePositionBlock(this);
                 break;
             case moveBlock:
-                
+                displayedPage = new PageMoveBlock(this, level);
                 break;
             case removeBlock:
-                
+                displayedPage = new PageRemoveBlock(this, level);
                 break;
             case saveGame:
                 
@@ -134,18 +141,16 @@ public class Block223MainPage extends JFrame {
      * @author Georges Mourant
      */
     private void setupTopMenu() {
-        topMenu = new JPanel(new GridLayout(1, 5));
+        topMenu = new JPanel(new GridLayout(1, 4));
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/10));
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
         topMenu.setBackground(HEADER_BACKGROUND);
 
         JLabel adminName = new JLabel(""); // empty by default
-        JButton save = createButton("Save");
-        JButton load = createButton("Load");
-        JButton logout = createButton("Logout");
+        save = createButton("Save");
+        logout = createButton("Logout");
         topMenu.add(adminName);
         topMenu.add(save);
-        topMenu.add(load);
         topMenu.add(logout);
 
         JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -160,26 +165,13 @@ public class Block223MainPage extends JFrame {
 
         add(topMenu, BorderLayout.NORTH);
         
-        // hide by default
-        topMenu.setVisible(false);
+        // always show
+        topMenu.setVisible(true);
         
         // listeners
         save.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent evt){
-                	//clear error message
-            		String error = null;
-            		
-            		//call the controller
-            		try {
-            			Block223Controller.saveGame();
-            		} catch(InvalidInputException e) {
-            			//refreshDataOfCurrentScreen()//TODO 
-            		}
-                }//End of actionPerformed by save method
-        });
-        load.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
-                    // action load takes
+                    // action save takes
                 }
         });
         minimize.addActionListener(new ActionListener(){
@@ -202,15 +194,17 @@ public class Block223MainPage extends JFrame {
     @SuppressWarnings("unchecked")
 	private void setupSlideMenu(){
     	DefaultListModel listModel;
-	    listModel = new DefaultListModel();
-	    JLabel Label = new JLabel("Main Menu");
-	    Label.setFont(new Font("Century Gothic",Font.PLAIN,16 ));
-	    listModel.addElement("Main Menu :");
-	    listModel.addElement("Add Game");
-	    listModel.addElement("Delete Game");
+	listModel = new DefaultListModel();
+	JLabel Label = new JLabel("Main Menu");
+	Label.setFont(new Font("Century Gothic",Font.PLAIN,16 ));
+	 listModel.addElement("Main Menu :");
+	 listModel.addElement("Add Game");
+	 listModel.addElement("Delete Game");
         sideMenuItems = new JList(listModel);
         listModel.addElement("Add Block");
         listModel.addElement("Delete Block");
+	listModel.addElement("Position Block");
+        listModel.addElement("Update Block");
         
         //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
@@ -234,6 +228,10 @@ public class Block223MainPage extends JFrame {
                 	changePage(Block223MainPage.Page.deleteBlock);
                 else if(s.equals("Main Menu :"))
                 	changePage(Block223MainPage.Page.adminMenu);
+		else if(s.equals("Position Block"))
+                	changePage(Block223MainPage.Page.positionBlock);
+                else if(s.equals("Update Block"))
+                	changePage(Block223MainPage.Page.updateBlock);
             }
       });
         	
@@ -241,7 +239,8 @@ public class Block223MainPage extends JFrame {
         //To center the text
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) sideMenuItems.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
-        sideMenu.setVisible(true); }
+        sideMenu.setVisible(false);
+        }
         
         //Action Listeners 
        /* listModel.addActionListener(new java.awt.event.ActionListener() {
@@ -293,4 +292,5 @@ public class Block223MainPage extends JFrame {
             }
         }
     }
+    
 }

@@ -1,4 +1,3 @@
-
 package ca.mcgill.ecse223.block.view;
 
 import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
