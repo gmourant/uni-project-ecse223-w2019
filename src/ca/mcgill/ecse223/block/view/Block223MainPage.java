@@ -8,6 +8,9 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
+import ca.mcgill.ecse223.block.controller.Block223Controller;
+import ca.mcgill.ecse223.block.controller.InvalidInputException;
+
 public class Block223MainPage extends JFrame {
     
     public final static Color HEADER_BACKGROUND = new Color(224, 249, 246);
@@ -36,6 +39,7 @@ public class Block223MainPage extends JFrame {
     private JScrollPane sideMenu;
     private JList sideMenuItems;
     private ContentPage displayedPage;
+	private Block223MainPage thisInstance;
 
     public Block223MainPage() {
         this.setSize(500, 400); // Specifies the size should adjust to the needs for space
@@ -43,6 +47,8 @@ public class Block223MainPage extends JFrame {
         this.setLocationRelativeTo(null); // Places in the center of the screen
         this.setResizable(false); // stops user from resizing the dialog box
         this.setUndecorated(true);
+        
+        thisInstance = this;
 
         // setting up
         setUIFont(new javax.swing.plaf.FontUIResource(UI_FONT.getFontName(),UI_FONT.getStyle(),UI_FONT.getSize()));
@@ -170,9 +176,18 @@ public class Block223MainPage extends JFrame {
         
         // listeners
         save.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    // action save takes
-                }
+                public void actionPerformed(ActionEvent evt){
+                	//clear error message
+            		String error = null;
+            		
+            		//call the controller
+            		try {
+            			Block223Controller.saveGame();
+            		} catch(InvalidInputException e) {
+            			new ViewError(e.getMessage(), false, thisInstance);
+            			//refreshDataOfCurrentScreen//TODO
+            		}
+                }//End of actionPerformed by save method
         });
         minimize.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
