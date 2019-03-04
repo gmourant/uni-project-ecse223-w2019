@@ -36,7 +36,6 @@ import ca.mcgill.ecse223.block.view.PageLogin;
 public class PageLogout extends ContentPage {
 
 	//data elements
-	private String error = null;
 	private static boolean isAdmin = (Block223Application.getCurrentUserRole() instanceof Admin);
 	
 	//UI elements
@@ -105,16 +104,14 @@ public class PageLogout extends ContentPage {
 	//ActionPerformed methods
 	//***********************
 	private void logOutButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		//clear error message
-		error = null;
+		
 		//call to controller
 		Block223Controller.logout();
 		changePage(Block223MainPage.Page.login);
 	}//End of logOutButtonActionPerformed
 
 	private void createGameButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		//clear error message
-		error=null;
+		
 		//Bring
 		changePage(Block223MainPage.Page.adminMenu);
 	}//End of createGameButtonButtonActionPerformed
