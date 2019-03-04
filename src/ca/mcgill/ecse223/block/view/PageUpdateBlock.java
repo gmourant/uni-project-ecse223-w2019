@@ -4,9 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -19,6 +24,7 @@ import javax.swing.event.ChangeListener;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOBlock;
 
 /**
  * The page for updating a block. Modified by Mathieu Bissonnette
@@ -41,39 +47,50 @@ public class PageUpdateBlock extends ContentPage{
          
 	    //Header
 	    add(createHeader("Update a Block"));
-	 
-	    //Rectangle changes color with slider
-         JPanel colorPatch; 
-         colorPatch = new JPanel();
-         JPanel gridbagPanel = new JPanel();
-         gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-         //colorPatch.setBounds(230,40,50,50);
-         gridbagPanel.setPreferredSize(new Dimension(20, 20));
-         gridbagPanel.setLocation(230,40);
-         add(gridbagPanel);
-         colorPatch.setPreferredSize(new Dimension(40,37));
-         gridbagPanel.add(colorPatch);
-         gridbagPanel.setBackground(this.getBackground());
-         colorPatch.setBackground(Color.black);
-         Color borderColorBlock = new Color(0, 0, 0);
-         Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
-         colorPatch.setBorder(blockBorder);
-        
 	    
+	    //Rectangle changes color with slider
+        JPanel colorPatch; 
+        colorPatch = new JPanel();
+        JPanel gridbagPanel = new JPanel();
+        gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //colorPatch.setBounds(230,40,50,50);
+        gridbagPanel.setPreferredSize(new Dimension(20, 20));
+        gridbagPanel.setLocation(230,40);
+        add(gridbagPanel);
+        colorPatch.setPreferredSize(new Dimension(40,37));
+        gridbagPanel.add(colorPatch);
+        gridbagPanel.setBackground(this.getBackground());
+        colorPatch.setBackground(Color.black);
+        Color borderColorBlock = new Color(0, 0, 0);
+        Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
+        colorPatch.setBorder(blockBorder);
+
         //ID panel
         JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         idPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                  BorderFactory.createEmptyBorder(0, 0, 0, 0)));
         JLabel idLabel = new JLabel("ID : ");
         idPanel.add(idLabel);
-        JTextField idTextField = new JTextField();
-        idTextField.setPreferredSize(new Dimension(253, 27));
+        JComboBox<Integer> idComboBox = new JComboBox<Integer>();
+        idComboBox.setPreferredSize(new Dimension(253, 27));
         // Color aqua = new Color(224, 249, 246);
         Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
+        // Populate the ID combobox.
+        List<TOBlock> blocks = new ArrayList<TOBlock>();
+        try {
+        blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
+        } catch (InvalidInputException e) {
+        	error = e.getMessage();
+        	new ViewError(error, false, parent);
+        }
+        for (TOBlock block : blocks) {
+        	idComboBox.addItem(block.getId());
+        }
+        // Set visuals and add ID panel.
         Border border = BorderFactory.createLineBorder(borderColor, 3);
-        idTextField.setBorder(border);
-        idPanel.add(idTextField);
+        idComboBox.setBorder(border);
+        idPanel.add(idComboBox);
         idPanel.setBackground(this.getBackground());
         add(idPanel);
         
@@ -121,7 +138,7 @@ public class PageUpdateBlock extends ContentPage{
          
         //Action listener colorChooser 
         //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
-        ChangeListener actionListener = new ChangeListener() {
+        ChangeListener actionListenerColor = new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
             	int r;
@@ -134,11 +151,32 @@ public class PageUpdateBlock extends ContentPage{
                 colorPatch.setBackground(new Color(r,g,b));
             }
         };
+        
+        //Action listener idComboBox 
+        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+        ActionListener actionListenerId = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r,g,b;
+				Integer id = (Integer) idComboBox.getSelectedItem();
+				TOBlock block = Block223Controller.findBlock(id);
+				r = block.getRed();
+				redSlider.setValue(r);
+				g = block.getGreen();
+				greenSlider.setValue(g);
+				b = block.getBlue();
+				blueSlider.setValue(b);
+				colorPatch.setBackground(new Color(r,g,b));
+			}
+        };
        
         //Slider listeners
-        redSlider.addChangeListener(actionListener);
-        blueSlider.addChangeListener(actionListener);
-        greenSlider.addChangeListener(actionListener);
+        redSlider.addChangeListener(actionListenerColor);
+        blueSlider.addChangeListener(actionListenerColor);
+        greenSlider.addChangeListener(actionListenerColor);
+        
+        //ID Combobox listener
+        idComboBox.addActionListener(actionListenerId);
     
         //Number of points panel
         JPanel pointSliders = new JPanel(new GridLayout(1,1));
@@ -168,7 +206,7 @@ public class PageUpdateBlock extends ContentPage{
 				// call the controller
 				try {
 					Block223Controller.updateBlock(
-							Integer.parseInt((idTextField.getText())), 
+							(int)idComboBox.getSelectedItem(), 
 							redSlider.getValue(),
 							greenSlider.getValue(),
 							blueSlider.getValue(),

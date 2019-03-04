@@ -1,10 +1,15 @@
 package ca.mcgill.ecse223.block.view;
 
+import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
+import static ca.mcgill.ecse223.block.view.Block223MainPage.UI_FONT;
+import static ca.mcgill.ecse223.block.view.Block223MainPage.createButton;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -20,6 +25,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,10 +34,12 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.border.Border;
 import javax.swing.border.MatteBorder;
 import javax.swing.event.ChangeEvent;
@@ -40,6 +48,7 @@ import javax.swing.event.ChangeListener;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
+import ca.mcgill.ecse223.block.controller.TOGridCell;
 
 public class PagePositionBlock extends ContentPage {
 	
@@ -51,46 +60,57 @@ public class PagePositionBlock extends ContentPage {
 	public PagePositionBlock(Block223MainPage parent) {
 		super(parent);
 		
-		setLayout(new GridLayout(8,1));
+		setLayout(new GridLayout(7,1));
 		
 		//Header
 	    add(createHeader("Position a Block"));
-	    
-	    // TODO Implement a current bloc visualizer.
 	 
-//	    //Rectangle changes color with slider
-//    	JPanel colorPatch; 
-//    	colorPatch = new JPanel();
-//    	JPanel gridbagPanel = new JPanel();
-//    	gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-//    	//colorPatch.setBounds(230,40,50,50);
-//    	gridbagPanel.setPreferredSize(new Dimension(20, 20));
-//    	gridbagPanel.setLocation(230,40);
-//    	add(gridbagPanel);
-//    	colorPatch.setPreferredSize(new Dimension(40,37));
-//    	gridbagPanel.add(colorPatch);
-//    	gridbagPanel.setBackground(this.getBackground());
-//    	colorPatch.setBackground(Color.black);
-//    	Color borderColorBlock = new Color(0, 0, 0);
-//    	Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
-//    	colorPatch.setBorder(blockBorder);
-	    
+	    //Rectangle changes color with slider
+        JPanel colorPatch; 
+        colorPatch = new JPanel();
+        JPanel gridbagPanel = new JPanel();
+        gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //colorPatch.setBounds(230,40,50,50);
+        gridbagPanel.setPreferredSize(new Dimension(20, 20));
+        gridbagPanel.setLocation(230,40);
+        add(gridbagPanel);
+        colorPatch.setPreferredSize(new Dimension(40,37));
+        gridbagPanel.add(colorPatch);
+        gridbagPanel.setBackground(this.getBackground());
+        colorPatch.setBackground(Color.black);
+        Color borderColorBlock = new Color(0, 0, 0);
+        Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
+        colorPatch.setBorder(blockBorder);
+
         //ID panel
         JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         idPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                  BorderFactory.createEmptyBorder(0, 0, 0, 0)));
         JLabel idLabel = new JLabel("ID : ");
         idPanel.add(idLabel);
-        JTextField idTextField = new JTextField();
-        idTextField.setPreferredSize(new Dimension(253, 27));
+        JComboBox<Integer> idComboBox = new JComboBox<Integer>();
+        idComboBox.setPreferredSize(new Dimension(253, 27));
         // Color aqua = new Color(224, 249, 246);
         // Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
+        // Populate the ID combobox.
+        List<TOBlock> blocks = new ArrayList<TOBlock>();
+        try {
+        blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
+        } catch (InvalidInputException e) {
+        	error = e.getMessage();
+        	new ViewError(error, false, parent);
+        }
+        for (TOBlock block : blocks) {
+        	idComboBox.addItem(block.getId());
+        }
+        // Set visuals and add ID panel.
         Border border = BorderFactory.createLineBorder(borderColor, 3);
-        idTextField.setBorder(border);
-        idPanel.add(idTextField);
+        idComboBox.setBorder(border);
+        idPanel.add(idComboBox);
         idPanel.setBackground(this.getBackground());
         add(idPanel);
+
         
         //Level combobox
         JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -99,7 +119,7 @@ public class PagePositionBlock extends ContentPage {
         JLabel levelLabel = new JLabel("Level : ");
         levelPanel.add(levelLabel);
         JComboBox<Integer> levelSelector = new JComboBox<Integer>();
-        levelSelector.setPreferredSize(new Dimension(230, 27));
+        levelSelector.setPreferredSize(new Dimension(230, 30));
         levelSelector.setBorder(border);
         // Populate combobox
         for (Integer i = 0; i < 99; i++) {
@@ -116,11 +136,16 @@ public class PagePositionBlock extends ContentPage {
         JLabel coordLabel = new JLabel("X,Y :    ");
         coordPanel.add(coordLabel);
         JTextField coordTextField = new JTextField();
-        coordTextField.setPreferredSize(new Dimension(230, 27));
+        coordTextField.setPreferredSize(new Dimension(230, 30));
         coordTextField.setBorder(border);
         coordPanel.add(coordTextField);
         coordPanel.setBackground(this.getBackground());
         add(coordPanel);
+        
+        //View button
+        JButton viewButton = createButton("Level view");
+        add(viewButton);
+        
 
         //Button Panels
         JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -160,7 +185,7 @@ public class PagePositionBlock extends ContentPage {
 				// Call the controller.
 				try {
 					Block223Controller.positionBlock(
-							(int)Integer.parseInt(idTextField.getText()),
+							(Integer)idComboBox.getSelectedItem(),
 							(int)levelSelector.getSelectedItem(),
 							x, y);
 				} catch (InvalidInputException e) {
@@ -169,6 +194,9 @@ public class PagePositionBlock extends ContentPage {
 				} catch (NumberFormatException e) {
 					error = "The block ID must be a valid number.";
 					new ViewError(error, false, parent);
+				} catch (NullPointerException e) {
+					error = "No block selected.";
+					new ViewError(error, false, parent);
 				}
 				
 				// update visuals
@@ -176,6 +204,42 @@ public class PagePositionBlock extends ContentPage {
 			}
 			
 		});
+        
+        // viewButton listener
+        
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent evt) {
+        		
+        		// Get the block assignments of the current level.
+        		
+        		List<TOGridCell> assignments = new ArrayList<TOGridCell>();
+        		try {
+        			assignments = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((Integer)levelSelector.getSelectedItem());
+        			new LevelView(assignments, false, parent);
+        		} catch (InvalidInputException e) {
+        			error = e.getMessage();
+					new ViewError(error, false, parent);
+        		}
+        		
+        	}
+        });
+
+        //Action listener idComboBox 
+        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+        ActionListener actionListenerId = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r,g,b;
+				Integer id = (Integer) idComboBox.getSelectedItem();
+				TOBlock block = Block223Controller.findBlock(id);
+				r = block.getRed();
+				g = block.getGreen();
+				b = block.getBlue();
+				colorPatch.setBackground(new Color(r,g,b));
+			}
+        };
+        
+        idComboBox.addActionListener(actionListenerId);
         
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
         	public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,7 +250,128 @@ public class PagePositionBlock extends ContentPage {
        //Side menu editing
        //JList sideMenu = getSideMenuList();
        //add(sideMenu);
-     
+
+	}
+	
+	private TOGridCell coordInList(int x, int y, List<TOGridCell> list) {
+		for (TOGridCell cell : list) {
+			if (x == cell.getGridHorizontalPosition() && y == cell.getGridVerticalPosition()) {
+				return cell;
+			}
+		}
+		return null;
+	}
+	
+	public class LevelView extends JFrame{
+
+	    final Color HEADER_BACKGROUND = 
+	            new Color(255 + (255 - 255)*5/8, 204 + (255 - 204)*5/8, 204 + (255 - 204)*5/8);
+	    
+	    private final Block223MainPage framework;
+	    private final boolean errorRedirect;
+	    private final JPanel windowHolder;
+	    private JPanel topMenu;
+	    private JButton exit;
+	    
+	    public LevelView(List<TOGridCell> assignments, boolean errorRedirect,  Block223MainPage parent){
+	        framework = parent;
+	        this.errorRedirect = errorRedirect;
+	        this.setSize(900, 600); // Specifies the size should adjust to the needs for space
+	        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
+	        this.setLocationRelativeTo(null); // Places in the center of the screen
+	        this.setResizable(false); // stops user from resizing the dialog box
+	        this.setUndecorated(true);
+	        this.setVisible(true);
+	        windowHolder = new JPanel(new BorderLayout());
+	        windowHolder.setBorder(BorderFactory.createLineBorder(Color.darkGray));
+	        windowHolder.add(new Grid(assignments));
+	        setupTopMenu();
+	        add(windowHolder);
+	    }
+	    
+	    class Grid extends JPanel {
+	    	
+	    	Grid(List<TOGridCell> assignments) {
+	        	
+	            setLayout(new GridBagLayout());
+	
+	            GridBagConstraints gbc = new GridBagConstraints();
+	            for (int row = 0; row < 8; row++) {
+	                for (int col = 0; col < 8; col++) {
+	                    gbc.gridx = col;
+	                    gbc.gridy = row;
+	
+	                    CellPane cellPane = new CellPane();
+	                    Border border = null;
+	                    if (row < 7) {
+	                        if (col < 7) {
+	                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+	                        } else {
+	                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+	                        }
+	                    } else {
+	                        if (col < 7) {
+	                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+	                        } else {
+	                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+	                        }
+	                    }
+                    	TOGridCell cell = coordInList(col, row, assignments);
+                    	if (cell != null)
+                    		cellPane.setBackground(new Color(cell.getRed(), cell.getGreen(), cell.getBlue()));
+	                    cellPane.setBorder(border);
+	                    add(cellPane, gbc);
+	                }
+	            }
+	        }
+	    }
+	
+	    class CellPane extends JPanel {
+	
+	        private Color defaultBackground;
+	    
+	    }
+	    
+	    /**
+	     * This method initalises all the information for the top menu.
+	     * @author Georges Mourant
+	     */
+	    private void setupTopMenu() {
+	        topMenu = new JPanel(new GridLayout(1, 2));
+	        topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
+	                BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
+	        topMenu.setBackground(HEADER_BACKGROUND);
+
+	        JLabel title = new JLabel("View"); // empty by default
+	        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
+	        topMenu.add(title);
+
+	        JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	        exitMin.setBackground(topMenu.getBackground()); // match to background
+	        exit = createButton("X");
+	        exit.setBackground(exitMin.getBackground()); // match to background
+	        exitMin.add(exit);
+	        topMenu.add(exitMin);
+
+	        windowHolder.add(topMenu, BorderLayout.NORTH);
+	        
+	        JPanel holder = new JPanel(new BorderLayout());
+	        holder.setBorder(BorderFactory.createCompoundBorder(holder.getBorder(), 
+	                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+	        holder.setBackground(Color.WHITE);
+	        holder.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()*3/4));
+	        
+	        windowHolder.add(holder, BorderLayout.CENTER);
+	        
+	        exit.addActionListener(new ActionListener(){
+	                public void actionPerformed(ActionEvent e){
+	                    if(errorRedirect)
+	                        framework.changePage(Block223MainPage.Page.adminMenu);
+	                    dispose(); // quit program
+	                }
+	        });
+	    }
 	}
 	
 }
