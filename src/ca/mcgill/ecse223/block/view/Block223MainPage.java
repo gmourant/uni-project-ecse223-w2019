@@ -82,13 +82,13 @@ public class Block223MainPage extends JFrame {
         // in the toDisplay enum
         switch (toDisplay) {
             case login:
-                //displayedPage = new PageLogin(this);
+                displayedPage = new PageLogin(this);
                 break;
             case logout:
-                //displayedPage = new PageLogout(this);
+                displayedPage = new PageLogout(this);
                 break;
             case signUp:
-                //displayedPage = new PageSignUp(this);
+                displayedPage = new PageSignUp(this);
                 break;
             case addGame:
             	//displayedPage = new PageAddGame(this);
