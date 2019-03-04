@@ -171,10 +171,9 @@ public class PageSignUp extends ContentPage{
 		try {
 			Block223Controller.register(usernameTextField.getText(), playerPassword, adminPassword);
 		} catch(InvalidInputException e) {
-			error=e.getMessage();
+			displayError(e.getMessage(), false);
 			refreshDataSignUp();
 		}
-		//ViewError//TODO
 	}
 
 }//End of PageSignUp class

@@ -175,7 +175,7 @@ public class PageLogin extends ContentPage {
 		try {
 			Block223Controller.login(usernameTextField.getText(), password);
 		} catch(InvalidInputException e) {
-			error=e.getMessage();
+			displayError(e.getMessage(), false);
 			refreshDataLogIn();
 		}
 		//ViewError//TODO
