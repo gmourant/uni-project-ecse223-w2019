@@ -150,7 +150,6 @@ public class PageLogin extends ContentPage {
 		//populate page with data
 		usernameTextField.setText("");
 		passwordPField.setText("");
-		changePage(Block223MainPage.Page.login);
 		//pack();
 	}//End of refreshDataLogin
 	
@@ -168,9 +167,11 @@ public class PageLogin extends ContentPage {
 		try {
 			Block223Controller.login(usernameTextField.getText(), password);
 		} catch(InvalidInputException e) {
-			displayError(e.getMessage(), false);
-			refreshDataLogIn();
+			displayError(e.getMessage(), Block223MainPage.Page.login);
+			return;
+			
 		}
+		refreshDataLogIn();
 		changePage(Block223MainPage.Page.logout);
 	}//End of logInButtonActionPerformed method
 	
