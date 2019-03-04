@@ -174,6 +174,8 @@ public class PageSignUp extends ContentPage{
 			displayError(e.getMessage(), false);
 			refreshDataSignUp();
 		}
+		
+		changePage(Block223MainPage.Page.login);
 	}
 
 }//End of PageSignUp class
