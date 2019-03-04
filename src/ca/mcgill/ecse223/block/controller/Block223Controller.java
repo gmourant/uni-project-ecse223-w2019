@@ -538,13 +538,15 @@ public class Block223Controller {
 			try {
 				user = new User(username, block223, player);//Create User instance
 			} catch(RuntimeException e){
+				player = null;
 				if(e.getMessage().equals("The username has already been taken.")) {//check for generic error message
-					player = null;// delete player instance 
+					// delete player instance 
 					throw new InvalidInputException("The username must be specified.");//specific error message
 				}
+				throw new InvalidInputException("The username has already been taken.");
 			}
 			
-			if((adminPassword!= null) && (!adminPassword.equals(""))) {
+			if((adminPassword!= null) && (!(adminPassword.equals("")))) {
 				Admin admin = new Admin(adminPassword, block223);//Create Admin instance
 				user.addRole(admin);//add admin role
 			}
