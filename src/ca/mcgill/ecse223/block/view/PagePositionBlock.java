@@ -43,6 +43,9 @@ import ca.mcgill.ecse223.block.controller.TOBlock;
 
 public class PagePositionBlock extends ContentPage {
 	
+	private static final String Regex = "\\d+";
+	private static final Pattern pattern = Pattern.compile(Regex);
+	
 	private String error = "";
 
 	public PagePositionBlock(Block223MainPage parent) {
@@ -52,6 +55,8 @@ public class PagePositionBlock extends ContentPage {
 		
 		//Header
 	    add(createHeader("Position a Block"));
+	    
+	    // TODO Implement a current bloc visualizer.
 	 
 //	    //Rectangle changes color with slider
 //    	JPanel colorPatch; 
@@ -134,16 +139,21 @@ public class PagePositionBlock extends ContentPage {
 				
 				// Parse the coordinate textField.
 				String coord = coordTextField.getText();
-				String Regex = "\\d+";
-				Pattern pattern = Pattern.compile(Regex);
-				Matcher matcher = pattern.matcher(coord);
 				Integer x = 0;
 				Integer y = 0;
+				Matcher matcher = null;
+				
 				try {
-					x = Integer.parseInt(matcher.group(1));
-					y = Integer.parseInt(matcher.group(2));
+					matcher = pattern.matcher(coord);
+					matcher.find();
+					x = Integer.parseInt(matcher.group());
+					matcher.find();
+					y = Integer.parseInt(matcher.group());
 				} catch(NumberFormatException e) {
 					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
+					new ViewError(error, false, parent);
+				} catch(IllegalStateException e) {
+					error = "Could not match coordinates.";
 					new ViewError(error, false, parent);
 				}
 				
