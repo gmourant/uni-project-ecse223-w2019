@@ -126,9 +126,6 @@ public class PageLogin extends ContentPage {
 	    add(loginBtnPanel);
 	    add(signUpBtnPanel);
 	    
-	    JList sideMenu = getSideMenuList();
-	    sideMenu.setVisible(false);
-	    
 	    //***********************
 	  	//Adding ActionListeners 
 	  	//***********************
@@ -174,6 +171,7 @@ public class PageLogin extends ContentPage {
 			refreshDataLogIn();
 		}
 		//ViewError//TODO
+                changePage(Block223MainPage.Page.logout);
 	}//End of logInButtonActionPerformed method
 	
 	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
