@@ -130,7 +130,7 @@ public class PageUpdateBlock extends ContentPage{
             	r = redSlider.getValue();
                 g = greenSlider.getValue();
                 b = blueSlider.getValue();   
-                System.out.println(((JSlider) e.getSource()).getValue());
+//                System.out.println(((JSlider) e.getSource()).getValue());
                 colorPatch.setBackground(new Color(r,g,b));
             }
         };
