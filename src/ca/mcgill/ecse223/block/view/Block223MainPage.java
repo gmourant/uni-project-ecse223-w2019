@@ -165,9 +165,17 @@ public class Block223MainPage extends JFrame {
         
         // listeners
         save.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent e){
-                    // action save takes
-                }
+                public void actionPerformed(ActionEvent evt){
+                	//clear error message
+            		String error = null;
+            		
+            		//call the controller
+            		try {
+            			Block223Controller.saveGame();
+            		} catch(InvalidInputException e) {
+            			//refreshDataOfCurrentScreen()//TODO 
+            		}
+                }//End of actionPerformed by save method
         });
         load.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
