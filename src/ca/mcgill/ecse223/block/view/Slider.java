@@ -47,8 +47,8 @@ public class Slider {
 		defineFont(maxLabel);
 		defineFont(minLabel);
 		defineFont(readOut);
-		min = this.min;
-		max = this.max;
+		this.min = min;
+		this.max = max;
 		panel.add(nameLabel);
 		panel.add(minLabel);
 		panel.add(slider);
@@ -69,7 +69,7 @@ public class Slider {
 		nameLabel = new JLabel(name);
 		minLabel = new JLabel(min.toString());
 		maxLabel = new JLabel(max.toString());
-		slider = new JSlider(SMIN, SMAX, (int) ((SMAX-SMAX)*(val/(max-min))));
+		slider = new JSlider(SMIN, SMAX, (int) ((SMAX-SMIN)*(val/(max-min))));
 		readOut = new JLabel(val.toString());
 		defineFont(nameLabel);
 		defineFont(maxLabel);
@@ -117,7 +117,7 @@ public class Slider {
 	 * @param label A particular JLabel
 	 */
 	private void defineFont(JLabel label) {
-		label.setFont(new Font("Century Gothic", Font.PLAIN, 9));
+		label.setFont(new Font(Block223MainPage.UI_FONT.getFamily(), Font.PLAIN, 9));
 	}
 	
 }
