@@ -48,9 +48,9 @@ public class PageAddGame extends ContentPage {
             public void actionPerformed(ActionEvent a){
             	String gameName = newGame.getText(); // Retrieves user input
                 try{
-                    Block223Controller.createGame(gameName);
-                    Block223Controller.selectGame(gameName);
-                    changePage(Block223MainPage.Page.defineGame);
+                    Block223Controller.createGame(gameName); // Creates a new game
+                    Block223Controller.selectGame(gameName); // Sets the game in Block223Application
+                    changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);
