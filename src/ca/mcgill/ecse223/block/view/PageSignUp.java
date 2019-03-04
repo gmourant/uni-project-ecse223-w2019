@@ -34,14 +34,26 @@ public class PageSignUp extends ContentPage{
 
 	//data elements
 	private String error = null;
+	
+	//UI elements
 	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
 	private static Font titleFont = new Font("Century Gothic",Font.BOLD,20);
-
-	public PageSignUp(Block223MainPage parent) {
-		super(parent);
+	JLabel errorMessage;
+	JTextField usernameTextField;
+	JPasswordField playerPasswordPField;
+	JPasswordField adminPasswordPField;
+	
+	//*******************
+	//Constructor method
+	//*******************
+	public PageSignUp(Block223MainPage frame) {
+		super(frame);
 		setLayout(new GridLayout(8,1));
 		setBackground(Color.WHITE);
 
+		//*****************
+	    //UI Sign Up elements
+	    //*****************
 		//Sign up elements 
 		Border border = BorderFactory.createLineBorder(new Color(207,243,238), 3);
 
@@ -63,7 +75,7 @@ public class PageSignUp extends ContentPage{
 	    //Username text field panel
 	    JPanel usernameTxtFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 	    usernameTxtFieldPanel.setBackground(Color.WHITE);
-	    JTextField usernameTextField = new JTextField();
+	    usernameTextField = new JTextField();
 	    usernameTextField.setPreferredSize(new Dimension(253, 27));
 	    usernameTextField.setBorder(border);
 	    usernameTextField.setFont(defaultFont);
@@ -79,7 +91,7 @@ public class PageSignUp extends ContentPage{
 	    
 	    //Player password password field panel
 	    JPanel playerPwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    JPasswordField playerPasswordPField = new JPasswordField();
+	    playerPasswordPField = new JPasswordField();
 	    playerPasswordPField.setPreferredSize(new Dimension(253, 27));
 	    playerPasswordPField.setBorder(border);
 	    playerPwordPFieldPanel.add(playerPasswordPField);
@@ -93,7 +105,7 @@ public class PageSignUp extends ContentPage{
 	    
 	    //Admin password password field panel
 	    JPanel adminPwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    JPasswordField adminPasswordPField = new JPasswordField();
+	    adminPasswordPField = new JPasswordField();
 	    adminPasswordPField.setPreferredSize(new Dimension(253, 27));
 	    adminPasswordPField.setBorder(border);
 	    adminPwordPFieldPanel.add(adminPasswordPField);
@@ -104,7 +116,9 @@ public class PageSignUp extends ContentPage{
 	    JButton signUpButton = createButton("Sign Up");
 	    signUpBtnPanel.add(signUpButton);
 	    
-	    //Add panels to the screen
+	    //****************************
+      	//Adding panels to the screen
+      	//****************************
 	    add(titlePanel);
 	    add(usernameLabelPanel);
 	    add(usernameTxtFieldPanel);
@@ -113,28 +127,49 @@ public class PageSignUp extends ContentPage{
 	    add(adminPwordLabelPanel);
 	    add(adminPwordPFieldPanel);
 	    
-	    //add action listeners
+	    //***********************
+	  	//Adding ActionListener 
+	  	//***********************
 	    signUpButton.addActionListener(new java.awt.event.ActionListener() {
 	    	public void actionPerformed(java.awt.event.ActionEvent evt) {
-	    		//clear error message
-        		error = null;
-        		
-        		//Convert array of characters into a String
-        		String playerPassword = new String(playerPasswordPField.getPassword());
-        		String adminPassword = new String(adminPasswordPField.getPassword());
-        		
-        		//call the controller
-        		try {
-        			Block223Controller.register(usernameTextField.getText(), playerPassword, adminPassword);
-        		} catch(InvalidInputException e) {
-        			error=e.getMessage();
-        			//refreshDataSignUp()//TODO
-        		}
-        		//ViewError//TODO
+	    		signUpButtonActionPerformed(evt);
 	    	}
 	    });
 	    
 	    
 	}//End of PageSignUp constructor
+	
+	//*******************
+	//RefreshData method
+	//*******************
+	private void refreshDataSignUp() {
+		//error
+		errorMessage.setText(error);
+		//populate page with data
+		usernameTextField.setText("");
+		playerPasswordPField.setText("");
+		adminPasswordPField.setText("");
+	}//End of refreshDataSignUp method
+	
+	//***********************
+	//ActionPerformed methods
+	//***********************
+	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
+		//clear error message
+		error = null;
+
+		//Convert array of characters into a String
+		String playerPassword = new String(playerPasswordPField.getPassword());
+		String adminPassword = new String(adminPasswordPField.getPassword());
+
+		//call the controller
+		try {
+			Block223Controller.register(usernameTextField.getText(), playerPassword, adminPassword);
+		} catch(InvalidInputException e) {
+			error=e.getMessage();
+			refreshDataSignUp();
+		}
+		//ViewError//TODO
+	}
 
 }//End of PageSignUp class
