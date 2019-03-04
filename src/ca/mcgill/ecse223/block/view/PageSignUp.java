@@ -33,12 +33,12 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
 public class PageSignUp extends ContentPage{
 
 	//data elements
-	private String error = null;
+	
 	
 	//UI elements
 	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
 	private static Font titleFont = new Font("Century Gothic",Font.BOLD,20);
-	JLabel errorMessage;
+	
 	JTextField usernameTextField;
 	JPasswordField playerPasswordPField;
 	JPasswordField adminPasswordPField;
@@ -148,8 +148,7 @@ public class PageSignUp extends ContentPage{
 	//RefreshData method
 	//*******************
 	private void refreshDataSignUp() {
-		//error
-		errorMessage.setText(error);
+		
 		//populate page with data
 		usernameTextField.setText("");
 		playerPasswordPField.setText("");
@@ -161,7 +160,6 @@ public class PageSignUp extends ContentPage{
 	//***********************
 	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//clear error message
-		error = null;
 
 		//Convert array of characters into a String
 		String playerPassword = new String(playerPasswordPField.getPassword());
