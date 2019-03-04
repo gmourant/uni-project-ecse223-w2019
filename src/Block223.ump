@@ -13,7 +13,7 @@ class User {
    1 -> 1..2 UserRole roles;
    
    before constructor, setUsername{
-   		if(username.equals("") || username == null){
+   		if(aUsername.equals("") || aUsername == null){
    			throw new RuntimeException("The username has already been taken.");
    		}	
    }
@@ -25,7 +25,7 @@ class UserRole {
    password;
    
    before constructor {
-   		if(password == null || password.equals("")){
+   		if(aPassword == null || aPassword.equals("")){
    			throw new RuntimeException("The player password needs to be specified.");
    		}
    }
