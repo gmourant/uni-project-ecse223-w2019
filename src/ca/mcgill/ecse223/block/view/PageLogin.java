@@ -150,6 +150,7 @@ public class PageLogin extends ContentPage {
 		//populate page with data
 		usernameTextField.setText("");
 		passwordPField.setText("");
+		changePage(Block223MainPage.Page.login);
 		//pack();
 	}//End of refreshDataLogin
 	

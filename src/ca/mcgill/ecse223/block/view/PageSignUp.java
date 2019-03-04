@@ -159,8 +159,6 @@ public class PageSignUp extends ContentPage{
 	//ActionPerformed methods
 	//***********************
 	private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		//clear error message
-
 		//Convert array of characters into a String
 		String playerPassword = new String(playerPasswordPField.getPassword());
 		String adminPassword = new String(adminPasswordPField.getPassword());
