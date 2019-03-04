@@ -1,17 +1,12 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
@@ -24,7 +19,6 @@ import javax.swing.event.ChangeListener;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.controller.TOGame;
 
 /**
  * The page for updating a block. Modified by Mathieu Bissonnette
@@ -74,7 +68,7 @@ public class PageUpdateBlock extends ContentPage{
         idPanel.add(idLabel);
         JTextField idTextField = new JTextField();
         idTextField.setPreferredSize(new Dimension(253, 27));
-        Color aqua = new Color(224, 249, 246);
+        // Color aqua = new Color(224, 249, 246);
         Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
         Border border = BorderFactory.createLineBorder(borderColor, 3);
