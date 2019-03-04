@@ -55,11 +55,11 @@ public class PageSignUp extends ContentPage{
 	    //UI Sign Up elements
 	    //*****************
 		//Sign up elements 
-		Border border = BorderFactory.createLineBorder(new Color(207,243,238), 3);
+		Border border = BorderFactory.createLineBorder(Block223MainPage.HEADER_BACKGROUND, 3);
 
 		//Title page panel
 		JPanel titlePanel = new JPanel(new BorderLayout());
-		titlePanel.setBackground(new Color(229, 248, 255));
+		titlePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
 		JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
 		titleLabel.setFont(titleFont);
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
@@ -84,6 +84,7 @@ public class PageSignUp extends ContentPage{
 	    //Password
 	    //Player password label panel
 	    JPanel playerPwordLabelPanel = new JPanel(new BorderLayout());
+	    playerPwordLabelPanel.setBackground(Color.WHITE);
 	    JLabel playerPasswordLabel = new JLabel("         Player password:");
 	    playerPasswordLabel.setFont(defaultFont);
 	    playerPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -91,6 +92,7 @@ public class PageSignUp extends ContentPage{
 	    
 	    //Player password password field panel
 	    JPanel playerPwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    playerPwordPFieldPanel.setBackground(Color.WHITE);
 	    playerPasswordPField = new JPasswordField();
 	    playerPasswordPField.setPreferredSize(new Dimension(253, 27));
 	    playerPasswordPField.setBorder(border);
@@ -98,6 +100,7 @@ public class PageSignUp extends ContentPage{
 	    
 	    //Admin password label panel
 	    JPanel adminPwordLabelPanel = new JPanel(new BorderLayout());
+	    adminPwordLabelPanel.setBackground(Color.WHITE);
 	    JLabel adminPasswordLabel = new JLabel("         Admin password (optional):");
 	    adminPasswordLabel.setFont(defaultFont);
 	    adminPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -105,6 +108,7 @@ public class PageSignUp extends ContentPage{
 	    
 	    //Admin password password field panel
 	    JPanel adminPwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    adminPwordPFieldPanel.setBackground(Color.WHITE);
 	    adminPasswordPField = new JPasswordField();
 	    adminPasswordPField.setPreferredSize(new Dimension(253, 27));
 	    adminPasswordPField.setBorder(border);
@@ -126,6 +130,7 @@ public class PageSignUp extends ContentPage{
 	    add(playerPwordPFieldPanel);
 	    add(adminPwordLabelPanel);
 	    add(adminPwordPFieldPanel);
+	    add(signUpBtnPanel);
 	    
 	    //***********************
 	  	//Adding ActionListener 

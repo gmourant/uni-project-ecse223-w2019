@@ -57,11 +57,11 @@ public class PageLogin extends ContentPage {
 	    //UI Login elements
 	    //*****************
 	    //Login elements 
-	    Border border = BorderFactory.createLineBorder(new Color(207,243,238), 3);
+	    Border border = BorderFactory.createLineBorder(Block223MainPage.HEADER_BACKGROUND, 3);
 	    
 	    //Title page panel
 	    JPanel titlePanel = new JPanel(new BorderLayout());
-	    titlePanel.setBackground(new Color(229, 248, 255));
+	    titlePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
 	    JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
 	    titleLabel.setFont(titleFont);
 	    titlePanel.add(titleLabel, BorderLayout.CENTER);
@@ -85,6 +85,7 @@ public class PageLogin extends ContentPage {
 	    
 	    //Password label panel
 	    JPanel passwordLabelPanel = new JPanel(new BorderLayout());
+	    passwordLabelPanel.setBackground(Color.WHITE);
 	    JLabel passwordLabel = new JLabel("         Password:");
 	    passwordLabel.setFont(defaultFont);
 	    passwordLabel.setHorizontalAlignment(JLabel.LEFT);
@@ -92,6 +93,7 @@ public class PageLogin extends ContentPage {
 	
 	    //Password password field panel
 	    JPanel passwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+	    passwordPFieldPanel.setBackground(Color.WHITE);
 	    passwordPField = new JPasswordField();
 	    passwordPField.setPreferredSize(new Dimension(253, 27));
 	    passwordPField.setBorder(border);
