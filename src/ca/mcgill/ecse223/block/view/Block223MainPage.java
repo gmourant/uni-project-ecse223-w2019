@@ -224,6 +224,7 @@ public class Block223MainPage extends JFrame {
         
         exit.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                ca.mcgill.ecse223.block.controller.Block223Controller.logout();
                 System.exit(0); // quit program
             }
         });

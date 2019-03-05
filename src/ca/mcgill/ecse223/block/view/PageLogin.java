@@ -179,19 +179,17 @@ public class PageLogin extends ContentPage {
 
         }
         
-        changePage(Block223MainPage.Page.logout);
-        
-       /*switch (getUserMode().getMode()) {
+       switch (getUserMode().getMode()) {
             case Design:
                 changePage(Block223MainPage.Page.logout);
                 break;
             case Play:
                 Block223Controller.logout();
-                displayError("Sorry, we're doing some work on the player section. Please try again after the next iteration.", 
-                		Page.login);
+                displayError("Sorry, we're doing some work on the player section. "
+                        + "Please try again after the next iteration.", Page.login);
                 break;
             default:
-       }*/
+       }
     }//End of logInButtonActionPerformed method
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
