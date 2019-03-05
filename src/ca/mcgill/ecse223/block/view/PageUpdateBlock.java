@@ -161,13 +161,15 @@ public class PageUpdateBlock extends ContentPage{
 				int r,g,b;
 				Integer id = (Integer) idComboBox.getSelectedItem();
 				Block block = Block223Controller.findBlock(id);
-				r = block.getRed();
-				redSlider.setValue(r);
-				g = block.getGreen();
-				greenSlider.setValue(g);
-				b = block.getBlue();
-				blueSlider.setValue(b);
-				colorPatch.setBackground(new Color(r,g,b));
+				if (block != null) {
+					r = block.getRed();
+					redSlider.setValue(r);
+					g = block.getGreen();
+					greenSlider.setValue(g);
+					b = block.getBlue();
+					blueSlider.setValue(b);
+					colorPatch.setBackground(new Color(r,g,b));
+				}
 			}
         };
        
