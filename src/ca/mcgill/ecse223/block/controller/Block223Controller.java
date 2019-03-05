@@ -30,15 +30,9 @@ public class Block223Controller {
         // Get block223 and admin
         Block223 block223 = Block223Application.getBlock223();
         Admin admin = (Admin) Block223Application.getCurrentUserRole();
-
-        // Create game and catch runtime exceptions
-        // Exceptions are specified in the injected UMPLE code
-        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
-        try {
-            block223.addGame(game);
-        } catch (RuntimeException e) {
-            throw new InvalidInputException(e.getMessage());
-        }
+        
+        // Check for empty name
+        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
         
         // Check for uniqueness of game name
         for (Game aGame : block223.getGames()) {
@@ -47,6 +41,14 @@ public class Block223Controller {
    	     	}
    	     break;
    	  	}
+        
+        // Create then add game
+        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
+        try {
+            block223.addGame(game);
+        } catch (RuntimeException e) {
+            throw new InvalidInputException(e.getMessage());
+        }
         
         // Save to persistence
         try {
