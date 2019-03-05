@@ -474,9 +474,9 @@ public class Block223Controller {
         	foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
         } catch (RuntimeException e) {
         	if (e.getMessage().equals("X out of bounds.")) {
-        		throw new InvalidInputException("The horizontal position must be between 1 and " + 15 + ".");
+        		throw new InvalidInputException("The horizontal position must be between 1 and " + Game.GRID_DIMENSIONS + ".");
         	} else {
-        		throw new InvalidInputException("The vertical position must be between 1 and " + 15 + ".");
+        		throw new InvalidInputException("The vertical position must be between 1 and " + Game.GRID_DIMENSIONS + ".");
         	}
         }
 
