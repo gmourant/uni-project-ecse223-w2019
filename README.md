@@ -25,3 +25,7 @@ The first iteration includes a domain model of the Block223 game as an ```.ump``
 ### Iteration 2
 
 The second iteration includes a project report that can be found in the repository's wiki. It states the sequence diagrams and common UI for each feature. 
+
+### Iteration 3
+
+The third iteration includes ```Controller```,```Persistence```,```.View```,```Application```and ```Model``` files that can be found in the ```src``` directory in ```master```. There is also a statement of work excel file to see how the work was divided.

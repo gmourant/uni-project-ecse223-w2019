@@ -35,12 +35,13 @@ public class Block223Controller {
         if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
         
         // Check for uniqueness of game name
+        boolean unique = true;
         for (Game aGame : block223.getGames()) {
    	     	if (aGame.getName().equals(name)) {
-   	     		throw new InvalidInputException("The name of a game must be unique.");
+   	     		unique = false;
    	     	}
-   	     break;
    	  	}
+        if (!unique) throw new InvalidInputException("The name of a game must be unique.");
         
         // Create then add game
         Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
