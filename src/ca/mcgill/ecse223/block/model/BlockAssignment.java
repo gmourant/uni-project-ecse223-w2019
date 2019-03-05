@@ -31,7 +31,7 @@ public class BlockAssignment implements Serializable
     // line 88 "../../../../../Block223.ump"
     if (aGridHorizontalPosition > Game.GRID_DIMENSIONS || aGridHorizontalPosition < 1) {
              throw new RuntimeException("X out of bounds.");
-          }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || gridVerticalPosition < 1) {
+          }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || aGridVerticalPosition < 1) {
              throw new RuntimeException("Y out of bounds.");
           }
     // END OF UMPLE BEFORE INJECTION
