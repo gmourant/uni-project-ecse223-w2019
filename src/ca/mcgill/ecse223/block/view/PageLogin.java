@@ -178,7 +178,10 @@ public class PageLogin extends ContentPage {
             return;
 
         }
-        switch (getUserMode().getMode()) {
+        
+        changePage(Block223MainPage.Page.logout);
+        
+       /*switch (getUserMode().getMode()) {
             case Design:
                 changePage(Block223MainPage.Page.logout);
                 break;
@@ -188,7 +191,7 @@ public class PageLogin extends ContentPage {
                 		Page.login);
                 break;
             default:
-            }
+       }*/
     }//End of logInButtonActionPerformed method
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {
