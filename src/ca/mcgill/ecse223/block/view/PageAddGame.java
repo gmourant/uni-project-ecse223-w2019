@@ -49,13 +49,19 @@ public class PageAddGame extends ContentPage {
             	String gameName = newGame.getText(); // Retrieves user input
                 try{
                     Block223Controller.createGame(gameName); // Creates a new game
-                    Block223Controller.selectGame(gameName); // Sets the game in Block223Application
-                    changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);
                     return;
                 }
+                try{
+                	Block223Controller.selectGame(gameName); // Sets the game in Block223Application
+                }
+                catch(InvalidInputException e){
+                	displayError(e.getMessage(), false);
+                    return;
+                }
+                changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
             }
         });
         

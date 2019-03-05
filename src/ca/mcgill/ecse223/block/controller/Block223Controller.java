@@ -30,15 +30,33 @@ public class Block223Controller {
         // Get block223 and admin
         Block223 block223 = Block223Application.getBlock223();
         Admin admin = (Admin) Block223Application.getCurrentUserRole();
-
-        // Create game and catch runtime exceptions
-        // Exceptions are specified in the injected UMPLE code
+        
+        // Check for empty name
+        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
+        
+        // Check for uniqueness of game name
+        for (Game aGame : block223.getGames()) {
+   	     	if (aGame.getName().equals(name)) {
+   	     		throw new InvalidInputException("The name of a game must be unique.");
+   	     	}
+   	     break;
+   	  	}
+        
+        // Create then add game
+        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
         try {
-            Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
             block223.addGame(game);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
         }
+        
+        // Save to persistence
+        try {
+    		Block223Persistence.save(block223);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
 
     }
 
@@ -77,6 +95,7 @@ public class Block223Controller {
         Game game = Block223Application.getCurrentGame();
 
         // Verify that the user is an admin
+        
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to define game settings.");
         }
@@ -158,6 +177,7 @@ public class Block223Controller {
             level.delete();
             size = levels.size();
         }
+
 
     }
 
@@ -472,6 +492,129 @@ public class Block223Controller {
         }
 
     }
+    
+    /** 
+		 * saveGame method: save root class upon user 's command
+		 * @author Sofia Dieguez
+		 * This method does not take any arguments.
+		 * @throws InvalidInputException :If the currentUserRole is not an Admin role
+		 * @throws InvalidInputException :If the currentGame is not set
+		 * @throws InvalidInputException :If the currentUserRole is not the admin associated to this specific game
+		 * @throws InvalidInputException :If saving the root class throws its own RuntimeException
+		 * */
+	    public static void saveGame() throws InvalidInputException {
+	    	
+	    	if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+	    		throw new InvalidInputException("Admin privileges are required to save a game.");
+	    	}
+	    	if(Block223Application.getCurrentGame() == null) {
+	    		throw new InvalidInputException("A game must be selected to save it.");
+	    	}
+	    	if(Block223Application.getCurrentUserRole().getPassword() != Block223Application.getCurrentGame().getAdmin().getPassword()) {
+			throw new InvalidInputException("Only the admin who created the game can save it.");
+	    	}
+	    	
+	    	Block223 block223 = Block223Application.getBlock223();
+	    	
+	    	try {
+	    		Block223Persistence.save(block223);
+			}
+			catch (RuntimeException e) {
+				throw new InvalidInputException(e.getMessage());
+			}
+		}//End of saveGame method
+	    
+	    /** register method: creates a new account for a user
+	     * @author Sofia Dieguez
+	     * @param username :User's username
+	     * @param playerPassword :User's password linked to an Player role
+	     * @param adminPassword (optional) :User's password linked to an Admin role
+	     * @throws InvalidInputException :If there is another user currently logged in
+	     * @throws InvalidInputException :If playerPassword and adminPassword are the same
+	     * @throws InvalidInputException :If playerPassword is null or empty
+	     * @throws InvalidInputException :If the username provided already exists (it is not unique)
+	     * @throws InvalidInputException :If username is null or empty
+	     * */
+		public static void register(String username, String playerPassword, String adminPassword) throws InvalidInputException {	
+			
+			Block223 block223 = Block223Application.getBlock223();
+			if(playerPassword.equals(adminPassword)) {
+				throw new InvalidInputException("The passwords have to be different");
+			}
+			if(Block223Application.getCurrentUserRole() != null) {
+				throw new InvalidInputException("Cannot register a new user while a user is logged in.");
+			}
+			
+			Player player;//Declare Player instance for scope
+			try {
+				player = new Player(playerPassword, block223);//Create new Player instance
+			} catch (RuntimeException e){
+				throw new InvalidInputException(e.getMessage());
+			}
+			
+			User user = null;//Declare User instance for scope
+			try {
+				user = new User(username, block223, player);//Create User instance
+			} catch(RuntimeException e){
+				player = null;
+				if(e.getMessage().equals("The username has already been taken.")) {//check for generic error message
+					// delete player instance 
+					throw new InvalidInputException("The username must be specified.");//specific error message
+				}
+				throw new InvalidInputException("The username has already been taken.");
+			}
+			
+			if((adminPassword!= null) && (!(adminPassword.equals("")))) {
+				Admin admin = new Admin(adminPassword, block223);//Create Admin instance
+				user.addRole(admin);//add admin role
+			}
+			Block223Persistence.save(block223);
+		}//End of register method
+
+		/**login method : logs user into a game session
+		 * @author Sofia Dieguez
+		 * @param username :User's username
+		 * @param password :User's password linked to the specific UserRole 
+		 * @throws InvalidInputException :If there is another user currently logged in
+		 * @throws InvalidInputException :If the username provided doesn't exist
+		 * @throws InvalidInputException :If a UserRole with password does not exist for the user
+		 * */
+		public static void login(String username, String password) throws InvalidInputException {
+			if(Block223Application.getCurrentUserRole() != null) {
+				throw new InvalidInputException("Cannot login a user while a user is already logged in.");
+			}
+			
+			Block223Application.resetBlock223();
+			
+			User user = null; 
+			if(User.getWithUsername(username) == null) {
+				throw new InvalidInputException("The username and password do not match.");
+			} else {
+				user = User.getWithUsername(username);
+			}
+			
+			List<UserRole> roles = user.getRoles();
+			
+			for( UserRole role : roles) {
+				String rolePassword = role.getPassword();
+				if(rolePassword.equals(password)) {
+					Block223Application.setCurrentUserRole(role);
+				}//End of if
+			}//End of foreach loop
+			
+			if(Block223Application.getCurrentUserRole() == null) {
+				throw new InvalidInputException("The username and password do not match.");
+			}
+			
+		}//End of login method
+
+		/**logout method: log user out of the game session
+		 * This method does not take any arguments.
+		 * This method does not throw any InvalidInputExceptions
+		 * */
+		public static void logout() {
+			Block223Application.setCurrentUserRole(null);
+		}//End of logout method
 
      /**
 	 * Author: Sabrina Chan
@@ -574,18 +717,7 @@ public class Block223Controller {
 
 	}
 
-    public static void saveGame() throws InvalidInputException {
-    }
 
-    public static void register(String username, String playerPassword, String adminPassword)
-            throws InvalidInputException {
-    }
-
-    public static void login(String username, String password) throws InvalidInputException {
-    }
-
-    public static void logout() {
-    }
 
     // ****************************
     // Query methods
@@ -667,6 +799,22 @@ public class Block223Controller {
         return result;
     }
 
+    public static TOUserMode getUserMode() {
+			UserRole userRole = Block223Application.getCurrentUserRole();
+			if(userRole == null) {
+				TOUserMode to = new TOUserMode(TOUserMode.Mode.None);
+				return to;
+			}
+			if(userRole instanceof Player) {
+				TOUserMode to = new TOUserMode(TOUserMode.Mode.Play);
+				return to;
+			}
+			if(userRole instanceof Admin) {
+				TOUserMode to = new TOUserMode(TOUserMode.Mode.Design);
+				return to;
+			}
+			return null;
+	}//End of getUserMode method
     /**
      *
      * This method returns a list of GridCells associated to a level. It needs a

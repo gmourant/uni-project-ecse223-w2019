@@ -1,6 +1,6 @@
-
 package ca.mcgill.ecse223.block.view;
 
+import ca.mcgill.ecse223.block.view.Block223MainPage.Page;
 import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
 import static ca.mcgill.ecse223.block.view.Block223MainPage.UI_FONT;
 import static ca.mcgill.ecse223.block.view.Block223MainPage.createButton;
@@ -31,15 +31,21 @@ public class ViewError extends JFrame{
     
     private final Block223MainPage framework;
     private final boolean errorRedirect;
+    private final Page redirectPage;
     private final JPanel windowHolder;
     private JPanel topMenu;
     private JTextArea body;
     private final String errorMessage;
     private JButton exit;
     
-    public ViewError(String message, boolean errorRedirect,  Block223MainPage parent){
+    public ViewError(String message, boolean errorRedirect, Block223MainPage parent){
+        this(message, errorRedirect, Page.adminMenu, parent);
+    }
+    
+    public ViewError(String message, boolean errorRedirect, Page redirectPage, Block223MainPage parent){
         framework = parent;
         this.errorRedirect = errorRedirect;
+        this.redirectPage = redirectPage;
         this.setSize(300, 200); // Specifies the size should adjust to the needs for space
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
         this.setLocationRelativeTo(null); // Places in the center of the screen
@@ -99,7 +105,7 @@ public class ViewError extends JFrame{
         exit.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
                     if(errorRedirect)
-                        framework.changePage(Block223MainPage.Page.adminMenu);
+                        framework.changePage(redirectPage);
                     dispose(); // quit program
                 }
         });

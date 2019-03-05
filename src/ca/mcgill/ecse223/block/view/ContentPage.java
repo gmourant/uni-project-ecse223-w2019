@@ -1,6 +1,6 @@
-
 package ca.mcgill.ecse223.block.view;
 
+import ca.mcgill.ecse223.block.view.Block223MainPage.Page;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -167,6 +167,15 @@ public abstract class ContentPage extends JPanel{
      */
     public void displayError(String message, boolean redirect){
         new ViewError(message, redirect, framework);
+    }
+    
+    /**
+     * This method displays a custom error following the UI's style but a specified redirect page.
+     * @param message the String to be displayed
+     * @param redirectPage where to redirect after error
+     */
+    public void displayError(String message, Page redirectPage){
+        new ViewError(message, true, redirectPage, framework);
     }
     
     /**
