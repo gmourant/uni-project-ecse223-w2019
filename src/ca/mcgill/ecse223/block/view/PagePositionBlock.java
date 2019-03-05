@@ -192,6 +192,11 @@ public class PagePositionBlock extends ContentPage {
 							x, y);
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
+					if (error.equals("A game must be selected to position a block.")
+							|| error.equals("Admin privileges are required to position a block.")
+							|| error.equals("Only the admin who created the game can position a block.")) {
+						new ViewError(error, true, parent);
+					}
 					new ViewError(error, false, parent);
 				} catch (NumberFormatException e) {
 					error = "The block ID must be a valid number.";
