@@ -131,7 +131,7 @@ public class PageLogout extends ContentPage {
 
 	private void createGameButtonButtonActionPerformed(java.awt.event.ActionEvent evt) {
 		//Change page to adminMenu
-		changePage(Block223MainPage.Page.adminMenu);
+		changePage(Block223MainPage.Page.addGame);
 	}//End of createGameButtonButtonActionPerformed
 
 }//End of PageLogout class
