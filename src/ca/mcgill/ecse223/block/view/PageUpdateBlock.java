@@ -73,7 +73,7 @@ public class PageUpdateBlock extends ContentPage{
         JLabel idLabel = new JLabel("ID : ");
         idPanel.add(idLabel);
         JComboBox<Integer> idComboBox = new JComboBox<Integer>();
-        idComboBox.setPreferredSize(new Dimension(253, 27));
+        idComboBox.setPreferredSize(new Dimension(200, 27));
         // Color aqua = new Color(224, 249, 246);
         Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
@@ -83,7 +83,7 @@ public class PageUpdateBlock extends ContentPage{
         blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
         } catch (InvalidInputException e) {
         	error = e.getMessage();
-        	new ViewError(error, false, parent);
+        	new ViewError(error, true, parent);
         }
         for (TOBlock block : blocks) {
         	idComboBox.addItem(block.getId());
@@ -152,34 +152,6 @@ public class PageUpdateBlock extends ContentPage{
                 colorPatch.setBackground(new Color(r,g,b));
             }
         };
-        
-        //Action listener idComboBox 
-        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
-        ActionListener actionListenerId = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int r,g,b;
-				Integer id = (Integer) idComboBox.getSelectedItem();
-				Block block = Block223Controller.findBlock(id);
-				if (block != null) {
-					r = block.getRed();
-					redSlider.setValue(r);
-					g = block.getGreen();
-					greenSlider.setValue(g);
-					b = block.getBlue();
-					blueSlider.setValue(b);
-					colorPatch.setBackground(new Color(r,g,b));
-				}
-			}
-        };
-       
-        //Slider listeners
-        redSlider.addChangeListener(actionListenerColor);
-        blueSlider.addChangeListener(actionListenerColor);
-        greenSlider.addChangeListener(actionListenerColor);
-        
-        //ID Combobox listener
-        idComboBox.addActionListener(actionListenerId);
     
         //Number of points panel
         JPanel pointSliders = new JPanel(new GridLayout(1,1));
@@ -203,6 +175,28 @@ public class PageUpdateBlock extends ContentPage{
         exitButtons.add(cancelButton);
         add(exitButtons);
         
+        //Action listener idComboBox 
+        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+        ActionListener actionListenerId = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r,g,b,p;
+				Integer id = (Integer) idComboBox.getSelectedItem();
+				Block block = Block223Controller.findBlock(id);
+				if (block != null) {
+					r = block.getRed();
+					redSlider.setValue(r);
+					g = block.getGreen();
+					greenSlider.setValue(g);
+					b = block.getBlue();
+					blueSlider.setValue(b);
+					colorPatch.setBackground(new Color(r,g,b));
+					p = block.getPoints();
+					points.setValue(p);
+				}
+			}
+        };
+        
         // UpdateButton and CancelButton listeners
         updateButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -216,6 +210,11 @@ public class PageUpdateBlock extends ContentPage{
 							(int) points.getValue());
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
+					if (error.equals("A game must be selected to access its information.")
+							|| error.equals("Admin privileges are required to access game information.")
+							|| error.equals("Only the admin who created the game can access its information.")) {
+						new ViewError(error, true, parent);
+					}
 					new ViewError(error, false, parent);
 				} catch (NumberFormatException e) {
 					error = "The block ID must be a valid number.";
@@ -233,6 +232,14 @@ public class PageUpdateBlock extends ContentPage{
         		cancel();
         	}
         });
+        
+        //Slider listeners
+        redSlider.addChangeListener(actionListenerColor);
+        blueSlider.addChangeListener(actionListenerColor);
+        greenSlider.addChangeListener(actionListenerColor);
+        
+        //ID Combobox listener
+        idComboBox.addActionListener(actionListenerId);
         
        //Side menu editing
        //JList sideMenu = getSideMenuList();
