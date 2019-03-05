@@ -36,7 +36,6 @@ public class Block223MainPage extends JFrame {
         addBlock, deleteBlock,
         updateBlock, positionBlock,
         moveBlock, removeBlock,
-        saveGame,
         login, logout, signUp
     }
 
@@ -145,11 +144,8 @@ public class Block223MainPage extends JFrame {
             case removeBlock:
                 displayedPage = new PageRemoveBlock(this, level);
                 break;
-            case saveGame:
-
-                break;
             default:
-                displayedPage = new PageAdminMenu(this);
+                displayedPage = new PageLogout(this);
         }
         add(displayedPage, BorderLayout.CENTER); // adds panel to JFrame
     }
@@ -300,16 +296,18 @@ public class Block223MainPage extends JFrame {
         
         chooseGame.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-                String game = (String) chooseGame.getSelectedItem();
-                if (game != null) {
-                    if (game.equals("Select a Game")) {
-                        return;
-                    }
+                String game = (String)chooseGame.getSelectedItem();
+                if (game == null) {
+                    return;
+                }
+                if (game.equals("Select a Game")) {
+                    return;
                 }
                 currentGameDisplay.setText(game);
                 try{
                     Block223Controller.selectGame(game);
                 } catch (InvalidInputException ev){
+                    new ViewError(ev.getMessage(), false, thisInstance);
                 }
             }
         });
@@ -383,5 +381,9 @@ public class Block223MainPage extends JFrame {
         for(TOGame game : games){
             chooseGame.addItem(game.getName());
         }
+    }
+    
+    public void setCurrentGameDisplay(String txt){
+        currentGameDisplay.setText(txt);
     }
 }

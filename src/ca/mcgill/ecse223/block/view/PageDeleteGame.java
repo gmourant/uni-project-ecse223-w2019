@@ -18,9 +18,11 @@ import javax.swing.JPanel;
  * @author Georges Mourant
  */
 public class PageDeleteGame extends ContentPage {
+    private final Block223MainPage frame;
     
     public PageDeleteGame(Block223MainPage parent){
         super(parent);
+        frame = parent;
         
         // set layout of this panel
         // 7 columns, 1 row
@@ -82,11 +84,15 @@ public class PageDeleteGame extends ContentPage {
         });
         delete.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
+                    if(gameList.getSelectedItem() == null) return;
                     if (!question.isSelected()) {
                         displayError("Please confirm your choice.", false);
                         return;
                     }
                     try {
+                        if(Block223Controller.getCurrentDesignableGame().getName().equals(gameList.getSelectedItem().toString())){
+                            frame.setCurrentGameDisplay("");
+                        }
                         Block223Controller.deleteGame(gameList.getSelectedItem().toString());
                         changePage(Block223MainPage.Page.logout);
                     } catch (InvalidInputException ev){
