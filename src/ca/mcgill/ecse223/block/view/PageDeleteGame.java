@@ -80,5 +80,19 @@ public class PageDeleteGame extends ContentPage {
                     cancel();
                 }
         });
+        delete.addActionListener(new ActionListener(){
+                public void actionPerformed(ActionEvent e){
+                    if (!question.isSelected()) {
+                        displayError("Please confirm your choice.", false);
+                        return;
+                    }
+                    try {
+                        Block223Controller.deleteGame(gameList.getSelectedItem().toString());
+                        changePage(Block223MainPage.Page.logout);
+                    } catch (InvalidInputException ev){
+                        displayError(ev.getMessage(), false);
+                    }
+                }
+        });
     }
 }

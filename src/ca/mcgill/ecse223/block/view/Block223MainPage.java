@@ -251,7 +251,6 @@ public class Block223MainPage extends JFrame {
         DefaultListModel listModel;
         listModel = new DefaultListModel();
         sideMenuItems = new JList(listModel);
-        listModel.addElement("Main Menu");
         listModel.addElement("Add Game");
         listModel.addElement("Delete Game");
         listModel.addElement("Add Block");
@@ -287,13 +286,9 @@ public class Block223MainPage extends JFrame {
                     changePage(Block223MainPage.Page.logout);
                 } else if (s.equals("Position Block")) {
                     changePage(Block223MainPage.Page.positionBlock);
-                } else if (s.equals("Update Block")) {
-                    changePage(Block223MainPage.Page.updateBlock);
-                }
-                else if (s.equals("Move Block")) {
+                } else if (s.equals("Move Block")) {
                     changePage(Block223MainPage.Page.moveBlock);
-                }
-                else if (s.equals("Remove Block")) {
+                } else if (s.equals("Remove Block")) {
                     changePage(Block223MainPage.Page.removeBlock);
                 }
             }
@@ -306,8 +301,11 @@ public class Block223MainPage extends JFrame {
         chooseGame.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
                 String game = (String) chooseGame.getSelectedItem();
-                if(game.equals("Select a Game"))
-                    return;
+                if (game != null) {
+                    if (game.equals("Select a Game")) {
+                        return;
+                    }
+                }
                 currentGameDisplay.setText(game);
                 try{
                     Block223Controller.selectGame(game);

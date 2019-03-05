@@ -39,7 +39,7 @@ public class ViewError extends JFrame{
     private JButton exit;
     
     public ViewError(String message, boolean errorRedirect, Block223MainPage parent){
-        this(message, errorRedirect, Page.adminMenu, parent);
+        this(message, errorRedirect, Page.logout, parent);
     }
     
     public ViewError(String message, boolean errorRedirect, Page redirectPage, Block223MainPage parent){

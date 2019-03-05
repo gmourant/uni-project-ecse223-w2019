@@ -25,6 +25,7 @@ public abstract class ContentPage extends JPanel{
     public ContentPage(Block223MainPage framework){
         this.framework = framework;
         setBackground(Color.WHITE); // background
+        framework.loadGameList();
         // adding padding
         setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                     BorderFactory.createEmptyBorder(10, 20, 10, 20)));
