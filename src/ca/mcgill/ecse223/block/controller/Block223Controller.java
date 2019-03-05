@@ -407,6 +407,8 @@ public class Block223Controller {
      *
      * This method assigns a block to a position in a game's level. It needs a
      * level index, a block ID and a x/y grid position.
+     * 
+     * @author Mathieu Bissonnette
      *
      * @param id The ID of the desired block.
      * @param level The index of the desired level.
@@ -424,54 +426,59 @@ public class Block223Controller {
 
         // Verify that the user is an admin before proceeding.
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-            throw new InvalidInputException("Admin privileges are required to create a game.");
+            throw new InvalidInputException("Admin privileges are required to position a block.");
         }
-
-        // Perform basic input validation to ensure the numeric values are valid.
-        if (level > 98 || level < 0) {
-            throw new InvalidInputException("Level index not valid");
-        }
-
-        // Get the block list for the selected game.
+        
+        // Get the current game and verify it's not null.
         Game game = Block223Application.getCurrentGame();
         if (game == null) {
-            throw new InvalidInputException("No game selected");
+        	throw new InvalidInputException("A game must be selected to position a block.");
+        }
+        
+        // Verify that the user is the admin that created the current game.
+        if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+        	throw new InvalidInputException("Only the admin who created the game can position a block.");
         }
 
         // Get the desired level.
-        Level foundLevel = game.getLevel(level);
-        if (foundLevel == null) {
-            throw new InvalidInputException("Level not found");
+        Level foundLevel = null;
+        try {
+        	foundLevel = game.getLevel(level);
+        } catch (IndexOutOfBoundsException e) {
+        	throw new InvalidInputException("Level " + level + " does not exist for this game.");
         }
-
-        // Get the block list from the game.
-        List<Block> blocks = game.getBlocks();
-
-        // Find the desired block in the block list.
-        Block foundBlock = null;
-        for (Block block : blocks) {
-            int blockID = block.getId();
-            if (blockID == id) {
-                foundBlock = block;
-                break;
-            }
-        }
-        if (foundBlock == null) {
-            throw new InvalidInputException("Invalid block ID");
-        }
-
-        // Delete the block assignment at xy coords if it exists.
+        
+        // Verify the level is not a maximum block capacity.
         List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
+        if (assignments.size() == game.getNrBlocksPerLevel()) {
+        	throw new InvalidInputException("The number of blocks has reached the maximum number (" + game.getNrBlocksPerLevel() +") allowed for this game.");
+        }
+        
+        // Verify if a block already exist at that position.
         for (BlockAssignment block : assignments) {
             int x = block.getGridHorizontalPosition();
             int y = block.getGridVerticalPosition();
             if (x == gridHorizontalPosition && y == gridVerticalPosition) {
-                block.delete();
+            	throw new InvalidInputException("A block already exists at location " + x + "/" + y + ".");
             }
+        }
+        
+        // Get the block.
+        Block foundBlock = Block223Controller.findBlock(id);
+        if (foundBlock == null) {
+        	throw new InvalidInputException("The block does not exist");
         }
 
         // Create a new BlockAssignment.
-        foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
+        try {
+        	foundLevel.addBlockAssignment(gridHorizontalPosition, gridVerticalPosition, foundBlock, game);
+        } catch (RuntimeException e) {
+        	if (e.getMessage().equals("X out of bounds.")) {
+        		throw new InvalidInputException("The horizontal position must be between 1 and " + Game.GRID_DIMENSIONS + ".");
+        	} else {
+        		throw new InvalidInputException("The vertical position must be between 1 and " + Game.GRID_DIMENSIONS + ".");
+        	}
+        }
 
     }
 
@@ -686,19 +693,28 @@ public class Block223Controller {
   
     public static List<TOGridCell> getBlocksAtLevelOfCurrentDesignableGame(int level) throws InvalidInputException {
 
-        // Perform basic input validation to ensure the numeric values are valid.
-        if (level > 98 || level < 0) {
-            throw new InvalidInputException("Level index not valid.");
+        // Verify that the user is an admin before proceeding.
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+            throw new InvalidInputException("Admin privileges are required to access game information.");
         }
-
-        // Get the desired level from the current game.
+        
+        // Get the current game and verify it's not null.
         Game game = Block223Application.getCurrentGame();
         if (game == null) {
-        	throw new InvalidInputException("No game selected.");
+        	throw new InvalidInputException("A game must be selected to access its information.");
         }
-        Level foundLevel = game.getLevel(level);
-        if (foundLevel == null) {
-            throw new InvalidInputException("Level not found.");
+        
+        // Verify that the user is the admin that created the current game.
+        if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+        	throw new InvalidInputException("Only the admin who created the game can access its information.");
+        }
+
+        // Get the desired level.
+        Level foundLevel = null;
+        try {
+        	foundLevel = game.getLevel(level);
+        } catch (IndexOutOfBoundsException e) {
+        	throw new InvalidInputException("Level " + level + " does not exist for this game.");
         }
 
         // Get the list of block assignments of the level
