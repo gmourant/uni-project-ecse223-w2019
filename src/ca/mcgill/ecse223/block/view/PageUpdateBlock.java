@@ -73,7 +73,7 @@ public class PageUpdateBlock extends ContentPage{
         JLabel idLabel = new JLabel("ID : ");
         idPanel.add(idLabel);
         JComboBox<Integer> idComboBox = new JComboBox<Integer>();
-        idComboBox.setPreferredSize(new Dimension(253, 27));
+        idComboBox.setPreferredSize(new Dimension(200, 27));
         // Color aqua = new Color(224, 249, 246);
         Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
@@ -83,7 +83,7 @@ public class PageUpdateBlock extends ContentPage{
         blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
         } catch (InvalidInputException e) {
         	error = e.getMessage();
-        	new ViewError(error, false, parent);
+        	new ViewError(error, true, parent);
         }
         for (TOBlock block : blocks) {
         	idComboBox.addItem(block.getId());
@@ -216,6 +216,11 @@ public class PageUpdateBlock extends ContentPage{
 							(int) points.getValue());
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
+					if (error.equals("A game must be selected to access its information.")
+							|| error.equals("Admin privileges are required to access game information.")
+							|| error.equals("Only the admin who created the game can access its information.")) {
+						new ViewError(error, true, parent);
+					}
 					new ViewError(error, false, parent);
 				} catch (NumberFormatException e) {
 					error = "The block ID must be a valid number.";
