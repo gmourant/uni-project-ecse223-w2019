@@ -16,6 +16,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
@@ -28,6 +29,8 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.view.PageLogin;
+import ca.mcgill.ecse223.block.controller.TOUserMode;
+import static ca.mcgill.ecse223.block.controller.Block223Controller.getUserMode;
 
 /**
  * Welcome page with log out option
@@ -36,7 +39,18 @@ import ca.mcgill.ecse223.block.view.PageLogin;
 public class PageLogout extends ContentPage {
 
 	//data elements
-	private static boolean isAdmin = (Block223Application.getCurrentUserRole() instanceof Admin);
+	private static boolean isAdmin = isAdmin();
+	
+	private static boolean isAdmin() {
+		switch (getUserMode().getMode()) {
+		case Design:
+			return true;
+		case Play:
+			return false;
+		default:
+			return false;
+		}
+	}
 	
 	//UI elements
 	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
@@ -78,9 +92,14 @@ public class PageLogout extends ContentPage {
 		//****************************
 		add(welcomePanel);
 		add(Box.createRigidArea(new Dimension(5,0)));
+		//JList sideMenu = getSideMenuList();
+		//sideMenu.setVisible(false);
+		
 		if(isAdmin) {
 			add(createGameBtnPanel);
+			//sideMenu.setVisible(true);
 		}
+		
 		//add(logOutBtnPanel);
 
 		//***********************
