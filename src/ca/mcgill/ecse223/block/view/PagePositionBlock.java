@@ -359,7 +359,7 @@ public class PagePositionBlock extends ContentPage {
 	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
 	        topMenu.setBackground(HEADER_BACKGROUND);
 
-	        JLabel title = new JLabel("View"); // empty by default
+	        JLabel title = new JLabel("View (W.I.P.)"); // empty by default
 	        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
 	        topMenu.add(title);
 
