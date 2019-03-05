@@ -276,6 +276,7 @@ public class User implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
+
   // line 42 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 5L ;
 

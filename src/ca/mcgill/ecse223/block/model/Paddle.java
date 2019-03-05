@@ -112,7 +112,7 @@ public class Paddle implements Serializable
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
-  
+ 
   // line 78 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 10L ;
 

@@ -46,6 +46,7 @@ class Game {
    const Integer WALL_PADDING = 10;
    const Integer COLUMNS_PADDING = 5;
    const Integer ROW_PADDING = 2;
+   const Integer GRID_DIMENSIONS = 15;
    unique name;
    before constructor {
       if (aName == null) throw new RuntimeException("The name of a game must be specified.");
@@ -83,6 +84,13 @@ class Level {
 class BlockAssignment {
    Integer gridHorizontalPosition;
    Integer gridVerticalPosition;
+   before constructor {
+      if (aGridHorizontalPosition > Game.GRID_DIMENSIONS || aGridHorizontalPosition < Game.GRID_DIMENSIONS) {
+         throw new RuntimeException("X out of bounds.");
+      }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || gridVerticalPosition < Game.GRID_DIMENSIONS) {
+         throw new RuntimeException("Y out of bounds.");
+      }
+   }
    * -- 1 Level level;
    * -- 1 Block block;
 }

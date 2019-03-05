@@ -146,7 +146,7 @@ public class Admin extends UserRole implements Serializable
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
-  
+
   // line 60 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 7L ;
 

@@ -197,6 +197,7 @@ public class Level implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
+
   // line 72 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 9L ;
 
