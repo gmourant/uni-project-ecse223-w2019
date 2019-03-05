@@ -30,15 +30,33 @@ public class Block223Controller {
         // Get block223 and admin
         Block223 block223 = Block223Application.getBlock223();
         Admin admin = (Admin) Block223Application.getCurrentUserRole();
-
-        // Create game and catch runtime exceptions
-        // Exceptions are specified in the injected UMPLE code
+        
+        // Check for empty name
+        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
+        
+        // Check for uniqueness of game name
+        for (Game aGame : block223.getGames()) {
+   	     	if (aGame.getName().equals(name)) {
+   	     		throw new InvalidInputException("The name of a game must be unique.");
+   	     	}
+   	     break;
+   	  	}
+        
+        // Create then add game
+        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
         try {
-            Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
             block223.addGame(game);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
         }
+        
+        // Save to persistence
+        try {
+    		Block223Persistence.save(block223);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
 
     }
 
@@ -77,6 +95,7 @@ public class Block223Controller {
         Game game = Block223Application.getCurrentGame();
 
         // Verify that the user is an admin
+        
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to define game settings.");
         }
@@ -158,6 +177,7 @@ public class Block223Controller {
             level.delete();
             size = levels.size();
         }
+
 
     }
 
@@ -538,13 +558,15 @@ public class Block223Controller {
 			try {
 				user = new User(username, block223, player);//Create User instance
 			} catch(RuntimeException e){
+				player = null;
 				if(e.getMessage().equals("The username has already been taken.")) {//check for generic error message
-					player = null;// delete player instance 
+					// delete player instance 
 					throw new InvalidInputException("The username must be specified.");//specific error message
 				}
+				throw new InvalidInputException("The username has already been taken.");
 			}
 			
-			if((adminPassword!= null) && (!adminPassword.equals(""))) {
+			if((adminPassword!= null) && (!(adminPassword.equals("")))) {
 				Admin admin = new Admin(adminPassword, block223);//Create Admin instance
 				user.addRole(admin);//add admin role
 			}
@@ -568,7 +590,7 @@ public class Block223Controller {
 			
 			User user = null; 
 			if(User.getWithUsername(username) == null) {
-				throw new InvalidInputException("User ain't existent.");
+				throw new InvalidInputException("The username and password do not match.");
 			} else {
 				user = User.getWithUsername(username);
 			}

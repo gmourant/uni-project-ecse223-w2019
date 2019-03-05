@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 75 "../../../../../Block223Persistence.ump"
-// line 111 "../../../../../Block223.ump"
+// line 106 "../../../../../Block223.ump"
 public class Paddle implements Serializable
 {
 
@@ -57,7 +57,7 @@ public class Paddle implements Serializable
   public boolean setMaxPaddleLength(int aMaxPaddleLength)
   {
     boolean wasSet = false;
-    // line 116 "../../../../../Block223.ump"
+    // line 111 "../../../../../Block223.ump"
     if (aMaxPaddleLength > 390 || aMaxPaddleLength <= 0) throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
     // END OF UMPLE BEFORE INJECTION
     maxPaddleLength = aMaxPaddleLength;
@@ -68,7 +68,7 @@ public class Paddle implements Serializable
   public boolean setMinPaddleLength(int aMinPaddleLength)
   {
     boolean wasSet = false;
-    // line 120 "../../../../../Block223.ump"
+    // line 115 "../../../../../Block223.ump"
     if (aMinPaddleLength <= 0) throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     minPaddleLength = aMinPaddleLength;

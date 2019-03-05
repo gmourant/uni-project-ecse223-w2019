@@ -188,7 +188,6 @@ public class PageLogin extends ContentPage {
                 		Page.login);
                 break;
             default:
-            //WTF
             }
     }//End of logInButtonActionPerformed method
 
