@@ -249,14 +249,14 @@ public class Block223MainPage extends JFrame {
         sideMenuItems = new JList(listModel);
         listModel.addElement("Add Game");
         listModel.addElement("Delete Game");
+        listModel.addElement("Update Game");
         listModel.addElement("Add Block");
         listModel.addElement("Delete Block");
         listModel.addElement("Position Block");
         listModel.addElement("Update Block");
         listModel.addElement("Move Block");
         listModel.addElement("Remove Block");
-        listModel.addElement("Update Game");
-        
+            
         //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
         sideMenu.createVerticalScrollBar();
