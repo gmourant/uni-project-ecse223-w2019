@@ -275,7 +275,7 @@ public class Block223Controller {
         String currentName = game.getName();
 
         // updating name
-        if (currentName != name) {
+        if (!currentName.equals(name)) {
             game.setName(name);
         }
 
@@ -779,6 +779,15 @@ public class Block223Controller {
     public static TOGame getCurrentDesignableGame() throws InvalidInputException {
         // get current game
         Game game = Block223Application.getCurrentGame();
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+            throw new InvalidInputException("Admin privileges are required to access game information.");
+        }
+        if (Block223Application.getCurrentGame() == null) {
+            throw new InvalidInputException("A game must be selected to access its information.");
+        }
+        if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
+            throw new InvalidInputException("Only the admin who created the game can acess its information.");
+        }
         // return game as transfer object
         return new TOGame(game.getName(), game.numberOfLevels(),
                 game.getNrBlocksPerLevel(), game.getBall().getMinBallSpeedX(),
