@@ -49,6 +49,7 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
+import ca.mcgill.ecse223.block.model.Block;
 
 public class PagePositionBlock extends ContentPage {
 	
@@ -231,11 +232,13 @@ public class PagePositionBlock extends ContentPage {
 			public void actionPerformed(ActionEvent e) {
 				int r,g,b;
 				Integer id = (Integer) idComboBox.getSelectedItem();
-				TOBlock block = Block223Controller.findBlock(id);
-				r = block.getRed();
-				g = block.getGreen();
-				b = block.getBlue();
-				colorPatch.setBackground(new Color(r,g,b));
+				Block block = Block223Controller.findBlock(id);
+				if (block != null) {
+					r = block.getRed();
+					g = block.getGreen();
+					b = block.getBlue();
+					colorPatch.setBackground(new Color(r,g,b));
+				}
 			}
         };
         
