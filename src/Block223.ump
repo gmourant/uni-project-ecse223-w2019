@@ -49,11 +49,6 @@ class Game {
    unique name;
    before constructor {
       if (aName == null) throw new RuntimeException("The name of a game must be specified.");
-      for (Game game : block223.getGames()) {
-	     if (game.getName().equals(aName)) {
-		    throw new RuntimeException("The name of a game must be unique.");
-		 }
-	  }
    }
    Integer nrBlocksPerLevel;
    before setNrBlocksPerLevel {

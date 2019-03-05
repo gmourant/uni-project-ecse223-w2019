@@ -40,6 +40,14 @@ public class Block223Controller {
             throw new InvalidInputException(e.getMessage());
         }
         
+        // Check for uniqueness of game name
+        for (Game aGame : block223.getGames()) {
+   	     	if (aGame.getName().equals(name)) {
+   	     		throw new InvalidInputException("The name of a game must be unique.");
+   	     	}
+   	     break;
+   	  	}
+        
         // Save to persistence
         try {
     		Block223Persistence.save(block223);
