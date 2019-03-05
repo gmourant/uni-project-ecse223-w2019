@@ -152,34 +152,6 @@ public class PageUpdateBlock extends ContentPage{
                 colorPatch.setBackground(new Color(r,g,b));
             }
         };
-        
-        //Action listener idComboBox 
-        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
-        ActionListener actionListenerId = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int r,g,b;
-				Integer id = (Integer) idComboBox.getSelectedItem();
-				Block block = Block223Controller.findBlock(id);
-				if (block != null) {
-					r = block.getRed();
-					redSlider.setValue(r);
-					g = block.getGreen();
-					greenSlider.setValue(g);
-					b = block.getBlue();
-					blueSlider.setValue(b);
-					colorPatch.setBackground(new Color(r,g,b));
-				}
-			}
-        };
-       
-        //Slider listeners
-        redSlider.addChangeListener(actionListenerColor);
-        blueSlider.addChangeListener(actionListenerColor);
-        greenSlider.addChangeListener(actionListenerColor);
-        
-        //ID Combobox listener
-        idComboBox.addActionListener(actionListenerId);
     
         //Number of points panel
         JPanel pointSliders = new JPanel(new GridLayout(1,1));
@@ -202,6 +174,28 @@ public class PageUpdateBlock extends ContentPage{
         exitButtons.add(updateButton);
         exitButtons.add(cancelButton);
         add(exitButtons);
+        
+        //Action listener idComboBox 
+        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+        ActionListener actionListenerId = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r,g,b,p;
+				Integer id = (Integer) idComboBox.getSelectedItem();
+				Block block = Block223Controller.findBlock(id);
+				if (block != null) {
+					r = block.getRed();
+					redSlider.setValue(r);
+					g = block.getGreen();
+					greenSlider.setValue(g);
+					b = block.getBlue();
+					blueSlider.setValue(b);
+					colorPatch.setBackground(new Color(r,g,b));
+					p = block.getPoints();
+					points.setValue(p);
+				}
+			}
+        };
         
         // UpdateButton and CancelButton listeners
         updateButton.addActionListener(new java.awt.event.ActionListener() {
@@ -238,6 +232,14 @@ public class PageUpdateBlock extends ContentPage{
         		cancel();
         	}
         });
+        
+        //Slider listeners
+        redSlider.addChangeListener(actionListenerColor);
+        blueSlider.addChangeListener(actionListenerColor);
+        greenSlider.addChangeListener(actionListenerColor);
+        
+        //ID Combobox listener
+        idComboBox.addActionListener(actionListenerId);
         
        //Side menu editing
        //JList sideMenu = getSideMenuList();
