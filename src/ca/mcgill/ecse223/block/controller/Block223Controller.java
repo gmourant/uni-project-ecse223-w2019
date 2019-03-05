@@ -547,7 +547,7 @@ public class Block223Controller {
 			
 			Block223 block223 = Block223Application.getBlock223();
 			if(playerPassword.equals(adminPassword)) {
-				throw new InvalidInputException("The passwords have to be different");
+				throw new InvalidInputException("The passwords have to be different.");
 			}
 			if(Block223Application.getCurrentUserRole() != null) {
 				throw new InvalidInputException("Cannot register a new user while a user is logged in.");
