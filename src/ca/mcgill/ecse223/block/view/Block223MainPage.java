@@ -11,7 +11,11 @@ import javax.swing.*;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import ca.mcgill.ecse223.block.controller.TOGame;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class Block223MainPage extends JFrame {
 
@@ -20,6 +24,9 @@ public class Block223MainPage extends JFrame {
     public final static Font UI_FONT = new Font("Century Gothic", Font.PLAIN, 14);
     public final static int TITLE_SIZE_INCREASE = 4;
     int level;//We are still working on how to get the levels from the game
+    private JLabel currentGameDisplay;
+    private JComboBox<String> chooseGame;
+    private JPanel leftSide;
 
     // enums for tetermining current page
     public enum Page {
@@ -85,13 +92,13 @@ public class Block223MainPage extends JFrame {
             repaint();
         }
         // make sure all buttons are visible
-        sideMenu.setVisible(false);
+        leftSide.setVisible(false);
         save.setVisible(false);
         logout.setVisible(false);
 
         // show menus if appropriate
         if (toDisplay != Page.login && toDisplay != Page.signUp) {
-            sideMenu.setVisible(true);
+            leftSide.setVisible(true);
             save.setVisible(true);
             logout.setVisible(true);
         }
@@ -158,10 +165,10 @@ public class Block223MainPage extends JFrame {
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
         topMenu.setBackground(HEADER_BACKGROUND);
 
-        JLabel adminName = new JLabel(""); // empty by default
+        currentGameDisplay = new JLabel(""); // empty by default
         save = createButton("Save");
         logout = createButton("Log out");
-        topMenu.add(adminName);
+        topMenu.add(currentGameDisplay);
         topMenu.add(save);
         topMenu.add(logout);
 
@@ -230,14 +237,22 @@ public class Block223MainPage extends JFrame {
      */
     @SuppressWarnings("unchecked")
     private void setupSlideMenu() {
+        leftSide = new JPanel(new BorderLayout());
+        
+        JPanel chooseGameHolder = new JPanel();
+        chooseGameHolder.setBackground(Color.WHITE);
+        chooseGameHolder.setBorder(BorderFactory.createLineBorder(Color.gray));
+        chooseGame = ContentPage.createComboBox();
+        chooseGameHolder.add(chooseGame);
+        leftSide.add(chooseGameHolder, BorderLayout.SOUTH);
+        loadGameList();
+        
         DefaultListModel listModel;
         listModel = new DefaultListModel();
-        JLabel Label = new JLabel("Main Menu");
-        Label.setFont(new Font("Century Gothic", Font.PLAIN, 16));
-        listModel.addElement("Main Menu :");
+        sideMenuItems = new JList(listModel);
+        listModel.addElement("Main Menu");
         listModel.addElement("Add Game");
         listModel.addElement("Delete Game");
-        sideMenuItems = new JList(listModel);
         listModel.addElement("Add Block");
         listModel.addElement("Delete Block");
         listModel.addElement("Position Block");
@@ -249,7 +264,9 @@ public class Block223MainPage extends JFrame {
         sideMenu = new JScrollPane(sideMenuItems);
         sideMenu.createVerticalScrollBar();
         sideMenu.setPreferredSize(new Dimension(this.getWidth() / 4, this.getHeight()));
-        add(sideMenu, BorderLayout.WEST);
+        leftSide.add(sideMenu, BorderLayout.NORTH);
+        
+        add(leftSide, BorderLayout.WEST);
 
         //If statements to change page
         sideMenuItems.addMouseListener(new MouseAdapter() {
@@ -284,6 +301,19 @@ public class Block223MainPage extends JFrame {
         //To center the text
         DefaultListCellRenderer renderer = (DefaultListCellRenderer) sideMenuItems.getCellRenderer();
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
+        
+        chooseGame.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+                String game = (String) chooseGame.getSelectedItem();
+                if(game.equals("Select a Game"))
+                    return;
+                currentGameDisplay.setText(game);
+                try{
+                    Block223Controller.selectGame(game);
+                } catch (InvalidInputException ev){
+                }
+            }
+        });
     }
 
     //Action Listeners 
@@ -339,4 +369,20 @@ public class Block223MainPage extends JFrame {
         }
     }
 
+    public void loadGameList(){
+        chooseGame.removeAllItems();
+        chooseGame.addItem("Select a Game");
+        java.util.List<TOGame> games;
+        try{
+            games = Block223Controller.getDesignableGames();
+        }
+        catch(InvalidInputException e){
+            // stop now to prevent future errors based on this exception
+            return;
+        }
+        // add this list
+        for(TOGame game : games){
+            chooseGame.addItem(game.getName());
+        }
+    }
 }
