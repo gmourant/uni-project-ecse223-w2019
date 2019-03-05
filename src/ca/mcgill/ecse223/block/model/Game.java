@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 27 "../../../../../Block223Persistence.ump"
+// line 40 "../../../../../Block223Persistence.ump"
 // line 42 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
@@ -54,7 +54,7 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    // line 51 "../../../../../Block223.ump"
+    // line 52 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
@@ -89,7 +89,7 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
-    // line 51 "../../../../../Block223.ump"
+    // line 52 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
     // END OF UMPLE BEFORE INJECTION
     name = aName;
@@ -134,7 +134,7 @@ public class Game implements Serializable
   public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel)
   {
     boolean wasSet = false;
-    // line 55 "../../../../../Block223.ump"
+    // line 56 "../../../../../Block223.ump"
     if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
@@ -612,7 +612,7 @@ public class Game implements Serializable
     }
   }
 
-  // line 32 "../../../../../Block223Persistence.ump"
+  // line 45 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueName(List<Game> games){
     gamesByName = new HashMap<String, Game>();
 	    for (Game game : games) {
@@ -635,7 +635,7 @@ public class Game implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 30 "../../../../../Block223Persistence.ump"
+  // line 43 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 4L ;
 
   

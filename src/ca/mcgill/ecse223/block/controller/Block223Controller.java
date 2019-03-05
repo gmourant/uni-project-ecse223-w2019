@@ -307,10 +307,10 @@ public class Block223Controller {
             throw new InvalidInputException("Admin privileges are required to add a block.");
         }
         if (Block223Application.getCurrentGame() == null) {
-            throw new InvalidInputException("A game must be selected to add a block");
+            throw new InvalidInputException("A game must be selected to add a block.");
         }
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the game can add a block");
+            throw new InvalidInputException("Only the admin who created the game can add a block.");
         }
         List<Block> blocks = game.getBlocks();
         boolean colorBlockExists = false;
@@ -320,7 +320,7 @@ public class Block223Controller {
         	
         }
         if (colorBlockExists) { //Question for teacher about getting the blocks with the same colors
-            throw new InvalidInputException("A block with the same color already exists for the game");
+            throw new InvalidInputException("A block with the same color already exists for the game.");
         }
         try {
             game.addBlock(red, green, blue, points); //Can I do it like this instead of "create(..)"?
@@ -364,7 +364,7 @@ public class Block223Controller {
             throw new InvalidInputException("A game must be selected to delete a block");
         }
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the block can delete the block");
+            throw new InvalidInputException("Only the admin who created the game can delete a block.");
         }
 
         Block block = findBlock(id); //Go to find block method for the declaration
@@ -801,10 +801,10 @@ public class Block223Controller {
             throw new InvalidInputException("Admin privileges are required to access game information.");
         }
         if (Block223Application.getCurrentGame() == null) {
-            throw new InvalidInputException("A game must be selected to access its information");
+            throw new InvalidInputException("A game must be selected to access its information.");
         }
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the game can acess its information");
+            throw new InvalidInputException("Only the admin who created the game can access its information.");
         }
 
         List<TOBlock> result = new ArrayList<TOBlock>();
