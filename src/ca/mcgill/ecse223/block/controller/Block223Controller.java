@@ -35,12 +35,13 @@ public class Block223Controller {
         if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
         
         // Check for uniqueness of game name
+        boolean unique = true;
         for (Game aGame : block223.getGames()) {
    	     	if (aGame.getName().equals(name)) {
-   	     		throw new InvalidInputException("The name of a game must be unique.");
+   	     		unique = false;
    	     	}
-   	     break;
    	  	}
+        if (!unique) throw new InvalidInputException("The name of a game must be unique.");
         
         // Create then add game
         Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
@@ -91,11 +92,11 @@ public class Block223Controller {
     public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
             double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
-        // Obtain the selected game
+        // Obtain the selected game and block223
         Game game = Block223Application.getCurrentGame();
+        Block223 block223 = Block223Application.getBlock223();
 
         // Verify that the user is an admin
-        
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to define game settings.");
         }
@@ -177,7 +178,14 @@ public class Block223Controller {
             level.delete();
             size = levels.size();
         }
-
+        
+        // Save to persistence
+        try {
+    		Block223Persistence.save(block223);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
 
     }
 

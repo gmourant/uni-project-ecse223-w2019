@@ -255,6 +255,7 @@ public class Block223MainPage extends JFrame {
         listModel.addElement("Update Block");
         listModel.addElement("Move Block");
         listModel.addElement("Remove Block");
+        listModel.addElement("Update Game");
         
         //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
@@ -286,6 +287,8 @@ public class Block223MainPage extends JFrame {
                     changePage(Block223MainPage.Page.moveBlock);
                 } else if (s.equals("Remove Block")) {
                     changePage(Block223MainPage.Page.removeBlock);
+                }else if (s.equals("Update Game")) {
+                    changePage(Block223MainPage.Page.updateGame);
                 }
             }
         });
