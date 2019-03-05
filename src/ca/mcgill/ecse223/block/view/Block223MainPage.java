@@ -1,6 +1,5 @@
 package ca.mcgill.ecse223.block.view;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,8 +13,7 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
+
 
 public class Block223MainPage extends JFrame {
 

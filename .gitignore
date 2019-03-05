@@ -8,4 +8,4 @@ build.xml
 manifest.mf
 /build/
 /dist/
-data.block223
+*.block223
