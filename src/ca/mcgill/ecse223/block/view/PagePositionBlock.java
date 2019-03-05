@@ -90,7 +90,7 @@ public class PagePositionBlock extends ContentPage {
         JLabel idLabel = new JLabel("ID : ");
         idPanel.add(idLabel);
         JComboBox<Integer> idComboBox = new JComboBox<Integer>();
-        idComboBox.setPreferredSize(new Dimension(253, 27));
+        idComboBox.setPreferredSize(new Dimension(200, 30));
         // Color aqua = new Color(224, 249, 246);
         // Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
@@ -100,7 +100,7 @@ public class PagePositionBlock extends ContentPage {
         blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
         } catch (InvalidInputException e) {
         	error = e.getMessage();
-        	new ViewError(error, false, parent);
+        	new ViewError(error, true, parent);
         }
         for (TOBlock block : blocks) {
         	idComboBox.addItem(block.getId());
@@ -120,10 +120,10 @@ public class PagePositionBlock extends ContentPage {
         JLabel levelLabel = new JLabel("Level : ");
         levelPanel.add(levelLabel);
         JComboBox<Integer> levelSelector = new JComboBox<Integer>();
-        levelSelector.setPreferredSize(new Dimension(230, 30));
+        levelSelector.setPreferredSize(new Dimension(200, 30));
         levelSelector.setBorder(border);
         // Populate combobox
-        for (Integer i = 0; i < 99; i++) {
+        for (Integer i = 1; i < 100; i++) {
         	levelSelector.addItem(i);
         }
         levelPanel.add(levelSelector);
@@ -134,10 +134,10 @@ public class PagePositionBlock extends ContentPage {
         JPanel coordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         coordPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                  BorderFactory.createEmptyBorder(0, 0, 0, 0)));
-        JLabel coordLabel = new JLabel("X,Y :    ");
+        JLabel coordLabel = new JLabel("X,Y : ");
         coordPanel.add(coordLabel);
         JTextField coordTextField = new JTextField();
-        coordTextField.setPreferredSize(new Dimension(230, 30));
+        coordTextField.setPreferredSize(new Dimension(200, 30));
         coordTextField.setBorder(border);
         coordPanel.add(coordTextField);
         coordPanel.setBackground(this.getBackground());
@@ -145,6 +145,7 @@ public class PagePositionBlock extends ContentPage {
         
         //View button
         JButton viewButton = createButton("Level view");
+        viewButton.setPreferredSize(new Dimension(200, 20));
         add(viewButton);
         
 
@@ -191,6 +192,11 @@ public class PagePositionBlock extends ContentPage {
 							x, y);
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
+					if (error.equals("A game must be selected to position a block.")
+							|| error.equals("Admin privileges are required to position a block.")
+							|| error.equals("Only the admin who created the game can position a block.")) {
+						new ViewError(error, true, parent);
+					}
 					new ViewError(error, false, parent);
 				} catch (NumberFormatException e) {
 					error = "The block ID must be a valid number.";
@@ -353,7 +359,7 @@ public class PagePositionBlock extends ContentPage {
 	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
 	        topMenu.setBackground(HEADER_BACKGROUND);
 
-	        JLabel title = new JLabel("View"); // empty by default
+	        JLabel title = new JLabel("View (W.I.P.)"); // empty by default
 	        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
 	        topMenu.add(title);
 
