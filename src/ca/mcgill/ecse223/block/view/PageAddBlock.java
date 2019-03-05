@@ -61,7 +61,7 @@ public class PageAddBlock extends ContentPage{
          gridbagPanel.setPreferredSize(new Dimension(20, 20));
          gridbagPanel.setLocation(230,40);
          add(gridbagPanel);
-         colorPatch.setPreferredSize(new Dimension(40,37));
+         colorPatch.setPreferredSize(new Dimension(40,40));
          gridbagPanel.add(colorPatch);
          gridbagPanel.setBackground(this.getBackground());
          colorPatch.setBackground(Color.black);
@@ -74,16 +74,16 @@ public class PageAddBlock extends ContentPage{
         JPanel idPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         idPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                  BorderFactory.createEmptyBorder(0, 0, 0, 0)));
-        JLabel idLabel = new JLabel("ID : ");
-        idPanel.add(idLabel);
-        JTextField idTextField = new JTextField();
-        idTextField.setPreferredSize(new Dimension(253, 27));
+        //JLabel idLabel = new JLabel("ID : ");
+        //idPanel.add(idLabel);
+        //JTextField idTextField = new JTextField();
+       // idTextField.setPreferredSize(new Dimension(253, 27));
         Color aqua = new Color(224, 249, 246);
         Color greenForest = new Color(50,205,50);
         Color borderColor = new Color(207, 243, 238);
         Border border = BorderFactory.createLineBorder(borderColor, 3);
-        idTextField.setBorder(border);
-        idPanel.add(idTextField);
+       // idTextField.setBorder(border);
+       //idPanel.add(idTextField);
         idPanel.setBackground(this.getBackground());
         
         /*if(!(input.equals("^[0-9]") && input.length() < 2)) {
@@ -93,7 +93,7 @@ public class PageAddBlock extends ContentPage{
         	errorNumber.setForeground(Color.RED);
         	add(errorNumber);
 		} */
-        add(idPanel);
+        //add(idPanel);
       
         
         
@@ -189,7 +189,7 @@ public class PageAddBlock extends ContentPage{
         //AddBlock and Cancel listeners
         addBlock.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				String input = idTextField.getText();
+				//String input = idTextField.getText();
 				// call the controller
 				try {
 					Block223Controller.addBlock(redSlider.getValue(), greenSlider.getValue(), blueSlider.getValue(),(int) points.getValue());
@@ -209,9 +209,10 @@ public class PageAddBlock extends ContentPage{
         
        //Side menu editing
        //JList sideMenu = getSideMenuList();
-       //add(sideMenu);
+       //sideMenu.setVisible(false);
         
 	}
 	}
+
 
 
