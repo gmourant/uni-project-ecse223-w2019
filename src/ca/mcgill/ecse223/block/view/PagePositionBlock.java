@@ -100,7 +100,7 @@ public class PagePositionBlock extends ContentPage {
         blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
         } catch (InvalidInputException e) {
         	error = e.getMessage();
-        	new ViewError(error, false, parent);
+        	new ViewError(error, true, parent);
         }
         for (TOBlock block : blocks) {
         	idComboBox.addItem(block.getId());
