@@ -85,9 +85,9 @@ class BlockAssignment {
    Integer gridHorizontalPosition;
    Integer gridVerticalPosition;
    before constructor {
-      if (aGridHorizontalPosition > Game.GRID_DIMENSIONS || aGridHorizontalPosition < Game.GRID_DIMENSIONS) {
+      if (aGridHorizontalPosition > Game.GRID_DIMENSIONS || aGridHorizontalPosition < 1) {
          throw new RuntimeException("X out of bounds.");
-      }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || gridVerticalPosition < Game.GRID_DIMENSIONS) {
+      }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || gridVerticalPosition < 1) {
          throw new RuntimeException("Y out of bounds.");
       }
    }
