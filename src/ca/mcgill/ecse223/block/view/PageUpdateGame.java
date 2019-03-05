@@ -66,6 +66,8 @@ public class PageUpdateGame extends ContentPage {
 //        panel.add(gamesMenu);
 //        add(panel);
 
+        add(new JLabel("Update the currently selected game."));
+
         TOGame game;
         try{
             game = Block223Controller.getCurrentDesignableGame();
