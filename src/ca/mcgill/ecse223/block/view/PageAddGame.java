@@ -20,11 +20,13 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
 public class PageAddGame extends ContentPage {
 
 	private static final long serialVersionUID = 4199681302846123272L;
+    private final Block223MainPage frame;
 	
 	public PageAddGame(Block223MainPage parent){
 		
 		// Inherit features from ContentPage
 	    super(parent);
+            frame = parent;
 	    setLayout(new GridLayout(7,1));
         add(createHeader("Add a Game"));
         
@@ -62,6 +64,7 @@ public class PageAddGame extends ContentPage {
                 	displayError(e.getMessage(), false);
                     return;
                 }
+                frame.setCurrentGameDisplay(gameName);
                 changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
             }
         });

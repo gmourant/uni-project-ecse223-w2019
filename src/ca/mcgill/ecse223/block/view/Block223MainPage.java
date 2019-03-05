@@ -98,6 +98,8 @@ public class Block223MainPage extends JFrame {
             leftSide.setVisible(true);
             save.setVisible(true);
             logout.setVisible(true);
+        } else {
+            setCurrentGameDisplay("");
         }
 
         // creates the correct JPanel depending on the selected page specified 
