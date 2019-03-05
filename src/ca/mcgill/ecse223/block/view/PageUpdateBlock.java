@@ -25,6 +25,7 @@ import javax.swing.event.ChangeListener;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
+import ca.mcgill.ecse223.block.model.Block;
 
 /**
  * The page for updating a block. Modified by Mathieu Bissonnette
@@ -159,7 +160,7 @@ public class PageUpdateBlock extends ContentPage{
 			public void actionPerformed(ActionEvent e) {
 				int r,g,b;
 				Integer id = (Integer) idComboBox.getSelectedItem();
-				TOBlock block = Block223Controller.findBlock(id);
+				Block block = Block223Controller.findBlock(id);
 				r = block.getRed();
 				redSlider.setValue(r);
 				g = block.getGreen();
