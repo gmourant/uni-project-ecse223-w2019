@@ -13,7 +13,7 @@ class Block223 {
 	public void reinitialize() {
 		Game.reinitializeUniqueName(this.getGames());
 		User.reinitializeUniqueUsername(this.getUsers());
-		Block.reinitializeAutouniqueID(this.getBlocks());
+		Block.reinitializeAutouniqueID(Block.getBlocks());
     }
 }
 
