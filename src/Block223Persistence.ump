@@ -13,7 +13,11 @@ class Block223 {
 	public void reinitialize() {
 		Game.reinitializeUniqueName(this.getGames());
 		User.reinitializeUniqueUsername(this.getUsers());
-		Block.reinitializeAutouniqueID(Block.getBlocks());
+		List<Block> blocks = new ArrayList<Block>();
+		for (Game game : this.getGames()) {
+		   blocks.addAll(game.getBlocks());
+		}
+		Block.reinitializeAutouniqueID(blocks);
     }
 }
 
