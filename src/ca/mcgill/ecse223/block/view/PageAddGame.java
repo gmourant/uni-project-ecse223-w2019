@@ -31,7 +31,7 @@ public class PageAddGame extends ContentPage {
         // Add a new Game
         add(new JLabel("Please enter the name of a new game:")); // Prompts user
         RandomNameGenerator rgen = new RandomNameGenerator(); // Offers name suggestions
-	add(new JLabel("How about... : "));
+	add(new JLabel("How about... "));
         JTextField newGame = new JTextField(rgen.generateName());
         add(newGame);
         
