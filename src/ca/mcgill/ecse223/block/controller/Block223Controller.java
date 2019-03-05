@@ -284,7 +284,14 @@ public class Block223Controller {
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can add a block");
         }
-        if (game.hasBlocks()) { //Question for teacher about getting the blocks with the same colors
+        List<Block> blocks = game.getBlocks();
+        boolean colorBlockExists = false;
+        for (Block block : blocks){
+        	if(block.getBlue() == blue && block.getGreen() == green && block.getRed() == red)
+        		colorBlockExists = true;
+        	
+        }
+        if (colorBlockExists) { //Question for teacher about getting the blocks with the same colors
             throw new InvalidInputException("A block with the same color already exists for the game");
         }
         try {
