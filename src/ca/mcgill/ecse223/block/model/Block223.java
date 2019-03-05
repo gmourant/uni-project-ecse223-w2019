@@ -366,6 +366,7 @@ public class Block223 implements Serializable
    public void reinitialize(){
     Game.reinitializeUniqueName(this.getGames());
 		User.reinitializeUniqueUsername(this.getUsers());
+		Block.reinitializeAutouniqueID(this.getBlocks());
   }
   
   //------------------------

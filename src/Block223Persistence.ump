@@ -13,6 +13,7 @@ class Block223 {
 	public void reinitialize() {
 		Game.reinitializeUniqueName(this.getGames());
 		User.reinitializeUniqueUsername(this.getUsers());
+		Block.reinitializeAutouniqueID(this.getBlocks());
     }
 }
 
@@ -21,7 +22,15 @@ class Block {
 	isA Serializable; 
 	private static final long serialVersionUID = 3L; 
 	
-	// TODO Reinitialize autounique
+	public static void reinitializeAutouniqueID(List<Block> blocks) {
+    nextId = 0; 
+    for (Block block : blocks) {
+      if (block.getId() > nextId) {
+        nextId = block.getId();
+      }
+    }
+    nextId++;
+  }
 }
 
 class Game {
