@@ -27,6 +27,7 @@ import javax.swing.border.Border;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
+import ca.mcgill.ecse223.block.controller.TOGame;
 import ca.mcgill.ecse223.block.model.Block;
 
 /**
@@ -55,7 +56,7 @@ public class PageDeleteBlock extends ContentPage {
 	        ids.setAlignmentX(Component.CENTER_ALIGNMENT);
 	        ids.setBackground(Block223MainPage.HEADER_BACKGROUND);
 	        ids.setForeground(Color.DARK_GRAY);
-	        ids.addItem(12345);
+	        //ids.addItem();
 	        b.add(ids);
 	        add(b);
 	        
@@ -67,7 +68,6 @@ public class PageDeleteBlock extends ContentPage {
 	         add(viewLabel);
 	         JPanel gridbagPanel = new JPanel();
 	         gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-	         //colorPatch.setBounds(230,40,50,50);
 	         gridbagPanel.setPreferredSize(new Dimension(10, 10));
 	         gridbagPanel.setLocation(130,40);
 	         colorPatch.setPreferredSize(new Dimension(57,60));
@@ -87,17 +87,12 @@ public class PageDeleteBlock extends ContentPage {
 	        JButton cancel = createButton("Cancel");
 	        exitButtons.add(delete);
 	        exitButtons.add(cancel);
-	        
 	        add(exitButtons);
 	        
 	       //Side Menu
 	        JList list = getSideMenuList();
-	        //list.setBackground(Block223MainPage.HEADER_BACKGROUND);
-	        
-	        //add(list);
 	        
 	        list.setVisible(true);
-	        
 	           
 	      //deleteBlock and Cancel listeners
 	        delete.addActionListener(new java.awt.event.ActionListener() {
@@ -109,12 +104,30 @@ public class PageDeleteBlock extends ContentPage {
 						displayError(e.getMessage(), false);
 						return;
 					}
-					
 					// update visuals
 					//refreshData();
 				}
 				
 			});
+	        
+	        //List adding blockIDs
+	        java.util.List<TOBlock> blocks;
+	        
+	        try{
+	        	blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
+	        }
+	        catch(InvalidInputException e){
+	            displayError(e.getMessage(), true);
+	            // stop now to prevent future errors based on this exception
+	            return;
+	        }
+	        // add this list
+	        for(TOBlock block : blocks){
+	        	ids.addItem(block.getId());
+	        }
+	        
+	        // add dropdown to panel
+	        b.add(ids);
 	        
 	       //View ActionListener
 	       ids.addActionListener(new java.awt.event.ActionListener() {
@@ -133,13 +146,6 @@ public class PageDeleteBlock extends ContentPage {
    			public void actionPerformed(ActionEvent evt) {
    				cancel();}
        });
-	 /*protected void paintComponent(Graphics g) {
-         super.paintComponent(g);  
-         g.drawRect(230,150,50,50);  
-         g.setColor(Color.BLUE);  
-         g.fillRect(230,150,50,50);
-         
-       }*/
 
 }}
 
