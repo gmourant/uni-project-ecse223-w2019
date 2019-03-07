@@ -65,7 +65,7 @@ public class PageAddGame extends ContentPage {
                     return;
                 }
                 frame.setCurrentGameDisplay(gameName);
-                changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
+                changePage(Block223MainPage.Page.defineNewGame); // Redirects user to PageDefineGame
             }
         });
         

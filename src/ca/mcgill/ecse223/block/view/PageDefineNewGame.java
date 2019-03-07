@@ -117,13 +117,13 @@ public class PageDefineNewGame extends ContentPage {
         // Listener for Save button
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a){
+                // Reassure user that their game has been saved
+                add(new JLabel(Block223Application.getCurrentGame().getName() + " has been saved."));
             	try{ // Retrieve user's slider parameters
                     Block223Controller.setGameDetails(nrLevelsSlider.getIValue(), 
                     		nrBlocksPerLevelSlider.getIValue(), minBallSpeedXSlider.getIValue(), 
                     		minBallSpeedYSlider.getIValue(), ballSpeedIncreaseFactorSlider.getDValue(), 
                     		maxPaddleLengthSlider.getIValue(), minPaddleLengthSlider.getIValue());
-                    // Reassure user that their game has been saved
-                    add(new JLabel(Block223Application.getCurrentGame().getName() + " has been saved."));
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);
