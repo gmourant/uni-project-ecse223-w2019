@@ -45,9 +45,9 @@ public class PageDefineGame extends ContentPage {
         }
         
         // Add name of the game to application
-        String newName = game.getName();
-        JTextField newNameField = new JTextField(newName);
-        add(newNameField);
+        String currentName = game.getName();
+        JTextField currentNameField = new JTextField(currentName);
+        add(currentNameField);
        
         // nrLevels Slider
         Slider nrLevelsSlider = addSlider("Number of Levels", 1, 99, game.getNrLevels());
@@ -133,8 +133,8 @@ public class PageDefineGame extends ContentPage {
         // Listener for Save button
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a){
-            	// Reassure user that their game has been saved
-                add(new JLabel(Block223Application.getCurrentGame().getName() + " has been saved."));
+            	// Obtain user input for new name
+            	String newName = game.getName();
             	try{ // Retrieve user's slider parameters
                     Block223Controller.updateGame(newName, nrLevelsSlider.getIValue(), 
                     		nrBlocksPerLevelSlider.getIValue(), minBallSpeedXSlider.getIValue(), 
