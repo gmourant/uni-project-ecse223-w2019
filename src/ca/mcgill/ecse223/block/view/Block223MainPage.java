@@ -29,7 +29,7 @@ public class Block223MainPage extends JFrame {
     // enums for tetermining current page
     public enum Page {
         adminMenu, // page for selecting destination page
-        addGame, defineGame, defineNewGame,
+        addGame, defineGame,
         deleteGame, updateGame,
         addBlock, deleteBlock,
         updateBlock, positionBlock,
@@ -119,9 +119,6 @@ public class Block223MainPage extends JFrame {
                 break;
             case defineGame:
                 displayedPage = new PageDefineGame(this);
-                break;
-            case defineNewGame:
-                displayedPage = new PageDefineNewGame(this);
                 break;
             case deleteGame:
                 displayedPage = new PageDeleteGame(this);
