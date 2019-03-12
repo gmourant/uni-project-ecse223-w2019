@@ -10,14 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.controller.TOGame;
 
 
 /**
@@ -34,47 +32,33 @@ public class PageDefineGame extends ContentPage {
 	    super(parent);
 	    setLayout(new GridLayout(10,1));
         add(createHeader("Define Game Settings")); 
-        
-        // Obtain previous game settings from TOGame
-        TOGame game;
-        try{
-            game = Block223Controller.getCurrentDesignableGame();
-        } catch(InvalidInputException e){
-            displayError(e.getMessage(), true);
-            return;
-        }
-        
-        // Add name of the game to application
-        String newName = game.getName();
-        JTextField newNameField = new JTextField(newName);
-        add(newNameField);
        
         // nrLevels Slider
-        Slider nrLevelsSlider = addSlider("Number of Levels", 1, 99, game.getNrLevels());
+        Slider nrLevelsSlider = addSlider("Number of Levels", 1, 99, 30);
         add(nrLevelsSlider.panel);
         
         // nrBlocksPerLevel Slider
-        Slider nrBlocksPerLevelSlider = addSlider("Blocks per Level", 1, 50, game.getNrBlocksPerLevel());
+        Slider nrBlocksPerLevelSlider = addSlider("Blocks per Level", 1, 50, 15);
         add(nrBlocksPerLevelSlider.panel);
         
         // minBallSpeedX Slider
-        Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 1, 50, game.getMinBallSpeedX());
+        Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 1, 50, 5);
         add(minBallSpeedXSlider.panel);
         
         // minBallSpeedY Slider
-        Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 1, 50, game.getMinBallSpeedY());
+        Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 1, 50, 5);
         add(minBallSpeedYSlider.panel);
         
         // ballSpeedIncreaseFactor Slider
-        Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.01, 1.0, game.getBallSpeedIncreaseFactor());
+        Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.01, 1.0, 0.4);
         add(ballSpeedIncreaseFactorSlider.panel);
         
         // maxPaddleLength Slider
-        Slider maxPaddleLengthSlider = addSlider("Maximum Paddle Length", 1, 390, game.getMaxPaddleLength());
+        Slider maxPaddleLengthSlider = addSlider("Maximum Paddle Length", 1, 390, 300);
         add(maxPaddleLengthSlider.panel);
         
         // minPaddleLength Slider
-        Slider minPaddleLengthSlider = addSlider("Minimum Paddle Length", 1, 390, game.getMinPaddleLength());
+        Slider minPaddleLengthSlider = addSlider("Minimum Paddle Length", 1, 390, 20);
         add(minPaddleLengthSlider.panel);
        
         // ChangeListener that displays the selected parameter
@@ -133,13 +117,13 @@ public class PageDefineGame extends ContentPage {
         // Listener for Save button
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent a){
-            	// Reassure user that their game has been saved
-                add(new JLabel(Block223Application.getCurrentGame().getName() + " has been saved."));
             	try{ // Retrieve user's slider parameters
-                    Block223Controller.updateGame(newName, nrLevelsSlider.getIValue(), 
+                    Block223Controller.setGameDetails(nrLevelsSlider.getIValue(), 
                     		nrBlocksPerLevelSlider.getIValue(), minBallSpeedXSlider.getIValue(), 
                     		minBallSpeedYSlider.getIValue(), ballSpeedIncreaseFactorSlider.getDValue(), 
                     		maxPaddleLengthSlider.getIValue(), minPaddleLengthSlider.getIValue());
+                    // Reassure user that their game has been saved
+                    add(new JLabel(Block223Application.getCurrentGame().getName() + " has been saved."));
                 }
                 catch(InvalidInputException e){
                     displayError(e.getMessage(), false);
