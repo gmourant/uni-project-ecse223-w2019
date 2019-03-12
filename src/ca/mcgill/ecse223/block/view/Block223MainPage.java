@@ -53,7 +53,7 @@ public class Block223MainPage extends JFrame {
         this.setLocationRelativeTo(null); // Places in the center of the screen
         this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
-        getRootPane().setBorder(BorderFactory.createLineBorder(Color.darkGray));
+
         thisInstance = this;
 
         // setting up
