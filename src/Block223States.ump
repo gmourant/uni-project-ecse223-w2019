@@ -1,6 +1,36 @@
 class GameSession {
 	gameStatus {
-		Idle
+		Idle {
+			entry / {
+				placeBlocks();
+				placeBall();
+				placePaddle();
+			}
+			start() [startButtonPressed()] / {
+				displayPauseButton();
+			} -> Playing;
+		}
+		Playing {
+			do / {
+				enterLoop();
+			}
+			pauseGame() [pauseButtonPressed()] {
+				displayResumeButton();
+			} -> Paused;
+		}
+		Paused {
+			unPauseGame() [resumeButtonPressed()] {
+				removeResumeButton();
+			} -> Playing;
+		}
+		GameOver {
+		
+		}
+		GameWon {
+			entry / {
+				displayWinBanner();
+			}
+		}
 		
 	}
 }
