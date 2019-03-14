@@ -16,6 +16,18 @@ class HallOfFameEntry {
 	* -- 1 Player;
 }
 
-class Ball {
+class SpecificBlockAssignment {
+	* -- 1 BlockAssignment;
+	autounique id;
+}
+
+class SpecificPaddle {
+	* -- 1 Paddle;
+	autounique id;
+}
+
+class SpecificBall {
+	* -- 1 Ball;
+	autounique id;
 	Boolean isWithinBounds;
 }

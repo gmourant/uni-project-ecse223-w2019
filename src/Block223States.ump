@@ -1,0 +1,14 @@
+class Game {
+	gameStatus {
+		notInLoop {
+			playGame() -> inLoop;
+			
+		
+		}
+		inLoop {
+			pauseGame() --> notInLoop;
+			
+		
+		}
+	}
+}
