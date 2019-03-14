@@ -92,8 +92,9 @@ public class Block223Controller {
     public static void setGameDetails(int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
             double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
 
-        // Obtain the selected game
+        // Obtain the selected game and block223
         Game game = Block223Application.getCurrentGame();
+        Block223 block223 = Block223Application.getBlock223();
 
         // Verify that the user is an admin
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
@@ -177,6 +178,14 @@ public class Block223Controller {
             level.delete();
             size = levels.size();
         }
+        
+        // Save to persistence
+        try {
+    		Block223Persistence.save(block223);
+		}
+		catch (RuntimeException e) {
+			throw new InvalidInputException(e.getMessage());
+		}
 
     }
 
