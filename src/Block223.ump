@@ -1,6 +1,7 @@
 namespace ca.mcgill.ecse223.block.model;
 
 use Block223Persistence.ump;
+use Block223PlayGame.ump;
 
 class Block223 {
    1 <@>- * User users;

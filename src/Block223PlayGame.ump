@@ -1,0 +1,21 @@
+class Game {
+	Boolean isPublished; // Cannot edit a published game
+	Boolean inTestMode;	 // Games in test mode are not saved
+}
+
+class GameOffering {
+	autounique id;
+  	Integer currentLife = 3;
+  	* -- 1 Game;
+  	* -- 1 Player;
+}
+
+class HallOfFameEntry {
+	Integer score;
+	* -- 1 Game;
+	* -- 1 Player;
+}
+
+class Ball {
+	Boolean isWithinBounds;
+}

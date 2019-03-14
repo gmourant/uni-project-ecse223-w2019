@@ -9,6 +9,7 @@ public class Block223Application {
     private static Block223 block223;
     private static UserRole currentUserRole;
     private static Game currentGame;
+    private static GameOffering currentGameOffering;
 
     public static void main(String[] args) {
         // start UI
@@ -48,5 +49,13 @@ public class Block223Application {
     
     public static Game getCurrentGame(){
         return currentGame;
+    }
+    
+    public static void setCurrentGameOffering(GameOffering aGameOffering) {
+    	currentGameOffering = aGameOffering;
+    }
+    
+    private static GameOffering getCurrentGameOffering() {
+    	return currentGameOffering;
     }
 }
