@@ -1,24 +1,10 @@
-class Game {
+class GameSession {
 	gameStatus {
-		notInLoop {
-			playGame() -> inLoop;
-			
+		Idle
 		
-		}
-		inLoop {
-			pauseGame() --> notInLoop;
-			nextLevel(Game game, Level level) [!almostFinishedGame()] / {
-				int levelIndex = level.indexOfLevel();
-				levelIndex++;
-				
-			} -> notInLoop;
-			nextLevel(Game game, Level level) [almostFinishedGame()] / {
-				
-			} -> notInLoop;
-		
-		}
 	}
-	
-	private boolean almostFinishedGame() {
-	}
+}
+
+class Ball {
+
 }
