@@ -1,0 +1,10 @@
+class GameSession {
+	gameStatus {
+		Idle
+		
+	}
+}
+
+class Ball {
+
+}

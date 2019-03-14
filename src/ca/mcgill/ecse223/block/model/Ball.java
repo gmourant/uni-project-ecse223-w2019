@@ -6,8 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 94 "../../../../../Block223Persistence.ump"
-// line 19 "../../../../../Block223PlayGame.ump"
-// line 99 "../../../../../Block223.ump"
+// line 100 "../../../../../Block223.ump"
 public class Ball implements Serializable
 {
 
@@ -22,7 +21,6 @@ public class Ball implements Serializable
   //------------------------
 
   //Ball Attributes
-  private boolean isWithinBounds;
   private int minBallSpeedX;
   private int minBallSpeedY;
   private double ballSpeedIncreaseFactor;
@@ -34,9 +32,8 @@ public class Ball implements Serializable
   // CONSTRUCTOR
   //------------------------
 
-  public Ball(boolean aIsWithinBounds, int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, Game aGame)
+  public Ball(int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, Game aGame)
   {
-    isWithinBounds = aIsWithinBounds;
     minBallSpeedX = aMinBallSpeedX;
     minBallSpeedY = aMinBallSpeedY;
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
@@ -47,31 +44,22 @@ public class Ball implements Serializable
     game = aGame;
   }
 
-  public Ball(boolean aIsWithinBounds, int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, boolean aIsPublishedForGame, boolean aInTestModeForGame, String aNameForGame, int aNrBlocksPerLevelForGame, Admin aAdminForGame, Paddle aPaddleForGame, Block223 aBlock223ForGame)
+  public Ball(int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, String aNameForGame, int aNrBlocksPerLevelForGame, Admin aAdminForGame, Paddle aPaddleForGame, Block223 aBlock223ForGame)
   {
-    isWithinBounds = aIsWithinBounds;
     minBallSpeedX = aMinBallSpeedX;
     minBallSpeedY = aMinBallSpeedY;
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
-    game = new Game(aIsPublishedForGame, aInTestModeForGame, aNameForGame, aNrBlocksPerLevelForGame, aAdminForGame, this, aPaddleForGame, aBlock223ForGame);
+    game = new Game(aNameForGame, aNrBlocksPerLevelForGame, aAdminForGame, this, aPaddleForGame, aBlock223ForGame);
   }
 
   //------------------------
   // INTERFACE
   //------------------------
 
-  public boolean setIsWithinBounds(boolean aIsWithinBounds)
-  {
-    boolean wasSet = false;
-    isWithinBounds = aIsWithinBounds;
-    wasSet = true;
-    return wasSet;
-  }
-
   public boolean setMinBallSpeedX(int aMinBallSpeedX)
   {
     boolean wasSet = false;
-    // line 103 "../../../../../Block223.ump"
+    // line 104 "../../../../../Block223.ump"
     if (aMinBallSpeedX <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     minBallSpeedX = aMinBallSpeedX;
@@ -82,7 +70,7 @@ public class Ball implements Serializable
   public boolean setMinBallSpeedY(int aMinBallSpeedY)
   {
     boolean wasSet = false;
-    // line 107 "../../../../../Block223.ump"
+    // line 108 "../../../../../Block223.ump"
     if (aMinBallSpeedY <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     minBallSpeedY = aMinBallSpeedY;
@@ -93,17 +81,12 @@ public class Ball implements Serializable
   public boolean setBallSpeedIncreaseFactor(double aBallSpeedIncreaseFactor)
   {
     boolean wasSet = false;
-    // line 111 "../../../../../Block223.ump"
+    // line 112 "../../../../../Block223.ump"
     if (aBallSpeedIncreaseFactor <= 0) throw new RuntimeException("The speed increase factor of the ball must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
     wasSet = true;
     return wasSet;
-  }
-
-  public boolean getIsWithinBounds()
-  {
-    return isWithinBounds;
   }
 
   public int getMinBallSpeedX()
@@ -119,11 +102,6 @@ public class Ball implements Serializable
   public double getBallSpeedIncreaseFactor()
   {
     return ballSpeedIncreaseFactor;
-  }
-  /* Code from template attribute_IsBoolean */
-  public boolean isIsWithinBounds()
-  {
-    return isWithinBounds;
   }
   /* Code from template association_GetOne */
   public Game getGame()
@@ -145,7 +123,6 @@ public class Ball implements Serializable
   public String toString()
   {
     return super.toString() + "["+
-            "isWithinBounds" + ":" + getIsWithinBounds()+ "," +
             "minBallSpeedX" + ":" + getMinBallSpeedX()+ "," +
             "minBallSpeedY" + ":" + getMinBallSpeedY()+ "," +
             "ballSpeedIncreaseFactor" + ":" + getBallSpeedIncreaseFactor()+ "]" + System.getProperties().getProperty("line.separator") +

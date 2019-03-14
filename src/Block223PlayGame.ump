@@ -1,21 +1,27 @@
 class Game {
-	Boolean isPublished; // Cannot edit a published game
-	Boolean inTestMode;	 // Games in test mode are not saved
+	lazy Boolean isPublished; // Cannot edit a published game
+	before setIsPublished {
+		if (isPublished) return wasSet;
+	}
 }
 
-class GameOffering {
+class GameSession {
 	autounique id;
+	Integer currentLevelNr = 1; // This represents current number of the level
   	Integer currentLife = 3;
+  	Integer score = 0;
   	* -- 1 Game;
-  	* -- 1 Player;
+  	* -- 1 User;
+}
+
+class SpecificBlockAssignment {
+	autounique id;
+	* -- 1 BlockAssignment;
+	* -- 1 GameSession;
 }
 
 class HallOfFameEntry {
 	Integer score;
 	* -- 1 Game;
 	* -- 1 Player;
-}
-
-class Ball {
-	Boolean isWithinBounds;
 }

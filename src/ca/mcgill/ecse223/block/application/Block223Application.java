@@ -9,7 +9,7 @@ public class Block223Application {
     private static Block223 block223;
     private static UserRole currentUserRole;
     private static Game currentGame;
-    private static GameOffering currentGameOffering;
+    private static GameSession currentGameSession;
 
     public static void main(String[] args) {
         // start UI
@@ -51,11 +51,11 @@ public class Block223Application {
         return currentGame;
     }
     
-    public static void setCurrentGameOffering(GameOffering aGameOffering) {
-    	currentGameOffering = aGameOffering;
+    public static void setCurrentGameSession(GameSession aGameSession) {
+    	currentGameSession = aGameSession;
     }
     
-    private static GameOffering getCurrentGameOffering() {
-    	return currentGameOffering;
+    private static GameSession getCurrentGameSession() {
+    	return currentGameSession;
     }
 }
