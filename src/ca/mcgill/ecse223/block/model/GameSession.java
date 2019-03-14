@@ -19,6 +19,7 @@ public class GameSession
   //------------------------
 
   //GameSession Attributes
+  private String ofTestMode;
   private int currentLevelNr;
   private int currentLife;
   private int score;
@@ -28,15 +29,16 @@ public class GameSession
 
   //GameSession Associations
   private Game game;
-  private User user;
+  private Player player;
   private List<SpecificBlockAssignment> specificBlockAssignments;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public GameSession(Game aGame, User aUser)
+  public GameSession(String aOfTestMode, Game aGame, Player aPlayer)
   {
+    ofTestMode = aOfTestMode;
     currentLevelNr = 1;
     currentLife = 3;
     score = 0;
@@ -46,10 +48,10 @@ public class GameSession
     {
       throw new RuntimeException("Unable to create gameSession due to game");
     }
-    boolean didAddUser = setUser(aUser);
-    if (!didAddUser)
+    boolean didAddPlayer = setPlayer(aPlayer);
+    if (!didAddPlayer)
     {
-      throw new RuntimeException("Unable to create gameSession due to user");
+      throw new RuntimeException("Unable to create gameSession due to player");
     }
     specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
   }
@@ -82,6 +84,11 @@ public class GameSession
     return wasSet;
   }
 
+  public String getOfTestMode()
+  {
+    return ofTestMode;
+  }
+
   /**
    * This represents current number of the level
    */
@@ -110,9 +117,9 @@ public class GameSession
     return game;
   }
   /* Code from template association_GetOne */
-  public User getUser()
+  public Player getPlayer()
   {
-    return user;
+    return player;
   }
   /* Code from template association_GetMany */
   public SpecificBlockAssignment getSpecificBlockAssignment(int index)
@@ -164,21 +171,21 @@ public class GameSession
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUser(User aUser)
+  public boolean setPlayer(Player aPlayer)
   {
     boolean wasSet = false;
-    if (aUser == null)
+    if (aPlayer == null)
     {
       return wasSet;
     }
 
-    User existingUser = user;
-    user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
+    Player existingPlayer = player;
+    player = aPlayer;
+    if (existingPlayer != null && !existingPlayer.equals(aPlayer))
     {
-      existingUser.removeGameSession(this);
+      existingPlayer.removeGameSession(this);
     }
-    user.addGameSession(this);
+    player.addGameSession(this);
     wasSet = true;
     return wasSet;
   }
@@ -263,11 +270,11 @@ public class GameSession
     {
       placeholderGame.removeGameSession(this);
     }
-    User placeholderUser = user;
-    this.user = null;
-    if(placeholderUser != null)
+    Player placeholderPlayer = player;
+    this.player = null;
+    if(placeholderPlayer != null)
     {
-      placeholderUser.removeGameSession(this);
+      placeholderPlayer.removeGameSession(this);
     }
     for(int i=specificBlockAssignments.size(); i > 0; i--)
     {
@@ -281,10 +288,11 @@ public class GameSession
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "," +
+            "ofTestMode" + ":" + getOfTestMode()+ "," +
             "currentLevelNr" + ":" + getCurrentLevelNr()+ "," +
             "currentLife" + ":" + getCurrentLife()+ "," +
             "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
+            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
   }
 }

@@ -15,6 +15,7 @@ public class Player extends UserRole implements Serializable
   //------------------------
 
   //Player Associations
+  private List<GameSession> gameSessions;
   private List<HallOfFameEntry> hallOfFameEntries;
 
   //------------------------
@@ -24,12 +25,43 @@ public class Player extends UserRole implements Serializable
   public Player(String aPassword, Block223 aBlock223)
   {
     super(aPassword, aBlock223);
+    gameSessions = new ArrayList<GameSession>();
     hallOfFameEntries = new ArrayList<HallOfFameEntry>();
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+  /* Code from template association_GetMany */
+  public GameSession getGameSession(int index)
+  {
+    GameSession aGameSession = gameSessions.get(index);
+    return aGameSession;
+  }
+
+  public List<GameSession> getGameSessions()
+  {
+    List<GameSession> newGameSessions = Collections.unmodifiableList(gameSessions);
+    return newGameSessions;
+  }
+
+  public int numberOfGameSessions()
+  {
+    int number = gameSessions.size();
+    return number;
+  }
+
+  public boolean hasGameSessions()
+  {
+    boolean has = gameSessions.size() > 0;
+    return has;
+  }
+
+  public int indexOfGameSession(GameSession aGameSession)
+  {
+    int index = gameSessions.indexOf(aGameSession);
+    return index;
+  }
   /* Code from template association_GetMany */
   public HallOfFameEntry getHallOfFameEntry(int index)
   {
@@ -59,6 +91,78 @@ public class Player extends UserRole implements Serializable
   {
     int index = hallOfFameEntries.indexOf(aHallOfFameEntry);
     return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfGameSessions()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public GameSession addGameSession(String aOfTestMode, Game aGame)
+  {
+    return new GameSession(aOfTestMode, aGame, this);
+  }
+
+  public boolean addGameSession(GameSession aGameSession)
+  {
+    boolean wasAdded = false;
+    if (gameSessions.contains(aGameSession)) { return false; }
+    Player existingPlayer = aGameSession.getPlayer();
+    boolean isNewPlayer = existingPlayer != null && !this.equals(existingPlayer);
+    if (isNewPlayer)
+    {
+      aGameSession.setPlayer(this);
+    }
+    else
+    {
+      gameSessions.add(aGameSession);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeGameSession(GameSession aGameSession)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aGameSession, as it must always have a player
+    if (!this.equals(aGameSession.getPlayer()))
+    {
+      gameSessions.remove(aGameSession);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addGameSessionAt(GameSession aGameSession, int index)
+  {  
+    boolean wasAdded = false;
+    if(addGameSession(aGameSession))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGameSessions()) { index = numberOfGameSessions() - 1; }
+      gameSessions.remove(aGameSession);
+      gameSessions.add(index, aGameSession);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveGameSessionAt(GameSession aGameSession, int index)
+  {
+    boolean wasAdded = false;
+    if(gameSessions.contains(aGameSession))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfGameSessions()) { index = numberOfGameSessions() - 1; }
+      gameSessions.remove(aGameSession);
+      gameSessions.add(index, aGameSession);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addGameSessionAt(aGameSession, index);
+    }
+    return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfHallOfFameEntries()
@@ -135,6 +239,11 @@ public class Player extends UserRole implements Serializable
 
   public void delete()
   {
+    for(int i=gameSessions.size(); i > 0; i--)
+    {
+      GameSession aGameSession = gameSessions.get(i - 1);
+      aGameSession.delete();
+    }
     for(int i=hallOfFameEntries.size(); i > 0; i--)
     {
       HallOfFameEntry aHallOfFameEntry = hallOfFameEntries.get(i - 1);

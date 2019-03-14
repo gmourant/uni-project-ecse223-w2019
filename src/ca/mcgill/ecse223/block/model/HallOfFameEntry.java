@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 23 "../../../../../Block223PlayGame.ump"
+// line 24 "../../../../../Block223PlayGame.ump"
 public class HallOfFameEntry
 {
 

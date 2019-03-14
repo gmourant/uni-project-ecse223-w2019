@@ -642,9 +642,9 @@ public class Game implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameSession addGameSession(User aUser)
+  public GameSession addGameSession(String aOfTestMode, Player aPlayer)
   {
-    return new GameSession(this, aUser);
+    return new GameSession(aOfTestMode, this, aPlayer);
   }
 
   public boolean addGameSession(GameSession aGameSession)
