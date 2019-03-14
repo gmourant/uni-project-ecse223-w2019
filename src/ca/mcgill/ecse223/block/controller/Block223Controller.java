@@ -44,7 +44,7 @@ public class Block223Controller {
         if (!unique) throw new InvalidInputException("The name of a game must be unique.");
         
         // Create then add game
-        Game game = new Game(false, false, name, 1, admin, true, 1, 1, 1, 10, 10, block223);
+        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
         try {
             block223.addGame(game);
         } catch (RuntimeException e) {

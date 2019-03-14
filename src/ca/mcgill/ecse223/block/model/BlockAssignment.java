@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 3 "../../../../../Block223Persistence.ump"
-// line 85 "../../../../../Block223.ump"
+// line 86 "../../../../../Block223.ump"
 public class BlockAssignment implements Serializable
 {
 
@@ -30,7 +30,7 @@ public class BlockAssignment implements Serializable
 
   public BlockAssignment(int aGridHorizontalPosition, int aGridVerticalPosition, Level aLevel, Block aBlock, Game aGame)
   {
-    // line 89 "../../../../../Block223.ump"
+    // line 90 "../../../../../Block223.ump"
     if (aGridHorizontalPosition > Game.GRID_DIMENSIONS || aGridHorizontalPosition < 1) {
              throw new RuntimeException("X out of bounds.");
           }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || aGridVerticalPosition < 1) {
@@ -175,9 +175,9 @@ public class BlockAssignment implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificBlockAssignment addSpecificBlockAssignment()
+  public SpecificBlockAssignment addSpecificBlockAssignment(GameSession aGameSession)
   {
-    return new SpecificBlockAssignment(this);
+    return new SpecificBlockAssignment(this, aGameSession);
   }
 
   public boolean addSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)

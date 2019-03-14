@@ -7,7 +7,7 @@ import java.util.*;
 
 // line 40 "../../../../../Block223Persistence.ump"
 // line 1 "../../../../../Block223PlayGame.ump"
-// line 43 "../../../../../Block223.ump"
+// line 44 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
 
@@ -38,7 +38,6 @@ public class Game implements Serializable
 
   //Game Attributes
   private boolean isPublished;
-  private boolean inTestMode;
   private String name;
   private int nrBlocksPerLevel;
 
@@ -49,7 +48,7 @@ public class Game implements Serializable
   private List<BlockAssignment> blockAssignments;
   private Ball ball;
   private Paddle paddle;
-  private List<GameOffering> gameOfferings;
+  private List<GameSession> gameSessions;
   private List<HallOfFameEntry> hallOfFameEntries;
   private Block223 block223;
 
@@ -57,13 +56,12 @@ public class Game implements Serializable
   // CONSTRUCTOR
   //------------------------
 
-  public Game(boolean aIsPublished, boolean aInTestMode, String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
+  public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    // line 53 "../../../../../Block223.ump"
+    // line 54 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
     // END OF UMPLE BEFORE INJECTION
-    isPublished = aIsPublished;
-    inTestMode = aInTestMode;
+    isPublished = false;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     if (!setName(aName))
     {
@@ -87,7 +85,7 @@ public class Game implements Serializable
       throw new RuntimeException("Unable to create Game due to aPaddle");
     }
     paddle = aPaddle;
-    gameOfferings = new ArrayList<GameOffering>();
+    gameSessions = new ArrayList<GameSession>();
     hallOfFameEntries = new ArrayList<HallOfFameEntry>();
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
@@ -96,13 +94,12 @@ public class Game implements Serializable
     }
   }
 
-  public Game(boolean aIsPublished, boolean aInTestMode, String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
+  public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
-    // line 53 "../../../../../Block223.ump"
+    // line 54 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
     // END OF UMPLE BEFORE INJECTION
-    isPublished = aIsPublished;
-    inTestMode = aInTestMode;
+    isPublished = false;
     name = aName;
     nrBlocksPerLevel = aNrBlocksPerLevel;
     boolean didAddAdmin = setAdmin(aAdmin);
@@ -115,7 +112,7 @@ public class Game implements Serializable
     blockAssignments = new ArrayList<BlockAssignment>();
     ball = new Ball(aMinBallSpeedXForBall, aMinBallSpeedYForBall, aBallSpeedIncreaseFactorForBall, this);
     paddle = new Paddle(aMaxPaddleLengthForPaddle, aMinPaddleLengthForPaddle, this);
-    gameOfferings = new ArrayList<GameOffering>();
+    gameSessions = new ArrayList<GameSession>();
     hallOfFameEntries = new ArrayList<HallOfFameEntry>();
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
@@ -131,15 +128,10 @@ public class Game implements Serializable
   public boolean setIsPublished(boolean aIsPublished)
   {
     boolean wasSet = false;
+    // line 4 "../../../../../Block223PlayGame.ump"
+    if (isPublished) return wasSet;
+    // END OF UMPLE BEFORE INJECTION
     isPublished = aIsPublished;
-    wasSet = true;
-    return wasSet;
-  }
-
-  public boolean setInTestMode(boolean aInTestMode)
-  {
-    boolean wasSet = false;
-    inTestMode = aInTestMode;
     wasSet = true;
     return wasSet;
   }
@@ -163,7 +155,7 @@ public class Game implements Serializable
   public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel)
   {
     boolean wasSet = false;
-    // line 57 "../../../../../Block223.ump"
+    // line 58 "../../../../../Block223.ump"
     if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
@@ -177,14 +169,6 @@ public class Game implements Serializable
   public boolean getIsPublished()
   {
     return isPublished;
-  }
-
-  /**
-   * Games in test mode are not saved
-   */
-  public boolean getInTestMode()
-  {
-    return inTestMode;
   }
 
   public String getName()
@@ -210,11 +194,6 @@ public class Game implements Serializable
   public boolean isIsPublished()
   {
     return isPublished;
-  }
-  /* Code from template attribute_IsBoolean */
-  public boolean isInTestMode()
-  {
-    return inTestMode;
   }
   /* Code from template association_GetOne */
   public Admin getAdmin()
@@ -322,33 +301,33 @@ public class Game implements Serializable
     return paddle;
   }
   /* Code from template association_GetMany */
-  public GameOffering getGameOffering(int index)
+  public GameSession getGameSession(int index)
   {
-    GameOffering aGameOffering = gameOfferings.get(index);
-    return aGameOffering;
+    GameSession aGameSession = gameSessions.get(index);
+    return aGameSession;
   }
 
-  public List<GameOffering> getGameOfferings()
+  public List<GameSession> getGameSessions()
   {
-    List<GameOffering> newGameOfferings = Collections.unmodifiableList(gameOfferings);
-    return newGameOfferings;
+    List<GameSession> newGameSessions = Collections.unmodifiableList(gameSessions);
+    return newGameSessions;
   }
 
-  public int numberOfGameOfferings()
+  public int numberOfGameSessions()
   {
-    int number = gameOfferings.size();
+    int number = gameSessions.size();
     return number;
   }
 
-  public boolean hasGameOfferings()
+  public boolean hasGameSessions()
   {
-    boolean has = gameOfferings.size() > 0;
+    boolean has = gameSessions.size() > 0;
     return has;
   }
 
-  public int indexOfGameOffering(GameOffering aGameOffering)
+  public int indexOfGameSession(GameSession aGameSession)
   {
-    int index = gameOfferings.indexOf(aGameOffering);
+    int index = gameSessions.indexOf(aGameSession);
     return index;
   }
   /* Code from template association_GetMany */
@@ -658,74 +637,74 @@ public class Game implements Serializable
     return wasAdded;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGameOfferings()
+  public static int minimumNumberOfGameSessions()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameOffering addGameOffering(Player aPlayer)
+  public GameSession addGameSession(User aUser)
   {
-    return new GameOffering(this, aPlayer);
+    return new GameSession(this, aUser);
   }
 
-  public boolean addGameOffering(GameOffering aGameOffering)
+  public boolean addGameSession(GameSession aGameSession)
   {
     boolean wasAdded = false;
-    if (gameOfferings.contains(aGameOffering)) { return false; }
-    Game existingGame = aGameOffering.getGame();
+    if (gameSessions.contains(aGameSession)) { return false; }
+    Game existingGame = aGameSession.getGame();
     boolean isNewGame = existingGame != null && !this.equals(existingGame);
     if (isNewGame)
     {
-      aGameOffering.setGame(this);
+      aGameSession.setGame(this);
     }
     else
     {
-      gameOfferings.add(aGameOffering);
+      gameSessions.add(aGameSession);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeGameOffering(GameOffering aGameOffering)
+  public boolean removeGameSession(GameSession aGameSession)
   {
     boolean wasRemoved = false;
-    //Unable to remove aGameOffering, as it must always have a game
-    if (!this.equals(aGameOffering.getGame()))
+    //Unable to remove aGameSession, as it must always have a game
+    if (!this.equals(aGameSession.getGame()))
     {
-      gameOfferings.remove(aGameOffering);
+      gameSessions.remove(aGameSession);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameOfferingAt(GameOffering aGameOffering, int index)
+  public boolean addGameSessionAt(GameSession aGameSession, int index)
   {  
     boolean wasAdded = false;
-    if(addGameOffering(aGameOffering))
+    if(addGameSession(aGameSession))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfGameOfferings()) { index = numberOfGameOfferings() - 1; }
-      gameOfferings.remove(aGameOffering);
-      gameOfferings.add(index, aGameOffering);
+      if(index > numberOfGameSessions()) { index = numberOfGameSessions() - 1; }
+      gameSessions.remove(aGameSession);
+      gameSessions.add(index, aGameSession);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveGameOfferingAt(GameOffering aGameOffering, int index)
+  public boolean addOrMoveGameSessionAt(GameSession aGameSession, int index)
   {
     boolean wasAdded = false;
-    if(gameOfferings.contains(aGameOffering))
+    if(gameSessions.contains(aGameSession))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfGameOfferings()) { index = numberOfGameOfferings() - 1; }
-      gameOfferings.remove(aGameOffering);
-      gameOfferings.add(index, aGameOffering);
+      if(index > numberOfGameSessions()) { index = numberOfGameSessions() - 1; }
+      gameSessions.remove(aGameSession);
+      gameSessions.add(index, aGameSession);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addGameOfferingAt(aGameOffering, index);
+      wasAdded = addGameSessionAt(aGameSession, index);
     }
     return wasAdded;
   }
@@ -863,10 +842,10 @@ public class Game implements Serializable
     {
       existingPaddle.delete();
     }
-    for(int i=gameOfferings.size(); i > 0; i--)
+    for(int i=gameSessions.size(); i > 0; i--)
     {
-      GameOffering aGameOffering = gameOfferings.get(i - 1);
-      aGameOffering.delete();
+      GameSession aGameSession = gameSessions.get(i - 1);
+      aGameSession.delete();
     }
     for(int i=hallOfFameEntries.size(); i > 0; i--)
     {
@@ -894,7 +873,6 @@ public class Game implements Serializable
   {
     return super.toString() + "["+
             "isPublished" + ":" + getIsPublished()+ "," +
-            "inTestMode" + ":" + getInTestMode()+ "," +
             "name" + ":" + getName()+ "," +
             "nrBlocksPerLevel" + ":" + getNrBlocksPerLevel()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "admin = "+(getAdmin()!=null?Integer.toHexString(System.identityHashCode(getAdmin())):"null") + System.getProperties().getProperty("line.separator") +
