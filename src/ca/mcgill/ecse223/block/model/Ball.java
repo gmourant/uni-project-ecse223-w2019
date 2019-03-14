@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 94 "../../../../../Block223Persistence.ump"
-// line 16 "../../../../../Block223PlayGame.ump"
+// line 19 "../../../../../Block223PlayGame.ump"
 // line 99 "../../../../../Block223.ump"
 public class Ball implements Serializable
 {
@@ -47,13 +47,13 @@ public class Ball implements Serializable
     game = aGame;
   }
 
-  public Ball(boolean aIsWithinBounds, int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, boolean aIsPublishedForGame, String aNameForGame, int aNrBlocksPerLevelForGame, Admin aAdminForGame, Paddle aPaddleForGame, Block223 aBlock223ForGame)
+  public Ball(boolean aIsWithinBounds, int aMinBallSpeedX, int aMinBallSpeedY, double aBallSpeedIncreaseFactor, boolean aIsPublishedForGame, boolean aInTestModeForGame, String aNameForGame, int aNrBlocksPerLevelForGame, Admin aAdminForGame, Paddle aPaddleForGame, Block223 aBlock223ForGame)
   {
     isWithinBounds = aIsWithinBounds;
     minBallSpeedX = aMinBallSpeedX;
     minBallSpeedY = aMinBallSpeedY;
     ballSpeedIncreaseFactor = aBallSpeedIncreaseFactor;
-    game = new Game(aIsPublishedForGame, aNameForGame, aNrBlocksPerLevelForGame, aAdminForGame, this, aPaddleForGame, aBlock223ForGame);
+    game = new Game(aIsPublishedForGame, aInTestModeForGame, aNameForGame, aNrBlocksPerLevelForGame, aAdminForGame, this, aPaddleForGame, aBlock223ForGame);
   }
 
   //------------------------

@@ -270,9 +270,9 @@ public class Block223 implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(boolean aIsPublished, String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle)
+  public Game addGame(boolean aIsPublished, boolean aInTestMode, String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle)
   {
-    return new Game(aIsPublished, aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, this);
+    return new Game(aIsPublished, aInTestMode, aName, aNrBlocksPerLevel, aAdmin, aBall, aPaddle, this);
   }
 
   public boolean addGame(Game aGame)

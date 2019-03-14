@@ -3,9 +3,15 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 5 "../../../../../Block223PlayGame.ump"
+// line 6 "../../../../../Block223PlayGame.ump"
 public class GameOffering
 {
+
+  //------------------------
+  // STATIC VARIABLES
+  //------------------------
+
+  private static int nextId = 1;
 
   //------------------------
   // MEMBER VARIABLES
@@ -13,6 +19,9 @@ public class GameOffering
 
   //GameOffering Attributes
   private int currentLife;
+
+  //Autounique Attributes
+  private int id;
 
   //GameOffering Associations
   private Game game;
@@ -25,6 +34,7 @@ public class GameOffering
   public GameOffering(Game aGame, Player aPlayer)
   {
     currentLife = 3;
+    id = nextId++;
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -52,6 +62,11 @@ public class GameOffering
   public int getCurrentLife()
   {
     return currentLife;
+  }
+
+  public int getId()
+  {
+    return id;
   }
   /* Code from template association_GetOne */
   public Game getGame()
@@ -122,6 +137,7 @@ public class GameOffering
   public String toString()
   {
     return super.toString() + "["+
+            "id" + ":" + getId()+ "," +
             "currentLife" + ":" + getCurrentLife()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");

@@ -3,15 +3,18 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 11 "../../../../../Block223PlayGame.ump"
-public class Score
+// line 13 "../../../../../Block223PlayGame.ump"
+public class HallOfFameEntry
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Score Associations
+  //HallOfFameEntry Attributes
+  private int score;
+
+  //HallOfFameEntry Associations
   private Game game;
   private Player player;
 
@@ -19,23 +22,37 @@ public class Score
   // CONSTRUCTOR
   //------------------------
 
-  public Score(Game aGame, Player aPlayer)
+  public HallOfFameEntry(int aScore, Game aGame, Player aPlayer)
   {
+    score = aScore;
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
-      throw new RuntimeException("Unable to create score due to game");
+      throw new RuntimeException("Unable to create hallOfFameEntry due to game");
     }
     boolean didAddPlayer = setPlayer(aPlayer);
     if (!didAddPlayer)
     {
-      throw new RuntimeException("Unable to create score due to player");
+      throw new RuntimeException("Unable to create hallOfFameEntry due to player");
     }
   }
 
   //------------------------
   // INTERFACE
   //------------------------
+
+  public boolean setScore(int aScore)
+  {
+    boolean wasSet = false;
+    score = aScore;
+    wasSet = true;
+    return wasSet;
+  }
+
+  public int getScore()
+  {
+    return score;
+  }
   /* Code from template association_GetOne */
   public Game getGame()
   {
@@ -59,9 +76,9 @@ public class Score
     game = aGame;
     if (existingGame != null && !existingGame.equals(aGame))
     {
-      existingGame.removeScore(this);
+      existingGame.removeHallOfFameEntry(this);
     }
-    game.addScore(this);
+    game.addHallOfFameEntry(this);
     wasSet = true;
     return wasSet;
   }
@@ -78,9 +95,9 @@ public class Score
     player = aPlayer;
     if (existingPlayer != null && !existingPlayer.equals(aPlayer))
     {
-      existingPlayer.removeScore(this);
+      existingPlayer.removeHallOfFameEntry(this);
     }
-    player.addScore(this);
+    player.addHallOfFameEntry(this);
     wasSet = true;
     return wasSet;
   }
@@ -91,14 +108,22 @@ public class Score
     this.game = null;
     if(placeholderGame != null)
     {
-      placeholderGame.removeScore(this);
+      placeholderGame.removeHallOfFameEntry(this);
     }
     Player placeholderPlayer = player;
     this.player = null;
     if(placeholderPlayer != null)
     {
-      placeholderPlayer.removeScore(this);
+      placeholderPlayer.removeHallOfFameEntry(this);
     }
   }
 
+
+  public String toString()
+  {
+    return super.toString() + "["+
+            "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
+  }
 }
