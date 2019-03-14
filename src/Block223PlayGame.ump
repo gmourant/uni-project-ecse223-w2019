@@ -1,0 +1,18 @@
+class Game {
+	Boolean isPublished;
+}
+
+class GameOffering {
+  	Integer currentLife = 3;
+  	* -- 1 Game;
+  	* -- 1 Player;
+}
+
+class Score {
+	* -- 1 Game;
+	* -- 1 Player;
+}
+
+class Ball {
+	Boolean isWithinBounds;
+}

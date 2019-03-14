@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 70 "../../../../../Block223Persistence.ump"
-// line 34 "../../../../../Block223.ump"
+// line 35 "../../../../../Block223.ump"
 public class Admin extends UserRole implements Serializable
 {
 
@@ -66,9 +66,9 @@ public class Admin extends UserRole implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Game addGame(String aName, int aNrBlocksPerLevel, Ball aBall, Paddle aPaddle, Block223 aBlock223)
+  public Game addGame(boolean aIsPublished, String aName, int aNrBlocksPerLevel, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    return new Game(aName, aNrBlocksPerLevel, this, aBall, aPaddle, aBlock223);
+    return new Game(aIsPublished, aName, aNrBlocksPerLevel, this, aBall, aPaddle, aBlock223);
   }
 
   public boolean addGame(Game aGame)
