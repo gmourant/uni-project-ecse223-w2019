@@ -35,6 +35,7 @@ public class Block implements Serializable
   private int id;
 
   //Block Associations
+  private List<SpecificBlock> specificBlocks;
   private Game game;
   private List<BlockAssignment> blockAssignments;
 
@@ -49,6 +50,7 @@ public class Block implements Serializable
     blue = aBlue;
     points = aPoints;
     id = nextId++;
+    specificBlocks = new ArrayList<SpecificBlock>();
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
@@ -117,6 +119,36 @@ public class Block implements Serializable
   {
     return id;
   }
+  /* Code from template association_GetMany */
+  public SpecificBlock getSpecificBlock(int index)
+  {
+    SpecificBlock aSpecificBlock = specificBlocks.get(index);
+    return aSpecificBlock;
+  }
+
+  public List<SpecificBlock> getSpecificBlocks()
+  {
+    List<SpecificBlock> newSpecificBlocks = Collections.unmodifiableList(specificBlocks);
+    return newSpecificBlocks;
+  }
+
+  public int numberOfSpecificBlocks()
+  {
+    int number = specificBlocks.size();
+    return number;
+  }
+
+  public boolean hasSpecificBlocks()
+  {
+    boolean has = specificBlocks.size() > 0;
+    return has;
+  }
+
+  public int indexOfSpecificBlock(SpecificBlock aSpecificBlock)
+  {
+    int index = specificBlocks.indexOf(aSpecificBlock);
+    return index;
+  }
   /* Code from template association_GetOne */
   public Game getGame()
   {
@@ -151,6 +183,78 @@ public class Block implements Serializable
   {
     int index = blockAssignments.indexOf(aBlockAssignment);
     return index;
+  }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfSpecificBlocks()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public SpecificBlock addSpecificBlock(GameSession aGameSession)
+  {
+    return new SpecificBlock(this, aGameSession);
+  }
+
+  public boolean addSpecificBlock(SpecificBlock aSpecificBlock)
+  {
+    boolean wasAdded = false;
+    if (specificBlocks.contains(aSpecificBlock)) { return false; }
+    Block existingBlock = aSpecificBlock.getBlock();
+    boolean isNewBlock = existingBlock != null && !this.equals(existingBlock);
+    if (isNewBlock)
+    {
+      aSpecificBlock.setBlock(this);
+    }
+    else
+    {
+      specificBlocks.add(aSpecificBlock);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeSpecificBlock(SpecificBlock aSpecificBlock)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aSpecificBlock, as it must always have a block
+    if (!this.equals(aSpecificBlock.getBlock()))
+    {
+      specificBlocks.remove(aSpecificBlock);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addSpecificBlockAt(SpecificBlock aSpecificBlock, int index)
+  {  
+    boolean wasAdded = false;
+    if(addSpecificBlock(aSpecificBlock))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSpecificBlocks()) { index = numberOfSpecificBlocks() - 1; }
+      specificBlocks.remove(aSpecificBlock);
+      specificBlocks.add(index, aSpecificBlock);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveSpecificBlockAt(SpecificBlock aSpecificBlock, int index)
+  {
+    boolean wasAdded = false;
+    if(specificBlocks.contains(aSpecificBlock))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfSpecificBlocks()) { index = numberOfSpecificBlocks() - 1; }
+      specificBlocks.remove(aSpecificBlock);
+      specificBlocks.add(index, aSpecificBlock);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addSpecificBlockAt(aSpecificBlock, index);
+    }
+    return wasAdded;
   }
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
@@ -246,6 +350,11 @@ public class Block implements Serializable
 
   public void delete()
   {
+    for(int i=specificBlocks.size(); i > 0; i--)
+    {
+      SpecificBlock aSpecificBlock = specificBlocks.get(i - 1);
+      aSpecificBlock.delete();
+    }
     Game placeholderGame = game;
     this.game = null;
     if(placeholderGame != null)

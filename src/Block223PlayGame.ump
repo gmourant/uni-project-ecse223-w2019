@@ -7,17 +7,31 @@ class Game {
 
 class GameSession {
 	autounique id;
+	immutable Boolean ofTestMode;
 	Integer currentLevelNr = 1; // This represents current number of the level
   	Integer currentLife = 3;
   	Integer score = 0;
   	* -- 1 Game;
-  	* -- 1 User;
+  	* -- 1 Player;
 }
 
-class SpecificBlockAssignment {
+class SpecificBlock {
 	autounique id;
-	* -- 1 BlockAssignment;
+	* -- 1 Block;
 	* -- 1 GameSession;
+}
+
+class SpecificBall {
+	1 -<@> 1 GameSession;
+  	Boolean isOutBounds;
+  	Integer positionX;
+  	Integer positionY;
+}
+
+class SpecificPaddle {
+	1 -<@> 1 GameSession;
+  	Integer positionX;
+  	immutable Integer positionY;
 }
 
 class HallOfFameEntry {
