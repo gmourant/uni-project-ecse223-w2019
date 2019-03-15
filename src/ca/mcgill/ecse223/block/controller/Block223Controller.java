@@ -724,8 +724,38 @@ public class Block223Controller {
 		}
 
 	}
-
-
+	
+	/**
+	 * This method pauses a game
+	 */
+	public static void pauseGame() {
+		
+	}
+	
+	/**
+	 * This method moves the paddle one pixel to the left or right
+	 * @author Kelly Ma
+	 * @param direction Describes left or right
+	 */
+	public static void movePaddle(String direction) {
+		
+		// Obtain current paddle and its positions
+		GameSession game = Block223Application.getCurrentGameSession();
+		SpecificPaddle paddle = game.getSpecificPaddle();
+		int currentPositionX = paddle.getPositionX();
+		
+		switch(direction) {
+			case "l":
+				// move to the left one pixel
+				paddle.setPositionX(--currentPositionX);
+				break;
+			case "r":
+				// move to the right one pixel
+				paddle.setPositionX(++currentPositionX);
+				break;
+			default:
+		}
+	}
 
     // ****************************
     // Query methods

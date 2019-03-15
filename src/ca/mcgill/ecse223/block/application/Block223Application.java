@@ -55,7 +55,7 @@ public class Block223Application {
     	currentGameSession = aGameSession;
     }
     
-    private static GameSession getCurrentGameSession() {
+    public static GameSession getCurrentGameSession() {
     	return currentGameSession;
     }
 }

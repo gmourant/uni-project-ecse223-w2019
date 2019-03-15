@@ -5,9 +5,6 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-/**
- * use Block223States.ump;
- */
 // line 9 "../../../../../Block223Persistence.ump"
 // line 7 "../../../../../Block223.ump"
 public class Block223 implements Serializable
