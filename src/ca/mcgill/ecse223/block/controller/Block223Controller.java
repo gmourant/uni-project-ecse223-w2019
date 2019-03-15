@@ -772,10 +772,10 @@ public class Block223Controller {
         List<TOHallOfFameEntry> hallOfFame = new ArrayList(); // Create TO list
         List<HallOfFameEntry> entries = game.getHallOfFameEntries(); // Obtain list of entries
         
-        for (HallOfFameEntry entry : entries) {
+        for (HallOfFameEntry hallOfFameEntry : entries) {
         	// Get username and score for an entry
-        	String username = entry.getUser().getUsername();
-        	int score = entry.getScore();
+        	String username = hallOfFameEntry.getUser().getUsername();
+        	int score = hallOfFameEntry.getScore();
         	
         	TOHallOfFameEntry to = new TOHallOfFameEntry(username, score);
         	hallOfFame.add(to); // Add entry to hallOfFame
