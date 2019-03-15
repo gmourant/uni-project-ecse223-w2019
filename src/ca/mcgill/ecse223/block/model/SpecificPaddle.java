@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 32 "../../../../../Block223PlayGame.ump"
+// line 34 "../../../../../Block223PlayGame.ump"
 public class SpecificPaddle
 {
 

@@ -1,3 +1,5 @@
+external interface Comparable {}
+
 class Game {
 	lazy Boolean isPublished; // Cannot edit a published game
 	before setIsPublished {
@@ -36,7 +38,13 @@ class SpecificPaddle {
 }
 
 class HallOfFameEntry {
+	depend java.lang.Comparable;
+	isA Comparable;
 	Integer score;
 	* -- 1 Game;
 	* -- 1 User;
+    public int compareTo(Object aHallOfFameEntry) {
+    	HallOfFameEntry myHallOfFameEntry = (HallOfFameEntry)aHallOfFameEntry;
+        return toString().compareTo(myHallOfFameEntry.toString());
+    }
 }
