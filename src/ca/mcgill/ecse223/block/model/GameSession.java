@@ -19,7 +19,7 @@ public class GameSession
   //------------------------
 
   //GameSession Attributes
-  private String ofTestMode;
+  private boolean ofTestMode;
   private int currentLevelNr;
   private int currentLife;
   private int score;
@@ -30,13 +30,15 @@ public class GameSession
   //GameSession Associations
   private Game game;
   private Player player;
-  private List<SpecificBlockAssignment> specificBlockAssignments;
+  private List<SpecificBlock> specificBlocks;
+  private SpecificBall specificBall;
+  private SpecificPaddle specificPaddle;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public GameSession(String aOfTestMode, Game aGame, Player aPlayer)
+  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
     ofTestMode = aOfTestMode;
     currentLevelNr = 1;
@@ -53,7 +55,39 @@ public class GameSession
     {
       throw new RuntimeException("Unable to create gameSession due to player");
     }
-    specificBlockAssignments = new ArrayList<SpecificBlockAssignment>();
+    specificBlocks = new ArrayList<SpecificBlock>();
+    if (aSpecificBall == null || aSpecificBall.getGameSession() != null)
+    {
+      throw new RuntimeException("Unable to create GameSession due to aSpecificBall");
+    }
+    specificBall = aSpecificBall;
+    if (aSpecificPaddle == null || aSpecificPaddle.getGameSession() != null)
+    {
+      throw new RuntimeException("Unable to create GameSession due to aSpecificPaddle");
+    }
+    specificPaddle = aSpecificPaddle;
+  }
+
+  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
+  {
+    ofTestMode = aOfTestMode;
+    currentLevelNr = 1;
+    currentLife = 3;
+    score = 0;
+    id = nextId++;
+    boolean didAddGame = setGame(aGame);
+    if (!didAddGame)
+    {
+      throw new RuntimeException("Unable to create gameSession due to game");
+    }
+    boolean didAddPlayer = setPlayer(aPlayer);
+    if (!didAddPlayer)
+    {
+      throw new RuntimeException("Unable to create gameSession due to player");
+    }
+    specificBlocks = new ArrayList<SpecificBlock>();
+    specificBall = new SpecificBall(aIsOutBoundsForSpecificBall, aPositionXForSpecificBall, aPositionYForSpecificBall, this);
+    specificPaddle = new SpecificPaddle(aPositionXForSpecificPaddle, aPositionYForSpecificPaddle, this);
   }
 
   //------------------------
@@ -84,7 +118,7 @@ public class GameSession
     return wasSet;
   }
 
-  public String getOfTestMode()
+  public boolean getOfTestMode()
   {
     return ofTestMode;
   }
@@ -111,6 +145,11 @@ public class GameSession
   {
     return id;
   }
+  /* Code from template attribute_IsBoolean */
+  public boolean isOfTestMode()
+  {
+    return ofTestMode;
+  }
   /* Code from template association_GetOne */
   public Game getGame()
   {
@@ -122,34 +161,44 @@ public class GameSession
     return player;
   }
   /* Code from template association_GetMany */
-  public SpecificBlockAssignment getSpecificBlockAssignment(int index)
+  public SpecificBlock getSpecificBlock(int index)
   {
-    SpecificBlockAssignment aSpecificBlockAssignment = specificBlockAssignments.get(index);
-    return aSpecificBlockAssignment;
+    SpecificBlock aSpecificBlock = specificBlocks.get(index);
+    return aSpecificBlock;
   }
 
-  public List<SpecificBlockAssignment> getSpecificBlockAssignments()
+  public List<SpecificBlock> getSpecificBlocks()
   {
-    List<SpecificBlockAssignment> newSpecificBlockAssignments = Collections.unmodifiableList(specificBlockAssignments);
-    return newSpecificBlockAssignments;
+    List<SpecificBlock> newSpecificBlocks = Collections.unmodifiableList(specificBlocks);
+    return newSpecificBlocks;
   }
 
-  public int numberOfSpecificBlockAssignments()
+  public int numberOfSpecificBlocks()
   {
-    int number = specificBlockAssignments.size();
+    int number = specificBlocks.size();
     return number;
   }
 
-  public boolean hasSpecificBlockAssignments()
+  public boolean hasSpecificBlocks()
   {
-    boolean has = specificBlockAssignments.size() > 0;
+    boolean has = specificBlocks.size() > 0;
     return has;
   }
 
-  public int indexOfSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)
+  public int indexOfSpecificBlock(SpecificBlock aSpecificBlock)
   {
-    int index = specificBlockAssignments.indexOf(aSpecificBlockAssignment);
+    int index = specificBlocks.indexOf(aSpecificBlock);
     return index;
+  }
+  /* Code from template association_GetOne */
+  public SpecificBall getSpecificBall()
+  {
+    return specificBall;
+  }
+  /* Code from template association_GetOne */
+  public SpecificPaddle getSpecificPaddle()
+  {
+    return specificPaddle;
   }
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
@@ -190,74 +239,74 @@ public class GameSession
     return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfSpecificBlockAssignments()
+  public static int minimumNumberOfSpecificBlocks()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public SpecificBlockAssignment addSpecificBlockAssignment(BlockAssignment aBlockAssignment)
+  public SpecificBlock addSpecificBlock(Block aBlock)
   {
-    return new SpecificBlockAssignment(aBlockAssignment, this);
+    return new SpecificBlock(aBlock, this);
   }
 
-  public boolean addSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)
+  public boolean addSpecificBlock(SpecificBlock aSpecificBlock)
   {
     boolean wasAdded = false;
-    if (specificBlockAssignments.contains(aSpecificBlockAssignment)) { return false; }
-    GameSession existingGameSession = aSpecificBlockAssignment.getGameSession();
+    if (specificBlocks.contains(aSpecificBlock)) { return false; }
+    GameSession existingGameSession = aSpecificBlock.getGameSession();
     boolean isNewGameSession = existingGameSession != null && !this.equals(existingGameSession);
     if (isNewGameSession)
     {
-      aSpecificBlockAssignment.setGameSession(this);
+      aSpecificBlock.setGameSession(this);
     }
     else
     {
-      specificBlockAssignments.add(aSpecificBlockAssignment);
+      specificBlocks.add(aSpecificBlock);
     }
     wasAdded = true;
     return wasAdded;
   }
 
-  public boolean removeSpecificBlockAssignment(SpecificBlockAssignment aSpecificBlockAssignment)
+  public boolean removeSpecificBlock(SpecificBlock aSpecificBlock)
   {
     boolean wasRemoved = false;
-    //Unable to remove aSpecificBlockAssignment, as it must always have a gameSession
-    if (!this.equals(aSpecificBlockAssignment.getGameSession()))
+    //Unable to remove aSpecificBlock, as it must always have a gameSession
+    if (!this.equals(aSpecificBlock.getGameSession()))
     {
-      specificBlockAssignments.remove(aSpecificBlockAssignment);
+      specificBlocks.remove(aSpecificBlock);
       wasRemoved = true;
     }
     return wasRemoved;
   }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addSpecificBlockAssignmentAt(SpecificBlockAssignment aSpecificBlockAssignment, int index)
+  public boolean addSpecificBlockAt(SpecificBlock aSpecificBlock, int index)
   {  
     boolean wasAdded = false;
-    if(addSpecificBlockAssignment(aSpecificBlockAssignment))
+    if(addSpecificBlock(aSpecificBlock))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfSpecificBlockAssignments()) { index = numberOfSpecificBlockAssignments() - 1; }
-      specificBlockAssignments.remove(aSpecificBlockAssignment);
-      specificBlockAssignments.add(index, aSpecificBlockAssignment);
+      if(index > numberOfSpecificBlocks()) { index = numberOfSpecificBlocks() - 1; }
+      specificBlocks.remove(aSpecificBlock);
+      specificBlocks.add(index, aSpecificBlock);
       wasAdded = true;
     }
     return wasAdded;
   }
 
-  public boolean addOrMoveSpecificBlockAssignmentAt(SpecificBlockAssignment aSpecificBlockAssignment, int index)
+  public boolean addOrMoveSpecificBlockAt(SpecificBlock aSpecificBlock, int index)
   {
     boolean wasAdded = false;
-    if(specificBlockAssignments.contains(aSpecificBlockAssignment))
+    if(specificBlocks.contains(aSpecificBlock))
     {
       if(index < 0 ) { index = 0; }
-      if(index > numberOfSpecificBlockAssignments()) { index = numberOfSpecificBlockAssignments() - 1; }
-      specificBlockAssignments.remove(aSpecificBlockAssignment);
-      specificBlockAssignments.add(index, aSpecificBlockAssignment);
+      if(index > numberOfSpecificBlocks()) { index = numberOfSpecificBlocks() - 1; }
+      specificBlocks.remove(aSpecificBlock);
+      specificBlocks.add(index, aSpecificBlock);
       wasAdded = true;
     } 
     else 
     {
-      wasAdded = addSpecificBlockAssignmentAt(aSpecificBlockAssignment, index);
+      wasAdded = addSpecificBlockAt(aSpecificBlock, index);
     }
     return wasAdded;
   }
@@ -276,10 +325,22 @@ public class GameSession
     {
       placeholderPlayer.removeGameSession(this);
     }
-    for(int i=specificBlockAssignments.size(); i > 0; i--)
+    for(int i=specificBlocks.size(); i > 0; i--)
     {
-      SpecificBlockAssignment aSpecificBlockAssignment = specificBlockAssignments.get(i - 1);
-      aSpecificBlockAssignment.delete();
+      SpecificBlock aSpecificBlock = specificBlocks.get(i - 1);
+      aSpecificBlock.delete();
+    }
+    SpecificBall existingSpecificBall = specificBall;
+    specificBall = null;
+    if (existingSpecificBall != null)
+    {
+      existingSpecificBall.delete();
+    }
+    SpecificPaddle existingSpecificPaddle = specificPaddle;
+    specificPaddle = null;
+    if (existingSpecificPaddle != null)
+    {
+      existingSpecificPaddle.delete();
     }
   }
 
@@ -293,6 +354,8 @@ public class GameSession
             "currentLife" + ":" + getCurrentLife()+ "," +
             "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
+            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "specificBall = "+(getSpecificBall()!=null?Integer.toHexString(System.identityHashCode(getSpecificBall())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "specificPaddle = "+(getSpecificPaddle()!=null?Integer.toHexString(System.identityHashCode(getSpecificPaddle())):"null");
   }
 }

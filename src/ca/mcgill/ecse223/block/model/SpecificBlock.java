@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 
 // line 18 "../../../../../Block223PlayGame.ump"
-public class SpecificBlockAssignment
+public class SpecificBlock
 {
 
   //------------------------
@@ -20,26 +20,26 @@ public class SpecificBlockAssignment
   //Autounique Attributes
   private int id;
 
-  //SpecificBlockAssignment Associations
-  private BlockAssignment blockAssignment;
+  //SpecificBlock Associations
+  private Block block;
   private GameSession gameSession;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public SpecificBlockAssignment(BlockAssignment aBlockAssignment, GameSession aGameSession)
+  public SpecificBlock(Block aBlock, GameSession aGameSession)
   {
     id = nextId++;
-    boolean didAddBlockAssignment = setBlockAssignment(aBlockAssignment);
-    if (!didAddBlockAssignment)
+    boolean didAddBlock = setBlock(aBlock);
+    if (!didAddBlock)
     {
-      throw new RuntimeException("Unable to create specificBlockAssignment due to blockAssignment");
+      throw new RuntimeException("Unable to create specificBlock due to block");
     }
     boolean didAddGameSession = setGameSession(aGameSession);
     if (!didAddGameSession)
     {
-      throw new RuntimeException("Unable to create specificBlockAssignment due to gameSession");
+      throw new RuntimeException("Unable to create specificBlock due to gameSession");
     }
   }
 
@@ -52,9 +52,9 @@ public class SpecificBlockAssignment
     return id;
   }
   /* Code from template association_GetOne */
-  public BlockAssignment getBlockAssignment()
+  public Block getBlock()
   {
-    return blockAssignment;
+    return block;
   }
   /* Code from template association_GetOne */
   public GameSession getGameSession()
@@ -62,21 +62,21 @@ public class SpecificBlockAssignment
     return gameSession;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setBlockAssignment(BlockAssignment aBlockAssignment)
+  public boolean setBlock(Block aBlock)
   {
     boolean wasSet = false;
-    if (aBlockAssignment == null)
+    if (aBlock == null)
     {
       return wasSet;
     }
 
-    BlockAssignment existingBlockAssignment = blockAssignment;
-    blockAssignment = aBlockAssignment;
-    if (existingBlockAssignment != null && !existingBlockAssignment.equals(aBlockAssignment))
+    Block existingBlock = block;
+    block = aBlock;
+    if (existingBlock != null && !existingBlock.equals(aBlock))
     {
-      existingBlockAssignment.removeSpecificBlockAssignment(this);
+      existingBlock.removeSpecificBlock(this);
     }
-    blockAssignment.addSpecificBlockAssignment(this);
+    block.addSpecificBlock(this);
     wasSet = true;
     return wasSet;
   }
@@ -93,26 +93,26 @@ public class SpecificBlockAssignment
     gameSession = aGameSession;
     if (existingGameSession != null && !existingGameSession.equals(aGameSession))
     {
-      existingGameSession.removeSpecificBlockAssignment(this);
+      existingGameSession.removeSpecificBlock(this);
     }
-    gameSession.addSpecificBlockAssignment(this);
+    gameSession.addSpecificBlock(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
-    BlockAssignment placeholderBlockAssignment = blockAssignment;
-    this.blockAssignment = null;
-    if(placeholderBlockAssignment != null)
+    Block placeholderBlock = block;
+    this.block = null;
+    if(placeholderBlock != null)
     {
-      placeholderBlockAssignment.removeSpecificBlockAssignment(this);
+      placeholderBlock.removeSpecificBlock(this);
     }
     GameSession placeholderGameSession = gameSession;
     this.gameSession = null;
     if(placeholderGameSession != null)
     {
-      placeholderGameSession.removeSpecificBlockAssignment(this);
+      placeholderGameSession.removeSpecificBlock(this);
     }
   }
 
@@ -121,7 +121,7 @@ public class SpecificBlockAssignment
   {
     return super.toString() + "["+
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "blockAssignment = "+(getBlockAssignment()!=null?Integer.toHexString(System.identityHashCode(getBlockAssignment())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "block = "+(getBlock()!=null?Integer.toHexString(System.identityHashCode(getBlock())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "gameSession = "+(getGameSession()!=null?Integer.toHexString(System.identityHashCode(getGameSession())):"null");
   }
 }
