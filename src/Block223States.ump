@@ -26,8 +26,8 @@ class GameSession {
 			move(SpecificBall aSpecificBall) [isBlockHit() && !isLastBlock()] / { // move() updates SpecificBall position
 				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock); 
-				resetPaddlePosition(SpecificPaddle aPaddle);
-				resetBallPosition(SpecificBall aBall);
+				//resetPaddlePosition(SpecificPaddle aPaddle);
+				//resetBallPosition(SpecificBall aBall);
 				increaseScore(HallOfFameEntry aHallOfFameEntry);
 			} -> Play;
 			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && !isLastLevel()] / {
@@ -59,9 +59,9 @@ class GameSession {
 				doOutOfBounds(SpecificBall aSpecificBall);
 				currentLife--;
 			} -> Complete;
-			pauseGame() [!ofTestMode() && !isOutOfBounds()] / {
-				stopBall(); // Stop SpecificBall in its current location
-				stopPaddle(); // Stop SpecificPaddle in its current location
+			pauseGame() [!isOutOfBounds()] / {
+				stopBall(SpecificBall aSpecificBall); // Stop SpecificBall in its current location
+				stopPaddle(SpecificPaddle aSpecificPaddle); // Stop SpecificPaddle in its current location
 			} -> Paused;
 			exit / {
 				stopBall(SpecificBall aSpecificBall);
@@ -75,7 +75,7 @@ class GameSession {
 				initializePaddle();
 			} -> Play;
 			resumeGame() [!hasNoBlocks()] / { // Level not yet complete
-				initializeBlocks(); // Add blocks that admin has created from save
+				initializeBlocks(); // Add blocks that admin has created from save, those not deleted
 				initializeBall(); // Add a SpecificBall from save
 				initializePaddle(); // Add a SpecificPaddle & position it from save
 			} -> Play;
