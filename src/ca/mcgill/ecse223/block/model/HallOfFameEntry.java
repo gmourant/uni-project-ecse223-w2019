@@ -16,13 +16,13 @@ public class HallOfFameEntry
 
   //HallOfFameEntry Associations
   private Game game;
-  private Player player;
+  private User user;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public HallOfFameEntry(int aScore, Game aGame, Player aPlayer)
+  public HallOfFameEntry(int aScore, Game aGame, User aUser)
   {
     score = aScore;
     boolean didAddGame = setGame(aGame);
@@ -30,10 +30,10 @@ public class HallOfFameEntry
     {
       throw new RuntimeException("Unable to create hallOfFameEntry due to game");
     }
-    boolean didAddPlayer = setPlayer(aPlayer);
-    if (!didAddPlayer)
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
     {
-      throw new RuntimeException("Unable to create hallOfFameEntry due to player");
+      throw new RuntimeException("Unable to create hallOfFameEntry due to user");
     }
   }
 
@@ -59,9 +59,9 @@ public class HallOfFameEntry
     return game;
   }
   /* Code from template association_GetOne */
-  public Player getPlayer()
+  public User getUser()
   {
-    return player;
+    return user;
   }
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
@@ -83,21 +83,21 @@ public class HallOfFameEntry
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setPlayer(Player aPlayer)
+  public boolean setUser(User aUser)
   {
     boolean wasSet = false;
-    if (aPlayer == null)
+    if (aUser == null)
     {
       return wasSet;
     }
 
-    Player existingPlayer = player;
-    player = aPlayer;
-    if (existingPlayer != null && !existingPlayer.equals(aPlayer))
+    User existingUser = user;
+    user = aUser;
+    if (existingUser != null && !existingUser.equals(aUser))
     {
-      existingPlayer.removeHallOfFameEntry(this);
+      existingUser.removeHallOfFameEntry(this);
     }
-    player.addHallOfFameEntry(this);
+    user.addHallOfFameEntry(this);
     wasSet = true;
     return wasSet;
   }
@@ -110,11 +110,11 @@ public class HallOfFameEntry
     {
       placeholderGame.removeHallOfFameEntry(this);
     }
-    Player placeholderPlayer = player;
-    this.player = null;
-    if(placeholderPlayer != null)
+    User placeholderUser = user;
+    this.user = null;
+    if(placeholderUser != null)
     {
-      placeholderPlayer.removeHallOfFameEntry(this);
+      placeholderUser.removeHallOfFameEntry(this);
     }
   }
 
@@ -124,6 +124,6 @@ public class HallOfFameEntry
     return super.toString() + "["+
             "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null");
+            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
   }
 }

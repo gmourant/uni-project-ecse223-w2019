@@ -244,7 +244,7 @@ public class GameSession
           doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock);
 				resetPaddlePosition(SpecificPaddle aPaddle);
-				resetBallPosition(SpecificBall aBall);
+				resetBallPosition(SpecificBall aSpecificBall);
 				increaseScore(HallOfFameEntry aHallOfFameEntry);
 				currentLevelNr++;
           setGameStatus(GameStatus.Paused);

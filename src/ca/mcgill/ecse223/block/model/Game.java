@@ -714,9 +714,9 @@ public class Game implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public HallOfFameEntry addHallOfFameEntry(int aScore, Player aPlayer)
+  public HallOfFameEntry addHallOfFameEntry(int aScore, User aUser)
   {
-    return new HallOfFameEntry(aScore, this, aPlayer);
+    return new HallOfFameEntry(aScore, this, aUser);
   }
 
   public boolean addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)

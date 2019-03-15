@@ -760,6 +760,31 @@ public class Block223Controller {
     // ****************************
     // Query methods
     // ****************************
+	
+	/**
+	 * This method returns a list of transfer objects containing hall of fame entries
+	 * @author Kelly Ma
+	 * @return A list of hall of fame entries
+	 */
+	public static List<TOHallOfFameEntry> getHallOfFameEntries() {
+		
+		Game game = Block223Application.getCurrentGame(); // Get current game
+        List<TOHallOfFameEntry> hallOfFame = new ArrayList(); // Create TO list
+        List<HallOfFameEntry> entries = game.getHallOfFameEntries(); // Obtain list of entries
+        
+        for (HallOfFameEntry entry : entries) {
+        	// Get username and score for an entry
+        	String username = entry.getUser().getUsername();
+        	int score = entry.getScore();
+        	
+        	TOHallOfFameEntry to = new TOHallOfFameEntry(username, score);
+        	hallOfFame.add(to); // Add entry to hallOfFame
+        }
+        
+        return hallOfFame;
+	}
+	
+	
     /**
      * This method returns a list of designable games for the current admin.
      * Author: Georges Mourant

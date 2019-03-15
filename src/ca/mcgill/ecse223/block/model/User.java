@@ -25,6 +25,7 @@ public class User implements Serializable
 
   //User Associations
   private List<UserRole> roles;
+  private List<HallOfFameEntry> hallOfFameEntries;
   private Block223 block223;
 
   //------------------------
@@ -48,6 +49,7 @@ public class User implements Serializable
     {
       throw new RuntimeException("Unable to create User, must have 1 to 2 roles");
     }
+    hallOfFameEntries = new ArrayList<HallOfFameEntry>();
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
     {
@@ -122,6 +124,36 @@ public class User implements Serializable
   public int indexOfRole(UserRole aRole)
   {
     int index = roles.indexOf(aRole);
+    return index;
+  }
+  /* Code from template association_GetMany */
+  public HallOfFameEntry getHallOfFameEntry(int index)
+  {
+    HallOfFameEntry aHallOfFameEntry = hallOfFameEntries.get(index);
+    return aHallOfFameEntry;
+  }
+
+  public List<HallOfFameEntry> getHallOfFameEntries()
+  {
+    List<HallOfFameEntry> newHallOfFameEntries = Collections.unmodifiableList(hallOfFameEntries);
+    return newHallOfFameEntries;
+  }
+
+  public int numberOfHallOfFameEntries()
+  {
+    int number = hallOfFameEntries.size();
+    return number;
+  }
+
+  public boolean hasHallOfFameEntries()
+  {
+    boolean has = hallOfFameEntries.size() > 0;
+    return has;
+  }
+
+  public int indexOfHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)
+  {
+    int index = hallOfFameEntries.indexOf(aHallOfFameEntry);
     return index;
   }
   /* Code from template association_GetOne */
@@ -225,6 +257,78 @@ public class User implements Serializable
     }
     return wasAdded;
   }
+  /* Code from template association_MinimumNumberOfMethod */
+  public static int minimumNumberOfHallOfFameEntries()
+  {
+    return 0;
+  }
+  /* Code from template association_AddManyToOne */
+  public HallOfFameEntry addHallOfFameEntry(int aScore, Game aGame)
+  {
+    return new HallOfFameEntry(aScore, aGame, this);
+  }
+
+  public boolean addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)
+  {
+    boolean wasAdded = false;
+    if (hallOfFameEntries.contains(aHallOfFameEntry)) { return false; }
+    User existingUser = aHallOfFameEntry.getUser();
+    boolean isNewUser = existingUser != null && !this.equals(existingUser);
+    if (isNewUser)
+    {
+      aHallOfFameEntry.setUser(this);
+    }
+    else
+    {
+      hallOfFameEntries.add(aHallOfFameEntry);
+    }
+    wasAdded = true;
+    return wasAdded;
+  }
+
+  public boolean removeHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)
+  {
+    boolean wasRemoved = false;
+    //Unable to remove aHallOfFameEntry, as it must always have a user
+    if (!this.equals(aHallOfFameEntry.getUser()))
+    {
+      hallOfFameEntries.remove(aHallOfFameEntry);
+      wasRemoved = true;
+    }
+    return wasRemoved;
+  }
+  /* Code from template association_AddIndexControlFunctions */
+  public boolean addHallOfFameEntryAt(HallOfFameEntry aHallOfFameEntry, int index)
+  {  
+    boolean wasAdded = false;
+    if(addHallOfFameEntry(aHallOfFameEntry))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfHallOfFameEntries()) { index = numberOfHallOfFameEntries() - 1; }
+      hallOfFameEntries.remove(aHallOfFameEntry);
+      hallOfFameEntries.add(index, aHallOfFameEntry);
+      wasAdded = true;
+    }
+    return wasAdded;
+  }
+
+  public boolean addOrMoveHallOfFameEntryAt(HallOfFameEntry aHallOfFameEntry, int index)
+  {
+    boolean wasAdded = false;
+    if(hallOfFameEntries.contains(aHallOfFameEntry))
+    {
+      if(index < 0 ) { index = 0; }
+      if(index > numberOfHallOfFameEntries()) { index = numberOfHallOfFameEntries() - 1; }
+      hallOfFameEntries.remove(aHallOfFameEntry);
+      hallOfFameEntries.add(index, aHallOfFameEntry);
+      wasAdded = true;
+    } 
+    else 
+    {
+      wasAdded = addHallOfFameEntryAt(aHallOfFameEntry, index);
+    }
+    return wasAdded;
+  }
   /* Code from template association_SetOneToMany */
   public boolean setBlock223(Block223 aBlock223)
   {
@@ -249,6 +353,11 @@ public class User implements Serializable
   {
     usersByUsername.remove(getUsername());
     roles.clear();
+    for(int i=hallOfFameEntries.size(); i > 0; i--)
+    {
+      HallOfFameEntry aHallOfFameEntry = hallOfFameEntries.get(i - 1);
+      aHallOfFameEntry.delete();
+    }
     Block223 placeholderBlock223 = block223;
     this.block223 = null;
     if(placeholderBlock223 != null)

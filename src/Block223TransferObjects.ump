@@ -34,3 +34,7 @@ class TOUserMode {
   Mode mode;
 }
 
+class TOHallOfFameEntry {
+	username;
+	Integer score;
+}

@@ -37,5 +37,5 @@ class SpecificPaddle {
 class HallOfFameEntry {
 	Integer score;
 	* -- 1 Game;
-	* -- 1 Player;
+	* -- 1 User;
 }
