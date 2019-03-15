@@ -2,39 +2,74 @@ class GameSession {
 	gameStatus {
 		Idle {
 			entry / {
-				placeBlocks();
-				placeBall();
-				placePaddle();
+				initializeBlocks();
+				initializeBall();
+				initializePaddle();
 			}
-			start() [startButtonPressed()] / {
-				displayPauseButton();
-			} -> Playing;
+			startGame() [ofTestMode() && hasEnoughBlocks()] / {
+			} -> Play;
+			startGame() [!ofTestMode() && hasEnoughBlocks()] / {
+				displayScore(HallOfFameEntry aHallOfFameEntry); 
+			} -> Play;
+			startGame() [ofTestMode() && !hasEnoughBlocks()] / {
+				addRandomBlocks();
+			} -> Play;
+			startGame() [!ofTestMode() && !hasEnoughBlocks()] / {
+				addRandomBlocks();
+				displayScore(HallOfFameEntry aHallOfFameEntry);
+			} -> Play;
 		}
-		Playing {
-			do / {
-				enterLoop();
+		Play {
+			entry / {
+				startBall(Ball aBall);
 			}
-			pauseGame() [pauseButtonPressed()] {
-				displayResumeButton();
+			move() [isBlockHit() && !isLastBlock()] / {
+				deleteBlock(SpecificBlock aBlock);
+				increaseScore();
+			} -> Play;
+			move() [isBlockHit() && isLastBlock() && !almostCompleteGame()] / {
+				deleteBlock(SpecificBlock aBlock);
+				increaseScore();
+				increaseLevel();
+			} -> Idle;
+			move() [isBlockHit() && isLastBlock() && almostCompleteGame()] / {
+				deleteBlock(SpecificBlock aBlock);
+				increaseScore();
+			} -> Complete;
+			move() [isWallHit()] / {
+				doWallHit();
+			} -> Play;
+			move() [isPaddleHit()] / {
+				doPaddleHit();
+			} -> Play;
+			move() [isOutOfBounds() && !isLastLife()] / {
+				doOutOfBounds();
+				decreaseCurrentLife();
+			} -> Idle;
+			move() [isOutOfBounds() && isLastLife()] / {
+				doOutOfBounds();
+				decreaseCurrentLife();
+			} -> Complete;
+			pauseGame() [!isOutOfBounds()] / {
+				saveGame();
 			} -> Paused;
 		}
 		Paused {
-			unPauseGame() [resumeButtonPressed()] {
-				removeResumeButton();
-			} -> Playing;
+			
 		}
-		GameOver {
+		Complete {
 		
 		}
-		GameWon {
-			entry / {
-				displayWinBanner();
-			}
-		}
-		
 	}
-}
-
-class Ball {
-
+	
+	// Helper methods
+	private boolean ofTestMode();
+	private boolean hasEnoughBlocks();
+	private boolean isBlockHit();
+	private boolean isWallHit();
+	private boolean isPaddleHit();
+	private boolean isOutOfBounds();
+	private boolean isLastBlock();
+	private boolean isLastLife();
+	private boolean almostCompleteGame();
 }
