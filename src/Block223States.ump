@@ -2,17 +2,17 @@ class GameSession {
 	gameStatus {
 		Idle {
 			entry / {
-				initializeBlocks();
-				initializeBall();
-				initializePaddle();
+				initializeBlocks(); // Add blocks that admin has created
+				initializeBall(); // Add a SpecificBall
+				initializePaddle(); // Add a SpecificPaddle & position it
 			}
-			startGame() [ofTestMode() && hasEnoughBlocks()] / {
+			startGame() [isGameAdmin() && ofTestMode() && hasEnoughBlocks()] / {
 			} -> Play;
 			startGame() [!ofTestMode() && hasEnoughBlocks()] / {
 				displayScore(HallOfFameEntry aHallOfFameEntry); 
 			} -> Play;
-			startGame() [ofTestMode() && !hasEnoughBlocks()] / {
-				addRandomBlocks();
+			startGame() [isGameAdmin() && ofTestMode() && !hasEnoughBlocks()] / {
+				addRandomBlocks(); // Must reach required number of blocks
 			} -> Play;
 			startGame() [!ofTestMode() && !hasEnoughBlocks()] / {
 				addRandomBlocks();
@@ -21,55 +21,86 @@ class GameSession {
 		}
 		Play {
 			entry / {
-				startBall(Ball aBall);
+				startBall(SpecificBall aSpecificBall);
 			}
-			move() [isBlockHit() && !isLastBlock()] / {
-				deleteBlock(SpecificBlock aBlock);
-				increaseScore();
+			move(SpecificBall aSpecificBall) [isBlockHit() && !isLastBlock()] / { // move() updates SpecificBall position
+				doBlockHit(SpecificBall aSpecificBall);
+				deleteBlock(SpecificBlock aBlock); 
+				resetPaddlePosition(SpecificPaddle aPaddle);
+				resetBallPosition(SpecificBall aBall);
+				increaseScore(HallOfFameEntry aHallOfFameEntry);
 			} -> Play;
-			move() [isBlockHit() && isLastBlock() && !almostCompleteGame()] / {
+			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && !isLastLevel()] / {
+				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock);
-				increaseScore();
-				increaseLevel();
-			} -> Idle;
-			move() [isBlockHit() && isLastBlock() && almostCompleteGame()] / {
-				deleteBlock(SpecificBlock aBlock);
-				increaseScore();
-			} -> Complete;
-			move() [isWallHit()] / {
-				doWallHit();
-			} -> Play;
-			move() [isPaddleHit()] / {
-				doPaddleHit();
-			} -> Play;
-			move() [isOutOfBounds() && !isLastLife()] / {
-				doOutOfBounds();
-				decreaseCurrentLife();
-			} -> Idle;
-			move() [isOutOfBounds() && isLastLife()] / {
-				doOutOfBounds();
-				decreaseCurrentLife();
-			} -> Complete;
-			pauseGame() [!isOutOfBounds()] / {
-				saveGame();
+				resetPaddlePosition(SpecificPaddle aPaddle);
+				resetBallPosition(SpecificBall aBall);
+				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				currentLevelNr++;
 			} -> Paused;
+			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && isLastLevel()] / {
+				doBlockHit(SpecificBall aSpecificBall);
+				deleteBlock(SpecificBlock aBlock);
+				increaseScore(HallOfFameEntry aHallOfFameEntry);
+			} -> Complete;
+			move(SpecificBall aSpecificBall) [isWallHit()] / {
+				doWallHit(SpecificBall aSpecificBall);
+			} -> Play;
+			move(SpecificBall aSpecificBall) [isPaddleHit()] / {
+				doPaddleHit(SpecificBall aSpecificBall);
+			} -> Play;
+			move(SpecificBall aSpecificBall) [isOutOfBounds() && !isLastLife()] / {
+				doOutOfBounds(SpecificBall aSpecificBall);
+				resetPaddlePosition(SpecificPaddle aPaddle);
+				resetBallPosition(SpecificBall aBall);
+				currentLife--;
+			} -> Paused;
+			move(SpecificBall aSpecificBall) [isOutOfBounds() && isLastLife()] / {
+				doOutOfBounds(SpecificBall aSpecificBall);
+				currentLife--;
+			} -> Complete;
+			pauseGame() [!ofTestMode() && !isOutOfBounds()] / {
+				stopBall(); // Stop SpecificBall in its current location
+				stopPaddle(); // Stop SpecificPaddle in its current location
+			} -> Paused;
+			exit / {
+				stopBall(SpecificBall aSpecificBall);
+			}
 		}
-		Paused {
-			
+		Paused { // Make sure to call save to persistence when exiting game loop
+			resumeGame() [hasNoBlocks()] / { // Represents completing a level
+				initializeBlocks(); // initializeBlocks() checks if there are blocks left (if no, start from scratch)
+				addRandomBlocks();
+				initializeBall(); 
+				initializePaddle();
+			} -> Play;
+			resumeGame() [!hasNoBlocks()] / { // Level not yet complete
+				initializeBlocks(); // Add blocks that admin has created from save
+				initializeBall(); // Add a SpecificBall from save
+				initializePaddle(); // Add a SpecificPaddle & position it from save
+			} -> Play;
 		}
 		Complete {
-		
+			updateHallOfFame [isLastLevel()] {
+				addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry);
+			} -> Final;
+			gameOver [!isLastLevel()] {
+				displayGameOver();
+			} -> Final;
 		}
 	}
 	
 	// Helper methods
-	private boolean ofTestMode();
-	private boolean hasEnoughBlocks();
+	private boolean isGameAdmin(); // Checks if the person testing the game created it
+	private boolean ofTestMode(); // Checks if GameSession is of test mode
+	private boolean hasEnoughBlocks(); // Checks that # blocks is at maximum
+	private boolean hasNoBlocks();
 	private boolean isBlockHit();
 	private boolean isWallHit();
 	private boolean isPaddleHit();
 	private boolean isOutOfBounds();
 	private boolean isLastBlock();
 	private boolean isLastLife();
-	private boolean almostCompleteGame();
+	private boolean hasLifeLeft();
+	private boolean isLastLevel();
 }
