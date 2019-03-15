@@ -642,9 +642,9 @@ public class Game implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameSession addGameSession(boolean aOfTestMode, Player aPlayer, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
+  public GameSession addGameSession(boolean aOfTestMode, Player aPlayer, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
-    return new GameSession(aOfTestMode, this, aPlayer, aSpecificBall, aSpecificPaddle);
+    return new GameSession(aOfTestMode, this, aPlayer, aBlock223, aSpecificBall, aSpecificPaddle);
   }
 
   public boolean addGameSession(GameSession aGameSession)

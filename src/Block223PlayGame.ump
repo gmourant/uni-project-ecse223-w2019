@@ -13,12 +13,13 @@ class GameSession {
   	Integer score = 0;
   	* -- 1 Game;
   	* -- 1 Player;
+  	* -- 1 Block223;
 }
 
 class SpecificBlock {
 	autounique id;
 	* -- 1 Block;
-	* -- 1 GameSession;
+	* -<@> 1 GameSession;
 }
 
 class SpecificBall {

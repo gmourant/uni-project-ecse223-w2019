@@ -35,6 +35,7 @@ public class GameSession
   //GameSession Associations
   private Game game;
   private Player player;
+  private Block223 block223;
   private List<SpecificBlock> specificBlocks;
   private SpecificBall specificBall;
   private SpecificPaddle specificPaddle;
@@ -43,7 +44,7 @@ public class GameSession
   // CONSTRUCTOR
   //------------------------
 
-  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
+  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
     ofTestMode = aOfTestMode;
     currentLevelNr = 1;
@@ -59,6 +60,11 @@ public class GameSession
     if (!didAddPlayer)
     {
       throw new RuntimeException("Unable to create gameSession due to player");
+    }
+    boolean didAddBlock223 = setBlock223(aBlock223);
+    if (!didAddBlock223)
+    {
+      throw new RuntimeException("Unable to create gameSession due to block223");
     }
     specificBlocks = new ArrayList<SpecificBlock>();
     if (aSpecificBall == null || aSpecificBall.getGameSession() != null)
@@ -74,7 +80,7 @@ public class GameSession
     setGameStatus(GameStatus.Idle);
   }
 
-  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
+  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, Block223 aBlock223, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
   {
     ofTestMode = aOfTestMode;
     currentLevelNr = 1;
@@ -90,6 +96,11 @@ public class GameSession
     if (!didAddPlayer)
     {
       throw new RuntimeException("Unable to create gameSession due to player");
+    }
+    boolean didAddBlock223 = setBlock223(aBlock223);
+    if (!didAddBlock223)
+    {
+      throw new RuntimeException("Unable to create gameSession due to block223");
     }
     specificBlocks = new ArrayList<SpecificBlock>();
     specificBall = new SpecificBall(aIsOutBoundsForSpecificBall, aPositionXForSpecificBall, aPositionYForSpecificBall, this);
@@ -415,6 +426,11 @@ public class GameSession
   {
     return player;
   }
+  /* Code from template association_GetOne */
+  public Block223 getBlock223()
+  {
+    return block223;
+  }
   /* Code from template association_GetMany */
   public SpecificBlock getSpecificBlock(int index)
   {
@@ -490,6 +506,25 @@ public class GameSession
       existingPlayer.removeGameSession(this);
     }
     player.addGameSession(this);
+    wasSet = true;
+    return wasSet;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setBlock223(Block223 aBlock223)
+  {
+    boolean wasSet = false;
+    if (aBlock223 == null)
+    {
+      return wasSet;
+    }
+
+    Block223 existingBlock223 = block223;
+    block223 = aBlock223;
+    if (existingBlock223 != null && !existingBlock223.equals(aBlock223))
+    {
+      existingBlock223.removeGameSession(this);
+    }
+    block223.addGameSession(this);
     wasSet = true;
     return wasSet;
   }
@@ -580,11 +615,19 @@ public class GameSession
     {
       placeholderPlayer.removeGameSession(this);
     }
-    for(int i=specificBlocks.size(); i > 0; i--)
+    Block223 placeholderBlock223 = block223;
+    this.block223 = null;
+    if(placeholderBlock223 != null)
     {
-      SpecificBlock aSpecificBlock = specificBlocks.get(i - 1);
-      aSpecificBlock.delete();
+      placeholderBlock223.removeGameSession(this);
     }
+    while (specificBlocks.size() > 0)
+    {
+      SpecificBlock aSpecificBlock = specificBlocks.get(specificBlocks.size() - 1);
+      aSpecificBlock.delete();
+      specificBlocks.remove(aSpecificBlock);
+    }
+    
     SpecificBall existingSpecificBall = specificBall;
     specificBall = null;
     if (existingSpecificBall != null)
@@ -610,6 +653,7 @@ public class GameSession
             "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "block223 = "+(getBlock223()!=null?Integer.toHexString(System.identityHashCode(getBlock223())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "specificBall = "+(getSpecificBall()!=null?Integer.toHexString(System.identityHashCode(getSpecificBall())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "specificPaddle = "+(getSpecificPaddle()!=null?Integer.toHexString(System.identityHashCode(getSpecificPaddle())):"null");
   }  

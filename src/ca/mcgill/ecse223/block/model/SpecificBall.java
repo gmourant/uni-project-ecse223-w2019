@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 24 "../../../../../Block223PlayGame.ump"
+// line 25 "../../../../../Block223PlayGame.ump"
 public class SpecificBall
 {
 
@@ -35,12 +35,12 @@ public class SpecificBall
     gameSession = aGameSession;
   }
 
-  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, Player aPlayerForGameSession, SpecificPaddle aSpecificPaddleForGameSession)
+  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, Player aPlayerForGameSession, Block223 aBlock223ForGameSession, SpecificPaddle aSpecificPaddleForGameSession)
   {
     isOutBounds = aIsOutBounds;
     positionX = aPositionX;
     positionY = aPositionY;
-    gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aPlayerForGameSession, this, aSpecificPaddleForGameSession);
+    gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aPlayerForGameSession, aBlock223ForGameSession, this, aSpecificPaddleForGameSession);
   }
 
   //------------------------

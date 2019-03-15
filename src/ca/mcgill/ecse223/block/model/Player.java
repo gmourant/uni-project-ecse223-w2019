@@ -66,9 +66,9 @@ public class Player extends UserRole implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameSession addGameSession(boolean aOfTestMode, Game aGame, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
+  public GameSession addGameSession(boolean aOfTestMode, Game aGame, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
-    return new GameSession(aOfTestMode, aGame, this, aSpecificBall, aSpecificPaddle);
+    return new GameSession(aOfTestMode, aGame, this, aBlock223, aSpecificBall, aSpecificPaddle);
   }
 
   public boolean addGameSession(GameSession aGameSession)

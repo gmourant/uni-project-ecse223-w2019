@@ -766,9 +766,11 @@ public class Block223Controller {
 	 * @author Kelly Ma
 	 * @return A list of hall of fame entries
 	 */
-	public static List<TOHallOfFameEntry> getHallOfFameEntries() {
+	public static List<TOHallOfFameEntry> getHallOfFameEntries() throws InvalidInputException{
 		
 		Game game = Block223Application.getCurrentGame(); // Get current game
+		if (game == null) throw new InvalidInputException("A game must be selected to view Hall Of Fame.");
+		
         List<TOHallOfFameEntry> hallOfFame = new ArrayList(); // Create TO list
         List<HallOfFameEntry> entries = game.getHallOfFameEntries(); // Obtain list of entries
         
