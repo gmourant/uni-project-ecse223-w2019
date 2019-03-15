@@ -88,6 +88,26 @@ class GameSession {
 		}
 	}
 	
+        // Action methods
+        private void initializeBlocks();
+        private void initializeBall();
+        private void initializePaddle();
+        private void displayScore(HallOfFameEntry aHallOfFameEntry);
+        private void addRandomBlocks();
+        private void doBlockHit(SpecificBall aSpecificBall);
+        private void deleteBlock(SpecificBlock aBlock);
+        private void increaseScore(HallOfFameEntry aHallOfFameEntry);
+        private void resetPaddlePosition(SpecificPaddle aPaddle);
+        private void resetBallPosition(SpecificBall aSpecificBall);
+        private void doWallHit(SpecificBall aSpecificBall);
+        private void doPaddleHit(SpecificBall aSpecificBall);
+        private void doOutOfBounds(SpecificBall aSpecificBall);
+        private void stopBall(SpecificBall aSpecificBall);
+        private void stopPaddle(SpecificPaddle aSpecificPaddle);
+        private void addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry);
+        private void displayGameOver();
+        
+        
 	// Helper methods
 	private boolean isGameAdmin(); // Checks if the person testing the game created it
 	private boolean ofTestMode(); // Checks if GameSession is of test mode
