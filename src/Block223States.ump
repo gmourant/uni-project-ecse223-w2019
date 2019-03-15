@@ -21,13 +21,11 @@ class GameSession {
 		}
 		Play {
 			entry / {
-				startBall(SpecificBall aSpecificBall);
+				move(SpecificBall aSpecificBall);
 			}
 			move(SpecificBall aSpecificBall) [isBlockHit() && !isLastBlock()] / { // move() updates SpecificBall position
 				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock); 
-				//resetPaddlePosition(SpecificPaddle aPaddle);
-				//resetBallPosition(SpecificBall aBall);
 				increaseScore(HallOfFameEntry aHallOfFameEntry);
 			} -> Play;
 			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && !isLastLevel()] / {
