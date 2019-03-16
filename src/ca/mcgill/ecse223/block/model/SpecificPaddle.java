@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 34 "../../../../../Block223PlayGame.ump"
+// line 35 "../../../../../Block223PlayGame.ump"
 public class SpecificPaddle
 {
 
@@ -47,7 +47,7 @@ public class SpecificPaddle
   public boolean setPositionX(int aPositionX)
   {
     boolean wasSet = false;
-    // line 39 "../../../../../Block223PlayGame.ump"
+    // line 40 "../../../../../Block223PlayGame.ump"
     if (aPositionX < 0 || aPositionX > 390) {
     			return wasSet;
     		}

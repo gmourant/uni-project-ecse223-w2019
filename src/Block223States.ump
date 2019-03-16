@@ -19,48 +19,48 @@ class GameSession {
 		}
 		Play {
 			entry / {
-				move(SpecificBall aSpecificBall);
+				move(specificBall);
 			}
-			move(SpecificBall aSpecificBall) [isBlockHit() && !isLastBlock()] / { // move() updates SpecificBall position
-				doBlockHit(SpecificBall aSpecificBall);
-				deleteBlock(SpecificBlock aBlock); 
+			move(specificBall) [isBlockHit() && !isLastBlock()] / { // move() updates SpecificBall position
+				doBlockHit(specificBall);
+				deleteBlock(); 
 				increaseScore();
 			} -> Play;
-			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && !isLastLevel()] / {
-				doBlockHit(SpecificBall aSpecificBall);
-				deleteBlock(SpecificBlock aBlock);
-				resetPaddlePosition(SpecificPaddle aPaddle);
-				resetBallPosition(SpecificBall aSpecificBall);
+			move(specificBall) [isBlockHit() && isLastBlock() && !isLastLevel()] / {
+				doBlockHit(specificBall);
+				deleteBlock();
+				resetPaddlePosition(specificPaddle);
+				resetBallPosition(specificBall);
 				increaseScore();
 				currentLevelNr++;
 			} -> Paused;
-			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && isLastLevel()] / {
-				doBlockHit(SpecificBall aSpecificBall);
-				deleteBlock(SpecificBlock aBlock);
+			move(specificBall) [isBlockHit() && isLastBlock() && isLastLevel()] / {
+				doBlockHit(specificBall);
+				deleteBlock();
 				increaseScore();
 			} -> Complete;
-			move(SpecificBall aSpecificBall) [isWallHit()] / {
-				doWallHit(SpecificBall aSpecificBall);
+			move(specificBall) [isWallHit()] / {
+				doWallHit(specificBall);
 			} -> Play;
-			move(SpecificBall aSpecificBall) [isPaddleHit()] / {
-				doPaddleHit(SpecificBall aSpecificBall);
+			move(specificBall) [isPaddleHit()] / {
+				doPaddleHit(specificBall);
 			} -> Play;
-			move(SpecificBall aSpecificBall) [isOutOfBounds() && !isLastLife()] / {
-				doOutOfBounds(SpecificBall aSpecificBall);
-				resetPaddlePosition(SpecificPaddle aPaddle);
-				resetBallPosition(SpecificBall aBall);
+			move(specificBall) [isOutOfBounds() && !isLastLife()] / {
+				doOutOfBounds(specificBall);
+				resetPaddlePosition(specificPaddle);
+				resetBallPosition(specificBall);
 				currentLife--;
 			} -> Paused;
-			move(SpecificBall aSpecificBall) [isOutOfBounds() && isLastLife()] / {
-				doOutOfBounds(SpecificBall aSpecificBall);
+			move(specificBall) [isOutOfBounds() && isLastLife()] / {
+				doOutOfBounds(specificBall);
 				currentLife--;
 			} -> Complete;
 			pauseGame() [!isOutOfBounds()] / {
-				stopBall(SpecificBall aSpecificBall); // Stop SpecificBall in its current location
-				stopPaddle(SpecificPaddle aSpecificPaddle); // Stop SpecificPaddle in its current location
+				stopBall(specificBall); // Stop SpecificBall in its current location
+				stopPaddle(specificPaddle); // Stop SpecificPaddle in its current location
 			} -> Paused;
 			exit / {
-				stopBall(SpecificBall aSpecificBall);
+				stopBall(specificBall);
 			}
 		}
 		Paused { // Make sure to call save to persistence when exiting game loop
@@ -78,7 +78,7 @@ class GameSession {
 		}
 		Complete {
 			updateHallOfFame() [isLastLevel()] {
-				addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry);
+				addHallOfFameEntry();
 			} -> Final;
 			gameOver() [!isLastLevel()] {
 				displayGameOver();
@@ -91,19 +91,19 @@ class GameSession {
         private void initializeBall();
         private void initializePaddle();
         private void addRandomBlocks();
-        private void doBlockHit(SpecificBall aSpecificBall);
-        private void deleteBlock(SpecificBlock aBlock);
+        private void doBlockHit(SpecificBall specificBall);
+        private void deleteBlock();
         private void increaseScore();
-        private void resetPaddlePosition(SpecificPaddle aPaddle);
-        private void resetBallPosition(SpecificBall aSpecificBall);
-        private void doWallHit(SpecificBall aSpecificBall);
-        private void doPaddleHit(SpecificBall aSpecificBall);
-        private void doOutOfBounds(SpecificBall aSpecificBall);
-        private void stopBall(SpecificBall aSpecificBall);
-        private void stopPaddle(SpecificPaddle aSpecificPaddle);
+        private void resetPaddlePosition(SpecificPaddle specificPaddle);
+        private void resetBallPosition(SpecificBall specificBall);
+        private void doWallHit(SpecificBall specificBall);
+        private void doPaddleHit(SpecificBall specificBall);
+        private void doOutOfBounds(SpecificBall specificBall);
+        private void stopBall(SpecificBall specificBall);
+        private void stopPaddle(SpecificPaddle specificPaddle);
         private void addHallOfFameEntry();
         private void displayGameOver();
-        private void isOutOfBounds(SpecificBall aSpecificBall); // checks if balls is out of bounds
+        private void isOutOfBounds(SpecificBall specificBall); // checks if balls is out of bounds
         
         
 	// Helper methods

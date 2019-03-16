@@ -80,7 +80,7 @@ public class GameSession
     setGameStatus(GameStatus.Idle);
   }
 
-  public GameSession(boolean aOfTestMode, Game aGame, User aUser, Block223 aBlock223, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
+  public GameSession(boolean aOfTestMode, Game aGame, User aUser, Block223 aBlock223, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aSpeedForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
   {
     ofTestMode = aOfTestMode;
     currentLevelNr = 1;
@@ -103,7 +103,7 @@ public class GameSession
       throw new RuntimeException("Unable to create gameSession due to block223");
     }
     specificBlocks = new ArrayList<SpecificBlock>();
-    specificBall = new SpecificBall(aIsOutBoundsForSpecificBall, aPositionXForSpecificBall, aPositionYForSpecificBall, this);
+    specificBall = new SpecificBall(aIsOutBoundsForSpecificBall, aPositionXForSpecificBall, aPositionYForSpecificBall, aSpeedForSpecificBall, this);
     specificPaddle = new SpecificPaddle(aPositionXForSpecificPaddle, aPositionYForSpecificPaddle, this);
   }
 
@@ -227,7 +227,7 @@ public class GameSession
     return wasEventProcessed;
   }
 
-  public boolean move(SpecificBall aSpecificBall)
+  public boolean move(String specificBall)
   {
     boolean wasEventProcessed = false;
     
@@ -240,8 +240,8 @@ public class GameSession
           exitGameStatus();
         // line 24 "../../../../../Block223States.ump"
           // move() updates SpecificBall position
-				doBlockHit(SpecificBall aSpecificBall);
-				deleteBlock(SpecificBlock aBlock); 
+				doBlockHit(specificBall);
+				deleteBlock(); 
 				increaseScore();
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
@@ -251,10 +251,10 @@ public class GameSession
         {
           exitGameStatus();
         // line 29 "../../../../../Block223States.ump"
-          doBlockHit(SpecificBall aSpecificBall);
-				deleteBlock(SpecificBlock aBlock);
-				resetPaddlePosition(SpecificPaddle aPaddle);
-				resetBallPosition(SpecificBall aSpecificBall);
+          doBlockHit(specificBall);
+				deleteBlock();
+				resetPaddlePosition(specificPaddle);
+				resetBallPosition(specificBall);
 				increaseScore();
 				currentLevelNr++;
           setGameStatus(GameStatus.Paused);
@@ -265,8 +265,8 @@ public class GameSession
         {
           exitGameStatus();
         // line 37 "../../../../../Block223States.ump"
-          doBlockHit(SpecificBall aSpecificBall);
-				deleteBlock(SpecificBlock aBlock);
+          doBlockHit(specificBall);
+				deleteBlock();
 				increaseScore();
           setGameStatus(GameStatus.Complete);
           wasEventProcessed = true;
@@ -276,7 +276,7 @@ public class GameSession
         {
           exitGameStatus();
         // line 42 "../../../../../Block223States.ump"
-          doWallHit(SpecificBall aSpecificBall);
+          doWallHit(specificBall);
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
           break;
@@ -285,7 +285,7 @@ public class GameSession
         {
           exitGameStatus();
         // line 45 "../../../../../Block223States.ump"
-          doPaddleHit(SpecificBall aSpecificBall);
+          doPaddleHit(specificBall);
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
           break;
@@ -294,9 +294,9 @@ public class GameSession
         {
           exitGameStatus();
         // line 48 "../../../../../Block223States.ump"
-          doOutOfBounds(SpecificBall aSpecificBall);
-				resetPaddlePosition(SpecificPaddle aPaddle);
-				resetBallPosition(SpecificBall aBall);
+          doOutOfBounds(specificBall);
+				resetPaddlePosition(specificPaddle);
+				resetBallPosition(specificBall);
 				currentLife--;
           setGameStatus(GameStatus.Paused);
           wasEventProcessed = true;
@@ -306,7 +306,7 @@ public class GameSession
         {
           exitGameStatus();
         // line 54 "../../../../../Block223States.ump"
-          doOutOfBounds(SpecificBall aSpecificBall);
+          doOutOfBounds(specificBall);
 				currentLife--;
           setGameStatus(GameStatus.Complete);
           wasEventProcessed = true;
@@ -332,8 +332,8 @@ public class GameSession
         {
           exitGameStatus();
         // line 58 "../../../../../Block223States.ump"
-          stopBall(SpecificBall aSpecificBall); // Stop SpecificBall in its current location
-				stopPaddle(SpecificPaddle aSpecificPaddle); // Stop SpecificPaddle in its current location
+          stopBall(specificBall); // Stop SpecificBall in its current location
+				stopPaddle(specificPaddle); // Stop SpecificPaddle in its current location
           setGameStatus(GameStatus.Paused);
           wasEventProcessed = true;
           break;
@@ -391,7 +391,7 @@ public class GameSession
     {
       case Play:
         // line 62 "../../../../../Block223States.ump"
-        stopBall(SpecificBall aSpecificBall);
+        stopBall(specificBall);
         break;
     }
   }
@@ -411,7 +411,7 @@ public class GameSession
         break;
       case Play:
         // line 21 "../../../../../Block223States.ump"
-        move(SpecificBall aSpecificBall);
+        move(specificBall);
         break;
     }
   }
@@ -669,52 +669,54 @@ public class GameSession
 // line 93 "../../../../../Block223States.ump"
   private void addRandomBlocks() ;
 // line 94 "../../../../../Block223States.ump"
-  private void doBlockHit(SpecificBall aSpecificBall) ;
+  private void doBlockHit(SpecificBall specificBall) ;
 // line 95 "../../../../../Block223States.ump"
-  private void deleteBlock(SpecificBlock aBlock) ;
+  private void deleteBlock() ;
 // line 96 "../../../../../Block223States.ump"
   private void increaseScore() ;
 // line 97 "../../../../../Block223States.ump"
-  private void resetPaddlePosition(SpecificPaddle aPaddle) ;
+  private void resetPaddlePosition(SpecificPaddle specificPaddle) ;
 // line 98 "../../../../../Block223States.ump"
-  private void resetBallPosition(SpecificBall aSpecificBall) ;
+  private void resetBallPosition(SpecificBall specificBall) ;
 // line 99 "../../../../../Block223States.ump"
-  private void doWallHit(SpecificBall aSpecificBall) ;
+  private void doWallHit(SpecificBall specificBall) ;
 // line 100 "../../../../../Block223States.ump"
-  private void doPaddleHit(SpecificBall aSpecificBall) ;
+  private void doPaddleHit(SpecificBall specificBall) ;
 // line 101 "../../../../../Block223States.ump"
-  private void doOutOfBounds(SpecificBall aSpecificBall) ;
+  private void doOutOfBounds(SpecificBall specificBall) ;
 // line 102 "../../../../../Block223States.ump"
-  private void stopBall(SpecificBall aSpecificBall) ;
+  private void stopBall(SpecificBall specificBall) ;
 // line 103 "../../../../../Block223States.ump"
-  private void stopPaddle(SpecificPaddle aSpecificPaddle) ;
+  private void stopPaddle(SpecificPaddle specificPaddle) ;
 // line 104 "../../../../../Block223States.ump"
   private void addHallOfFameEntry() ;
 // line 105 "../../../../../Block223States.ump"
   private void displayGameOver() ;
-// line 109 "../../../../../Block223States.ump"
-  private boolean isGameAdmin() ;
+// line 106 "../../../../../Block223States.ump"
+  private void isOutOfBounds(SpecificBall specificBall) ;
 // line 110 "../../../../../Block223States.ump"
-  private boolean ofTestMode() ;
+  private boolean isGameAdmin() ;
 // line 111 "../../../../../Block223States.ump"
-  private boolean hasEnoughBlocks() ;
+  private boolean ofTestMode() ;
 // line 112 "../../../../../Block223States.ump"
-  private boolean hasNoBlocks() ;
+  private boolean hasEnoughBlocks() ;
 // line 113 "../../../../../Block223States.ump"
-  private boolean isBlockHit() ;
+  private boolean hasNoBlocks() ;
 // line 114 "../../../../../Block223States.ump"
-  private boolean isWallHit() ;
+  private boolean isBlockHit() ;
 // line 115 "../../../../../Block223States.ump"
-  private boolean isPaddleHit() ;
+  private boolean isWallHit() ;
 // line 116 "../../../../../Block223States.ump"
-  private boolean isOutOfBounds() ;
+  private boolean isPaddleHit() ;
 // line 117 "../../../../../Block223States.ump"
-  private boolean isLastBlock() ;
+  private boolean isOutOfBounds() ;
 // line 118 "../../../../../Block223States.ump"
-  private boolean isLastLife() ;
+  private boolean isLastBlock() ;
 // line 119 "../../../../../Block223States.ump"
-  private boolean hasLifeLeft() ;
+  private boolean isLastLife() ;
 // line 120 "../../../../../Block223States.ump"
+  private boolean hasLifeLeft() ;
+// line 121 "../../../../../Block223States.ump"
   private boolean isLastLevel() ;
 
   

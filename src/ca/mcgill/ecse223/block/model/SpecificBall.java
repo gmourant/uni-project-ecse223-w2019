@@ -15,6 +15,7 @@ public class SpecificBall
   private boolean isOutBounds;
   private int positionX;
   private int positionY;
+  private int speed;
 
   //SpecificBall Associations
   private GameSession gameSession;
@@ -23,11 +24,12 @@ public class SpecificBall
   // CONSTRUCTOR
   //------------------------
 
-  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, GameSession aGameSession)
+  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, int aSpeed, GameSession aGameSession)
   {
     isOutBounds = aIsOutBounds;
     positionX = aPositionX;
     positionY = aPositionY;
+    speed = aSpeed;
     if (aGameSession == null || aGameSession.getSpecificBall() != null)
     {
       throw new RuntimeException("Unable to create SpecificBall due to aGameSession");
@@ -35,11 +37,12 @@ public class SpecificBall
     gameSession = aGameSession;
   }
 
-  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, User aUserForGameSession, Block223 aBlock223ForGameSession, SpecificPaddle aSpecificPaddleForGameSession)
+  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, int aSpeed, boolean aOfTestModeForGameSession, Game aGameForGameSession, User aUserForGameSession, Block223 aBlock223ForGameSession, SpecificPaddle aSpecificPaddleForGameSession)
   {
     isOutBounds = aIsOutBounds;
     positionX = aPositionX;
     positionY = aPositionY;
+    speed = aSpeed;
     gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aUserForGameSession, aBlock223ForGameSession, this, aSpecificPaddleForGameSession);
   }
 
@@ -71,6 +74,14 @@ public class SpecificBall
     return wasSet;
   }
 
+  public boolean setSpeed(int aSpeed)
+  {
+    boolean wasSet = false;
+    speed = aSpeed;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean getIsOutBounds()
   {
     return isOutBounds;
@@ -84,6 +95,11 @@ public class SpecificBall
   public int getPositionY()
   {
     return positionY;
+  }
+
+  public int getSpeed()
+  {
+    return speed;
   }
   /* Code from template attribute_IsBoolean */
   public boolean isIsOutBounds()
@@ -112,7 +128,8 @@ public class SpecificBall
     return super.toString() + "["+
             "isOutBounds" + ":" + getIsOutBounds()+ "," +
             "positionX" + ":" + getPositionX()+ "," +
-            "positionY" + ":" + getPositionY()+ "]" + System.getProperties().getProperty("line.separator") +
+            "positionY" + ":" + getPositionY()+ "," +
+            "speed" + ":" + getSpeed()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "gameSession = "+(getGameSession()!=null?Integer.toHexString(System.identityHashCode(getGameSession())):"null");
   }
 }

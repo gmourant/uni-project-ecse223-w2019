@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.lang.Comparable;
 
-// line 45 "../../../../../Block223PlayGame.ump"
+// line 46 "../../../../../Block223PlayGame.ump"
 public class HallOfFameEntry implements Comparable
 {
 
@@ -119,7 +119,7 @@ public class HallOfFameEntry implements Comparable
     }
   }
 
-  // line 52 "../../../../../Block223PlayGame.ump"
+  // line 53 "../../../../../Block223PlayGame.ump"
    public int compareTo(Object aHallOfFameEntry){
     HallOfFameEntry myHallOfFameEntry = (HallOfFameEntry)aHallOfFameEntry;
         return toString().compareTo(myHallOfFameEntry.toString());
