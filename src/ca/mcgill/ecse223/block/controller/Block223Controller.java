@@ -739,21 +739,21 @@ public class Block223Controller {
 	 * @author Kelly Ma
 	 * @param direction Describes left or right
 	 */
-	public static void movePaddle(String direction) {
+	private static void movePaddle(String direction) {
 		
 		// Obtain current paddle and its positions
-		GameSession game = Block223Application.getCurrentGameSession();
-		SpecificPaddle paddle = game.getSpecificPaddle();
+		GameSession gameSession = Block223Application.getCurrentGameSession();
+		SpecificPaddle paddle = gameSession.getSpecificPaddle();
 		int currentPositionX = paddle.getPositionX();
 		
 		switch(direction) {
 			case "l":
-				// move to the left one pixel
+				// move to the left one pixel unless position is at 0
 				paddle.setPositionX(--currentPositionX);
 				break;
 			case "r":
-				// move to the right one pixel
-				paddle.setPositionX(++currentPositionX);
+				// move to the right one pixel unless position is at 390
+
 				break;
 			default:
 		}
@@ -764,8 +764,19 @@ public class Block223Controller {
     // ****************************
 	
 	
+	/**
+	 * This method returns the score to be displayed by the UI
+	 * @author Kelly Ma
+	 * @return The current score of the GameSession
+	 * @throws InvalidInputException
+	 */
 	public static TOScore getScore() throws InvalidInputException {
 		
+		GameSession gameSession = Block223Application.getCurrentGameSession(); // Get current game session
+		if (gameSession == null) throw new InvalidInputException("A game session must be in play to view the score.");
+		
+		TOScore to = new TOScore(gameSession.getScore());
+		return to;
 		
 	}
 	

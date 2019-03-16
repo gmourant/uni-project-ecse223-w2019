@@ -38,3 +38,7 @@ class TOHallOfFameEntry {
 	username;
 	Integer score;
 }
+
+class TOScore {
+	Integer score;
+}

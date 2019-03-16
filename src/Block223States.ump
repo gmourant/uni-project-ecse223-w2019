@@ -90,7 +90,6 @@ class GameSession {
         private void initializeBlocks();
         private void initializeBall();
         private void initializePaddle();
-        private void displayScore();
         private void addRandomBlocks();
         private void doBlockHit(SpecificBall aSpecificBall);
         private void deleteBlock(SpecificBlock aBlock);
@@ -102,7 +101,7 @@ class GameSession {
         private void doOutOfBounds(SpecificBall aSpecificBall);
         private void stopBall(SpecificBall aSpecificBall);
         private void stopPaddle(SpecificPaddle aSpecificPaddle);
-        private void addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry);
+        private void addHallOfFameEntry();
         private void displayGameOver();
         
         

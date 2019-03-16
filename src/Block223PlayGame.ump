@@ -35,6 +35,11 @@ class SpecificPaddle {
 	1 -<@> 1 GameSession;
   	Integer positionX;
   	immutable Integer positionY;
+  	before setPositionX {
+		if (aPositionX < 0 || aPositionX > 390) {
+			return wasSet;
+		}
+	}
 }
 
 class HallOfFameEntry {

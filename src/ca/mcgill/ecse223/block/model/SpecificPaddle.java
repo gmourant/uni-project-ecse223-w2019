@@ -47,6 +47,11 @@ public class SpecificPaddle
   public boolean setPositionX(int aPositionX)
   {
     boolean wasSet = false;
+    // line 39 "../../../../../Block223PlayGame.ump"
+    if (aPositionX < 0 || aPositionX > 390) {
+    			return wasSet;
+    		}
+    // END OF UMPLE BEFORE INJECTION
     positionX = aPositionX;
     wasSet = true;
     return wasSet;
