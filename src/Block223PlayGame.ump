@@ -29,6 +29,7 @@ class SpecificBall {
   	Boolean isOutBounds;
   	Integer positionX;
   	Integer positionY;
+        int speed;
 }
 
 class SpecificPaddle {

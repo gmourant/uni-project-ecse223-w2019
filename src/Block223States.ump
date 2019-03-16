@@ -103,6 +103,7 @@ class GameSession {
         private void stopPaddle(SpecificPaddle aSpecificPaddle);
         private void addHallOfFameEntry();
         private void displayGameOver();
+        private void isOutOfBounds(SpecificBall aSpecificBall); // checks if balls is out of bounds
         
         
 	// Helper methods
@@ -113,7 +114,7 @@ class GameSession {
 	private boolean isBlockHit();
 	private boolean isWallHit();
 	private boolean isPaddleHit();
-	private boolean isOutOfBounds();
+	private boolean isOutOfBounds(); // returns value in specificBall
 	private boolean isLastBlock();
 	private boolean isLastLife();
 	private boolean hasLifeLeft();
