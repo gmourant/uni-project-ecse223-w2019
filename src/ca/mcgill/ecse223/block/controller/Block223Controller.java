@@ -1,6 +1,8 @@
 package ca.mcgill.ecse223.block.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
@@ -761,18 +763,26 @@ public class Block223Controller {
     // Query methods
     // ****************************
 	
+	
+	public static TOScore getScore() throws InvalidInputException {
+		
+		
+	}
+	
 	/**
 	 * This method returns a list of transfer objects containing hall of fame entries
 	 * @author Kelly Ma
 	 * @return A list of hall of fame entries
 	 */
-	public static List<TOHallOfFameEntry> getHallOfFameEntries() throws InvalidInputException{
+	public static List<TOHallOfFameEntry> getHallOfFameEntries() throws InvalidInputException {
 		
 		Game game = Block223Application.getCurrentGame(); // Get current game
 		if (game == null) throw new InvalidInputException("A game must be selected to view Hall Of Fame.");
 		
         List<TOHallOfFameEntry> hallOfFame = new ArrayList(); // Create TO list
         List<HallOfFameEntry> entries = game.getHallOfFameEntries(); // Obtain list of entries
+        
+        Collections.sort(entries);
         
         for (HallOfFameEntry hallOfFameEntry : entries) {
         	// Get username and score for an entry
@@ -784,6 +794,7 @@ public class Block223Controller {
         }
         
         return hallOfFame;
+		
 	}
 	
 	

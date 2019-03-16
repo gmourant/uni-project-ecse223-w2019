@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 40 "../../../../../Block223Persistence.ump"
-// line 1 "../../../../../Block223PlayGame.ump"
+// line 3 "../../../../../Block223PlayGame.ump"
 // line 44 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
@@ -128,7 +128,7 @@ public class Game implements Serializable
   public boolean setIsPublished(boolean aIsPublished)
   {
     boolean wasSet = false;
-    // line 4 "../../../../../Block223PlayGame.ump"
+    // line 6 "../../../../../Block223PlayGame.ump"
     if (isPublished) return wasSet;
     // END OF UMPLE BEFORE INJECTION
     isPublished = aIsPublished;
@@ -642,9 +642,9 @@ public class Game implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameSession addGameSession(boolean aOfTestMode, Player aPlayer, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
+  public GameSession addGameSession(boolean aOfTestMode, User aUser, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
-    return new GameSession(aOfTestMode, this, aPlayer, aBlock223, aSpecificBall, aSpecificPaddle);
+    return new GameSession(aOfTestMode, this, aUser, aBlock223, aSpecificBall, aSpecificPaddle);
   }
 
   public boolean addGameSession(GameSession aGameSession)

@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.model;
 
-// line 32 "../../../../../Block223PlayGame.ump"
+// line 34 "../../../../../Block223PlayGame.ump"
 public class SpecificPaddle
 {
 
@@ -33,11 +33,11 @@ public class SpecificPaddle
     gameSession = aGameSession;
   }
 
-  public SpecificPaddle(int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, Player aPlayerForGameSession, Block223 aBlock223ForGameSession, SpecificBall aSpecificBallForGameSession)
+  public SpecificPaddle(int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, User aUserForGameSession, Block223 aBlock223ForGameSession, SpecificBall aSpecificBallForGameSession)
   {
     positionX = aPositionX;
     positionY = aPositionY;
-    gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aPlayerForGameSession, aBlock223ForGameSession, aSpecificBallForGameSession, this);
+    gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aUserForGameSession, aBlock223ForGameSession, aSpecificBallForGameSession, this);
   }
 
   //------------------------

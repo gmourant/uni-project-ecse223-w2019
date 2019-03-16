@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.model;
 import java.util.*;
 
-// line 8 "../../../../../Block223PlayGame.ump"
+// line 10 "../../../../../Block223PlayGame.ump"
 // line 1 "../../../../../Block223States.ump"
 public class GameSession
 {
@@ -34,7 +34,7 @@ public class GameSession
 
   //GameSession Associations
   private Game game;
-  private Player player;
+  private User user;
   private Block223 block223;
   private List<SpecificBlock> specificBlocks;
   private SpecificBall specificBall;
@@ -44,7 +44,7 @@ public class GameSession
   // CONSTRUCTOR
   //------------------------
 
-  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
+  public GameSession(boolean aOfTestMode, Game aGame, User aUser, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
     ofTestMode = aOfTestMode;
     currentLevelNr = 1;
@@ -56,10 +56,10 @@ public class GameSession
     {
       throw new RuntimeException("Unable to create gameSession due to game");
     }
-    boolean didAddPlayer = setPlayer(aPlayer);
-    if (!didAddPlayer)
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
     {
-      throw new RuntimeException("Unable to create gameSession due to player");
+      throw new RuntimeException("Unable to create gameSession due to user");
     }
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
@@ -80,7 +80,7 @@ public class GameSession
     setGameStatus(GameStatus.Idle);
   }
 
-  public GameSession(boolean aOfTestMode, Game aGame, Player aPlayer, Block223 aBlock223, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
+  public GameSession(boolean aOfTestMode, Game aGame, User aUser, Block223 aBlock223, boolean aIsOutBoundsForSpecificBall, int aPositionXForSpecificBall, int aPositionYForSpecificBall, int aPositionXForSpecificPaddle, int aPositionYForSpecificPaddle)
   {
     ofTestMode = aOfTestMode;
     currentLevelNr = 1;
@@ -92,10 +92,10 @@ public class GameSession
     {
       throw new RuntimeException("Unable to create gameSession due to game");
     }
-    boolean didAddPlayer = setPlayer(aPlayer);
-    if (!didAddPlayer)
+    boolean didAddUser = setUser(aUser);
+    if (!didAddUser)
     {
-      throw new RuntimeException("Unable to create gameSession due to player");
+      throw new RuntimeException("Unable to create gameSession due to user");
     }
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
@@ -198,14 +198,14 @@ public class GameSession
         if (!(ofTestMode())&&hasEnoughBlocks())
         {
         // line 11 "../../../../../Block223States.ump"
-          displayScore(HallOfFameEntry aHallOfFameEntry);
+          
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
           break;
         }
         if (isGameAdmin()&&ofTestMode()&&!(hasEnoughBlocks()))
         {
-        // line 14 "../../../../../Block223States.ump"
+        // line 13 "../../../../../Block223States.ump"
           addRandomBlocks(); // Must reach required number of blocks
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
@@ -213,9 +213,8 @@ public class GameSession
         }
         if (!(ofTestMode())&&!(hasEnoughBlocks()))
         {
-        // line 17 "../../../../../Block223States.ump"
+        // line 16 "../../../../../Block223States.ump"
           addRandomBlocks();
-				displayScore(HallOfFameEntry aHallOfFameEntry);
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
           break;
@@ -239,11 +238,11 @@ public class GameSession
         if (isBlockHit()&&!(isLastBlock()))
         {
           exitGameStatus();
-        // line 26 "../../../../../Block223States.ump"
+        // line 24 "../../../../../Block223States.ump"
           // move() updates SpecificBall position
 				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock); 
-				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				increaseScore();
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
           break;
@@ -251,12 +250,12 @@ public class GameSession
         if (isBlockHit()&&isLastBlock()&&!(isLastLevel()))
         {
           exitGameStatus();
-        // line 31 "../../../../../Block223States.ump"
+        // line 29 "../../../../../Block223States.ump"
           doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock);
 				resetPaddlePosition(SpecificPaddle aPaddle);
 				resetBallPosition(SpecificBall aSpecificBall);
-				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				increaseScore();
 				currentLevelNr++;
           setGameStatus(GameStatus.Paused);
           wasEventProcessed = true;
@@ -265,10 +264,10 @@ public class GameSession
         if (isBlockHit()&&isLastBlock()&&isLastLevel())
         {
           exitGameStatus();
-        // line 39 "../../../../../Block223States.ump"
+        // line 37 "../../../../../Block223States.ump"
           doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock);
-				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				increaseScore();
           setGameStatus(GameStatus.Complete);
           wasEventProcessed = true;
           break;
@@ -276,7 +275,7 @@ public class GameSession
         if (isWallHit())
         {
           exitGameStatus();
-        // line 44 "../../../../../Block223States.ump"
+        // line 42 "../../../../../Block223States.ump"
           doWallHit(SpecificBall aSpecificBall);
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
@@ -285,7 +284,7 @@ public class GameSession
         if (isPaddleHit())
         {
           exitGameStatus();
-        // line 47 "../../../../../Block223States.ump"
+        // line 45 "../../../../../Block223States.ump"
           doPaddleHit(SpecificBall aSpecificBall);
           setGameStatus(GameStatus.Play);
           wasEventProcessed = true;
@@ -294,7 +293,7 @@ public class GameSession
         if (isOutOfBounds()&&!(isLastLife()))
         {
           exitGameStatus();
-        // line 50 "../../../../../Block223States.ump"
+        // line 48 "../../../../../Block223States.ump"
           doOutOfBounds(SpecificBall aSpecificBall);
 				resetPaddlePosition(SpecificPaddle aPaddle);
 				resetBallPosition(SpecificBall aBall);
@@ -306,7 +305,7 @@ public class GameSession
         if (isOutOfBounds()&&isLastLife())
         {
           exitGameStatus();
-        // line 56 "../../../../../Block223States.ump"
+        // line 54 "../../../../../Block223States.ump"
           doOutOfBounds(SpecificBall aSpecificBall);
 				currentLife--;
           setGameStatus(GameStatus.Complete);
@@ -332,7 +331,7 @@ public class GameSession
         if (!(isOutOfBounds()))
         {
           exitGameStatus();
-        // line 60 "../../../../../Block223States.ump"
+        // line 58 "../../../../../Block223States.ump"
           stopBall(SpecificBall aSpecificBall); // Stop SpecificBall in its current location
 				stopPaddle(SpecificPaddle aSpecificPaddle); // Stop SpecificPaddle in its current location
           setGameStatus(GameStatus.Paused);
@@ -357,7 +356,7 @@ public class GameSession
       case Paused:
         if (hasNoBlocks())
         {
-        // line 69 "../../../../../Block223States.ump"
+        // line 67 "../../../../../Block223States.ump"
           // Represents completing a level
 				initializeBlocks(); // initializeBlocks() checks if there are blocks left (if no, start from scratch)
 				addRandomBlocks();
@@ -369,7 +368,7 @@ public class GameSession
         }
         if (!(hasNoBlocks()))
         {
-        // line 75 "../../../../../Block223States.ump"
+        // line 73 "../../../../../Block223States.ump"
           // Level not yet complete
 				initializeBlocks(); // Add blocks that admin has created from save, those not deleted
 				initializeBall(); // Add a SpecificBall from save
@@ -391,7 +390,7 @@ public class GameSession
     switch(gameStatus)
     {
       case Play:
-        // line 64 "../../../../../Block223States.ump"
+        // line 62 "../../../../../Block223States.ump"
         stopBall(SpecificBall aSpecificBall);
         break;
     }
@@ -411,7 +410,7 @@ public class GameSession
 				initializePaddle(); // Add a SpecificPaddle & position it
         break;
       case Play:
-        // line 23 "../../../../../Block223States.ump"
+        // line 21 "../../../../../Block223States.ump"
         move(SpecificBall aSpecificBall);
         break;
     }
@@ -422,9 +421,9 @@ public class GameSession
     return game;
   }
   /* Code from template association_GetOne */
-  public Player getPlayer()
+  public User getUser()
   {
-    return player;
+    return user;
   }
   /* Code from template association_GetOne */
   public Block223 getBlock223()
@@ -491,21 +490,21 @@ public class GameSession
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setPlayer(Player aPlayer)
+  public boolean setUser(User aUser)
   {
     boolean wasSet = false;
-    if (aPlayer == null)
+    if (aUser == null)
     {
       return wasSet;
     }
 
-    Player existingPlayer = player;
-    player = aPlayer;
-    if (existingPlayer != null && !existingPlayer.equals(aPlayer))
+    User existingUser = user;
+    user = aUser;
+    if (existingUser != null && !existingUser.equals(aUser))
     {
-      existingPlayer.removeGameSession(this);
+      existingUser.removeGameSession(this);
     }
-    player.addGameSession(this);
+    user.addGameSession(this);
     wasSet = true;
     return wasSet;
   }
@@ -609,11 +608,11 @@ public class GameSession
     {
       placeholderGame.removeGameSession(this);
     }
-    Player placeholderPlayer = player;
-    this.player = null;
-    if(placeholderPlayer != null)
+    User placeholderUser = user;
+    this.user = null;
+    if(placeholderUser != null)
     {
-      placeholderPlayer.removeGameSession(this);
+      placeholderUser.removeGameSession(this);
     }
     Block223 placeholderBlock223 = block223;
     this.block223 = null;
@@ -652,7 +651,7 @@ public class GameSession
             "currentLife" + ":" + getCurrentLife()+ "," +
             "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "block223 = "+(getBlock223()!=null?Integer.toHexString(System.identityHashCode(getBlock223())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "specificBall = "+(getSpecificBall()!=null?Integer.toHexString(System.identityHashCode(getSpecificBall())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "specificPaddle = "+(getSpecificPaddle()!=null?Integer.toHexString(System.identityHashCode(getSpecificPaddle())):"null");
@@ -661,63 +660,63 @@ public class GameSession
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 92 "../../../../../Block223States.ump"
+  // line 90 "../../../../../Block223States.ump"
   private void initializeBlocks() ;
-// line 93 "../../../../../Block223States.ump"
+// line 91 "../../../../../Block223States.ump"
   private void initializeBall() ;
-// line 94 "../../../../../Block223States.ump"
+// line 92 "../../../../../Block223States.ump"
   private void initializePaddle() ;
-// line 95 "../../../../../Block223States.ump"
-  private void displayScore(HallOfFameEntry aHallOfFameEntry) ;
-// line 96 "../../../../../Block223States.ump"
+// line 93 "../../../../../Block223States.ump"
+  private void displayScore() ;
+// line 94 "../../../../../Block223States.ump"
   private void addRandomBlocks() ;
-// line 97 "../../../../../Block223States.ump"
+// line 95 "../../../../../Block223States.ump"
   private void doBlockHit(SpecificBall aSpecificBall) ;
-// line 98 "../../../../../Block223States.ump"
+// line 96 "../../../../../Block223States.ump"
   private void deleteBlock(SpecificBlock aBlock) ;
-// line 99 "../../../../../Block223States.ump"
-  private void increaseScore(HallOfFameEntry aHallOfFameEntry) ;
-// line 100 "../../../../../Block223States.ump"
+// line 97 "../../../../../Block223States.ump"
+  private void increaseScore() ;
+// line 98 "../../../../../Block223States.ump"
   private void resetPaddlePosition(SpecificPaddle aPaddle) ;
-// line 101 "../../../../../Block223States.ump"
+// line 99 "../../../../../Block223States.ump"
   private void resetBallPosition(SpecificBall aSpecificBall) ;
-// line 102 "../../../../../Block223States.ump"
+// line 100 "../../../../../Block223States.ump"
   private void doWallHit(SpecificBall aSpecificBall) ;
-// line 103 "../../../../../Block223States.ump"
+// line 101 "../../../../../Block223States.ump"
   private void doPaddleHit(SpecificBall aSpecificBall) ;
-// line 104 "../../../../../Block223States.ump"
+// line 102 "../../../../../Block223States.ump"
   private void doOutOfBounds(SpecificBall aSpecificBall) ;
-// line 105 "../../../../../Block223States.ump"
+// line 103 "../../../../../Block223States.ump"
   private void stopBall(SpecificBall aSpecificBall) ;
-// line 106 "../../../../../Block223States.ump"
+// line 104 "../../../../../Block223States.ump"
   private void stopPaddle(SpecificPaddle aSpecificPaddle) ;
-// line 107 "../../../../../Block223States.ump"
+// line 105 "../../../../../Block223States.ump"
   private void addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry) ;
-// line 108 "../../../../../Block223States.ump"
+// line 106 "../../../../../Block223States.ump"
   private void displayGameOver() ;
-// line 112 "../../../../../Block223States.ump"
+// line 110 "../../../../../Block223States.ump"
   private boolean isGameAdmin() ;
-// line 113 "../../../../../Block223States.ump"
+// line 111 "../../../../../Block223States.ump"
   private boolean ofTestMode() ;
-// line 114 "../../../../../Block223States.ump"
+// line 112 "../../../../../Block223States.ump"
   private boolean hasEnoughBlocks() ;
-// line 115 "../../../../../Block223States.ump"
+// line 113 "../../../../../Block223States.ump"
   private boolean hasNoBlocks() ;
-// line 116 "../../../../../Block223States.ump"
+// line 114 "../../../../../Block223States.ump"
   private boolean isBlockHit() ;
-// line 117 "../../../../../Block223States.ump"
+// line 115 "../../../../../Block223States.ump"
   private boolean isWallHit() ;
-// line 118 "../../../../../Block223States.ump"
+// line 116 "../../../../../Block223States.ump"
   private boolean isPaddleHit() ;
-// line 119 "../../../../../Block223States.ump"
+// line 117 "../../../../../Block223States.ump"
   private boolean isOutOfBounds() ;
-// line 120 "../../../../../Block223States.ump"
+// line 118 "../../../../../Block223States.ump"
   private boolean isLastBlock() ;
-// line 121 "../../../../../Block223States.ump"
+// line 119 "../../../../../Block223States.ump"
   private boolean isLastLife() ;
-// line 122 "../../../../../Block223States.ump"
+// line 120 "../../../../../Block223States.ump"
   private boolean hasLifeLeft() ;
-// line 123 "../../../../../Block223States.ump"
+// line 121 "../../../../../Block223States.ump"
   private boolean isLastLevel() ;
 
   

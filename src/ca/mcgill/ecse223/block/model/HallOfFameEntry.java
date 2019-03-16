@@ -2,9 +2,10 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.lang.Comparable;
 
-// line 38 "../../../../../Block223PlayGame.ump"
-public class HallOfFameEntry
+// line 40 "../../../../../Block223PlayGame.ump"
+public class HallOfFameEntry implements Comparable
 {
 
   //------------------------
@@ -116,6 +117,12 @@ public class HallOfFameEntry
     {
       placeholderUser.removeHallOfFameEntry(this);
     }
+  }
+
+  // line 47 "../../../../../Block223PlayGame.ump"
+   public int compareTo(Object aHallOfFameEntry){
+    HallOfFameEntry myHallOfFameEntry = (HallOfFameEntry)aHallOfFameEntry;
+        return toString().compareTo(myHallOfFameEntry.toString());
   }
 
 
