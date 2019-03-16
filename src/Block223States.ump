@@ -9,14 +9,12 @@ class GameSession {
 			startGame() [isGameAdmin() && ofTestMode() && hasEnoughBlocks()] / {
 			} -> Play;
 			startGame() [!ofTestMode() && hasEnoughBlocks()] / {
-				displayScore(); 
 			} -> Play;
 			startGame() [isGameAdmin() && ofTestMode() && !hasEnoughBlocks()] / {
 				addRandomBlocks(); // Must reach required number of blocks
 			} -> Play;
 			startGame() [!ofTestMode() && !hasEnoughBlocks()] / {
 				addRandomBlocks();
-				displayScore();
 			} -> Play;
 		}
 		Play {
@@ -79,10 +77,10 @@ class GameSession {
 			} -> Play;
 		}
 		Complete {
-			updateHallOfFame [isLastLevel()] {
+			updateHallOfFame() [isLastLevel()] {
 				addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry);
 			} -> Final;
-			gameOver [!isLastLevel()] {
+			gameOver() [!isLastLevel()] {
 				displayGameOver();
 			} -> Final;
 		}
@@ -92,11 +90,11 @@ class GameSession {
         private void initializeBlocks();
         private void initializeBall();
         private void initializePaddle();
-        private void displayScore(HallOfFameEntry aHallOfFameEntry);
+        private void displayScore();
         private void addRandomBlocks();
         private void doBlockHit(SpecificBall aSpecificBall);
         private void deleteBlock(SpecificBlock aBlock);
-        private void increaseScore(HallOfFameEntry aHallOfFameEntry);
+        private void increaseScore();
         private void resetPaddlePosition(SpecificPaddle aPaddle);
         private void resetBallPosition(SpecificBall aSpecificBall);
         private void doWallHit(SpecificBall aSpecificBall);

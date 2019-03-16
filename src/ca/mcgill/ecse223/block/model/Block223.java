@@ -374,9 +374,9 @@ public class Block223 implements Serializable
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public GameSession addGameSession(boolean aOfTestMode, Game aGame, Player aPlayer, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
+  public GameSession addGameSession(boolean aOfTestMode, Game aGame, User aUser, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
   {
-    return new GameSession(aOfTestMode, aGame, aPlayer, this, aSpecificBall, aSpecificPaddle);
+    return new GameSession(aOfTestMode, aGame, aUser, this, aSpecificBall, aSpecificPaddle);
   }
 
   public boolean addGameSession(GameSession aGameSession)

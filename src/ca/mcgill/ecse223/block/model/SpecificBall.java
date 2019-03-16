@@ -35,12 +35,12 @@ public class SpecificBall
     gameSession = aGameSession;
   }
 
-  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, Player aPlayerForGameSession, Block223 aBlock223ForGameSession, SpecificPaddle aSpecificPaddleForGameSession)
+  public SpecificBall(boolean aIsOutBounds, int aPositionX, int aPositionY, boolean aOfTestModeForGameSession, Game aGameForGameSession, User aUserForGameSession, Block223 aBlock223ForGameSession, SpecificPaddle aSpecificPaddleForGameSession)
   {
     isOutBounds = aIsOutBounds;
     positionX = aPositionX;
     positionY = aPositionY;
-    gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aPlayerForGameSession, aBlock223ForGameSession, this, aSpecificPaddleForGameSession);
+    gameSession = new GameSession(aOfTestModeForGameSession, aGameForGameSession, aUserForGameSession, aBlock223ForGameSession, this, aSpecificPaddleForGameSession);
   }
 
   //------------------------

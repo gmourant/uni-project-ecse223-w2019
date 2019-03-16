@@ -763,6 +763,12 @@ public class Block223Controller {
     // Query methods
     // ****************************
 	
+	
+	public static TOScore getScore() throws InvalidInputException {
+		
+		
+	}
+	
 	/**
 	 * This method returns a list of transfer objects containing hall of fame entries
 	 * @author Kelly Ma
@@ -788,7 +794,6 @@ public class Block223Controller {
         }
         
         return hallOfFame;
-		
 		
 	}
 	
