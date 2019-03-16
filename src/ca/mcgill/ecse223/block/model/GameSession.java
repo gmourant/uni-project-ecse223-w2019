@@ -662,28 +662,62 @@ public class GameSession
   //------------------------
   
   // line 92 "../../../../../Block223States.ump"
-  private boolean isGameAdmin() ;
+  private void initializeBlocks() ;
 // line 93 "../../../../../Block223States.ump"
-  private boolean ofTestMode() ;
+  private void initializeBall() ;
 // line 94 "../../../../../Block223States.ump"
-  private boolean hasEnoughBlocks() ;
+  private void initializePaddle() ;
 // line 95 "../../../../../Block223States.ump"
-  private boolean hasNoBlocks() ;
+  private void displayScore(HallOfFameEntry aHallOfFameEntry) ;
 // line 96 "../../../../../Block223States.ump"
-  private boolean isBlockHit() ;
+  private void addRandomBlocks() ;
 // line 97 "../../../../../Block223States.ump"
-  private boolean isWallHit() ;
+  private void doBlockHit(SpecificBall aSpecificBall) ;
 // line 98 "../../../../../Block223States.ump"
-  private boolean isPaddleHit() ;
+  private void deleteBlock(SpecificBlock aBlock) ;
 // line 99 "../../../../../Block223States.ump"
-  private boolean isOutOfBounds() ;
+  private void increaseScore(HallOfFameEntry aHallOfFameEntry) ;
 // line 100 "../../../../../Block223States.ump"
-  private boolean isLastBlock() ;
+  private void resetPaddlePosition(SpecificPaddle aPaddle) ;
 // line 101 "../../../../../Block223States.ump"
-  private boolean isLastLife() ;
+  private void resetBallPosition(SpecificBall aSpecificBall) ;
 // line 102 "../../../../../Block223States.ump"
-  private boolean hasLifeLeft() ;
+  private void doWallHit(SpecificBall aSpecificBall) ;
 // line 103 "../../../../../Block223States.ump"
+  private void doPaddleHit(SpecificBall aSpecificBall) ;
+// line 104 "../../../../../Block223States.ump"
+  private void doOutOfBounds(SpecificBall aSpecificBall) ;
+// line 105 "../../../../../Block223States.ump"
+  private void stopBall(SpecificBall aSpecificBall) ;
+// line 106 "../../../../../Block223States.ump"
+  private void stopPaddle(SpecificPaddle aSpecificPaddle) ;
+// line 107 "../../../../../Block223States.ump"
+  private void addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry) ;
+// line 108 "../../../../../Block223States.ump"
+  private void displayGameOver() ;
+// line 112 "../../../../../Block223States.ump"
+  private boolean isGameAdmin() ;
+// line 113 "../../../../../Block223States.ump"
+  private boolean ofTestMode() ;
+// line 114 "../../../../../Block223States.ump"
+  private boolean hasEnoughBlocks() ;
+// line 115 "../../../../../Block223States.ump"
+  private boolean hasNoBlocks() ;
+// line 116 "../../../../../Block223States.ump"
+  private boolean isBlockHit() ;
+// line 117 "../../../../../Block223States.ump"
+  private boolean isWallHit() ;
+// line 118 "../../../../../Block223States.ump"
+  private boolean isPaddleHit() ;
+// line 119 "../../../../../Block223States.ump"
+  private boolean isOutOfBounds() ;
+// line 120 "../../../../../Block223States.ump"
+  private boolean isLastBlock() ;
+// line 121 "../../../../../Block223States.ump"
+  private boolean isLastLife() ;
+// line 122 "../../../../../Block223States.ump"
+  private boolean hasLifeLeft() ;
+// line 123 "../../../../../Block223States.ump"
   private boolean isLastLevel() ;
 
   
