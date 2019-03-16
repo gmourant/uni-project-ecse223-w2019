@@ -9,14 +9,14 @@ class GameSession {
 			startGame() [isGameAdmin() && ofTestMode() && hasEnoughBlocks()] / {
 			} -> Play;
 			startGame() [!ofTestMode() && hasEnoughBlocks()] / {
-				displayScore(HallOfFameEntry aHallOfFameEntry); 
+				displayScore(); 
 			} -> Play;
 			startGame() [isGameAdmin() && ofTestMode() && !hasEnoughBlocks()] / {
 				addRandomBlocks(); // Must reach required number of blocks
 			} -> Play;
 			startGame() [!ofTestMode() && !hasEnoughBlocks()] / {
 				addRandomBlocks();
-				displayScore(HallOfFameEntry aHallOfFameEntry);
+				displayScore();
 			} -> Play;
 		}
 		Play {
@@ -26,20 +26,20 @@ class GameSession {
 			move(SpecificBall aSpecificBall) [isBlockHit() && !isLastBlock()] / { // move() updates SpecificBall position
 				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock); 
-				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				increaseScore();
 			} -> Play;
 			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && !isLastLevel()] / {
 				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock);
 				resetPaddlePosition(SpecificPaddle aPaddle);
 				resetBallPosition(SpecificBall aSpecificBall);
-				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				increaseScore();
 				currentLevelNr++;
 			} -> Paused;
 			move(SpecificBall aSpecificBall) [isBlockHit() && isLastBlock() && isLastLevel()] / {
 				doBlockHit(SpecificBall aSpecificBall);
 				deleteBlock(SpecificBlock aBlock);
-				increaseScore(HallOfFameEntry aHallOfFameEntry);
+				increaseScore();
 			} -> Complete;
 			move(SpecificBall aSpecificBall) [isWallHit()] / {
 				doWallHit(SpecificBall aSpecificBall);
