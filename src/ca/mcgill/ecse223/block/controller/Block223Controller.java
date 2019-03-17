@@ -727,87 +727,23 @@ public class Block223Controller {
 
 	}
 	
-	/**
-	 * This method pauses a game
-	 */
-	public static void pauseGame() {
-		
-	}
-	
-	/**
-	 * This method moves the paddle one pixel to the left or right
-	 * @author Kelly Ma
-	 * @param direction Describes left or right
-	 */
-	private static void movePaddle(String direction) {
-		
-		// Obtain current paddle and its positions
-		GameSession gameSession = Block223Application.getCurrentGameSession();
-		SpecificPaddle paddle = gameSession.getSpecificPaddle();
-		int currentPositionX = paddle.getPositionX();
-		
-		switch(direction) {
-			case "l":
-				// move to the left one pixel unless position is at 0
-				paddle.setPositionX(--currentPositionX);
-				break;
-			case "r":
-				// move to the right one pixel unless position is at 390
+	// Play mode controller methods
 
-				break;
-			default:
-		}
+	public static void selectPlayableGame(String name, int id) throws InvalidInputException  {
+	}
+
+	public static void startGame(Block223PlayModeInterface ui) throws InvalidInputException {
+	}
+
+	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
+	}
+
+	public static void publishGame () throws InvalidInputException {
 	}
 
     // ****************************
     // Query methods
     // ****************************
-	
-	
-	/**
-	 * This method returns the score to be displayed by the UI
-	 * @author Kelly Ma
-	 * @return The current score of the GameSession
-	 * @throws InvalidInputException
-	 */
-	public static TOScore getScore() throws InvalidInputException {
-		
-		GameSession gameSession = Block223Application.getCurrentGameSession(); // Get current game session
-		if (gameSession == null) throw new InvalidInputException("A game session must be in play to view the score.");
-		
-		TOScore to = new TOScore(gameSession.getScore());
-		return to;
-		
-	}
-	
-	/**
-	 * This method returns a list of transfer objects containing hall of fame entries
-	 * @author Kelly Ma
-	 * @return A list of hall of fame entries
-	 */
-	public static List<TOHallOfFameEntry> getHallOfFameEntries() throws InvalidInputException {
-		
-		Game game = Block223Application.getCurrentGame(); // Get current game
-		if (game == null) throw new InvalidInputException("A game must be selected to view Hall Of Fame.");
-		
-        List<TOHallOfFameEntry> hallOfFame = new ArrayList(); // Create TO list
-        List<HallOfFameEntry> entries = game.getHallOfFameEntries(); // Obtain list of entries
-        
-        Collections.sort(entries);
-        
-        for (HallOfFameEntry hallOfFameEntry : entries) {
-        	// Get username and score for an entry
-        	String username = hallOfFameEntry.getUser().getUsername();
-        	int score = hallOfFameEntry.getScore();
-        	
-        	TOHallOfFameEntry to = new TOHallOfFameEntry(username, score);
-        	hallOfFame.add(to); // Add entry to hallOfFame
-        }
-        
-        return hallOfFame;
-		
-	}
-	
 	
     /**
      * This method returns a list of designable games for the current admin.
@@ -911,6 +847,7 @@ public class Block223Controller {
 			}
 			return null;
 	}//End of getUserMode method
+    
     /**
      *
      * This method returns a list of GridCells associated to a level. It needs a
@@ -973,6 +910,20 @@ public class Block223Controller {
         return result;
       
     }
+    
+    // Play mode query methods
+
+ 	public static List<TOPlayableGame> getPlayableGames() throws InvalidInputException {
+ 	}
+
+ 	public static List<TOCurrentlyPlayedGame> getCurrentPlayableGame() throws InvalidInputException {
+ 	}
+
+ 	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
+ 	}
+
+ 	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+ 	}
 
     // ****************************
     // Private Helper Methods
