@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.controller;
 
-// line 3 "../../../../../Block223TransferObjects.ump"
+// line 5 "../../../../../Block223TransferObjects.ump"
 public class TOGame
 {
 

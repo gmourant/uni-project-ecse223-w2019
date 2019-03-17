@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.controller;
 
-// line 22 "../../../../../Block223TransferObjects.ump"
+// line 24 "../../../../../Block223TransferObjects.ump"
 public class TOGridCell
 {
 

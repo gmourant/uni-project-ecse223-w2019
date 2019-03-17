@@ -1,5 +1,7 @@
 namespace ca.mcgill.ecse223.block.controller;
 
+use Block223TransferObjectsPlayMode.ump;
+
 class TOGame {
    name;
    Integer nrLevels;
@@ -32,13 +34,4 @@ class TOGridCell {
 class TOUserMode {
   enum Mode { None, Design, Play }
   Mode mode;
-}
-
-class TOHallOfFameEntry {
-	username;
-	Integer score;
-}
-
-class TOScore {
-	Integer score;
 }

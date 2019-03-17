@@ -2,10 +2,11 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
-import java.lang.Comparable;
+import java.io.Serializable;
 
-// line 46 "../../../../../Block223PlayGame.ump"
-public class HallOfFameEntry implements Comparable
+// line 108 "../../../../../Block223Persistence.ump"
+// line 58 "../../../../../Block223PlayMode.ump"
+public class HallOfFameEntry implements Serializable
 {
 
   //------------------------
@@ -14,27 +15,35 @@ public class HallOfFameEntry implements Comparable
 
   //HallOfFameEntry Attributes
   private int score;
+  private String playername;
 
   //HallOfFameEntry Associations
+  private Player player;
   private Game game;
-  private User user;
+  private Block223 block223;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public HallOfFameEntry(int aScore, Game aGame, User aUser)
+  public HallOfFameEntry(int aScore, String aPlayername, Player aPlayer, Game aGame, Block223 aBlock223)
   {
     score = aScore;
+    playername = aPlayername;
+    boolean didAddPlayer = setPlayer(aPlayer);
+    if (!didAddPlayer)
+    {
+      throw new RuntimeException("Unable to create hallOfFameEntry due to player");
+    }
     boolean didAddGame = setGame(aGame);
     if (!didAddGame)
     {
       throw new RuntimeException("Unable to create hallOfFameEntry due to game");
     }
-    boolean didAddUser = setUser(aUser);
-    if (!didAddUser)
+    boolean didAddBlock223 = setBlock223(aBlock223);
+    if (!didAddBlock223)
     {
-      throw new RuntimeException("Unable to create hallOfFameEntry due to user");
+      throw new RuntimeException("Unable to create entry due to block223");
     }
   }
 
@@ -50,9 +59,30 @@ public class HallOfFameEntry implements Comparable
     return wasSet;
   }
 
+  public boolean setPlayername(String aPlayername)
+  {
+    boolean wasSet = false;
+    playername = aPlayername;
+    wasSet = true;
+    return wasSet;
+  }
+
   public int getScore()
   {
     return score;
+  }
+
+  /**
+   * added here so that it only needs to be determined once
+   */
+  public String getPlayername()
+  {
+    return playername;
+  }
+  /* Code from template association_GetOne */
+  public Player getPlayer()
+  {
+    return player;
   }
   /* Code from template association_GetOne */
   public Game getGame()
@@ -60,9 +90,28 @@ public class HallOfFameEntry implements Comparable
     return game;
   }
   /* Code from template association_GetOne */
-  public User getUser()
+  public Block223 getBlock223()
   {
-    return user;
+    return block223;
+  }
+  /* Code from template association_SetOneToMany */
+  public boolean setPlayer(Player aPlayer)
+  {
+    boolean wasSet = false;
+    if (aPlayer == null)
+    {
+      return wasSet;
+    }
+
+    Player existingPlayer = player;
+    player = aPlayer;
+    if (existingPlayer != null && !existingPlayer.equals(aPlayer))
+    {
+      existingPlayer.removeHallOfFameEntry(this);
+    }
+    player.addHallOfFameEntry(this);
+    wasSet = true;
+    return wasSet;
   }
   /* Code from template association_SetOneToMany */
   public boolean setGame(Game aGame)
@@ -84,53 +133,63 @@ public class HallOfFameEntry implements Comparable
     return wasSet;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUser(User aUser)
+  public boolean setBlock223(Block223 aBlock223)
   {
     boolean wasSet = false;
-    if (aUser == null)
+    if (aBlock223 == null)
     {
       return wasSet;
     }
 
-    User existingUser = user;
-    user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
+    Block223 existingBlock223 = block223;
+    block223 = aBlock223;
+    if (existingBlock223 != null && !existingBlock223.equals(aBlock223))
     {
-      existingUser.removeHallOfFameEntry(this);
+      existingBlock223.removeEntry(this);
     }
-    user.addHallOfFameEntry(this);
+    block223.addEntry(this);
     wasSet = true;
     return wasSet;
   }
 
   public void delete()
   {
+    Player placeholderPlayer = player;
+    this.player = null;
+    if(placeholderPlayer != null)
+    {
+      placeholderPlayer.removeHallOfFameEntry(this);
+    }
     Game placeholderGame = game;
     this.game = null;
     if(placeholderGame != null)
     {
       placeholderGame.removeHallOfFameEntry(this);
     }
-    User placeholderUser = user;
-    this.user = null;
-    if(placeholderUser != null)
+    Block223 placeholderBlock223 = block223;
+    this.block223 = null;
+    if(placeholderBlock223 != null)
     {
-      placeholderUser.removeHallOfFameEntry(this);
+      placeholderBlock223.removeEntry(this);
     }
-  }
-
-  // line 53 "../../../../../Block223PlayGame.ump"
-   public int compareTo(Object aHallOfFameEntry){
-    HallOfFameEntry myHallOfFameEntry = (HallOfFameEntry)aHallOfFameEntry;
-        return toString().compareTo(myHallOfFameEntry.toString());
   }
 
 
   public String toString()
   {
     return super.toString() + "["+
-            "score" + ":" + getScore()+ "]" + System.getProperties().getProperty("line.separator") +
+            "score" + ":" + getScore()+ "," +
+            "playername" + ":" + getPlayername()+ "]" + System.getProperties().getProperty("line.separator") +
+            "  " + "player = "+(getPlayer()!=null?Integer.toHexString(System.identityHashCode(getPlayer())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "game = "+(getGame()!=null?Integer.toHexString(System.identityHashCode(getGame())):"null") + System.getProperties().getProperty("line.separator") +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
-  }
+            "  " + "block223 = "+(getBlock223()!=null?Integer.toHexString(System.identityHashCode(getBlock223())):"null");
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 111 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 6404159261985579849L ;
+
+  
 }

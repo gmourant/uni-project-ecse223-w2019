@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 52 "../../../../../Block223Persistence.ump"
+// line 48 "../../../../../Block223Persistence.ump"
 // line 13 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -25,8 +25,6 @@ public class User implements Serializable
 
   //User Associations
   private List<UserRole> roles;
-  private List<GameSession> gameSessions;
-  private List<HallOfFameEntry> hallOfFameEntries;
   private Block223 block223;
 
   //------------------------
@@ -50,8 +48,6 @@ public class User implements Serializable
     {
       throw new RuntimeException("Unable to create User, must have 1 to 2 roles");
     }
-    gameSessions = new ArrayList<GameSession>();
-    hallOfFameEntries = new ArrayList<HallOfFameEntry>();
     boolean didAddBlock223 = setBlock223(aBlock223);
     if (!didAddBlock223)
     {
@@ -126,66 +122,6 @@ public class User implements Serializable
   public int indexOfRole(UserRole aRole)
   {
     int index = roles.indexOf(aRole);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public GameSession getGameSession(int index)
-  {
-    GameSession aGameSession = gameSessions.get(index);
-    return aGameSession;
-  }
-
-  public List<GameSession> getGameSessions()
-  {
-    List<GameSession> newGameSessions = Collections.unmodifiableList(gameSessions);
-    return newGameSessions;
-  }
-
-  public int numberOfGameSessions()
-  {
-    int number = gameSessions.size();
-    return number;
-  }
-
-  public boolean hasGameSessions()
-  {
-    boolean has = gameSessions.size() > 0;
-    return has;
-  }
-
-  public int indexOfGameSession(GameSession aGameSession)
-  {
-    int index = gameSessions.indexOf(aGameSession);
-    return index;
-  }
-  /* Code from template association_GetMany */
-  public HallOfFameEntry getHallOfFameEntry(int index)
-  {
-    HallOfFameEntry aHallOfFameEntry = hallOfFameEntries.get(index);
-    return aHallOfFameEntry;
-  }
-
-  public List<HallOfFameEntry> getHallOfFameEntries()
-  {
-    List<HallOfFameEntry> newHallOfFameEntries = Collections.unmodifiableList(hallOfFameEntries);
-    return newHallOfFameEntries;
-  }
-
-  public int numberOfHallOfFameEntries()
-  {
-    int number = hallOfFameEntries.size();
-    return number;
-  }
-
-  public boolean hasHallOfFameEntries()
-  {
-    boolean has = hallOfFameEntries.size() > 0;
-    return has;
-  }
-
-  public int indexOfHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)
-  {
-    int index = hallOfFameEntries.indexOf(aHallOfFameEntry);
     return index;
   }
   /* Code from template association_GetOne */
@@ -289,150 +225,6 @@ public class User implements Serializable
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfGameSessions()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public GameSession addGameSession(boolean aOfTestMode, Game aGame, Block223 aBlock223, SpecificBall aSpecificBall, SpecificPaddle aSpecificPaddle)
-  {
-    return new GameSession(aOfTestMode, aGame, this, aBlock223, aSpecificBall, aSpecificPaddle);
-  }
-
-  public boolean addGameSession(GameSession aGameSession)
-  {
-    boolean wasAdded = false;
-    if (gameSessions.contains(aGameSession)) { return false; }
-    User existingUser = aGameSession.getUser();
-    boolean isNewUser = existingUser != null && !this.equals(existingUser);
-    if (isNewUser)
-    {
-      aGameSession.setUser(this);
-    }
-    else
-    {
-      gameSessions.add(aGameSession);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeGameSession(GameSession aGameSession)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aGameSession, as it must always have a user
-    if (!this.equals(aGameSession.getUser()))
-    {
-      gameSessions.remove(aGameSession);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addGameSessionAt(GameSession aGameSession, int index)
-  {  
-    boolean wasAdded = false;
-    if(addGameSession(aGameSession))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGameSessions()) { index = numberOfGameSessions() - 1; }
-      gameSessions.remove(aGameSession);
-      gameSessions.add(index, aGameSession);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveGameSessionAt(GameSession aGameSession, int index)
-  {
-    boolean wasAdded = false;
-    if(gameSessions.contains(aGameSession))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfGameSessions()) { index = numberOfGameSessions() - 1; }
-      gameSessions.remove(aGameSession);
-      gameSessions.add(index, aGameSession);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addGameSessionAt(aGameSession, index);
-    }
-    return wasAdded;
-  }
-  /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfHallOfFameEntries()
-  {
-    return 0;
-  }
-  /* Code from template association_AddManyToOne */
-  public HallOfFameEntry addHallOfFameEntry(int aScore, Game aGame)
-  {
-    return new HallOfFameEntry(aScore, aGame, this);
-  }
-
-  public boolean addHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)
-  {
-    boolean wasAdded = false;
-    if (hallOfFameEntries.contains(aHallOfFameEntry)) { return false; }
-    User existingUser = aHallOfFameEntry.getUser();
-    boolean isNewUser = existingUser != null && !this.equals(existingUser);
-    if (isNewUser)
-    {
-      aHallOfFameEntry.setUser(this);
-    }
-    else
-    {
-      hallOfFameEntries.add(aHallOfFameEntry);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
-
-  public boolean removeHallOfFameEntry(HallOfFameEntry aHallOfFameEntry)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aHallOfFameEntry, as it must always have a user
-    if (!this.equals(aHallOfFameEntry.getUser()))
-    {
-      hallOfFameEntries.remove(aHallOfFameEntry);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
-  /* Code from template association_AddIndexControlFunctions */
-  public boolean addHallOfFameEntryAt(HallOfFameEntry aHallOfFameEntry, int index)
-  {  
-    boolean wasAdded = false;
-    if(addHallOfFameEntry(aHallOfFameEntry))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfHallOfFameEntries()) { index = numberOfHallOfFameEntries() - 1; }
-      hallOfFameEntries.remove(aHallOfFameEntry);
-      hallOfFameEntries.add(index, aHallOfFameEntry);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
-
-  public boolean addOrMoveHallOfFameEntryAt(HallOfFameEntry aHallOfFameEntry, int index)
-  {
-    boolean wasAdded = false;
-    if(hallOfFameEntries.contains(aHallOfFameEntry))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfHallOfFameEntries()) { index = numberOfHallOfFameEntries() - 1; }
-      hallOfFameEntries.remove(aHallOfFameEntry);
-      hallOfFameEntries.add(index, aHallOfFameEntry);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addHallOfFameEntryAt(aHallOfFameEntry, index);
-    }
-    return wasAdded;
-  }
   /* Code from template association_SetOneToMany */
   public boolean setBlock223(Block223 aBlock223)
   {
@@ -457,16 +249,6 @@ public class User implements Serializable
   {
     usersByUsername.remove(getUsername());
     roles.clear();
-    for(int i=gameSessions.size(); i > 0; i--)
-    {
-      GameSession aGameSession = gameSessions.get(i - 1);
-      aGameSession.delete();
-    }
-    for(int i=hallOfFameEntries.size(); i > 0; i--)
-    {
-      HallOfFameEntry aHallOfFameEntry = hallOfFameEntries.get(i - 1);
-      aHallOfFameEntry.delete();
-    }
     Block223 placeholderBlock223 = block223;
     this.block223 = null;
     if(placeholderBlock223 != null)
@@ -475,7 +257,7 @@ public class User implements Serializable
     }
   }
 
-  // line 57 "../../../../../Block223Persistence.ump"
+  // line 53 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueUsername(List<User> users){
     usersByUsername = new HashMap<String, User>();
 	    for (User user : users) {
@@ -494,8 +276,8 @@ public class User implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 55 "../../../../../Block223Persistence.ump"
-  private static final long serialVersionUID = 5L ;
+  // line 51 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 4267485601061759914L ;
 
   
 }

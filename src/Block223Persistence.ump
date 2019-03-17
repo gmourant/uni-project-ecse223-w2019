@@ -1,15 +1,11 @@
 external interface Serializable {}
 
-class BlockAssignment {
-  depend java.io.Serializable;
-  isA Serializable;
-  private static final long serialVersionUID = 1L;
-}
-	
+// The reinitialize methods need to be added
+
 class Block223 {  
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 6181302407834705923L;
 	public void reinitialize() {
 		Game.reinitializeUniqueName(this.getGames());
 		User.reinitializeUniqueUsername(this.getUsers());
@@ -24,7 +20,7 @@ class Block223 {
 class Block {  
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 3L; 
+	private static final long serialVersionUID = 5332292624658907512L; 
 	
 	public static void reinitializeAutouniqueID(List<Block> blocks) {
     nextId = 0; 
@@ -40,7 +36,7 @@ class Block {
 class Game {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 4L;
+	private static final long serialVersionUID = -210105651472293481L;
 	public static void reinitializeUniqueName(List<Game> games) {
 	    gamesByName = new HashMap<String, Game>();
 	    for (Game game : games) {
@@ -52,7 +48,7 @@ class Game {
 class User {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 5L;
+	private static final long serialVersionUID = 4267485601061759914L;
 	public static void reinitializeUniqueUsername(List<User> users) {
 	    usersByUsername = new HashMap<String, User>();
 	    for (User user : users) {
@@ -61,38 +57,56 @@ class User {
   	}
 }
 
-class UserRole {
-	depend java.io.Serializable;
-	isA Serializable; 
-	private static final long serialVersionUID = 6L;
-}
-
 class Admin {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 7L;
+	private static final long serialVersionUID = 1959250384912895829L;
 }
 
 class Player {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 8L;
+	private static final long serialVersionUID = 4495546738870249064L;
+}
+
+class BlockAssignment {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = -6011556325373584641L;
 }
 
 class Level {
 	depend java.io.Serializable;
 	isA Serializable; 
-	private static final long serialVersionUID = 9L;
+	private static final long serialVersionUID = -7956760334392179806L;
 }
 
 class Paddle {
-	depend java.io.Serializable;
-	isA Serializable; 
-	private static final long serialVersionUID = 10L;
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 8062668971918939261L;
 }
 
 class Ball {
-	depend java.io.Serializable;
-	isA Serializable; 
-	private static final long serialVersionUID = 11L;
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 7342002601644000501L;
+}
+
+class PlayedGame {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 8597675110221231714L;
+}
+
+class PlayedBlockAssignment {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 939001747760934442L;
+}
+
+class HallOfFameEntry {
+  depend java.io.Serializable;
+  isA Serializable;
+  private static final long serialVersionUID = 6404159261985579849L;
 }
