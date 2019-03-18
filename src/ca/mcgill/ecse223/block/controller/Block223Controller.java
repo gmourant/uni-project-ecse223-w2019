@@ -33,9 +33,6 @@ public class Block223Controller {
         Block223 block223 = Block223Application.getBlock223();
         Admin admin = (Admin) Block223Application.getCurrentUserRole();
         
-        // Check for empty name
-        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
-        
         // Check for uniqueness of game name
         boolean unique = true;
         for (Game aGame : block223.getGames()) {
@@ -43,11 +40,12 @@ public class Block223Controller {
    	     		unique = false;
    	     	}
    	  	}
+        
         if (!unique) throw new InvalidInputException("The name of a game must be unique.");
         
         // Create then add game
-        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
         try {
+        	Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
             block223.addGame(game);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());

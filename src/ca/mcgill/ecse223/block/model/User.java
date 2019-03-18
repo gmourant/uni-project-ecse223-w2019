@@ -34,7 +34,7 @@ public class User implements Serializable
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
     // line 17 "../../../../../Block223.ump"
-    if(aUsername.equals("") || aUsername == null){
+    if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
        			throw new RuntimeException("The name of a game must be specified.");
        		}
     // END OF UMPLE BEFORE INJECTION
@@ -63,7 +63,7 @@ public class User implements Serializable
   {
     boolean wasSet = false;
     // line 17 "../../../../../Block223.ump"
-    if(aUsername.equals("") || aUsername == null){
+    if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
        			throw new RuntimeException("The name of a game must be specified.");
        		}
     // END OF UMPLE BEFORE INJECTION
