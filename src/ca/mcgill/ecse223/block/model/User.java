@@ -256,6 +256,11 @@ public class User implements Serializable
       placeholderBlock223.removeUser(this);
     }
   }
+  /*
+  public String findUsername(Player aPlayer) {
+	  int roleIndex = indexOfRole(aPlayer); // Find index of player
+	  
+  }*/
 
   // line 53 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueUsername(List<User> users){
