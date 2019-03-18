@@ -33,9 +33,9 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    // line 18 "../../../../../Block223.ump"
+    // line 17 "../../../../../Block223.ump"
     if(aUsername.equals("") || aUsername == null){
-       			throw new RuntimeException("The username has already been taken.");
+       			throw new RuntimeException("The name of a game must be specified.");
        		}
     // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
@@ -62,9 +62,9 @@ public class User implements Serializable
   public boolean setUsername(String aUsername)
   {
     boolean wasSet = false;
-    // line 18 "../../../../../Block223.ump"
+    // line 17 "../../../../../Block223.ump"
     if(aUsername.equals("") || aUsername == null){
-       			throw new RuntimeException("The username has already been taken.");
+       			throw new RuntimeException("The name of a game must be specified.");
        		}
     // END OF UMPLE BEFORE INJECTION
     String anOldUsername = getUsername();
@@ -256,11 +256,6 @@ public class User implements Serializable
       placeholderBlock223.removeUser(this);
     }
   }
-  /*
-  public String findUsername(Player aPlayer) {
-	  int roleIndex = indexOfRole(aPlayer); // Find index of player
-	  
-  }*/
 
   // line 53 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueUsername(List<User> users){
