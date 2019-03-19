@@ -909,11 +909,46 @@ public class Block223Controller {
       
     }
     
+  /**
+  * @author Imane Chafi
+  * @return A TOPlayableGame with the list of playable games
+  * @throws InvalidInputException If the user is not a player
+ 	 */
     // Play mode query methods
 
  	public static List<TOPlayableGame> getPlayableGames() throws InvalidInputException {
- 	}
+ 		
+ 		if (!(Block223Application.getCurrentUserRole() instanceof Player)) {
+            throw new InvalidInputException("Player privileges are required to play a game.");
+        }
+ 		
+ 		Block223 block223 = Block223Application.getBlock223();
+ 		 Player player = (Player) Block223Application.getCurrentUserRole();
+ 		 List<TOPlayableGame> result = new ArrayList<TOPlayableGame>();//Check implementation
+ 		 List<Game> games = block223.getGames();
+ 		 
+         for (Game game : games) {
 
+             boolean published = game.isPublished();
+             if (published) {
+                 TOPlayableGame to = new TOPlayableGame(game.getName(), -1, 0);
+             
+                 result.add(to);
+             }
+         }
+         
+       List<PlayedGame> playedGames =  player.getPlayedGames();//I renamed this variable for the played games
+       
+       for (PlayedGame game : playedGames) {
+
+          TOPlayableGame to = new TOPlayableGame(game.getGame().getName(), game.getId(), game.getCurrentLevel());
+          result.add(to);
+          
+       }
+       
+       return result;  
+     }
+ 		
  	public static List<TOCurrentlyPlayedGame> getCurrentPlayableGame() throws InvalidInputException {
  	}
 
@@ -928,7 +963,7 @@ public class Block223Controller {
  	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
- 			InvalidInputException("Player privileges are required to access a game�s hall of fame.");
+ 			InvalidInputException("Player privileges are required to access a games hall of fame.");
  		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
  		Game game = pgame.getGame(); // From current played game, get game
@@ -958,7 +993,7 @@ public class Block223Controller {
  	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
-			InvalidInputException("Player privileges are required to access a game�s hall of fame.");
+			InvalidInputException("Player privileges are required to access a games hall of fame.");
 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
 		Game game = pgame.getGame(); // From current played game, get game
@@ -988,7 +1023,7 @@ public class Block223Controller {
     // Private Helper Methods
     // ****************************
     /**
-     * This method does what Umple's Game.getWithName(…) method would do if it
+     * This method does what Umple's Game.getWithName(â¦) method would do if it
      * worked properly aka get the game using the name. 
 	 * @author Kelly Ma
 	 * @author Georges Mourant
