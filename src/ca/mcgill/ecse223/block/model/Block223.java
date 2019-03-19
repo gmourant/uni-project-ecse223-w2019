@@ -598,6 +598,14 @@ public class Block223 implements Serializable
 		}
 		Block.reinitializeAutouniqueID(blocks);
   }
+
+  // line 14 "../../../../../Block223.ump"
+   public PlayedGame findPlayableGame(int id){
+    for (PlayedGame playedGame : playedGames) {
+			if (playedGame.getId() == id) return playedGame;
+		}
+   return null;
+  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS

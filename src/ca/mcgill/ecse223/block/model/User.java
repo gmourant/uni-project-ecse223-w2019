@@ -7,7 +7,7 @@ import java.util.Map.Entry;
 import java.util.*;
 
 // line 48 "../../../../../Block223Persistence.ump"
-// line 15 "../../../../../Block223.ump"
+// line 21 "../../../../../Block223.ump"
 public class User implements Serializable
 {
 
@@ -34,7 +34,7 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    // line 20 "../../../../../Block223.ump"
+    // line 26 "../../../../../Block223.ump"
     if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
        			throw new RuntimeException("The name of a game must be specified.");
        		}
@@ -63,7 +63,7 @@ public class User implements Serializable
   public boolean setUsername(String aUsername)
   {
     boolean wasSet = false;
-    // line 20 "../../../../../Block223.ump"
+    // line 26 "../../../../../Block223.ump"
     if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
        			throw new RuntimeException("The name of a game must be specified.");
        		}
@@ -266,7 +266,7 @@ public class User implements Serializable
     	}
   }
 
-  // line 25 "../../../../../Block223.ump"
+  // line 31 "../../../../../Block223.ump"
    public static  String findUsername(UserRole player){
     Iterator<Entry<String, User>> it = usersByUsername.entrySet().iterator(); // Set an iterator to the hash map
 		while (it.hasNext()) {

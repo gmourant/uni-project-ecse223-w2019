@@ -10,6 +10,12 @@ class Block223 {
    1 <@>- * User users;
    1 <@>- * UserRole roles;
    1 <@>- * Game games;
+   public PlayedGame findPlayableGame(int id) {
+		for (PlayedGame playedGame : playedGames) {
+			if (playedGame.getId() == id) return playedGame;
+		}
+   return null;
+   }
 }
 
 class User {
