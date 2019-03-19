@@ -10,7 +10,7 @@ import java.util.*;
  */
 // line 5 "../../../../../Block223Persistence.ump"
 // line 1 "../../../../../Block223PlayMode.ump"
-// line 7 "../../../../../Block223.ump"
+// line 9 "../../../../../Block223.ump"
 public class Block223 implements Serializable
 {
 

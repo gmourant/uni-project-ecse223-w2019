@@ -33,9 +33,6 @@ public class Block223Controller {
         Block223 block223 = Block223Application.getBlock223();
         Admin admin = (Admin) Block223Application.getCurrentUserRole();
         
-        // Check for empty name
-        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
-        
         // Check for uniqueness of game name
         boolean unique = true;
         for (Game aGame : block223.getGames()) {
@@ -43,11 +40,12 @@ public class Block223Controller {
    	     		unique = false;
    	     	}
    	  	}
+        
         if (!unique) throw new InvalidInputException("The name of a game must be unique.");
         
         // Create then add game
-        Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
         try {
+        	Game game = new Game(name, 1, admin, 1, 1, 1, 10, 10, block223);
             block223.addGame(game);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
@@ -919,10 +917,71 @@ public class Block223Controller {
  	public static List<TOCurrentlyPlayedGame> getCurrentPlayableGame() throws InvalidInputException {
  	}
 
+ 	/**
+ 	 * @author Kelly Ma
+ 	 * @param start The first index of entries to be viewed
+ 	 * @param end The last index of entries to be viewed
+ 	 * @return A TOHallOfFame with HallOfFameEntries
+ 	 * @throws InvalidInputException If the user is not a player
+ 	 * @throws InvalidInputException If a game is not selected 
+ 	 */
  	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
+ 		
+ 		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
+ 			InvalidInputException("Player privileges are required to access a game’s hall of fame.");
+ 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+ 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
+ 		Game game = pgame.getGame(); // From current played game, get game
+ 		TOHallOfFame result = new TOHallOfFame(game.getName()); // Create the HOF with name of the current game
+ 		
+ 		if (start < 1) start = 1;
+ 		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries();
+ 		start--; // resets index to 0
+ 		end--;
+ 		
+ 		for (int i = start; i <= end; i++) {
+ 			String username = findUsername(game.getHallOfFameEntry(i).getPlayer()); // Uses method that finds username
+ 			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
+ 			result.addEntry(to);
+ 		}
+ 		
+ 		return result; // Returns HOF as an object
  	}
 
+ 	/**
+ 	 * @author Kelly Ma
+ 	 * @param numberOfEntries The number of entries the user would like to view
+ 	 * @return A TOHallOfFame with HallOfFameEntries
+ 	 * @throws InvalidInputException If the user is not a player
+ 	 * @throws InvalidInputException If a game is not selected 
+ 	 */
  	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
+ 		
+ 		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
+			InvalidInputException("Player privileges are required to access a game’s hall of fame.");
+		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
+		Game game = pgame.getGame(); // From current played game, get game
+		TOHallOfFame result = new TOHallOfFame(game.getName()); // Create the HOF with name of the current game
+		
+		HallOfFameEntry mostRecent = pgame.getMostRecentEntry();
+		int index = pgame.indexOfHallOfFameEntry();
+		
+		int start = index - numberOfEntries/2;
+		int end = start + numberOfEntries - 1;
+		if (start < 1) start = 1;
+		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries();
+		start--;
+		end--;
+		
+		for (int i = start; i <= end; i++) {
+			String username = findUsername(game.getHallOfFameEntry(index).getPlayer());
+ 			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
+ 			result.addEntry(to);
+		}
+ 		
+ 		return result; // Returns HOF as an object
+		
  	}
 
     // ****************************
