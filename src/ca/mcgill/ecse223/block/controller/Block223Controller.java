@@ -975,7 +975,7 @@ public class Block223Controller {
  		end--;
  		
  		for (int i = start; i <= end; i++) {
- 			String username = findUsername(game.getHallOfFameEntry(i).getPlayer()); // Uses method that finds username
+ 			String username = User.findUsername(game.getHallOfFameEntry(i).getPlayer()); // Uses method that finds username
  			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
  			result.addEntry(to);
  		}
@@ -999,7 +999,7 @@ public class Block223Controller {
 		Game game = pgame.getGame(); // From current played game, get game
 		TOHallOfFame result = new TOHallOfFame(game.getName()); // Create the HOF with name of the current game
 		
-		HallOfFameEntry mostRecent = pgame.getMostRecentEntry();
+		HallOfFameEntry mostRecentEntry = pgame.getMostRecentEntry(); // Obtain mostRecentEntry for the game being played
 		int index = pgame.indexOfHallOfFameEntry();
 		
 		int start = index - numberOfEntries/2;
@@ -1010,7 +1010,7 @@ public class Block223Controller {
 		end--;
 		
 		for (int i = start; i <= end; i++) {
-			String username = findUsername(game.getHallOfFameEntry(index).getPlayer());
+			String username = User.findUsername(game.getHallOfFameEntry(index).getPlayer()); // 
  			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
  			result.addEntry(to);
 		}

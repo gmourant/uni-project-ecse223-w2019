@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 84 "../../../../../Block223Persistence.ump"
-// line 128 "../../../../../Block223.ump"
+// line 85 "../../../../../Block223Persistence.ump"
+// line 134 "../../../../../Block223.ump"
 public class Paddle implements Serializable
 {
 
@@ -57,7 +57,7 @@ public class Paddle implements Serializable
   public boolean setMaxPaddleLength(int aMaxPaddleLength)
   {
     boolean wasSet = false;
-    // line 133 "../../../../../Block223.ump"
+    // line 139 "../../../../../Block223.ump"
     if (aMaxPaddleLength > 390 || aMaxPaddleLength <= 0) throw new RuntimeException("The maximum length of the paddle must be greater than zero and less than or equal to 390.");
     // END OF UMPLE BEFORE INJECTION
     maxPaddleLength = aMaxPaddleLength;
@@ -68,7 +68,7 @@ public class Paddle implements Serializable
   public boolean setMinPaddleLength(int aMinPaddleLength)
   {
     boolean wasSet = false;
-    // line 137 "../../../../../Block223.ump"
+    // line 143 "../../../../../Block223.ump"
     if (aMinPaddleLength <= 0) throw new RuntimeException("The minimum length of the paddle must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     minPaddleLength = aMinPaddleLength;
@@ -113,7 +113,7 @@ public class Paddle implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 87 "../../../../../Block223Persistence.ump"
+  // line 88 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 8062668971918939261L ;
 
   

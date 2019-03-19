@@ -5,8 +5,8 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 96 "../../../../../Block223Persistence.ump"
-// line 14 "../../../../../Block223PlayMode.ump"
+// line 97 "../../../../../Block223Persistence.ump"
+// line 17 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -686,6 +686,26 @@ public class PlayedGame implements Serializable
     }
   }
 
+  // line 52 "../../../../../Block223PlayMode.ump"
+   public HallOfFameEntry getMostRecentEntry(){
+    // Returns a game's most recent HallOfFameEntry
+		// Obtain game associated with this PlayedGame
+		return this.getGame().getMostRecentEntry();
+  }
+
+  // line 57 "../../../../../Block223PlayMode.ump"
+   public int indexOfHallOfFameEntry(){
+    // Returns the index of a game's mostRecentEntry
+		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry
+		List<HallOfFameEntry> entries = this.getGame().getHallOfFameEntries(); // Get list of all entries
+		int index = 0; // Start index at 0
+		for (HallOfFameEntry entry : entries) {
+			if (entry == mostRecentEntry) break; // Break if mostRecentEntry is found
+			index++; // Increase index after each iteration of loop
+		}
+		return index; // Return index of most recent entry
+  }
+
 
   /**
    * Guards
@@ -797,7 +817,7 @@ public class PlayedGame implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 99 "../../../../../Block223Persistence.ump"
+  // line 100 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 8597675110221231714L ;
 
   

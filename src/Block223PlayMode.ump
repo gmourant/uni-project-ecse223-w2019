@@ -5,6 +5,9 @@ class Block223 {
 
 class Game {
    lazy Boolean published; // Cannot edit a published game
+   after addHallOfFameEntry {
+   		mostRecentEntry = aHallOfFameEntry; // Sets the newest entry as the mostRecentEntry
+   }
 	before setPublished {
 		if (published) return wasSet;
 	}
@@ -45,6 +48,22 @@ class PlayedGame {
    * -- 1 Game game;
    1 <@>- * PlayedBlockAssignment blocks;
    0..1 -> 0..1 BouncePoint bounce;
+   
+   public HallOfFameEntry getMostRecentEntry() { // Returns a game's most recent HallOfFameEntry
+		// Obtain game associated with this PlayedGame
+		return this.getGame().getMostRecentEntry();
+   }
+   
+   public int indexOfHallOfFameEntry() { // Returns the index of a game's mostRecentEntry
+		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry
+		List<HallOfFameEntry> entries = this.getGame().getHallOfFameEntries(); // Get list of all entries
+		int index = 0; // Start index at 0
+		for (HallOfFameEntry entry : entries) {
+			if (entry == mostRecentEntry) break; // Break if mostRecentEntry is found
+			index++; // Increase index after each iteration of loop
+		}
+		return index; // Return index of most recent entry
+	}
 }
 
 class PlayedBlockAssignment {

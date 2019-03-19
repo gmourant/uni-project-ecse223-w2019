@@ -7,7 +7,7 @@ import java.util.*;
 
 // line 36 "../../../../../Block223Persistence.ump"
 // line 6 "../../../../../Block223PlayMode.ump"
-// line 56 "../../../../../Block223.ump"
+// line 62 "../../../../../Block223.ump"
 public class Game implements Serializable
 {
 
@@ -60,7 +60,7 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223)
   {
-    // line 66 "../../../../../Block223.ump"
+    // line 72 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
     // END OF UMPLE BEFORE INJECTION
     published = false;
@@ -107,7 +107,7 @@ public class Game implements Serializable
 
   public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall, double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle, Block223 aBlock223)
   {
-    // line 66 "../../../../../Block223.ump"
+    // line 72 "../../../../../Block223.ump"
     if (aName == null) throw new RuntimeException("The name of a game must be specified.");
     // END OF UMPLE BEFORE INJECTION
     published = false;
@@ -148,7 +148,7 @@ public class Game implements Serializable
   public boolean setPublished(boolean aPublished)
   {
     boolean wasSet = false;
-    // line 9 "../../../../../Block223PlayMode.ump"
+    // line 12 "../../../../../Block223PlayMode.ump"
     if (published) return wasSet;
     // END OF UMPLE BEFORE INJECTION
     published = aPublished;
@@ -175,7 +175,7 @@ public class Game implements Serializable
   public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel)
   {
     boolean wasSet = false;
-    // line 70 "../../../../../Block223.ump"
+    // line 76 "../../../../../Block223.ump"
     if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
@@ -786,6 +786,9 @@ public class Game implements Serializable
       hallOfFameEntries.add(aHallOfFameEntry);
     }
     wasAdded = true;
+    // line 9 "../../../../../Block223PlayMode.ump"
+    mostRecentEntry = aHallOfFameEntry; // Sets the newest entry as the mostRecentEntry
+    // END OF UMPLE AFTER INJECTION
     if(wasAdded)
         Collections.sort(hallOfFameEntries, hallOfFameEntriesPriority);
     
