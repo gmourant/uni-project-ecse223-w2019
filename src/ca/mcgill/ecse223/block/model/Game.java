@@ -148,7 +148,7 @@ public class Game implements Serializable
   public boolean setPublished(boolean aPublished)
   {
     boolean wasSet = false;
-    // line 9 "../../../../../Block223PlayMode.ump"
+    // line 12 "../../../../../Block223PlayMode.ump"
     if (published) return wasSet;
     // END OF UMPLE BEFORE INJECTION
     published = aPublished;
@@ -786,6 +786,9 @@ public class Game implements Serializable
       hallOfFameEntries.add(aHallOfFameEntry);
     }
     wasAdded = true;
+    // line 9 "../../../../../Block223PlayMode.ump"
+    mostRecentEntry = aHallOfFameEntry; // Sets the newest entry as the mostRecentEntry
+    // END OF UMPLE AFTER INJECTION
     if(wasAdded)
         Collections.sort(hallOfFameEntries, hallOfFameEntriesPriority);
     
