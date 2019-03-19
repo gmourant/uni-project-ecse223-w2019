@@ -942,6 +942,7 @@ public class Block223Controller {
  		for (int i = start; i <= end; i++) {
  			String username = findUsername(game.getHallOfFameEntry(i).getPlayer()); // Uses method that finds username
  			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
+ 			result.addEntry(to);
  		}
  		
  		return result; // Returns HOF as an object
@@ -974,9 +975,10 @@ public class Block223Controller {
 		end--;
 		
 		for (int i = start; i <= end; i++) {
- 			String username = findUsername(game.getHallOfFameEntry(i).getPlayer()); // Uses method that finds username
+			String username = findUsername(game.getHallOfFameEntry(index).getPlayer());
  			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
- 		}
+ 			result.addEntry(to);
+		}
  		
  		return result; // Returns HOF as an object
 		

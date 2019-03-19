@@ -3,10 +3,11 @@
 
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
+import java.util.Map.Entry;
 import java.util.*;
 
 // line 48 "../../../../../Block223Persistence.ump"
-// line 13 "../../../../../Block223.ump"
+// line 15 "../../../../../Block223.ump"
 public class User implements Serializable
 {
 
@@ -33,7 +34,7 @@ public class User implements Serializable
 
   public User(String aUsername, Block223 aBlock223, UserRole... allRoles)
   {
-    // line 17 "../../../../../Block223.ump"
+    // line 20 "../../../../../Block223.ump"
     if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
        			throw new RuntimeException("The name of a game must be specified.");
        		}
@@ -62,7 +63,7 @@ public class User implements Serializable
   public boolean setUsername(String aUsername)
   {
     boolean wasSet = false;
-    // line 17 "../../../../../Block223.ump"
+    // line 20 "../../../../../Block223.ump"
     if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
        			throw new RuntimeException("The name of a game must be specified.");
        		}
@@ -263,6 +264,19 @@ public class User implements Serializable
 	    for (User user : users) {
 	      	usersByUsername.put(user.getUsername(), user);
     	}
+  }
+
+  // line 25 "../../../../../Block223.ump"
+   public static  String findUsername(UserRole player){
+    Iterator<Entry<String, User>> it = usersByUsername.entrySet().iterator(); // Set an iterator to the hash map
+		while (it.hasNext()) {
+			User nextUser = (User)it.next(); // Obtain the next user in the hash map
+			List<UserRole> userRoles = nextUser.getRoles(); // Obtain the user's list of roles
+			if (userRoles.contains(player)) { // Check if the inserted player is the same role as one in the list of userRoles
+				return nextUser.getUsername(); // Return username if a match is found
+			}
+		}
+		return null;
   }
 
 

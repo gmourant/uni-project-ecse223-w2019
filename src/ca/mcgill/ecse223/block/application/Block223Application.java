@@ -7,7 +7,6 @@ import ca.mcgill.ecse223.block.view.Block223MainPage;
 public class Block223Application {
 
     private static Block223 block223;
-    //private static User currentUser;
     private static UserRole currentUserRole;
     private static Game currentGame;
     private static PlayedGame currentPlayedGame;
@@ -35,15 +34,6 @@ public class Block223Application {
         }
         return block223;
     }
-    /*
-    public static void setCurrentUser(User aUser){
-        currentUser = aUser;
-    }
-    
-    public static User getCurrentUser(){
-        return currentUser;
-    }
-    */
     
     public static void setCurrentUserRole(UserRole aUserRole){
         currentUserRole = aUserRole;

@@ -1,3 +1,5 @@
+external interface Map {}
+
 namespace ca.mcgill.ecse223.block.model;
 
 use Block223Persistence.ump;
@@ -11,6 +13,7 @@ class Block223 {
 }
 
 class User {
+   depend java.util.Map.Entry;
    unique username;
    1 -> 1..2 UserRole roles;
    before constructor, setUsername{
@@ -18,7 +21,17 @@ class User {
    			throw new RuntimeException("The name of a game must be specified.");
    		}	
    }
-   
+   public static String findUsername(UserRole player) {
+		Iterator<Entry<String, User>> it = usersByUsername.entrySet().iterator(); // Set an iterator to the hash map
+		while (it.hasNext()) {
+			User nextUser = (User)it.next(); // Obtain the next user in the hash map
+			List<UserRole> userRoles = nextUser.getRoles(); // Obtain the user's list of roles
+			if (userRoles.contains(player)) { // Check if the inserted player is the same role as one in the list of userRoles
+				return nextUser.getUsername(); // Return username if a match is found
+			}
+		}
+		return null;
+	}
 }
 
 class UserRole {
