@@ -725,9 +725,43 @@ public class Block223Controller {
 
 	}
 	
+
+	/**
+	  * @author Imane Chafi
+	  * @param name of the playable game
+	  * @param id of the playable game
+	  * @throws InvalidInputException If the user is not a player
+	 	 */
 	// Play mode controller methods
 
 	public static void selectPlayableGame(String name, int id) throws InvalidInputException  {
+		
+		if(!(Block223Application.getCurrentUserRole() instanceof Player)) {
+			throw new InvalidInputException("Player privileges are required to play a game.");
+		}	
+	Game game = findGame(name);
+	Block223 block223 = Block223Application.getBlock223();
+	PlayedGame pgame;
+	
+	if(game != null) {
+		Player player = (Player) Block223Application.getCurrentUserRole();
+		String username = User.findUsername(player);
+		
+		PlayedGame result = new PlayedGame(username, game, block223);
+		pgame = result;
+		pgame.setPlayer(player);
+	}
+	else {
+		pgame = block223.findPlayableGame(id);
+		
+	}
+	if((game == null) && (pgame == null))
+		throw new InvalidInputException("The game does not exist");
+	
+	if((game == null) && (Block223Application.getCurrentUserRole() != pgame.getPlayer()))
+		throw new InvalidInputException("Only the player that started a game can continue the game");
+	
+	Block223Application.setCurrentPlayedGame(pgame);
 	}
 
 	public static void startGame(Block223PlayModeInterface ui) throws InvalidInputException {
