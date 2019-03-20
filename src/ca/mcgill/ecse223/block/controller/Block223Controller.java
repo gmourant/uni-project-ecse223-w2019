@@ -730,7 +730,9 @@ public class Block223Controller {
 	  * @author Imane Chafi
 	  * @param name of the playable game
 	  * @param id of the playable game
-	  * @throws InvalidInputException If the user is not a player
+	  * @throws InvalidInputException If the user is not a player.
+	  * @throws InvalidInputException If the game does not exist.
+	  * @throws InvalidInputException If the player is not the one who started the game.
 	 	 */
 	// Play mode controller methods
 
@@ -756,10 +758,10 @@ public class Block223Controller {
 		
 	}
 	if((game == null) && (pgame == null))
-		throw new InvalidInputException("The game does not exist");
+		throw new InvalidInputException("The game does not exist.");
 	
 	if((game == null) && (Block223Application.getCurrentUserRole() != pgame.getPlayer()))
-		throw new InvalidInputException("Only the player that started a game can continue the game");
+		throw new InvalidInputException("Only the player that started a game can continue the game.");
 	
 	Block223Application.setCurrentPlayedGame(pgame);
 	}
