@@ -44,18 +44,45 @@ class PlayedGame {
   }
   
   private boolean hitLastBlockAndLastLevel() {
-    // TODO implement
+    Game game = getGame();
+    int nrLevels = game.numberOfLevels();
+    setBounce(null);
+    if (nrLevels == currentLevel) {
+        int nrBlocks = numberOfBlocks();
+        if (nrBlocks == 1) {
+            PlayedBlockAssignment block = getBlock(0);
+            BouncePoint bp = calculateBouncePointBlock(block);
+            setBounce(bp);
+            return true;
+        }
+    }
     return false;
   }
   
   private boolean hitLastBlock(){
-    // TODO implement
+    int nrBlocks = numberOfBlocks();
+    setBounce(null);
+    if (nrBlocks == 1) {
+        PlayedBlockAssignment block = getBlock(0);
+        BouncePoint bp = calculateBouncePointBlock(block);
+        setBounce(bp);
+        return true;
+    }
     return false;
   }
   
   private boolean hitBlock() {
-    // TODO implement
-    return false;
+    int nrBlocks = numberOfBlocks();
+    setBounce(null);
+    for (int i = 0; i <= (nrBlocks - 1); i++) {
+        PlayedBlockAssignment block = getBlock(i);
+        BouncePoint bp = calculateBouncePointBlock(block);
+        bounce = getBounce();
+        boolean closer = isCloser(bp, bounce);
+        if (closer)
+            setBounce(bp);
+    }
+    return (getBounce() != null);
   }
   
   private boolean hitWall() {
@@ -78,10 +105,36 @@ class PlayedGame {
   }
 
   private void doHitBlock() {
-    // TODO implement
+    int score = getScore();
+    BouncePoint bounce = getBounce();
+    PlayedBlockAssignment pblock = bounce.getHitBlock();
+    Block block = pblock.getBlock();
+    int bscore = block.getPoints();
+    setScore(score + bscore);
+    pblock.delete();
+    bounceBall();
   }
 
   private void doHitBlockNextLevel() {
+    doHitBlock();
+    int level = getCurrentLevel();
+    setCurrentLevel(level + 1);
+    Paddle paddle = getGame().getPaddle();
+    int length = paddle.getMaxPaddleLength() 
+            - (paddle.getMaxPaddleLength() - paddle.getMinPaddleLength())
+            / (getGame().numberOfLevels() - 1) 
+            * (getCurrentLevel() - 1);
+    setCurrentPaddleLength(length);
+    setWaitTime(INITIAL_WAIT_TIME 
+            * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
+            (getCurrentLevel() - 1)));
+  }
+  
+  private BouncePoint calculateBouncePointBlock() {
+    // TODO implement
+  }
+  
+  private boolean isCloser(BouncePoint pointA, BouncePoint pointB) {
     // TODO implement
   }
 
