@@ -8,6 +8,9 @@ import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
 import javax.management.RuntimeErrorException;
+import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
+import ca.mcgill.ecse223.block.model.PlayedGame.PlayStatus;
+
 
 public class Block223Controller {
 
@@ -1113,6 +1116,14 @@ public class Block223Controller {
     // ****************************
     // Private Helper Methods
     // ****************************
+	/*** This method moves the paddle for each r in userInput before a space.
+	 * @author Imane Chafi
+	 * @param String userInput
+     */
+ 	private static void updatePaddlePosition(String userInputs) {
+		// TODO Auto-generated method stub
+		
+	}
     /**
      * This method does what Umple's Game.getWithName(â¦) method would do if it
      * worked properly aka get the game using the name. 
