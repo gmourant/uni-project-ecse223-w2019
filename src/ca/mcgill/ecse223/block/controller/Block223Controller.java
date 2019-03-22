@@ -766,7 +766,62 @@ public class Block223Controller {
 	Block223Application.setCurrentPlayedGame(pgame);
 	}
 
+	/** StartGame method
+	  * @author Imane Chafi
+	  * @param Block223PlayModeInterface ui
+	  * @throws InvalidInputException If the user is not a player
+	 	 */
 	public static void startGame(Block223PlayModeInterface ui) throws InvalidInputException {
+	
+		if ((Block223Application.getCurrentUserRole() == null)) {
+            throw new InvalidInputException("Player privileges are required to play a game.");
+        }
+		if ((Block223Application.getCurrentPlayedGame() == null)) {
+            throw new InvalidInputException("A game must be selected to play it.");
+        }
+		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentPlayedGame().getPlayer() !=null)) {
+            throw new InvalidInputException("Player privileges are required to play a game.");
+        }
+		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {//Check for the admin of the function
+            throw new InvalidInputException("Only the admin of a game can test the game.");
+        }
+		if ((Block223Application.getCurrentUserRole() instanceof Player) && (Block223Application.getCurrentPlayedGame().getPlayer() == null)) {
+            throw new InvalidInputException("Admin privileges are required to test a game.");
+        }
+		
+	PlayedGame game = Block223Application.getCurrentPlayedGame();
+	game.play();
+	ui.takeInputs(); //Method to be implemented, ask why they need to be static.
+	
+	if(game.getPlayStatus() == PlayStatus.Moving) {
+		String userInputs = ui.takeInputs(); 
+		Block223Controller.updatePaddlePosition(userInputs); 
+		game.move();
+		
+		if(userInputs.contains(""))
+			game.pause();
+		
+		//Waiting time for game.getWaitTime
+		try
+		{
+		    Thread.sleep((long)game.getWaitTime());
+		}
+		catch(InterruptedException ex)
+		{
+		    Thread.currentThread().interrupt();
+		}
+		ui.refresh();
+	}
+	if(game.getPlayStatus() == PlayStatus.GameOver) {
+		Block223Application.setCurrentPlayedGame(null);
+	}
+	else if(game.getPlayer()!= null) {
+		Block223 block223 = Block223Application.getBlock223();
+		
+		Block223Persistence.save(block223);
+	}
+		
+	
 	}
 
 	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
