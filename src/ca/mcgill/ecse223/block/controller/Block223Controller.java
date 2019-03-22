@@ -1130,7 +1130,7 @@ public class Block223Controller {
 			}
 		}
 		
-		// Throw an exception if the id is invalid.
+		// Throw an exception if the block is not found.
 		if (result == null) {
 			throw new InvalidInputException("The block does not exist.");
 		}
