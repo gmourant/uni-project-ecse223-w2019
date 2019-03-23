@@ -1065,7 +1065,10 @@ public class Block223Controller {
  		if (currentUserRole instanceof Admin && currentUserRole != gameAdmin) throw new // Verifies the current admin is the one who created the game
 			InvalidInputException("Only the admin of a game can test the game.");
 		
- 		
+ 		if (currentUserRole instanceof Player && currentPlayer == null) throw new // Verifies the current admin is the one who created the game
+ 			InvalidInputException("Admin privileges are required to test a game.");
+	
+		
  		
  	}
 
