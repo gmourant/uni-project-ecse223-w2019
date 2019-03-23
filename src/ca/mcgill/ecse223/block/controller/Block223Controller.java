@@ -1045,8 +1045,12 @@ public class Block223Controller {
  	
  	/**
  	 * @author Kelly Ma
- 	 * @return
- 	 * @throws InvalidInputException
+ 	 * @return A transfer object containing all information for a currently played game
+ 	 * @throws InvalidInputException If the UserRole is not set
+ 	 * @throws InvalidInputException If a PlayedGame is not selected
+ 	 * @throws InvalidInputException If the currentUserRole is an AdminRole, but the currentPlayer is a PlayerRole
+ 	 * @throws InvalidInputException If the currentAdmin is the not the game's admin
+ 	 * @throws InvalidInputException If the currentUserRole is a player, but the player is not set
  	 */
  	public static TOCurrentlyPlayedGame getCurrentPlayableGame() throws InvalidInputException {
  		
@@ -1074,8 +1078,14 @@ public class Block223Controller {
  				pgame.getCurrentLevel(), pgame.getPlayername(), pgame.getCurrentBallX(), pgame.getCurrentBallY(), 
  				pgame.getCurrentPaddleLength(), pgame.getCurrentPaddleX());
  		
+ 		List <PlayedBlockAssignment> blocks = pgame.getBlocks(); // Obtain all block assignments from playedGame
  		
+ 		for (PlayedBlockAssignment pblock : blocks) { // Add each pblock to result via transfer object
+ 			new TOCurrentBlock(pblock.getBlock().getRed(), pblock.getBlock().getGreen(), pblock.getBlock().getBlue(),
+ 					pblock.getBlock().getPoints(), pblock.getX(), pblock.getY(), result);
+ 		}
  		
+ 		return result;
  	}
 
  	/**
