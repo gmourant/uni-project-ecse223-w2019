@@ -1115,14 +1115,35 @@ public class Block223Controller {
     // ****************************
     // Private Helper Methods
     // ****************************
-	/*** This method moves the paddle for each r in userInput before a space.
+ 	
+ 	/**
+	 * This method moves the paddle one pixel to the left or right
+	 * @author Kelly Ma
 	 * @author Imane Chafi
-	 * @param String userInput
-     */
- 	private static void updatePaddlePosition(String userInputs) {
-		// TODO Auto-generated method stub
+	 * @param direction Describes left, right, or pause
+	 * Assume that all other checks are performed in the controller method that uses updatePaddlePosition
+	 */
+	private static void updatePaddlePosition(String direction) {
 		
+		PlayedGame playedGame = Block223Application.getCurrentPlayedGame(); // Obtain the current playedGame
+		double currentPaddleLength = playedGame.getCurrentPaddleLength(); // Obtain current paddle length
+		double currentPaddleX = playedGame.getCurrentPaddleX(); // Current X-Position of paddle
+		
+		switch(direction) {
+			case "l": // Represents moving left
+				if (currentPaddleX - currentPaddleLength == 0) playedGame.setCurrentPaddleX(currentPaddleX); // Paddle already at leftmost side
+				else playedGame.setCurrentPaddleX(--currentPaddleX); // Otherwise, increment paddle position 1 unit to the left
+				break;
+			case "r": // Represents moving right
+				if (currentPaddleX == 390) playedGame.setCurrentPaddleX(currentPaddleX); // Paddle already at rightmost side
+				else playedGame.setCurrentPaddleX(++currentPaddleX); // Otherwise, increment paddle position by 1 unit to the right
+				break;
+			case "s": // Represents pausing the game
+				break;
+			default:
+		}
 	}
+ 	
     /**
      * This method does what Umple's Game.getWithName(â¦) method would do if it
      * worked properly aka get the game using the name. 
