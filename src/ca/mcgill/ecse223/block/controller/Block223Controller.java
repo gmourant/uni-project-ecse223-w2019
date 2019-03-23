@@ -1139,6 +1139,7 @@ public class Block223Controller {
 				else playedGame.setCurrentPaddleX(++currentPaddleX); // Otherwise, increment paddle position by 1 unit to the right
 				break;
 			case "s": // Represents pausing the game
+				playedGame.pause();
 				break;
 			default:
 		}
