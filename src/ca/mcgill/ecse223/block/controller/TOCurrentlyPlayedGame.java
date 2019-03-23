@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.controller;
 import java.util.*;
 
-// line 9 "../../../../../Block223TransferObjectsPlayMode.ump"
+// line 9 "../../../../../Block223TransferObjects.ump"
 public class TOCurrentlyPlayedGame
 {
 
@@ -19,10 +19,10 @@ public class TOCurrentlyPlayedGame
   private int lives;
   private int currentLevel;
   private String playername;
-  private int currentBallX;
-  private int currentBallY;
-  private int currentPaddleLength;
-  private int currentPaddleX;
+  private double currentBallX;
+  private double currentBallY;
+  private double currentPaddleLength;
+  private double currentPaddleX;
 
   //TOCurrentlyPlayedGame Associations
   private List<TOCurrentBlock> blocks;
@@ -31,7 +31,7 @@ public class TOCurrentlyPlayedGame
   // CONSTRUCTOR
   //------------------------
 
-  public TOCurrentlyPlayedGame(String aGamename, boolean aPaused, int aScore, int aLives, int aCurrentLevel, String aPlayername, int aCurrentBallX, int aCurrentBallY, int aCurrentPaddleLength, int aCurrentPaddleX)
+  public TOCurrentlyPlayedGame(String aGamename, boolean aPaused, int aScore, int aLives, int aCurrentLevel, String aPlayername, double aCurrentBallX, double aCurrentBallY, double aCurrentPaddleLength, double aCurrentPaddleX)
   {
     gamename = aGamename;
     paused = aPaused;
@@ -98,7 +98,7 @@ public class TOCurrentlyPlayedGame
     return wasSet;
   }
 
-  public boolean setCurrentBallX(int aCurrentBallX)
+  public boolean setCurrentBallX(double aCurrentBallX)
   {
     boolean wasSet = false;
     currentBallX = aCurrentBallX;
@@ -106,7 +106,7 @@ public class TOCurrentlyPlayedGame
     return wasSet;
   }
 
-  public boolean setCurrentBallY(int aCurrentBallY)
+  public boolean setCurrentBallY(double aCurrentBallY)
   {
     boolean wasSet = false;
     currentBallY = aCurrentBallY;
@@ -114,7 +114,7 @@ public class TOCurrentlyPlayedGame
     return wasSet;
   }
 
-  public boolean setCurrentPaddleLength(int aCurrentPaddleLength)
+  public boolean setCurrentPaddleLength(double aCurrentPaddleLength)
   {
     boolean wasSet = false;
     currentPaddleLength = aCurrentPaddleLength;
@@ -122,7 +122,7 @@ public class TOCurrentlyPlayedGame
     return wasSet;
   }
 
-  public boolean setCurrentPaddleX(int aCurrentPaddleX)
+  public boolean setCurrentPaddleX(double aCurrentPaddleX)
   {
     boolean wasSet = false;
     currentPaddleX = aCurrentPaddleX;
@@ -163,22 +163,22 @@ public class TOCurrentlyPlayedGame
     return playername;
   }
 
-  public int getCurrentBallX()
+  public double getCurrentBallX()
   {
     return currentBallX;
   }
 
-  public int getCurrentBallY()
+  public double getCurrentBallY()
   {
     return currentBallY;
   }
 
-  public int getCurrentPaddleLength()
+  public double getCurrentPaddleLength()
   {
     return currentPaddleLength;
   }
 
-  public int getCurrentPaddleX()
+  public double getCurrentPaddleX()
   {
     return currentPaddleX;
   }

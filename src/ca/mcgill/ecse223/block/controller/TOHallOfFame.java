@@ -4,7 +4,7 @@
 package ca.mcgill.ecse223.block.controller;
 import java.util.*;
 
-// line 32 "../../../../../Block223TransferObjectsPlayMode.ump"
+// line 32 "../../../../../Block223TransferObjects.ump"
 public class TOHallOfFame
 {
 

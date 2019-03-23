@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.controller;
 
-// line 23 "../../../../../Block223TransferObjectsPlayMode.ump"
+// line 23 "../../../../../Block223TransferObjects.ump"
 public class TOCurrentBlock
 {
 

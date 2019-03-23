@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.controller;
 
-// line 37 "../../../../../Block223TransferObjectsPlayMode.ump"
+// line 37 "../../../../../Block223TransferObjects.ump"
 public class TOHallOfFameEntry
 {
 

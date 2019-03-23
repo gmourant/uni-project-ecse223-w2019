@@ -1067,8 +1067,14 @@ public class Block223Controller {
 		
  		if (currentUserRole instanceof Player && currentPlayer == null) throw new // Verifies the current admin is the one who created the game
  			InvalidInputException("Admin privileges are required to test a game.");
-	
-		
+ 		
+ 		boolean paused = pgame.getPlayStatus() == PlayStatus.Ready || pgame.getPlayStatus() == PlayStatus.Paused; // Checks if game is paused
+
+ 		TOCurrentlyPlayedGame result = new TOCurrentlyPlayedGame(pgame.getGame().getName(), paused, pgame.getScore(), pgame.getLives(), 
+ 				pgame.getCurrentLevel(), pgame.getPlayername(), pgame.getCurrentBallX(), pgame.getCurrentBallY(), 
+ 				pgame.getCurrentPaddleLength(), pgame.getCurrentPaddleX());
+ 		
+ 		
  		
  	}
 

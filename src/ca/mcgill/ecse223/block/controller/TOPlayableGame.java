@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse223.block.controller;
 
-// line 3 "../../../../../Block223TransferObjectsPlayMode.ump"
+// line 3 "../../../../../Block223TransferObjects.ump"
 public class TOPlayableGame
 {
 
