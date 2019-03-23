@@ -1042,8 +1042,31 @@ public class Block223Controller {
        
        return result;  
      }
+ 	
+ 	/**
+ 	 * @author Kelly Ma
+ 	 * @return
+ 	 * @throws InvalidInputException
+ 	 */
+ 	public static TOCurrentlyPlayedGame getCurrentPlayableGame() throws InvalidInputException {
  		
- 	public static List<TOCurrentlyPlayedGame> getCurrentPlayableGame() throws InvalidInputException {
+ 		UserRole currentUserRole = Block223Application.getCurrentUserRole();
+ 		if (currentUserRole == null) throw new // Verifies that the user role is set
+			InvalidInputException("Player privileges are required to play a game.");
+ 		
+ 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+ 		if (pgame == null) throw new InvalidInputException("A game must be selected to play it."); // Throws exception if no game set
+ 		
+ 		Player currentPlayer = pgame.getPlayer();
+ 		if (currentUserRole instanceof Admin && currentPlayer != null) throw new // Verifies that the user role is the player themself
+ 			InvalidInputException("Player privileges are required to play a game.");
+ 		
+ 		Admin gameAdmin = pgame.getGame().getAdmin();
+ 		if (currentUserRole instanceof Admin && currentUserRole != gameAdmin) throw new // Verifies the current admin is the one who created the game
+			InvalidInputException("Only the admin of a game can test the game.");
+		
+ 		
+ 		
  	}
 
  	/**
