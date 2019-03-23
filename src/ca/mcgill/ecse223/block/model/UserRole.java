@@ -2,9 +2,11 @@
 /*This code was generated using the UMPLE 1.29.0.4181.a593105a9 modeling language!*/
 
 package ca.mcgill.ecse223.block.model;
+import java.io.Serializable;
 
+// line 60 "../../../../../Block223Persistence.ump"
 // line 43 "../../../../../Block223.ump"
-public abstract class UserRole
+public abstract class UserRole implements Serializable
 {
 
   //------------------------
@@ -93,5 +95,13 @@ public abstract class UserRole
     return super.toString() + "["+
             "password" + ":" + getPassword()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "block223 = "+(getBlock223()!=null?Integer.toHexString(System.identityHashCode(getBlock223())):"null");
-  }
+  }  
+  //------------------------
+  // DEVELOPER CODE - PROVIDED AS-IS
+  //------------------------
+  
+  // line 63 "../../../../../Block223Persistence.ump"
+  private static final long serialVersionUID = 3389752283403781197L ;
+
+  
 }

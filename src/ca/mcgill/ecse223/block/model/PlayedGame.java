@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 import java.util.*;
 
-// line 97 "../../../../../Block223Persistence.ump"
+// line 103 "../../../../../Block223Persistence.ump"
 // line 17 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
@@ -79,13 +79,20 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
+    // line 69 "../../../../../Block223PlayMode.ump"
+    boolean didAddGameResult = setGame(aGame);
+          if (!didAddGameResult)
+          {
+             throw new RuntimeException("Unable to create playedGame due to game");
+          }
+    // END OF UMPLE BEFORE INJECTION
     score = 0;
     lives = NR_LIVES;
     currentLevel = 1;
     waitTime = INITIAL_WAIT_TIME;
     playername = aPlayername;
-    ballDirectionX = getGame().getBall().getMinBallSpeedX();
-    ballDirectionY = getGame().getBall().getMinBallSpeedY();
+    resetBallDirectionX();
+    resetBallDirectionY();
     resetCurrentBallX();
     resetCurrentBallY();
     currentPaddleLength = getGame().getPaddle().getMaxPaddleLength();
@@ -149,7 +156,7 @@ public class PlayedGame implements Serializable
     wasSet = true;
     return wasSet;
   }
-
+  /* Code from template attribute_SetDefaulted */
   public boolean setBallDirectionX(double aBallDirectionX)
   {
     boolean wasSet = false;
@@ -158,12 +165,28 @@ public class PlayedGame implements Serializable
     return wasSet;
   }
 
+  public boolean resetBallDirectionX()
+  {
+    boolean wasReset = false;
+    ballDirectionX = getDefaultBallDirectionX();
+    wasReset = true;
+    return wasReset;
+  }
+  /* Code from template attribute_SetDefaulted */
   public boolean setBallDirectionY(double aBallDirectionY)
   {
     boolean wasSet = false;
     ballDirectionY = aBallDirectionY;
     wasSet = true;
     return wasSet;
+  }
+
+  public boolean resetBallDirectionY()
+  {
+    boolean wasReset = false;
+    ballDirectionY = getDefaultBallDirectionY();
+    wasReset = true;
+    return wasReset;
   }
   /* Code from template attribute_SetDefaulted */
   public boolean setCurrentBallX(double aCurrentBallX)
@@ -257,10 +280,20 @@ public class PlayedGame implements Serializable
   {
     return ballDirectionX;
   }
+  /* Code from template attribute_GetDefaulted */
+  public double getDefaultBallDirectionX()
+  {
+    return getGame().getBall().getMinBallSpeedX();
+  }
 
   public double getBallDirectionY()
   {
     return ballDirectionY;
+  }
+  /* Code from template attribute_GetDefaulted */
+  public double getDefaultBallDirectionY()
+  {
+    return getGame().getBall().getMinBallSpeedY();
   }
 
   /**
@@ -817,7 +850,7 @@ public class PlayedGame implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 100 "../../../../../Block223Persistence.ump"
+  // line 106 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 8597675110221231714L ;
 
   
