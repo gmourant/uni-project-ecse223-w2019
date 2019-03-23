@@ -1057,24 +1057,24 @@ public class Block223Controller {
  	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
- 			InvalidInputException("Player privileges are required to access a games hall of fame.");
+ 			InvalidInputException("Player privileges are required to access a game's hall of fame.");
  		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
+ 		
  		Game game = pgame.getGame(); // From current played game, get game
  		TOHallOfFame result = new TOHallOfFame(game.getName()); // Create the HOF with name of the current game
  		
- 		if (start < 1) start = 1;
- 		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries();
+ 		if (start < 1) start = 1; // Ensure that start index is >= 1
+ 		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries(); // End cannot exceed total # of entries
  		start--; // resets index to 0
  		end--;
  		
- 		for (int i = start; i <= end; i++) {
- 			String username = User.findUsername(game.getHallOfFameEntry(i).getPlayer()); // Uses method that finds username
- 			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
- 			result.addEntry(to);
+ 		for (int index = start; index <= end; index++) { 
+ 			// String username = User.findUsername(game.getHallOfFameEntry(i).getPlayer()); // Old method to find username
+ 			TOHallOfFameEntry to = new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
  		}
  		
- 		return result; // Returns HOF as an object
+ 		return result; // Returns HOF as a transfer object
  	}
 
  	/**
@@ -1087,30 +1087,29 @@ public class Block223Controller {
  	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
-			InvalidInputException("Player privileges are required to access a games hall of fame.");
+			InvalidInputException("Player privileges are required to access a game's hall of fame.");
 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
+		
 		Game game = pgame.getGame(); // From current played game, get game
 		TOHallOfFame result = new TOHallOfFame(game.getName()); // Create the HOF with name of the current game
 		
-		HallOfFameEntry mostRecentEntry = pgame.getMostRecentEntry(); // Obtain mostRecentEntry for the game being played
-		int index = pgame.indexOfHallOfFameEntry();
+		HallOfFameEntry mostRecent = game.getMostRecentEntry(); // Obtain mostRecentEntry for the game being played
+		int indexR = game.indexOfHallOfFameEntry(mostRecent);
 		
-		int start = index - numberOfEntries/2;
+		int start = indexR - numberOfEntries/2;
+		if (start < 1) start = 1; // Ensure that start index is >= 1
 		int end = start + numberOfEntries - 1;
-		if (start < 1) start = 1;
-		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries();
+		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries(); // End cannot exceed total # of entries
 		start--;
 		end--;
 		
-		for (int i = start; i <= end; i++) {
-			String username = User.findUsername(game.getHallOfFameEntry(index).getPlayer()); // 
- 			TOHallOfFameEntry to = new TOHallOfFameEntry(i+1, username, game.getHallOfFameEntry(i).getScore(), result); // Create transfer object
- 			result.addEntry(to);
+		for (int index = start; index <= end; index++) {
+			// String username = User.findUsername(game.getHallOfFameEntry(index).getPlayer());
+ 			TOHallOfFameEntry to = new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
 		}
  		
  		return result; // Returns HOF as an object
-		
  	}
 
     // ****************************

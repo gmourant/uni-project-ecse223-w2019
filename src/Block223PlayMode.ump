@@ -49,11 +49,13 @@ class PlayedGame {
    1 <@>- * PlayedBlockAssignment blocks;
    0..1 -> 0..1 BouncePoint bounce;
    
+   // Author: Kelly Ma
    public HallOfFameEntry getMostRecentEntry() { // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
 		return this.getGame().getMostRecentEntry();
    }
    
+   // Author: Kelly Ma
    public int indexOfHallOfFameEntry() { // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry
 		List<HallOfFameEntry> entries = this.getGame().getHallOfFameEntries(); // Get list of all entries

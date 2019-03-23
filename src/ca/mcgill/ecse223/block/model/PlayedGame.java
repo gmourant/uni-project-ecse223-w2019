@@ -79,7 +79,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 69 "../../../../../Block223PlayMode.ump"
+    // line 71 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -719,14 +719,22 @@ public class PlayedGame implements Serializable
     }
   }
 
-  // line 52 "../../../../../Block223PlayMode.ump"
+
+  /**
+   * Author: Kelly Ma
+   */
+  // line 53 "../../../../../Block223PlayMode.ump"
    public HallOfFameEntry getMostRecentEntry(){
     // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
 		return this.getGame().getMostRecentEntry();
   }
 
-  // line 57 "../../../../../Block223PlayMode.ump"
+
+  /**
+   * Author: Kelly Ma
+   */
+  // line 59 "../../../../../Block223PlayMode.ump"
    public int indexOfHallOfFameEntry(){
     // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry
