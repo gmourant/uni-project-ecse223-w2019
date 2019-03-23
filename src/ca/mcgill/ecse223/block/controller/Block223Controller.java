@@ -1097,7 +1097,7 @@ public class Block223Controller {
  		
  		for (int index = start; index <= end; index++) { 
  			// String username = User.findUsername(game.getHallOfFameEntry(i).getPlayer()); // Old method to find username
- 			TOHallOfFameEntry to = new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
+ 			new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
  		}
  		
  		return result; // Returns HOF as a transfer object
@@ -1132,7 +1132,7 @@ public class Block223Controller {
 		
 		for (int index = start; index <= end; index++) {
 			// String username = User.findUsername(game.getHallOfFameEntry(index).getPlayer());
- 			TOHallOfFameEntry to = new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
+ 			new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
 		}
  		
  		return result; // Returns HOF as an object
