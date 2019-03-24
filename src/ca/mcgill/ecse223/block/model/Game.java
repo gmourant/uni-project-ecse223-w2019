@@ -898,6 +898,19 @@ public class Game implements Serializable
   }
 
 
+  /**
+   * This method returns a block for the doSetup() method
+   * @author : Imane Chafi
+   */
+  // line 18 "../../../../../Block223PlayMode.ump"
+   public Block getRandomBlock(){
+    Block blockRandom = this.getBlock(PlayedGame.getRandomInt());
+   while(blockRandom == null){
+   	blockRandom = this.getBlock(PlayedGame.getRandomInt());}
+  	return blockRandom;
+  }
+
+
   public String toString()
   {
     return super.toString() + "["+

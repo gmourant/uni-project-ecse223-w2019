@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.*;
 
 // line 103 "../../../../../Block223Persistence.ump"
-// line 17 "../../../../../Block223PlayMode.ump"
+// line 25 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -79,7 +79,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 71 "../../../../../Block223PlayMode.ump"
+    // line 79 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -719,11 +719,22 @@ public class PlayedGame implements Serializable
     }
   }
 
+  // line 108 "../../../../../Block223Persistence.ump"
+   public static  void reinitializeAutouniqueID(List<PlayedGame> playedGames){
+    nextId = 0; 
+    for (PlayedGame playedGame : playedGames) {
+      if (playedGame.getId() > nextId) {
+        nextId = playedGame.getId();
+      }
+    }
+    nextId++;
+  }
+
 
   /**
    * Author: Kelly Ma
    */
-  // line 53 "../../../../../Block223PlayMode.ump"
+  // line 61 "../../../../../Block223PlayMode.ump"
    public HallOfFameEntry getMostRecentEntry(){
     // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
@@ -734,7 +745,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 59 "../../../../../Block223PlayMode.ump"
+  // line 67 "../../../../../Block223PlayMode.ump"
    public int indexOfHallOfFameEntry(){
     // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry
@@ -796,38 +807,103 @@ public class PlayedGame implements Serializable
 
   /**
    * Actions
+   * 
+   * Public method used to get a random number
+   * @author https://dzone.com/articles/random-number-generation-in-java
+   * @return double value
+   * 
    */
-  // line 69 "../../../../../Block223States.ump"
-   private void doSetup(){
-    // TODO implement
+  // line 74 "../../../../../Block223States.ump"
+   public static  int getRandomInt(){
+    Random rand = new Random();
+ 		//obtain number between 0-49
+ 	    int x = rand.nextInt(50);
+ 	    return x;
   }
 
-  // line 73 "../../../../../Block223States.ump"
+
+  /**
+   * 
+   * This private method returns the setup for the Played Game
+   * by resetting the ball positions and paddle positions and by
+   * adding random block positions if there is less blocks than the 
+   * set number of blocks/level.
+   * @author Imane Chafi 
+   * 
+   */
+  // line 89 "../../../../../Block223States.ump"
+   private void doSetup(){
+    this.resetCurrentBallX();
+ 		this.resetCurrentBallY();
+ 		this.resetBallDirectionX();
+ 		this.resetBallDirectionY();
+ 		this.resetCurrentPaddleX();
+ 		this.getGame();
+ 		Level level = game.getLevel(getCurrentLevel()-1);
+ 		List <BlockAssignment> assignment = level.getBlockAssignments();
+ 		
+ 	
+ 		for(BlockAssignment a : assignment) {
+ 			PlayedBlockAssignment pblock = new PlayedBlockAssignment(Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(a.getGridHorizontalPosition()-1), Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(a.getGridVerticalPosition() - 1), a.getBlock(), this);
+ 			
+ 		}
+ 		//Initializing the x and y variables before the while loop
+ 			int x;
+ 			int y;
+ 		while(numberOfBlocks() < game.getNrBlocksPerLevel()) {
+ 			
+ 			//Pick a random location for x and y 
+ 			x = getRandomInt();
+ 			y = getRandomInt();
+ 			
+ 			//Pick random grid location.
+ 			BlockAssignment randomgridPositionX = game.getBlockAssignment(x);
+ 			BlockAssignment randomgridPositionY = game.getBlockAssignment(y);
+
+ 			//if chosen, try next position starting from randomly chosen position
+ 			if((randomgridPositionX != null )&& (randomgridPositionY != null)){
+ 				x++;
+ 			 	if((x == 7) && (randomgridPositionX != null )&& (randomgridPositionY != null))
+ 			 	y++;
+ 			 }
+ 			//going to the right, then next row until last row
+ 			//then 1/1 until empty position found.
+ 			//convert to x/y coordinates
+ 			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(randomgridPositionX.getGridHorizontalPosition()-1);
+ 			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(randomgridPositionY.getGridVerticalPosition() - 1);
+ 			
+ 			
+ 			PlayedBlockAssignment pblock = new PlayedBlockAssignment(x,y,game.getRandomBlock(), this);
+ 			
+ 		}
+  }
+
+  // line 137 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 77 "../../../../../Block223States.ump"
+  // line 141 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // TODO implement
   }
 
-  // line 81 "../../../../../Block223States.ump"
+  // line 145 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
   }
 
-  // line 85 "../../../../../Block223States.ump"
+  // line 149 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
   }
 
-  // line 89 "../../../../../Block223States.ump"
+  // line 153 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     // TODO implement
   }
 
-  // line 93 "../../../../../Block223States.ump"
+  // line 157 "../../../../../Block223States.ump"
    private void doGameOver(){
     // TODO implement
   }
