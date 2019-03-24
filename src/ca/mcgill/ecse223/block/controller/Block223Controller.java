@@ -277,7 +277,7 @@ public class Block223Controller {
         
     
     }
-    /**
+  /**
      * This method updates game information. Author: Georges Mourant
      *
      * @param name name of the game
@@ -291,15 +291,28 @@ public class Block223Controller {
      * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
-            Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-        // getting current game's name
+        Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+    	// getting current game's name
         Game game = Block223Application.getCurrentGame();
         String currentName = game.getName();
-
+    	if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+             throw new InvalidInputException("Admin privileges are required to define game settings.");
+         }
+    	 if (Block223Application.getCurrentGame() == null) {
+             throw new InvalidInputException("A game must be selected to define game settings.");
+         }
+    	if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
+            throw new InvalidInputException("Only the admin who created the game can define its game settings.");
+        }
+    	
         // updating name
         if (!currentName.equals(name)) {
-            game.setName(name);
-        }
+            	game.setName(name); 
+            }
+        if(game.setName(name) == false)
+            throw new InvalidInputException("The name of a game must be unique.");
+        //else if(game.setName(null))
+        	//throw new InvalidInputException("The name of a game must be specified.");
 
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
