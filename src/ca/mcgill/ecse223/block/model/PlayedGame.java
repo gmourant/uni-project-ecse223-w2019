@@ -900,8 +900,13 @@ public class PlayedGame implements Serializable
 
   // line 153 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-    // TODO implement
-  }
+	   double x = getCurrentBallX();
+	   double y = getCurrentBallY();
+	   double dx = getBallDirectionX();
+	   double dy = getBallDirectionY();
+	   setCurrentBallX(x+dx);
+	   setCurrentBallY(y+dy);    
+   }//End of private method doHitNothingAndNotOutOfBounds
 
   // line 157 "../../../../../Block223States.ump"
    private void doGameOver(){
