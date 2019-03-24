@@ -910,7 +910,7 @@ public class Block223Controller {
         return result; // return result
     }
 
-    /**
+   /**
      * Returns the transfer object of a game. Author: Georges Mourant
      *
      * @return the currently played game
@@ -926,7 +926,7 @@ public class Block223Controller {
             throw new InvalidInputException("A game must be selected to access its information.");
         }
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the game can acess its information.");
+            throw new InvalidInputException("Only the admin who created the game can access its information.");
         }
         // return game as transfer object
         return new TOGame(game.getName(), game.numberOfLevels(),
