@@ -300,7 +300,7 @@ public class Block223Controller {
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
 
-    /**
+   /**
      * This method creates a block in a game. Author: Imane Chafi
      *
      * @param RGB values
@@ -341,24 +341,24 @@ public class Block223Controller {
         try {
             game.addBlock(red, green, blue, points); //Can I do it like this instead of "create(..)"?
         } catch (RuntimeException e) { //Do I need to make catch and rethrow statements individually?
-            error = e.getMessage();
-            if ((red < 0) || (red > 255)) {
-                throw new InvalidInputException("Red must be between 0 and 255.");
-            }
-
-            if ((green < 0) || (green > 255)) {
-                throw new InvalidInputException("Green must be between 0 and 255.");
-            }
-
-            if ((blue < 0) || (blue > 255)) {
-                throw new InvalidInputException("Blue must be between 0 and 255.");
-            }
-
-            if ((points < 1) || (red > 1000)) {
-                throw new InvalidInputException("Points must be between 1 and 1000.");
-            }
+            error = e.getMessage();     
         }
+        if ((red < 0) || (red > 255)) {
+            throw new InvalidInputException("Red must be between 0 and 255.");
+        }
+
+        if ((green < 0) || (green > 255)) {
+            throw new InvalidInputException("Green must be between 0 and 255.");
+        }
+
+        if ((blue < 0) || (blue > 255)) {
+            throw new InvalidInputException("Blue must be between 0 and 255.");
+        }
+
+        if ((points < 1) || (points > 1000)) {
+            throw new InvalidInputException("Points must be between 1 and 1000.");}
     }
+
 
     /**
      * This method deletes a block from a game. Author: Imane Chafi
