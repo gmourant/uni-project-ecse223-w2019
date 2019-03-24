@@ -651,17 +651,17 @@ public class Block223Controller {
 
 		//invalid input exception if the user isn't an admin
 		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-			throw new InvalidInputException("Admin privileges are required to remove a block.");
+			throw new InvalidInputException("Admin privileges are required to move a block.");
 		}
 
 		// invalid input exception if the current game isn't selected
 		if(Block223Application.getCurrentGame() == null) {
-			throw new InvalidInputException("A game must be selected to remove a block.");
+			throw new InvalidInputException("A game must be selected to move a block.");
 		}
 
 		//invalid input exception is the user isn't current admin of the game
 		if(!(Block223Application.getCurrentGame().getAdmin().equals(Block223Application.getCurrentUserRole()) )) {
-			throw new InvalidInputException("Only the admin who created the game can remove a block.");
+			throw new InvalidInputException("Only the admin who created the game can move a block.");
 		}
 
 		// get the current game
