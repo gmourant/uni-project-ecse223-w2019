@@ -909,8 +909,9 @@ public class Block223Controller {
         }
         return result; // return result
     }
-
-   /**
+  
+  
+     /**
      * Returns the transfer object of a game. Author: Georges Mourant
      *
      * @return the currently played game
@@ -1278,5 +1279,62 @@ public class Block223Controller {
 
 		}
 		return null;
+	}
+	
+    /**
+    *
+    * This method return a TOBlock corresponding to the Block with a specific ID
+    * within the current designable game.
+    *
+    * @author Mathieu Bissonnette
+    *
+    * @param id The id of the desired block.
+    *
+    * @return A TOBlock transfer object corresponding to the desired block.
+    *
+    * @throws InvalidInputException If the user is not an admin.
+    * 
+    * @throws InvalidInputException If no game is selected.
+    * 
+    * @throws InvalidInputException If the user is not the admin that created the game.
+    * 
+    * @throws InvalidInputException If the block doesn't exist.
+    *
+    */
+
+	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+		
+		// Verify that the user is an admin before proceeding.
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+            throw new InvalidInputException("Admin privileges are required to access game information.");
+        }
+        
+        // Get the current game and verify it's not null.
+        Game game = Block223Application.getCurrentGame();
+        if (game == null) {
+        	throw new InvalidInputException("A game must be selected to access its information.");
+        }
+        
+        // Verify that the user is the admin that created the current game.
+        if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+        	throw new InvalidInputException("Only the admin who created the game can access its information.");
+        }
+        
+        // Find the block and create the TOBlock.
+		List<Block> blocks = game.getBlocks();
+		TOBlock result = null;
+		for (Block block : blocks) {
+			if (block.getId() == id) {
+				result = new TOBlock(id, block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
+			}
+		}
+		
+		// Throw an exception if the block is not found.
+		if (result == null) {
+			throw new InvalidInputException("The block does not exist.");
+		}
+		
+		// Return the result.
+		return result;
 	}
 }
