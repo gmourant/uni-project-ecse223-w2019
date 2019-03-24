@@ -876,11 +876,78 @@ public class Block223Controller {
 	
 	}
 
-	public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
-	}
+	/**
+     * testGame method allows an admin to test their game before officially publishing it.
+     * @author Sofia Dieguez
+     * @param Block223PlayModeInterface user interface 
+     * @throws InvalidInputException if the currentUserRole isn't set to an admin role. 
+     * @throws InvalidInputException if a game hasn't been selected yet.
+     * @throws InvalidInputException if the admin who wants to test the game wasn't the game's creator.
+     * */
+    public static void testGame(Block223PlayModeInterface ui) throws InvalidInputException {
+    	//If there isn't a game selected
+    	if(Block223Application.getCurrentGame() == null) {
+    		throw new InvalidInputException("A game must be selected to test it.");
+    	}
+    	Game game = Block223Application.getCurrentGame();
+    	
+    	//If the current UserRole isn't set to and AdminRole 
+    	if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+    		throw new InvalidInputException("Admin privileges are required to test a game.");
+    	}
+    	UserRole admin = Block223Application.getCurrentUserRole();
+    	
+    	//If the current UserRole is not the admin of the game
+    	if(Block223Application.getCurrentGame().getAdmin() != admin) {
+    		throw new InvalidInputException("Only the admin who created the game can test it.");
+    	}
+    	
+    	String username = User.findUsername(admin);
+    	
+    	Block223 block223 = Block223Application.getBlock223();
+    	
+    	PlayedGame pgame = new PlayedGame(username, game, block223);
+    	
+    	pgame.setPlayer(null); 
+    	
+    	Block223Application.setCurrentPlayableGame(pgame);
+    	
+    	Block223Controller.startGame(ui);
+    	
+    }//End of testGame method
 
+    /**
+     * publishGame method allows an admin officially publish their game for players to play it.
+     * @author Sofia Dieguez
+     * This method does not take any arguments. 
+     * @throws InvalidInputException if the currentUserRole isn't set to an admin role. 
+     * @throws InvalidInputException if a game hasn't been selected yet.
+     * @throws InvalidInputException if the admin who wants to test the game wasn't the game's creator.
+     * @throws InvalidInputException if there isn't at least one block defined in the game
+     * */
 	public static void publishGame () throws InvalidInputException {
-	}
+		
+		//If a game hasn't been selected
+		if(Block223Application.getCurrentGame() == null) {
+    		throw new InvalidInputException("A game must be selected to test it.");
+    	}
+		//If the current UserRole is not and AdminRole
+    	if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+    		throw new InvalidInputException("Admin privileges are required to test a game.");
+    	}
+    	//If the current UserRole is not the admin of this game
+    	if(Block223Application.getCurrentGame().getAdmin() != Block223Application.getCurrentUserRole()) {
+    		throw new InvalidInputException("Only the admin who created the game can test it.");
+    	}
+    	//If there are less than 1 number of blocks defined for the game
+    	if(Block223Application.getCurrentGame().getNrBlocksPerLevel() < 1) {
+    		throw new InvalidInputException("At least one block must be defined for a game to be published.");
+    	}
+    	
+    	Game game = Block223Application.getCurrentGame();
+    	game.setPublished(true);
+    	
+	}//End of publishGame method
 
     // ****************************
     // Query methods
