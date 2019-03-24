@@ -252,27 +252,31 @@ public class Block223Controller {
      */
     public static void selectGame(String name) throws InvalidInputException {
         Game game = findGame(name);
+        if(game == null)
+        throw new InvalidInputException("A game with name " + name + " does not exist.");
 
         // error if game does not exist
-        if (game == null) {
-            throw new InvalidInputException("A game with the name " + name + " does not exist.");
-        }
+        
         // error if not an Admin
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-            throw new InvalidInputException("Admin privileges are required to delete a game.");
+            throw new InvalidInputException("Admin privileges are required to select a game.");
         }
         // error if it's the wrong admin
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the game can delete the game.");
+            throw new InvalidInputException("Only the admin who created the game can select the game.");
         }
         
         // error is the game is published
-        if (game.isPublished()) throw new InvalidInputException("A published game cannot be changed.");
-
+        if (game.isPublished()) 
+        	throw new InvalidInputException("A published game cannot be changed.");
+    
         // If all else is good, select the game
-        Block223Application.setCurrentGame(game);
+       
+         Block223Application.setCurrentGame(game);
+    	
+        
+    
     }
-
     /**
      * This method updates game information. Author: Georges Mourant
      *
