@@ -554,7 +554,7 @@ public class Block223Controller {
 	    	if(Block223Application.getCurrentGame() == null) {
 	    		throw new InvalidInputException("A game must be selected to save it.");
 	    	}
-	    	if(Block223Application.getCurrentUserRole().getPassword() != Block223Application.getCurrentGame().getAdmin().getPassword()) {
+	    	if(Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the game can save it.");
 	    	}
 	    	
@@ -568,7 +568,7 @@ public class Block223Controller {
 			}
 		}//End of saveGame method
 	    
-	    /** register method: creates a new account for a user
+	  	    /** register method: creates a new account for a user
 	     * @author Sofia Dieguez
 	     * @param username :User's username
 	     * @param playerPassword :User's password linked to an Player role
@@ -581,31 +581,47 @@ public class Block223Controller {
 	     * */
 		public static void register(String username, String playerPassword, String adminPassword) throws InvalidInputException {	
 			
-			Block223 block223 = Block223Application.getBlock223();
-			if(playerPassword.equals(adminPassword)) {
-				throw new InvalidInputException("The passwords have to be different.");
-			}
 			if(Block223Application.getCurrentUserRole() != null) {
 				throw new InvalidInputException("Cannot register a new user while a user is logged in.");
 			}
-			
-			Player player;//Declare Player instance for scope
+			if (playerPassword == null) throw new InvalidInputException("The player password needs to be specified.");
+
+			if(playerPassword.equals(adminPassword)) {
+				throw new InvalidInputException("The passwords have to be different.");
+			}
+	        if (playerPassword.isEmpty()) throw new InvalidInputException("The player password needs to be specified.");
+			// Check for empty name
+	        if (username == null) throw new InvalidInputException("The username must be specified.");
+	        if (username.isEmpty()) throw new InvalidInputException("The username must be specified.");
+	     
+	       
+	        Block223 block223 = Block223Application.getBlock223();
+	        // Check for uniqueness of game name
+	        boolean unique = true;
+	        for (User user1 : block223.getUsers()) {
+	   	     	if (user1.getUsername() == username) {
+	   	     		unique = false;
+	   	     	}
+	   	  	}
+	        
+	        if (!unique) throw new InvalidInputException("The username has already been taken.");
+	         
+	        //Create player
+	        Player player;//Declare Player instance for scope
 			try {
 				player = new Player(playerPassword, block223);//Create new Player instance
 			} catch (RuntimeException e){
 				throw new InvalidInputException(e.getMessage());
 			}
 			
-			User user = null;//Declare User instance for scope
+			
+			//Create user
+			User user;//Declare User instance for scope
 			try {
 				user = new User(username, block223, player);//Create User instance
 			} catch(RuntimeException e){
 				player = null;
-				if(e.getMessage().equals("The username has already been taken.")) {//check for generic error message
-					// delete player instance 
-					throw new InvalidInputException("The username must be specified.");//specific error message
-				}
-				throw new InvalidInputException("The username has already been taken.");
+				throw new InvalidInputException(e.getMessage());
 			}
 			
 			if((adminPassword!= null) && (!(adminPassword.equals("")))) {
