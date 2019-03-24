@@ -431,23 +431,48 @@ public class Block223Controller {
 
         // Verify that the user is an admin before proceeding.
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-            throw new InvalidInputException("Admin privileges are required to access game information.");
+            throw new InvalidInputException("Admin privileges are required to update a block.");
         }
         
         // Verify that a game is selected.
         if (Block223Application.getCurrentGame() == null) {
-        	throw new InvalidInputException("A game must be selected to access its information.");	
+        	throw new InvalidInputException("A game must be selected to update a block.");	
         }
         
         // Verify that the user is the admin that created the current game.
         if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
-        	throw new InvalidInputException("Only the admin who created the game can access its information.");
+        	throw new InvalidInputException("Only the admin who created the game can update a block.");
         }
         
         // Get the desired block.
         Block foundBlock = findBlock(id);
         if (foundBlock == null) {
             throw new InvalidInputException("The block does not exist.");
+        }
+        
+        // Verify the given values
+        if (red > 255 || red < 0) {
+        	throw new InvalidInputException("Red must be between 0 and 255.");
+        }
+        
+        if (green > 255 || green < 0) {
+        	throw new InvalidInputException("Green must be between 0 and 255.");
+        }
+        
+        if (blue > 255 || blue < 0) {
+        	throw new InvalidInputException("Blue must be between 0 and 255.");
+        }
+        
+        if (points > 1000 || points < 1) {
+        	throw new InvalidInputException("Points must be between 1 and 1000.");
+        }
+        
+        // Verify that a block with this color doesn't already exists
+        List<TOBlock> blocks = getBlocksOfCurrentDesignableGame();
+        for (TOBlock block : blocks) {
+        	if (red == block.getRed() &&  green == block.getGreen() && blue == block.getBlue()) {
+        		throw new InvalidInputException("A block with the same color already exists for the game.");
+        	}
         }
 
         // Update block data
