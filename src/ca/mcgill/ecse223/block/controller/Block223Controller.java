@@ -775,7 +775,7 @@ public class Block223Controller {
 	if((game == null) && (Block223Application.getCurrentUserRole() != pgame.getPlayer()))
 		throw new InvalidInputException("Only the player that started a game can continue the game.");
 	
-	Block223Application.setCurrentPlayedGame(pgame);
+	Block223Application.setCurrentPlayableGame(pgame);
 	}
 
 	/** StartGame method
@@ -788,20 +788,20 @@ public class Block223Controller {
 		if ((Block223Application.getCurrentUserRole() == null)) {
             throw new InvalidInputException("Player privileges are required to play a game.");
         }
-		if ((Block223Application.getCurrentPlayedGame() == null)) {
+		if ((Block223Application.getCurrentPlayableGame() == null)) {
             throw new InvalidInputException("A game must be selected to play it.");
         }
-		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentPlayedGame().getPlayer() !=null)) {
+		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentPlayableGame().getPlayer() !=null)) {
             throw new InvalidInputException("Player privileges are required to play a game.");
         }
 		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {//Check for the admin of the function
             throw new InvalidInputException("Only the admin of a game can test the game.");
         }
-		if ((Block223Application.getCurrentUserRole() instanceof Player) && (Block223Application.getCurrentPlayedGame().getPlayer() == null)) {
+		if ((Block223Application.getCurrentUserRole() instanceof Player) && (Block223Application.getCurrentPlayableGame().getPlayer() == null)) {
             throw new InvalidInputException("Admin privileges are required to test a game.");
         }
 		
-	PlayedGame game = Block223Application.getCurrentPlayedGame();
+	PlayedGame game = Block223Application.getCurrentPlayableGame();
 	game.play();
 	ui.takeInputs(); //Method to be implemented, ask why they need to be static.
 	
@@ -825,7 +825,7 @@ public class Block223Controller {
 		ui.refresh();
 	}
 	if(game.getPlayStatus() == PlayStatus.GameOver) {
-		Block223Application.setCurrentPlayedGame(null);
+		Block223Application.setCurrentPlayableGame(null);
 	}
 	else if(game.getPlayer()!= null) {
 		Block223 block223 = Block223Application.getBlock223();
@@ -1067,7 +1067,7 @@ public class Block223Controller {
  		if (currentUserRole == null) throw new // Verifies that the user role is set
 			InvalidInputException("Player privileges are required to play a game.");
  		
- 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+ 		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to play it."); // Throws exception if no game set
  		
  		Player currentPlayer = pgame.getPlayer();
@@ -1109,7 +1109,7 @@ public class Block223Controller {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
  			InvalidInputException("Player privileges are required to access a game's hall of fame.");
- 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+ 		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
  		
  		Game game = pgame.getGame(); // From current played game, get game
@@ -1139,7 +1139,7 @@ public class Block223Controller {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
 			InvalidInputException("Player privileges are required to access a game's hall of fame.");
-		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
 		
 		Game game = pgame.getGame(); // From current played game, get game
@@ -1176,7 +1176,7 @@ public class Block223Controller {
 	 */
 	private static void updatePaddlePosition(String direction) {
 		
-		PlayedGame playedGame = Block223Application.getCurrentPlayedGame(); // Obtain the current playedGame
+		PlayedGame playedGame = Block223Application.getCurrentPlayableGame(); // Obtain the current playedGame
 		double currentPaddleLength = playedGame.getCurrentPaddleLength(); // Obtain current paddle length
 		double currentPaddleX = playedGame.getCurrentPaddleX(); // Current X-Position of paddle
 		
