@@ -204,6 +204,9 @@ public class Block223Controller {
      */
     public static void deleteGame(String name) throws InvalidInputException {
         Game foundGame = findGame(name);
+        
+        // error if the game is published
+        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
 
         // error if not an Admin
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
@@ -256,6 +259,9 @@ public class Block223Controller {
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete the game.");
         }
+        
+        // error is the game is published
+        if (game.isPublished()) throw new InvalidInputException("A published game cannot be changed.");
 
         // If all else is good, select the game
         Block223Application.setCurrentGame(game);
@@ -869,7 +875,7 @@ public class Block223Controller {
             // get game admin
             Admin gameAdmin = game.getAdmin();
             // if current admin is game admin, allow game to be added to list
-            if (gameAdmin.equals(admin)) {
+            if (gameAdmin.equals(admin) && !game.isPublished()) {
                 TOGame to = new TOGame(game.getName(), game.numberOfLevels(),
                         game.getNrBlocksPerLevel(), game.getBall().getMinBallSpeedX(),
                         game.getBall().getMinBallSpeedY(), game.getBall().getBallSpeedIncreaseFactor(),
