@@ -10,7 +10,7 @@ import java.util.*;
  * Each level is filled up with random blocks just before playing the level to reach the nrBlocksPerLevel defined in Game
  */
 // line 85 "../../../../../Block223Persistence.ump"
-// line 101 "../../../../../Block223.ump"
+// line 102 "../../../../../Block223.ump"
 public class Level implements Serializable
 {
 

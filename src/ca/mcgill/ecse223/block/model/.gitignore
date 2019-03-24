@@ -9,3 +9,11 @@
 /Player.class
 /User.class
 /UserRole.class
+/BouncePoint$BounceDirection.class
+/BouncePoint.class
+/Game$1.class
+/Game$2.class
+/HallOfFameEntry.class
+/PlayedBlockAssignment.class
+/PlayedGame$PlayStatus.class
+/PlayedGame.class
