@@ -360,7 +360,7 @@ public class Block223Controller {
     }
 
 
-    /**
+     /**
      * This method deletes a block from a game. Author: Imane Chafi
      *
      * @param id of block to be deleted
@@ -376,9 +376,9 @@ public class Block223Controller {
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a block.");
         }
-        if (Block223Application.getCurrentGame() == null) {
-            throw new InvalidInputException("A game must be selected to delete a block");
-        }
+        if(Block223Application.getCurrentGame() == null) {
+    		throw new InvalidInputException("A game must be selected to delete a block.");
+    	}
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete a block.");
         }
@@ -388,6 +388,7 @@ public class Block223Controller {
             block.delete();
         }
     }
+
 
     /**
      *
