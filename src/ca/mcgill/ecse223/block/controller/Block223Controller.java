@@ -496,12 +496,10 @@ public class Block223Controller {
         }
 
         // Get the desired level.
-        Level foundLevel = null;
-        try {
-        	foundLevel = game.getLevel(level);
-        } catch (IndexOutOfBoundsException e) {
-        	throw new InvalidInputException("Level " + level + " does not exist for this game.");
+        if (level < 1 || level > game.getLevels().size()) {
+        	throw new InvalidInputException("Level " + level + " does not exist for the game.");
         }
+        Level foundLevel = game.getLevel(level-1);
         
         // Verify the level is not a maximum block capacity.
         List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
@@ -521,7 +519,7 @@ public class Block223Controller {
         // Get the block.
         Block foundBlock = Block223Controller.findBlock(id);
         if (foundBlock == null) {
-        	throw new InvalidInputException("The block does not exist");
+        	throw new InvalidInputException("The block does not exist.");
         }
 
         // Create a new BlockAssignment.
@@ -1091,12 +1089,10 @@ public class Block223Controller {
         }
 
         // Get the desired level.
-        Level foundLevel = null;
-        try {
-        	foundLevel = game.getLevel(level);
-        } catch (IndexOutOfBoundsException e) {
-        	throw new InvalidInputException("Level " + level + " does not exist for this game.");
+        if (level < 1 || level > game.getLevels().size()) {
+        	throw new InvalidInputException("Level " + level + " does not exist for the game.");
         }
+        Level foundLevel = game.getLevel(level-1);
 
         // Get the list of block assignments of the level
         List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
@@ -1405,7 +1401,7 @@ public class Block223Controller {
         	throw new InvalidInputException("Only the admin who created the game can access its information.");
         }
         
-        // Find the block and create the TOBlock.
+        // Find the blocks and create the TOBlock.
 		List<Block> blocks = game.getBlocks();
 		TOBlock result = null;
 		for (Block block : blocks) {
