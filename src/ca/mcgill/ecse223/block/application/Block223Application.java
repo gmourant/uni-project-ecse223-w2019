@@ -51,11 +51,11 @@ public class Block223Application {
         return currentGame;
     }
     
-    public static void setCurrentPlayedGame(PlayedGame aPlayedGame) {
+    public static void setCurrentPlayableGame(PlayedGame aPlayedGame) {
     	currentPlayedGame = aPlayedGame;
     }
     
-    public static PlayedGame getCurrentPlayedGame() {
+    public static PlayedGame getCurrentPlayableGame() {
     	return currentPlayedGame;
     }
 }

@@ -74,6 +74,7 @@ class Game {
    Integer nrBlocksPerLevel;
    before setNrBlocksPerLevel {
       if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
+	  if (aNrBlocksPerLevel <= nrBlocksPerLevel) throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");   
    }
    * -- 1 Admin admin;
    1 <@>- * Block blocks;
@@ -119,11 +120,13 @@ class Ball {
    const Integer BALL_DIAMETER = 10;
    Integer minBallSpeedX;
    before setMinBallSpeedX {
-      if (aMinBallSpeedX <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+      if (aMinBallSpeedX < 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+      if (aMinBallSpeedX <= 0 && minBallSpeedY == 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
    }
    Integer minBallSpeedY;
    before setMinBallSpeedY {
-      if (aMinBallSpeedY <= 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+      if (aMinBallSpeedY < 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
+   	  if (aMinBallSpeedY <= 0 && minBallSpeedX == 0) throw new RuntimeException("The minimum speed of the ball must be greater than zero.");
    }
    Double ballSpeedIncreaseFactor;
    before setBallSpeedIncreaseFactor {

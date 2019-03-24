@@ -5,7 +5,7 @@ package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
 
 // line 79 "../../../../../Block223Persistence.ump"
-// line 104 "../../../../../Block223.ump"
+// line 105 "../../../../../Block223.ump"
 public class BlockAssignment implements Serializable
 {
 
@@ -28,7 +28,7 @@ public class BlockAssignment implements Serializable
 
   public BlockAssignment(int aGridHorizontalPosition, int aGridVerticalPosition, Level aLevel, Block aBlock, Game aGame)
   {
-    // line 108 "../../../../../Block223.ump"
+    // line 109 "../../../../../Block223.ump"
     if (aGridHorizontalPosition > Game.GRID_DIMENSIONS || aGridHorizontalPosition < 1) {
              throw new RuntimeException("X out of bounds.");
           }	else if (aGridVerticalPosition > Game.GRID_DIMENSIONS || aGridVerticalPosition < 1) {

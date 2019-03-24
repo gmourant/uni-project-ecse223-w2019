@@ -40,7 +40,7 @@ public class Game implements Serializable
   private boolean published;
   private String name;
   private int nrBlocksPerLevel;
-  private Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
+  private transient Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
 
   //Game Associations
   private HallOfFameEntry mostRecentEntry;
@@ -177,6 +177,7 @@ public class Game implements Serializable
     boolean wasSet = false;
     // line 76 "../../../../../Block223.ump"
     if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
+    	  if (aNrBlocksPerLevel <= nrBlocksPerLevel) throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     wasSet = true;
@@ -894,6 +895,19 @@ public class Game implements Serializable
 	    for (Game game : games) {
 	      gamesByName.put(game.getName(), game);
     	}
+  }
+
+
+  /**
+   * This method returns a block for the doSetup() method
+   * @author : Imane Chafi
+   */
+  // line 18 "../../../../../Block223PlayMode.ump"
+   public Block getRandomBlock(){
+    Block blockRandom = this.getBlock(PlayedGame.getRandomInt());
+   while(blockRandom == null){
+   	blockRandom = this.getBlock(PlayedGame.getRandomInt());}
+  	return blockRandom;
   }
 
 

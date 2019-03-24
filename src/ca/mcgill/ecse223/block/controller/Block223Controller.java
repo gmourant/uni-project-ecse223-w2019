@@ -31,7 +31,11 @@ public class Block223Controller {
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to create a game.");
         }
-
+        
+        // Check for empty name
+        if (name == null) throw new InvalidInputException("The name of a game must be specified.");
+        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
+        
         // Get block223 and admin
         Block223 block223 = Block223Application.getBlock223();
         Admin admin = (Admin) Block223Application.getCurrentUserRole();
@@ -118,6 +122,9 @@ public class Block223Controller {
         if (nrLevels < 1 || nrLevels > 99) {
             throw new InvalidInputException("The number of levels must be between 1 and 99.");
         }
+        
+        // Verify that the ball speed isn't 0
+        if (minBallSpeedX <= 0 && minBallSpeedY <= 0) throw new InvalidInputException("The minimum speed of the ball must be greater than zero.");
 
         // Set nrBlocksPerLevel
         try {
@@ -125,7 +132,7 @@ public class Block223Controller {
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
         }
-
+   
         // Obtain ball
         Ball ball = game.getBall();
 
@@ -201,12 +208,17 @@ public class Block223Controller {
      */
     public static void deleteGame(String name) throws InvalidInputException {
         Game foundGame = findGame(name);
-
-        // error if not an Admin
+       
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
+        // error if the game is published
+        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
 
+        // error if not the Admin
+        if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
+            throw new InvalidInputException("Only the admin who created the game can delete the game.");
+        }
         Block223 block;
 
         // make sure the game exists
@@ -240,25 +252,32 @@ public class Block223Controller {
      */
     public static void selectGame(String name) throws InvalidInputException {
         Game game = findGame(name);
+        if(game == null)
+        throw new InvalidInputException("A game with name " + name + " does not exist.");
 
         // error if game does not exist
-        if (game == null) {
-            throw new InvalidInputException("A game with the name " + name + " does not exist.");
-        }
+        
         // error if not an Admin
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-            throw new InvalidInputException("Admin privileges are required to delete a game.");
+            throw new InvalidInputException("Admin privileges are required to select a game.");
         }
         // error if it's the wrong admin
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the game can delete the game.");
+            throw new InvalidInputException("Only the admin who created the game can select the game.");
         }
-
+        
+        // error is the game is published
+        if (game.isPublished()) 
+        	throw new InvalidInputException("A published game cannot be changed.");
+    
         // If all else is good, select the game
-        Block223Application.setCurrentGame(game);
+       
+         Block223Application.setCurrentGame(game);
+    	
+        
+    
     }
-
-    /**
+  /**
      * This method updates game information. Author: Georges Mourant
      *
      * @param name name of the game
@@ -272,22 +291,35 @@ public class Block223Controller {
      * @throws ca.mcgill.ecse223.block.controller.InvalidInputException
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
-            Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-        // getting current game's name
+        Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+    	// getting current game's name
         Game game = Block223Application.getCurrentGame();
         String currentName = game.getName();
-
+    	if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+             throw new InvalidInputException("Admin privileges are required to define game settings.");
+         }
+    	 if (Block223Application.getCurrentGame() == null) {
+             throw new InvalidInputException("A game must be selected to define game settings.");
+         }
+    	if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
+            throw new InvalidInputException("Only the admin who created the game can define its game settings.");
+        }
+    	
         // updating name
         if (!currentName.equals(name)) {
-            game.setName(name);
-        }
+            	game.setName(name); 
+            }
+        if(game.setName(name) == false)
+            throw new InvalidInputException("The name of a game must be unique.");
+        //else if(game.setName(null))
+        	//throw new InvalidInputException("The name of a game must be specified.");
 
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
 
-    /**
+   /**
      * This method creates a block in a game. Author: Imane Chafi
      *
      * @param RGB values
@@ -328,26 +360,26 @@ public class Block223Controller {
         try {
             game.addBlock(red, green, blue, points); //Can I do it like this instead of "create(..)"?
         } catch (RuntimeException e) { //Do I need to make catch and rethrow statements individually?
-            error = e.getMessage();
-            if ((red < 0) || (red > 255)) {
-                throw new InvalidInputException("Red must be between 0 and 255.");
-            }
-
-            if ((green < 0) || (green > 255)) {
-                throw new InvalidInputException("Green must be between 0 and 255.");
-            }
-
-            if ((blue < 0) || (blue > 255)) {
-                throw new InvalidInputException("Blue must be between 0 and 255.");
-            }
-
-            if ((points < 1) || (red > 1000)) {
-                throw new InvalidInputException("Points must be between 1 and 1000.");
-            }
+            error = e.getMessage();     
         }
+        if ((red < 0) || (red > 255)) {
+            throw new InvalidInputException("Red must be between 0 and 255.");
+        }
+
+        if ((green < 0) || (green > 255)) {
+            throw new InvalidInputException("Green must be between 0 and 255.");
+        }
+
+        if ((blue < 0) || (blue > 255)) {
+            throw new InvalidInputException("Blue must be between 0 and 255.");
+        }
+
+        if ((points < 1) || (points > 1000)) {
+            throw new InvalidInputException("Points must be between 1 and 1000.");}
     }
 
-    /**
+
+     /**
      * This method deletes a block from a game. Author: Imane Chafi
      *
      * @param id of block to be deleted
@@ -363,9 +395,9 @@ public class Block223Controller {
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a block.");
         }
-        if (Block223Application.getCurrentGame() == null) {
-            throw new InvalidInputException("A game must be selected to delete a block");
-        }
+        if(Block223Application.getCurrentGame() == null) {
+    		throw new InvalidInputException("A game must be selected to delete a block.");
+    	}
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete a block.");
         }
@@ -375,6 +407,7 @@ public class Block223Controller {
             block.delete();
         }
     }
+
 
     /**
      *
@@ -642,17 +675,17 @@ public class Block223Controller {
 
 		//invalid input exception if the user isn't an admin
 		if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-			throw new InvalidInputException("Admin privileges are required to remove a block.");
+			throw new InvalidInputException("Admin privileges are required to move a block.");
 		}
 
 		// invalid input exception if the current game isn't selected
 		if(Block223Application.getCurrentGame() == null) {
-			throw new InvalidInputException("A game must be selected to remove a block.");
+			throw new InvalidInputException("A game must be selected to move a block.");
 		}
 
 		//invalid input exception is the user isn't current admin of the game
 		if(!(Block223Application.getCurrentGame().getAdmin().equals(Block223Application.getCurrentUserRole()) )) {
-			throw new InvalidInputException("Only the admin who created the game can remove a block.");
+			throw new InvalidInputException("Only the admin who created the game can move a block.");
 		}
 
 		// get the current game
@@ -766,7 +799,7 @@ public class Block223Controller {
 	if((game == null) && (Block223Application.getCurrentUserRole() != pgame.getPlayer()))
 		throw new InvalidInputException("Only the player that started a game can continue the game.");
 	
-	Block223Application.setCurrentPlayedGame(pgame);
+	Block223Application.setCurrentPlayableGame(pgame);
 	}
 
 	/** StartGame method
@@ -779,20 +812,20 @@ public class Block223Controller {
 		if ((Block223Application.getCurrentUserRole() == null)) {
             throw new InvalidInputException("Player privileges are required to play a game.");
         }
-		if ((Block223Application.getCurrentPlayedGame() == null)) {
+		if ((Block223Application.getCurrentPlayableGame() == null)) {
             throw new InvalidInputException("A game must be selected to play it.");
         }
-		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentPlayedGame().getPlayer() !=null)) {
+		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentPlayableGame().getPlayer() !=null)) {
             throw new InvalidInputException("Player privileges are required to play a game.");
         }
 		if ((Block223Application.getCurrentUserRole() instanceof Admin) && (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {//Check for the admin of the function
             throw new InvalidInputException("Only the admin of a game can test the game.");
         }
-		if ((Block223Application.getCurrentUserRole() instanceof Player) && (Block223Application.getCurrentPlayedGame().getPlayer() == null)) {
+		if ((Block223Application.getCurrentUserRole() instanceof Player) && (Block223Application.getCurrentPlayableGame().getPlayer() == null)) {
             throw new InvalidInputException("Admin privileges are required to test a game.");
         }
 		
-	PlayedGame game = Block223Application.getCurrentPlayedGame();
+	PlayedGame game = Block223Application.getCurrentPlayableGame();
 	game.play();
 	ui.takeInputs(); //Method to be implemented, ask why they need to be static.
 	
@@ -816,7 +849,7 @@ public class Block223Controller {
 		ui.refresh();
 	}
 	if(game.getPlayStatus() == PlayStatus.GameOver) {
-		Block223Application.setCurrentPlayedGame(null);
+		Block223Application.setCurrentPlayableGame(null);
 	}
 	else if(game.getPlayer()!= null) {
 		Block223 block223 = Block223Application.getBlock223();
@@ -866,7 +899,7 @@ public class Block223Controller {
             // get game admin
             Admin gameAdmin = game.getAdmin();
             // if current admin is game admin, allow game to be added to list
-            if (gameAdmin.equals(admin)) {
+            if (gameAdmin.equals(admin) && !game.isPublished()) {
                 TOGame to = new TOGame(game.getName(), game.numberOfLevels(),
                         game.getNrBlocksPerLevel(), game.getBall().getMinBallSpeedX(),
                         game.getBall().getMinBallSpeedY(), game.getBall().getBallSpeedIncreaseFactor(),
@@ -876,8 +909,9 @@ public class Block223Controller {
         }
         return result; // return result
     }
-
-    /**
+  
+  
+     /**
      * Returns the transfer object of a game. Author: Georges Mourant
      *
      * @return the currently played game
@@ -893,7 +927,7 @@ public class Block223Controller {
             throw new InvalidInputException("A game must be selected to access its information.");
         }
         if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
-            throw new InvalidInputException("Only the admin who created the game can acess its information.");
+            throw new InvalidInputException("Only the admin who created the game can access its information.");
         }
         // return game as transfer object
         return new TOGame(game.getName(), game.numberOfLevels(),
@@ -1058,7 +1092,7 @@ public class Block223Controller {
  		if (currentUserRole == null) throw new // Verifies that the user role is set
 			InvalidInputException("Player privileges are required to play a game.");
  		
- 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+ 		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to play it."); // Throws exception if no game set
  		
  		Player currentPlayer = pgame.getPlayer();
@@ -1072,8 +1106,10 @@ public class Block223Controller {
  		if (currentUserRole instanceof Player && currentPlayer == null) throw new // Verifies the current admin is the one who created the game
  			InvalidInputException("Admin privileges are required to test a game.");
  		
+ 		// Create a boolean to check the status of the game (whether or not we should play)
  		boolean paused = pgame.getPlayStatus() == PlayStatus.Ready || pgame.getPlayStatus() == PlayStatus.Paused; // Checks if game is paused
 
+ 		// Create a transfer object for the currently played game
  		TOCurrentlyPlayedGame result = new TOCurrentlyPlayedGame(pgame.getGame().getName(), paused, pgame.getScore(), pgame.getLives(), 
  				pgame.getCurrentLevel(), pgame.getPlayername(), pgame.getCurrentBallX(), pgame.getCurrentBallY(), 
  				pgame.getCurrentPaddleLength(), pgame.getCurrentPaddleX());
@@ -1100,7 +1136,7 @@ public class Block223Controller {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
  			InvalidInputException("Player privileges are required to access a game's hall of fame.");
- 		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+ 		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
  		
  		Game game = pgame.getGame(); // From current played game, get game
@@ -1130,7 +1166,7 @@ public class Block223Controller {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
 			InvalidInputException("Player privileges are required to access a game's hall of fame.");
-		PlayedGame pgame = Block223Application.getCurrentPlayedGame(); // Obtain current played game
+		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
 		
 		Game game = pgame.getGame(); // From current played game, get game
@@ -1167,7 +1203,7 @@ public class Block223Controller {
 	 */
 	private static void updatePaddlePosition(String direction) {
 		
-		PlayedGame playedGame = Block223Application.getCurrentPlayedGame(); // Obtain the current playedGame
+		PlayedGame playedGame = Block223Application.getCurrentPlayableGame(); // Obtain the current playedGame
 		double currentPaddleLength = playedGame.getCurrentPaddleLength(); // Obtain current paddle length
 		double currentPaddleX = playedGame.getCurrentPaddleX(); // Current X-Position of paddle
 		
@@ -1245,5 +1281,62 @@ public class Block223Controller {
 
 		}
 		return null;
+	}
+	
+    /**
+    *
+    * This method return a TOBlock corresponding to the Block with a specific ID
+    * within the current designable game.
+    *
+    * @author Mathieu Bissonnette
+    *
+    * @param id The id of the desired block.
+    *
+    * @return A TOBlock transfer object corresponding to the desired block.
+    *
+    * @throws InvalidInputException If the user is not an admin.
+    * 
+    * @throws InvalidInputException If no game is selected.
+    * 
+    * @throws InvalidInputException If the user is not the admin that created the game.
+    * 
+    * @throws InvalidInputException If the block doesn't exist.
+    *
+    */
+
+	public static TOBlock getBlockOfCurrentDesignableGame(int id) throws InvalidInputException {
+		
+		// Verify that the user is an admin before proceeding.
+        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+            throw new InvalidInputException("Admin privileges are required to access game information.");
+        }
+        
+        // Get the current game and verify it's not null.
+        Game game = Block223Application.getCurrentGame();
+        if (game == null) {
+        	throw new InvalidInputException("A game must be selected to access its information.");
+        }
+        
+        // Verify that the user is the admin that created the current game.
+        if (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
+        	throw new InvalidInputException("Only the admin who created the game can access its information.");
+        }
+        
+        // Find the block and create the TOBlock.
+		List<Block> blocks = game.getBlocks();
+		TOBlock result = null;
+		for (Block block : blocks) {
+			if (block.getId() == id) {
+				result = new TOBlock(id, block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
+			}
+		}
+		
+		// Throw an exception if the block is not found.
+		if (result == null) {
+			throw new InvalidInputException("The block does not exist.");
+		}
+		
+		// Return the result.
+		return result;
 	}
 }

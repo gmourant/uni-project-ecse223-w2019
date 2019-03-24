@@ -104,6 +104,15 @@ class PlayedGame {
   depend java.io.Serializable;
   isA Serializable;
   private static final long serialVersionUID = 8597675110221231714L;
+  public static void reinitializeAutouniqueID(List<PlayedGame> playedGames) {
+    nextId = 0; 
+    for (PlayedGame playedGame : playedGames) {
+      if (playedGame.getId() > nextId) {
+        nextId = playedGame.getId();
+      }
+    }
+    nextId++;
+   }
 }
 
 class PlayedBlockAssignment {
