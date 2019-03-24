@@ -759,14 +759,14 @@ public class PlayedGame implements Serializable
 
   // line 37 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
-    // TODO implement
-    return false;
+    boolean outOfBounds = false;
+    if(lives == 1) outOfBounds = isBallOutOfBounds();
+    return outOfBounds;
   }
 
-  // line 42 "../../../../../Block223States.ump"
+  // line 43 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
-    // TODO implement
-    return false;
+    return isBallOutOfBounds();
   }
 
   // line 47 "../../../../../Block223States.ump"
@@ -809,27 +809,50 @@ public class PlayedGame implements Serializable
 
   // line 77 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
-    // TODO implement
+    setLives(lives-1);
+    resetCurrentBallX();
+    resetCurrentBallY();
+    resetBallDirectionX();
+    resetBallDirectionY();
+    resetCurrentPaddleX();
   }
 
-  // line 81 "../../../../../Block223States.ump"
+  // line 86 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // TODO implement
   }
 
-  // line 85 "../../../../../Block223States.ump"
+  // line 90 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // TODO implement
   }
 
-  // line 89 "../../../../../Block223States.ump"
+  // line 94 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     // TODO implement
   }
 
-  // line 93 "../../../../../Block223States.ump"
+  // line 98 "../../../../../Block223States.ump"
    private void doGameOver(){
-    // TODO implement
+    block223 = getBlock223();
+    Player p = getPlayer();
+    if(p != null){
+      game = getGame();
+      HallOfFameEntry hofe = new HallOfFameEntry(score, playername, p, game, block223);
+      game.setMostRecentEntry(hofe);
+    }
+    delete();
+  }
+
+
+  /**
+   * Guard Helper methods
+   */
+  // line 111 "../../../../../Block223States.ump"
+   private boolean isBallOutOfBounds(){
+    double ballBottomY = getCurrentBallY(); // + size of ball
+    double paddleTopY = getCurrentPaddleY();
+    return (paddleTopY > ballBottomY);
   }
 
 
