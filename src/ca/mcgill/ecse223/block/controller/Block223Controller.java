@@ -554,7 +554,7 @@ public class Block223Controller {
 	    	if(Block223Application.getCurrentGame() == null) {
 	    		throw new InvalidInputException("A game must be selected to save it.");
 	    	}
-	    	if(Block223Application.getCurrentUserRole().getPassword() != Block223Application.getCurrentGame().getAdmin().getPassword()) {
+	    	if(Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the game can save it.");
 	    	}
 	    	
