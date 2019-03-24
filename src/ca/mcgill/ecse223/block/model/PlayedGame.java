@@ -768,37 +768,78 @@ public class PlayedGame implements Serializable
     return false;
   }
 
-  // line 37 "../../../../../Block223States.ump"
-   private boolean isOutOfBoundsAndLastLife(){
-    // TODO implement
-    return false;
-  }
 
+  /**
+   * 
+   * This returns true if the ball is out of bounds and is last life.
+   * @author Georges Mourant
+   * @return if ball is out of bounds and last life
+   */
   // line 42 "../../../../../Block223States.ump"
+   private boolean isOutOfBoundsAndLastLife(){
+    boolean outOfBounds = false;
+    if(lives == 1) outOfBounds = isBallOutOfBounds();
+    return outOfBounds;
+  }
+
+
+  /**
+   * 
+   * This returns true if the ball is out of bounds.
+   * @author Georges Mourant
+   * @return if ball is out of bounds and last life
+   */
+  // line 53 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
-    // TODO implement
-    return false;
-  }
-
-  // line 47 "../../../../../Block223States.ump"
-   private boolean hitLastBlockAndLastLevel(){
-    // TODO implement
-    return false;
-  }
-
-  // line 52 "../../../../../Block223States.ump"
-   private boolean hitLastBlock(){
-    // TODO implement
-    return false;
+    return isBallOutOfBounds();
   }
 
   // line 57 "../../../../../Block223States.ump"
-   private boolean hitBlock(){
-    // TODO implement
+   private boolean hitLastBlockAndLastLevel(){
+    Game game = getGame();
+    int nrLevels = game.numberOfLevels();
+    setBounce(null);
+    if (nrLevels == currentLevel) {
+        int nrBlocks = numberOfBlocks();
+        if (nrBlocks == 1) {
+            PlayedBlockAssignment block = getBlock(0);
+            BouncePoint bp = calculateBouncePointBlock(block);
+            setBounce(bp);
+            return true;
+        }
+    }
     return false;
   }
 
-  // line 62 "../../../../../Block223States.ump"
+  // line 73 "../../../../../Block223States.ump"
+   private boolean hitLastBlock(){
+    int nrBlocks = numberOfBlocks();
+    setBounce(null);
+    if (nrBlocks == 1) {
+        PlayedBlockAssignment block = getBlock(0);
+        BouncePoint bp = calculateBouncePointBlock(block);
+        setBounce(bp);
+        return true;
+    }
+    return false;
+  }
+
+  // line 85 "../../../../../Block223States.ump"
+   private boolean hitBlock(){
+    int nrBlocks = numberOfBlocks();
+    setBounce(null);
+    for (int i = 0; i <= (nrBlocks - 1); i++) {
+        PlayedBlockAssignment block = getBlock(i);
+        BouncePoint bp = calculateBouncePointBlock(block);
+        bounce = getBounce();
+        boolean closer = isCloser(bp, bounce);
+        if (closer)
+            setBounce(bp);
+    }
+    return (getBounce() != null);
+  }
+
+  // line 99 "../../../../../Block223States.ump"
    private boolean hitWall(){
     // TODO implement
     return false;
@@ -813,7 +854,7 @@ public class PlayedGame implements Serializable
    * @return double value
    * 
    */
-  // line 74 "../../../../../Block223States.ump"
+  // line 111 "../../../../../Block223States.ump"
    public static  int getRandomInt(){
     Random rand = new Random();
  		//obtain number between 0-49
@@ -831,7 +872,7 @@ public class PlayedGame implements Serializable
    * @author Imane Chafi 
    * 
    */
-  // line 89 "../../../../../Block223States.ump"
+  // line 126 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
  		this.resetCurrentBallY();
@@ -878,27 +919,60 @@ public class PlayedGame implements Serializable
  		}
   }
 
-  // line 137 "../../../../../Block223States.ump"
+  // line 174 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 141 "../../../../../Block223States.ump"
+  // line 178 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
-    // TODO implement
+    setLives(lives-1);
+    resetCurrentBallX();
+    resetCurrentBallY();
+    resetBallDirectionX();
+    resetBallDirectionY();
+    resetCurrentPaddleX();
   }
 
-  // line 145 "../../../../../Block223States.ump"
+  // line 187 "../../../../../Block223States.ump"
    private void doHitBlock(){
-    // TODO implement
+    int score = getScore();
+    BouncePoint bounce = getBounce();
+    PlayedBlockAssignment pblock = bounce.getHitBlock();
+    Block block = pblock.getBlock();
+    int bscore = block.getPoints();
+    setScore(score + bscore);
+    pblock.delete();
+    bounceBall();
   }
 
-  // line 149 "../../../../../Block223States.ump"
+  // line 198 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
+    doHitBlock();
+    int level = getCurrentLevel();
+    setCurrentLevel(level + 1);
+    Paddle paddle = getGame().getPaddle();
+    int length = paddle.getMaxPaddleLength() 
+            - (paddle.getMaxPaddleLength() - paddle.getMinPaddleLength())
+            / (getGame().numberOfLevels() - 1) 
+            * (getCurrentLevel() - 1);
+    setCurrentPaddleLength(length);
+    setWaitTime(INITIAL_WAIT_TIME 
+            * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
+            (getCurrentLevel() - 1)));
+  }
+
+  // line 213 "../../../../../Block223States.ump"
+   private BouncePoint calculateBouncePointBlock(){
     // TODO implement
   }
 
-  // line 153 "../../../../../Block223States.ump"
+  // line 217 "../../../../../Block223States.ump"
+   private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
+    // TODO implement
+  }
+
+  // line 221 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
 	   double x = getCurrentBallX();
 	   double y = getCurrentBallY();
@@ -908,9 +982,37 @@ public class PlayedGame implements Serializable
 	   setCurrentBallY(y+dy);    
    }//End of private method doHitNothingAndNotOutOfBounds
 
-  // line 157 "../../../../../Block223States.ump"
+
+  /**
+   * 
+   * This performs all the required actions for ending the game.
+   * @author Georges Mourant
+   */
+  // line 229 "../../../../../Block223States.ump"
    private void doGameOver(){
-    // TODO implement
+    block223 = getBlock223();
+    Player p = getPlayer();
+    if(p != null){
+      game = getGame();
+      HallOfFameEntry hofe = new HallOfFameEntry(score, playername, p, game, block223);
+      game.setMostRecentEntry(hofe);
+    }
+    delete();
+  }
+
+
+  /**
+   * Guard Helper methods
+   * 
+   * This returns true if the ball is out of bounds.
+   * @author Georges Mourant
+   * @return if ball is out of bounds
+   */
+  // line 247 "../../../../../Block223States.ump"
+   private boolean isBallOutOfBounds(){
+    double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
+    double paddleTopY = getCurrentPaddleY();
+    return (paddleTopY > ballBottomY);
   }
 
 

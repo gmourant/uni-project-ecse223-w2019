@@ -33,14 +33,24 @@ class PlayedGame {
     return false;
   }
 
+  /**
+   * This returns true if the ball is out of bounds and is last life.
+   * @author Georges Mourant
+   * @return if ball is out of bounds and last life
+  */
   private boolean isOutOfBoundsAndLastLife() {
-    // TODO implement
-    return false;
+    boolean outOfBounds = false;
+    if(lives == 1) outOfBounds = isBallOutOfBounds();
+    return outOfBounds;
   }
   
+  /**
+   * This returns true if the ball is out of bounds.
+   * @author Georges Mourant
+   * @return if ball is out of bounds and last life
+  */
   private boolean isOutOfBounds() {
-    // TODO implement
-    return false;
+    return isBallOutOfBounds();
   }
   
   private boolean hitLastBlockAndLastLevel() {
@@ -165,7 +175,12 @@ class PlayedGame {
   }
 
   private void doOutOfBounds() {
-    // TODO implement
+    setLives(lives-1);
+    resetCurrentBallX();
+    resetCurrentBallY();
+    resetBallDirectionX();
+    resetBallDirectionY();
+    resetCurrentPaddleX();
   }
 
   private void doHitBlock() {
@@ -206,8 +221,31 @@ class PlayedGame {
     // TODO implement
   }
 
+  /**
+   * This performs all the required actions for ending the game.
+   * @author Georges Mourant
+  */
   private void doGameOver() {
-    // TODO implement
+    block223 = getBlock223();
+    Player p = getPlayer();
+    if(p != null){
+      game = getGame();
+      HallOfFameEntry hofe = new HallOfFameEntry(score, playername, p, game, block223);
+      game.setMostRecentEntry(hofe);
+    }
+    delete();
   }
 
+  // Guard Helper methods
+
+  /**
+   * This returns true if the ball is out of bounds.
+   * @author Georges Mourant
+   * @return if ball is out of bounds
+  */
+  private boolean isBallOutOfBounds(){
+    double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
+    double paddleTopY = getCurrentPaddleY();
+    return (paddleTopY > ballBottomY);
+  }
 }
