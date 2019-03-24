@@ -208,15 +208,17 @@ public class Block223Controller {
      */
     public static void deleteGame(String name) throws InvalidInputException {
         Game foundGame = findGame(name);
-        
-        // error if the game is published
-        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
-
-        // error if not an Admin
+       
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
+        // error if the game is published
+        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
 
+        // error if not the Admin
+        if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
+            throw new InvalidInputException("Only the admin who created the game can delete the game.");
+        }
         Block223 block;
 
         // make sure the game exists
