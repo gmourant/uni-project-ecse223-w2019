@@ -207,8 +207,11 @@ public class Block223Controller {
      * @throws InvalidInputException If the user is not an admin
      */
     public static void deleteGame(String name) throws InvalidInputException {
+    	
+    	Block223 block = Block223Application.getBlock223();
+    	
         Game foundGame = findGame(name);
-       
+        if (foundGame == null) return;
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
@@ -219,8 +222,7 @@ public class Block223Controller {
         if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete the game.");
         }
-        Block223 block;
-
+        
         // make sure the game exists
         if (foundGame != null) {
             // error if it's the wrong admin
@@ -292,8 +294,12 @@ public class Block223Controller {
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
+
+        if (name == null) throw new InvalidInputException("The name of a game must be specified.");
+        if (name.isEmpty()) throw new InvalidInputException("The name of a game must be specified.");
     	// getting current game's name
         Game game = Block223Application.getCurrentGame();
+        Block223 block223 = Block223Application.getBlock223();
         String currentName = game.getName();
     	if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
              throw new InvalidInputException("Admin privileges are required to define game settings.");
@@ -306,11 +312,23 @@ public class Block223Controller {
         }
     	
         // updating name
-        if (!currentName.equals(name)) {
-            	game.setName(name); 
-            }
+    	if (currentName.contentEquals(name)) {
+    		// All good
+    	} else {
+    		List<Game> games = block223.getGames();
+    		boolean uniqueName = true;
+    		for (Game aGame : games) {
+    			if (aGame.getName().contentEquals(name)) uniqueName = false;
+    		}
+    		if (!uniqueName) throw new InvalidInputException("The name of a game must be unique.");
+    	}
+    	
+        /*if (!currentName.equals(name)) {
+            	
+        	game.setName(name); 
+        }
         if(game.setName(name) == false)
-            throw new InvalidInputException("The name of a game must be unique.");
+            throw new InvalidInputException("The name of a game must be unique.");*/
         //else if(game.setName(null))
         	//throw new InvalidInputException("The name of a game must be specified.");
 
