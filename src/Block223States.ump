@@ -69,6 +69,11 @@ class PlayedGame {
     return false;
   }
   
+  /**
+  * This method returns true if the ball hits the last block.
+  * @author Mathieu Bissonnette
+  */
+  
   private boolean hitLastBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -80,6 +85,11 @@ class PlayedGame {
     }
     return false;
   }
+  
+  /**
+  * This method returns true if the ball hits a block.
+  * @author Mathieu Bissonnette
+  */
   
   private boolean hitBlock() {
     int nrBlocks = numberOfBlocks();
@@ -209,12 +219,66 @@ class PlayedGame {
             (getCurrentLevel() - 1)));
   }
   
-  private BouncePoint calculateBouncePointBlock() {
-    // TODO implement
+   private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
+       // Construct the collision box.
+       int gridHorizontalCoordinate = block.getX();
+       int gridVerticalCoordinate = block.getY();
+       int boxTopLeftX = 10+15*(gridHorizontalCoordinate-1);
+       int boxTopLeftY = 10+12*(gridVerticalCoordinate-1);
+       // verify if the ball hits the collision box.
+       Rectangle2D collisionBox = new Rectangle(boxTopLeftX,boxTopLeftY,30,30);
+       Line2D ballDirection = new Line2D.Double(currentBallX, currentBallY, currentBallX+ballDirectionX, currentBallX+ballDirectionY);
+       if (collisionBox.intersectsLine(ballDirection)) {
+           // find border bounce points.
+           Stack<BouncePoint> bouncePoints = new Stack<BouncePoint>();
+           Point point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX+5, boxTopLeftY, boxTopLeftX+25, boxTopLeftY));
+           if (point != null) {
+               BouncePoint bpA = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_Y);
+               bouncePoints.push(bpA);
+           }
+           point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX, boxTopLeftY+5, boxTopLeftX, boxTopLeftY+25));
+           if (point != null) {
+               BouncePoint bpB = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_X);
+               bouncePoints.push(bpB);
+           }
+           point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX+30, boxTopLeftY+5, boxTopLeftX+30, boxTopLeftY+25));
+           if (point != null) {
+               BouncePoint bpC = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_X);
+               bouncePoints.push(bpC);
+           }
+           point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX+5, boxTopLeftY+30, boxTopLeftX+25, boxTopLeftY+30));
+           if (point != null) {
+               BouncePoint bpD = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_Y);
+               bouncePoints.push(bpAD;
+           }
+           
+           //Then add corner points
+           
+           //Then pop and swap if closer
+           
+           //Then return the closer bounce point.
+           
+       }
+       return null;
   }
   
+  /**
+  * This method returns true if pointA exists and is closer to the ball than pointB.
+  * @author Mathieu Bissonnette
+  */
+  
   private boolean isCloser(BouncePoint pointA, BouncePoint pointB) {
-    // TODO implement
+       // Verify if one of the point is null.
+       if (pointA == null) {
+           return false;
+       }
+       if (pointB == null) {
+           return true;
+       }   
+       // Calculate the distances and check for the smallest one.
+       double distanceA = Math.sqrt(Math.pow(currentBallX-pointA.getX(), 2) + Math.pow(currentBallY-pointA.getY(), 2));
+       double distanceB = Math.sqrt(Math.pow(currentBallX-pointB.getX(), 2) + Math.pow(currentBallY-pointB.getY(), 2));
+       return (distanceA < distanceB);
   }
 
   private void doHitNothingAndNotOutOfBounds() {
@@ -248,4 +312,29 @@ class PlayedGame {
     double paddleTopY = getCurrentPaddleY();
     return (paddleTopY > ballBottomY);
   }
+  
+ private static Point lineIntersect(Line2D lineA, Line2D lineB) {
+   
+   double x4 = lineB.getX2();
+   double x3 = lineB.getX1();
+   double x2 = lineA.getX2();
+   double x1 = lineA.getX1();
+   double y4 = lineB.getY2();
+   double y3 = lineB.getY1();
+   double y2 = lineA.getY2();
+   double y1 = lineA.getY1();
+   
+   double denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+   if (denom == 0.0) { // Lines are parallel.
+      return null;
+   }
+   double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3))/denom;
+   double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3))/denom;
+     if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+         // Get the intersection point.
+         return new Point((int) (x1 + ua*(x2 - x1)), (int) (y1 + ua*(y2 - y1)));
+     }
+
+   return null;
+   }
 }
