@@ -811,7 +811,13 @@ public class PlayedGame implements Serializable
     return false;
   }
 
-  // line 73 "../../../../../Block223States.ump"
+
+  /**
+   * 
+   * This method returns true if the ball hits the last block.
+   * @author Mathieu Bissonnette
+   */
+  // line 78 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -824,7 +830,13 @@ public class PlayedGame implements Serializable
     return false;
   }
 
-  // line 85 "../../../../../Block223States.ump"
+
+  /**
+   * 
+   * This method returns true if the ball hits a block.
+   * @author Mathieu Bissonnette
+   */
+  // line 95 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -839,7 +851,7 @@ public class PlayedGame implements Serializable
     return (getBounce() != null);
   }
 
-  // line 99 "../../../../../Block223States.ump"
+  // line 109 "../../../../../Block223States.ump"
    private boolean hitWall(){
     // TODO implement
     return false;
@@ -854,7 +866,7 @@ public class PlayedGame implements Serializable
    * @return double value
    * 
    */
-  // line 111 "../../../../../Block223States.ump"
+  // line 121 "../../../../../Block223States.ump"
    public static  int getRandomInt(){
     Random rand = new Random();
  		//obtain number between 0-49
@@ -872,7 +884,7 @@ public class PlayedGame implements Serializable
    * @author Imane Chafi 
    * 
    */
-  // line 126 "../../../../../Block223States.ump"
+  // line 136 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
  		this.resetCurrentBallY();
@@ -919,12 +931,12 @@ public class PlayedGame implements Serializable
  		}
   }
 
-  // line 174 "../../../../../Block223States.ump"
+  // line 184 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 178 "../../../../../Block223States.ump"
+  // line 188 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     setLives(lives-1);
     resetCurrentBallX();
@@ -934,7 +946,7 @@ public class PlayedGame implements Serializable
     resetCurrentPaddleX();
   }
 
-  // line 187 "../../../../../Block223States.ump"
+  // line 197 "../../../../../Block223States.ump"
    private void doHitBlock(){
     int score = getScore();
     BouncePoint bounce = getBounce();
@@ -946,7 +958,7 @@ public class PlayedGame implements Serializable
     bounceBall();
   }
 
-  // line 198 "../../../../../Block223States.ump"
+  // line 208 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     doHitBlock();
     int level = getCurrentLevel();
@@ -962,25 +974,75 @@ public class PlayedGame implements Serializable
             (getCurrentLevel() - 1)));
   }
 
-  // line 213 "../../../../../Block223States.ump"
-   private BouncePoint calculateBouncePointBlock(){
-    // TODO implement
+  // line 223 "../../../../../Block223States.ump"
+   private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
+    // Construct the collision box.
+       int gridHorizontalCoordinate = block.getX();
+       int gridVerticalCoordinate = block.getY();
+       int boxTopLeftX = 10+15*(gridHorizontalCoordinate-1);
+       int boxTopLeftY = 10+12*(gridVerticalCoordinate-1);
+       // verify if the ball hits the collision box.
+       Rectangle2D collisionBox = new Rectangle(boxTopLeftX,boxTopLeftY,30,30);
+       Line2D ballDirection = new Line2D.Double(currentBallX, currentBallY, currentBallX+ballDirectionX, currentBallX+ballDirectionY);
+       if (collisionBox.intersectsLine(ballDirection)) {
+           // find border bounce points.
+           Stack<BouncePoint> bouncePoints = new Stack<BouncePoint>();
+           Point point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX+5, boxTopLeftY, boxTopLeftX+25, boxTopLeftY));
+           if (point != null) {
+               BouncePoint bpA = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_Y);
+               bouncePoints.push(bpA);
+           }
+           point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX, boxTopLeftY+5, boxTopLeftX, boxTopLeftY+25));
+           if (point != null) {
+               BouncePoint bpB = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_X);
+               bouncePoints.push(bpB);
+           }
+           point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX+30, boxTopLeftY+5, boxTopLeftX+30, boxTopLeftY+25));
+           if (point != null) {
+               BouncePoint bpC = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_X);
+               bouncePoints.push(bpC);
+           }
+           point = lineIntersect(ballDirection,new Line2D.Double(boxTopLeftX+5, boxTopLeftY+30, boxTopLeftX+25, boxTopLeftY+30));
+           if (point != null) {
+               BouncePoint bpD = new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_Y);
+               bouncePoints.push(bpAD;
+           }
+           
+           //Then add corner points
+           
+           //Then pop and swap if closer
+           
+           //Then return the closer bounce point.
+           
+       }
+       return null;
   }
 
-  // line 217 "../../../../../Block223States.ump"
+
+  /**
+   * 
+   * This method returns true if pointA exists and is closer to the ball than pointB.
+   * @author Mathieu Bissonnette
+   */
+  // line 271 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
-    // TODO implement
+    // Verify if one of the point is null.
+       if (pointA == null) {
+           return false;
+       }
+       if (pointB == null) {
+           return true;
+       }   
+       // Calculate the distances and check for the smallest one.
+       double distanceA = Math.sqrt(Math.pow(currentBallX-pointA.getX(), 2) + Math.pow(currentBallY-pointA.getY(), 2));
+       double distanceB = Math.sqrt(Math.pow(currentBallX-pointB.getX(), 2) + Math.pow(currentBallY-pointB.getY(), 2));
+       return (distanceA < distanceB);
   }
 
-  // line 221 "../../../../../Block223States.ump"
+  // line 285 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-	   double x = getCurrentBallX();
-	   double y = getCurrentBallY();
-	   double dx = getBallDirectionX();
-	   double dy = getBallDirectionY();
-	   setCurrentBallX(x+dx);
-	   setCurrentBallY(y+dy);    
-   }//End of private method doHitNothingAndNotOutOfBounds
+    // TODO implement
+  }
 
 
   /**
@@ -988,7 +1050,7 @@ public class PlayedGame implements Serializable
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
-  // line 229 "../../../../../Block223States.ump"
+  // line 293 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
     Player p = getPlayer();
@@ -1008,11 +1070,36 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 247 "../../../../../Block223States.ump"
+  // line 311 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
     return (paddleTopY > ballBottomY);
+  }
+
+  // line 318 "../../../../../Block223States.ump"
+   private static  Point lineIntersect(Line2D lineA, Line2D lineB){
+    double x4 = lineB.getX2();
+   double x3 = lineB.getX1();
+   double x2 = lineA.getX2();
+   double x1 = lineA.getX1();
+   double y4 = lineB.getY2();
+   double y3 = lineB.getY1();
+   double y2 = lineA.getY2();
+   double y1 = lineA.getY1();
+   
+   double denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+   if (denom == 0.0) { // Lines are parallel.
+      return null;
+   }
+   double ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3))/denom;
+   double ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3))/denom;
+     if (ua >= 0.0f && ua <= 1.0f && ub >= 0.0f && ub <= 1.0f) {
+         // Get the intersection point.
+         return new Point((int) (x1 + ua*(x2 - x1)), (int) (y1 + ua*(y2 - y1)));
+     }
+
+   return null;
   }
 
 
