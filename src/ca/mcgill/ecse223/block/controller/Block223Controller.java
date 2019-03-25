@@ -313,23 +313,24 @@ public class Block223Controller {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
     	
-       if(name.equals("") )
-   		throw new InvalidInputException("The name of a game must be specified.");
+        if(name.equals(""))
+            throw new InvalidInputException("The name of a game must be specified.");
        
-      
         // updating name
-        if(!currentName.equals(name)){
-        	// Check for uniqueness of game name
+        if (!currentName.equals(name)) {
+            // Check for uniqueness of game name
             boolean unique = true;
             for (Game aGame : Block223Application.getBlock223().getGames()) {
-       	     	if (aGame.getName().equals(name)) {
-       	     		unique = false;
-       	     	}
-       	  	}
-            
-            if (!unique) throw new InvalidInputException("The name of a game must be unique.");
-           
-        	game.setName(name); 
+                if (aGame.getName().equals(name)) {
+                    unique = false;
+                }
+            }
+
+            if (!unique) {
+                throw new InvalidInputException("The name of a game must be unique.");
+            }
+
+            game.setName(name);
         }
 
         // updating all other information
