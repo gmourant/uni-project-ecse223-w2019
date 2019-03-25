@@ -700,7 +700,6 @@ public class Block223Controller {
 		}//End of logout method
 
      /**
-	 * Author: Sabrina Chan
 	 * This method selects a block and sets a new position
 	 * @param level
 	 * @param oldGridHorizontalPosition
@@ -723,7 +722,7 @@ public class Block223Controller {
 		}
 
 		//invalid input exception is the user isn't current admin of the game
-		if(!(Block223Application.getCurrentGame().getAdmin().equals(Block223Application.getCurrentUserRole()) )) {
+		if(Block223Application.getCurrentGame().getAdmin() != Block223Application.getCurrentUserRole()) {
 			throw new InvalidInputException("Only the admin who created the game can move a block.");
 		}
 
