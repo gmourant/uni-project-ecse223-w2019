@@ -296,7 +296,9 @@ public class Block223Controller {
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
     	
+
         if(name == null || name.isEmpty())
+
             throw new InvalidInputException("The name of a game must be specified.");
         
         if (Block223Application.getCurrentGame() == null) {
