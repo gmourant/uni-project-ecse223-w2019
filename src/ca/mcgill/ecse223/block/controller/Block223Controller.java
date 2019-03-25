@@ -277,7 +277,7 @@ public class Block223Controller {
         
     
     }
-  /**
+   /**
      * This method updates game information. Author: Georges Mourant
      *
      * @param name name of the game
@@ -313,16 +313,29 @@ public class Block223Controller {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
     	
+       if(name.equals("") )
+   		throw new InvalidInputException("The name of a game must be specified.");
+       
+      
         // updating name
         if(!currentName.equals(name)){
-            game.setName(name); 
+        	// Check for uniqueness of game name
+            boolean unique = true;
+            for (Game aGame : Block223Application.getBlock223().getGames()) {
+       	     	if (aGame.getName().equals(name)) {
+       	     		unique = false;
+       	     	}
+       	  	}
+            
+            if (!unique) throw new InvalidInputException("The name of a game must be unique.");
+           
+        	game.setName(name); 
         }
 
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
-
    /**
      * This method creates a block in a game. Author: Imane Chafi
      *
