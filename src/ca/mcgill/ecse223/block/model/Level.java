@@ -193,6 +193,21 @@ public class Level implements Serializable
     }
   }
   
+  public BlockAssignment findBlockAssignment(int gridHorizontalPosition, int gridVerticalPosition) {
+
+		List<BlockAssignment> assignments = getBlockAssignments();
+		for(BlockAssignment assignment: assignments) {
+			int h = assignment.getGridHorizontalPosition();
+			int v = assignment.getGridVerticalPosition();
+
+			if((h==gridHorizontalPosition)&&(v==gridVerticalPosition)){ 
+				return assignment;
+			}
+		}
+		
+		return null;
+	}//End of findBlockAssignment method
+  
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
