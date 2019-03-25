@@ -333,7 +333,7 @@ public class Block223Controller {
            
         	game.setName(name); 
         }
-
+        
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
