@@ -294,27 +294,45 @@ public class Block223Controller {
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-    	// getting current game's name
+    	
+        if(name == null)
+            throw new InvalidInputException("The name of a game must be specified.");
+        
+        if (Block223Application.getCurrentGame() == null) {
+            throw new InvalidInputException("A game must be selected to define game settings.");
+        }
+        
+        // getting current game
         Game game = Block223Application.getCurrentGame();
+        
+        // getting current game's name
         String currentName = game.getName();
+        
     	if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-             throw new InvalidInputException("Admin privileges are required to define game settings.");
-         }
-    	 if (Block223Application.getCurrentGame() == null) {
-             throw new InvalidInputException("A game must be selected to define game settings.");
-         }
+            throw new InvalidInputException("Admin privileges are required to define game settings.");
+        }
     	if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
     	
+       if(name.equals("") )
+   		throw new InvalidInputException("The name of a game must be specified.");
+       
+      
         // updating name
-        if (!currentName.equals(name)) {
-            	game.setName(name); 
-            }
-        if(game.setName(name) == false)
-            throw new InvalidInputException("The name of a game must be unique.");
-        //else if(game.setName(null))
-        	//throw new InvalidInputException("The name of a game must be specified.");
+        if(!currentName.equals(name)){
+        	// Check for uniqueness of game name
+            boolean unique = true;
+            for (Game aGame : Block223Application.getBlock223().getGames()) {
+       	     	if (aGame.getName().equals(name)) {
+       	     		unique = false;
+       	     	}
+       	  	}
+            
+            if (!unique) throw new InvalidInputException("The name of a game must be unique.");
+           
+        	game.setName(name); 
+        }
 
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
