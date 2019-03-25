@@ -732,14 +732,14 @@ public class Block223Controller {
 		// get the selected level and check if the level is within the bounds
 		Level selectedLevel;
 		try{
-			selectedLevel = game.getLevel(level-1);
+			selectedLevel = game.getLevel(level);
 		}
 		catch (IndexOutOfBoundsException e) {
 			throw new InvalidInputException("Level " + level + " does not exist for the game.");
 		}
 
 		// find the block assignment
-		BlockAssignment assignment = selectedLevel.findBlockAssignment(oldGridHorizontalPosition, oldGridVerticalPosition);
+		BlockAssignment assignment = findBlockAssignment(selectedLevel, oldGridHorizontalPosition, oldGridVerticalPosition);
 		if((assignment == null)) {
 			throw new InvalidInputException("A block does not exist at location" + oldGridHorizontalPosition + "/" + oldGridVerticalPosition + ".");
 		}
@@ -1364,6 +1364,29 @@ public class Block223Controller {
         }
         return null;
     }
+	/**
+	 * Private helper method to find the block assignment at a specific level
+	 * author: Sabrina Chan 
+	 * @param theLevel
+	 * @param gridHorizontalPosition
+	 * @param gridVerticalPosition
+	 * @return
+	 */
+
+	private static BlockAssignment findBlockAssignment(Level theLevel, int gridHorizontalPosition, int gridVerticalPosition) {
+
+		List<BlockAssignment> assignments = theLevel.getBlockAssignments();
+		for(BlockAssignment assignment: assignments) {
+			int h = assignment.getGridHorizontalPosition();
+			int v = assignment.getGridVerticalPosition();
+
+			if((h==gridHorizontalPosition)&&(v==gridVerticalPosition)){ 
+				return assignment;
+			}
+
+		}
+		return null;
+	}
 	
     /**
     *
