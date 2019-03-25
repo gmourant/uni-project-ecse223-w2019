@@ -36,7 +36,7 @@ public class User implements Serializable
   {
     // line 26 "../../../../../Block223.ump"
     if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
-       			throw new RuntimeException("The name of a game must be specified.");
+       			throw new RuntimeException("The username must be specified.");
        		}
     // END OF UMPLE BEFORE INJECTION
     if (!setUsername(aUsername))
@@ -65,7 +65,7 @@ public class User implements Serializable
     boolean wasSet = false;
     // line 26 "../../../../../Block223.ump"
     if(aUsername.isEmpty() || aUsername.equals("") || aUsername == null){
-       			throw new RuntimeException("The name of a game must be specified.");
+       			throw new RuntimeException("The username must be specified.");
        		}
     // END OF UMPLE BEFORE INJECTION
     String anOldUsername = getUsername();

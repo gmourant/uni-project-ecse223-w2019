@@ -1044,12 +1044,22 @@ public class PlayedGame implements Serializable
     // TODO implement
   }
 
-
+  // line 221 "../../../../../Block223States.ump"
+   private void doHitNothingAndNotOutOfBounds(){
+    double x = getCurrentBallX();
+    double y = getCurrentBallY();
+    double dx = getBallDirectionX();
+    double dy = getBallDirectionY();
+    setCurrentBallX(x+dx);
+    setCurrentBallY(y+dy);
+  }
+  
   /**
    * 
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
+
   // line 293 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
@@ -1070,6 +1080,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
+
   // line 311 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
