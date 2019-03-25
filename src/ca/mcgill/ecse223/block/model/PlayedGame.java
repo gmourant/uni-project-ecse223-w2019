@@ -974,13 +974,13 @@ public class PlayedGame implements Serializable
 
   // line 221 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-	   double x = getCurrentBallX();
-	   double y = getCurrentBallY();
-	   double dx = getBallDirectionX();
-	   double dy = getBallDirectionY();
-	   setCurrentBallX(x+dx);
-	   setCurrentBallY(y+dy);    
-   }//End of private method doHitNothingAndNotOutOfBounds
+    double x = getCurrentBallX();
+    double y = getCurrentBallY();
+    double dx = getBallDirectionX();
+    double dy = getBallDirectionY();
+    setCurrentBallX(x+dx);
+    setCurrentBallY(y+dy);
+  }
 
 
   /**
@@ -988,7 +988,7 @@ public class PlayedGame implements Serializable
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
-  // line 229 "../../../../../Block223States.ump"
+  // line 234 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
     Player p = getPlayer();
@@ -1008,7 +1008,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 247 "../../../../../Block223States.ump"
+  // line 252 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
