@@ -233,7 +233,7 @@ public class Block223Controller {
         }
         
         // get Block223 so can save
-        Block223 block = foundGame.getBlock223();
+        block = foundGame.getBlock223();
 
         // delete the game
         foundGame.delete();
