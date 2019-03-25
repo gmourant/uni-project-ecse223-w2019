@@ -208,35 +208,35 @@ public class Block223Controller {
      */
     public static void deleteGame(String name) throws InvalidInputException {
         Game foundGame = findGame(name);
-       
-        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+        
+        // make sure the game exists
+        if(foundGame == null) return;
+        
+        if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
-        // error if the game is published
-        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
 
         // error if not the Admin
         if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete the game.");
         }
-        Block223 block;
-
-        // make sure the game exists
-        if (foundGame != null) {
-            // error if it's the wrong admin
-            if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
-                throw new InvalidInputException("Admin privileges are required to delete a game.");
-            }
-
-            // get Block223 so can save
-            block = foundGame.getBlock223();
-
-            // delete the game
-            foundGame.delete();
-
-            // save
-            Block223Persistence.save(block);
+        
+        // error if the game is published
+        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
+        
+        // error if it's the wrong admin
+        if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
+            throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
+        
+        // get Block223 so can save
+        Block223 block = foundGame.getBlock223();
+
+        // delete the game
+        foundGame.delete();
+
+        // save
+        Block223Persistence.save(block);
     }
 
     /**
@@ -252,11 +252,11 @@ public class Block223Controller {
      */
     public static void selectGame(String name) throws InvalidInputException {
         Game game = findGame(name);
-        if(game == null)
-        throw new InvalidInputException("A game with name " + name + " does not exist.");
-
-        // error if game does not exist
         
+        // error if game does not exist
+        if(game == null)
+            throw new InvalidInputException("A game with name " + name + " does not exist.");
+
         // error if not an Admin
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to select a game.");
@@ -292,27 +292,31 @@ public class Block223Controller {
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-    	// getting current game's name
+    	
+        if(name == null)
+            throw new InvalidInputException("The name of a game must be specified.");
+        
+        if (Block223Application.getCurrentGame() == null) {
+            throw new InvalidInputException("A game must be selected to define game settings.");
+        }
+        
+        // getting current game
         Game game = Block223Application.getCurrentGame();
+        
+        // getting current game's name
         String currentName = game.getName();
+        
     	if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-             throw new InvalidInputException("Admin privileges are required to define game settings.");
-         }
-    	 if (Block223Application.getCurrentGame() == null) {
-             throw new InvalidInputException("A game must be selected to define game settings.");
-         }
+            throw new InvalidInputException("Admin privileges are required to define game settings.");
+        }
     	if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
     	
         // updating name
-        if (!currentName.equals(name)) {
-            	game.setName(name); 
-            }
-        if(game.setName(name) == false)
-            throw new InvalidInputException("The name of a game must be unique.");
-        //else if(game.setName(null))
-        	//throw new InvalidInputException("The name of a game must be specified.");
+        if(!currentName.equals(name)){
+            game.setName(name); 
+        }
 
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
