@@ -211,34 +211,35 @@ public class Block223Controller {
     	Block223 block = Block223Application.getBlock223();
     	
         Game foundGame = findGame(name);
-        if (foundGame == null) return;
-        if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
+        
+        // make sure the game exists
+        if(foundGame == null) return;
+        
+        if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
-        // error if the game is published
-        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
 
         // error if not the Admin
         if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete the game.");
         }
         
-        // make sure the game exists
-        if (foundGame != null) {
-            // error if it's the wrong admin
-            if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
-                throw new InvalidInputException("Admin privileges are required to delete a game.");
-            }
-
-            // get Block223 so can save
-            block = foundGame.getBlock223();
-
-            // delete the game
-            foundGame.delete();
-
-            // save
-            Block223Persistence.save(block);
+        // error if the game is published
+        if (foundGame.isPublished()) throw new InvalidInputException("A published game cannot be deleted.");
+        
+        // error if it's the wrong admin
+        if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
+            throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
+        
+        // get Block223 so can save
+        Block223 block = foundGame.getBlock223();
+
+        // delete the game
+        foundGame.delete();
+
+        // save
+        Block223Persistence.save(block);
     }
 
     /**
@@ -254,11 +255,11 @@ public class Block223Controller {
      */
     public static void selectGame(String name) throws InvalidInputException {
         Game game = findGame(name);
-        if(game == null)
-        throw new InvalidInputException("A game with name " + name + " does not exist.");
-
-        // error if game does not exist
         
+        // error if game does not exist
+        if(game == null)
+            throw new InvalidInputException("A game with name " + name + " does not exist.");
+
         // error if not an Admin
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to select a game.");
@@ -279,7 +280,7 @@ public class Block223Controller {
         
     
     }
-  /**
+   /**
      * This method updates game information. Author: Georges Mourant
      *
      * @param name name of the game
@@ -295,7 +296,9 @@ public class Block223Controller {
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
     	
-        if(name == null)
+
+        if(name == null || name.isEmpty())
+
             throw new InvalidInputException("The name of a game must be specified.");
         
         if (Block223Application.getCurrentGame() == null) {
@@ -315,30 +318,30 @@ public class Block223Controller {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
     	
-       if(name.equals("") )
-   		throw new InvalidInputException("The name of a game must be specified.");
+        if(name.equals(""))
+            throw new InvalidInputException("The name of a game must be specified.");
        
-      
         // updating name
-        if(!currentName.equals(name)){
-        	// Check for uniqueness of game name
+        if (!currentName.equals(name)) {
+            // Check for uniqueness of game name
             boolean unique = true;
             for (Game aGame : Block223Application.getBlock223().getGames()) {
-       	     	if (aGame.getName().equals(name)) {
-       	     		unique = false;
-       	     	}
-       	  	}
-            
-            if (!unique) throw new InvalidInputException("The name of a game must be unique.");
-           
-        	game.setName(name); 
+                if (aGame.getName().equals(name)) {
+                    unique = false;
+                }
+            }
+
+            if (!unique) {
+                throw new InvalidInputException("The name of a game must be unique.");
+            }
+
+            game.setName(name);
         }
-        
+
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
-
    /**
      * This method creates a block in a game. Author: Imane Chafi
      *
