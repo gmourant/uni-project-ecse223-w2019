@@ -207,8 +207,11 @@ public class Block223Controller {
      * @throws InvalidInputException If the user is not an admin
      */
     public static void deleteGame(String name) throws InvalidInputException {
+    	
+    	Block223 block = Block223Application.getBlock223();
+    	
         Game foundGame = findGame(name);
-       
+        if (foundGame == null) return;
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to delete a game.");
         }
@@ -219,8 +222,7 @@ public class Block223Controller {
         if (Block223Application.getCurrentUserRole() != foundGame.getAdmin()) {
             throw new InvalidInputException("Only the admin who created the game can delete the game.");
         }
-        Block223 block;
-
+        
         // make sure the game exists
         if (foundGame != null) {
             // error if it's the wrong admin
