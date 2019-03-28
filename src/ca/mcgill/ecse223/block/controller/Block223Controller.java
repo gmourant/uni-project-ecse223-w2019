@@ -841,16 +841,7 @@ public class Block223Controller {
         
         // Delete the block assignment.
         if (foundAssignment != null) {
-	        try {
 	        	foundAssignment.delete();
-	        } catch (RuntimeException e) {
-	        	if (e.getMessage().equals("X out of bounds.")) {
-	        		throw new InvalidInputException("The horizontal position must be between 1 and " + Game.GRID_DIMENSIONS + ".");
-	        	} else {
-	        		throw new InvalidInputException("The vertical position must be between 1 and " + Game.GRID_DIMENSIONS + ".");
-	        	}
-	        }
-	        
         }
 
     }
