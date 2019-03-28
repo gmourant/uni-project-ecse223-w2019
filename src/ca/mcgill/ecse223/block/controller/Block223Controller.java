@@ -797,16 +797,15 @@ public class Block223Controller {
     * @param gridVerticalPosition The grid vertical position where the block
     * will be positioned.
     *
-    * OUTDATED -- NEED AN UPDATE
-    * @throws InvalidInputException if the level index is < 0 or > 98.
-    * @throws InvalidInputException if the level index or the block ID do not
-    * correspond to an existing entity.
+    * @throws InvalidInputException if the user isn't the admin that created the game.
+    * @throws InvalidInputException if no game is selected.
+    * @throws InvalidInputException if the level index is invalid.
     *
     */
 	public static void removeBlock(int level, int gridHorizontalPosition, int gridVerticalPosition)
 			throws InvalidInputException {
 
-		  // Verify that the user is an admin before proceeding.
+		// Verify that the user is an admin before proceeding.
         if (!(Block223Application.getCurrentUserRole() instanceof Admin)) {
             throw new InvalidInputException("Admin privileges are required to remove a block.");
         }
