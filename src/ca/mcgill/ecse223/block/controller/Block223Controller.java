@@ -280,7 +280,7 @@ public class Block223Controller {
         
     
     }
-   /**
+  /**
      * This method updates game information. Author: Georges Mourant
      *
      * @param name name of the game
