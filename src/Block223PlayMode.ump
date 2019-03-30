@@ -5,6 +5,7 @@ class Block223 {
 
 class Game {
    lazy Boolean published; // Cannot edit a published game
+   // Author: Kelly Ma
    after addHallOfFameEntry {
    		mostRecentEntry = aHallOfFameEntry; // Sets the newest entry as the mostRecentEntry
    }
