@@ -722,7 +722,7 @@ public class Block223Controller {
 			Block223Application.setCurrentUserRole(null);
 		}//End of logout method
 
-       /**
+         /**
 	 * This method selects a block and sets a new position
 	 * @param level
 	 * @param oldGridHorizontalPosition
@@ -772,21 +772,20 @@ public class Block223Controller {
 			throw new InvalidInputException("A block already exists at location " + newGridHorizontalPosition + "/" + newGridVerticalPosition + ".");
 		}
 		// set the new horizontal position for the block and check if the position is available
-		try{
-			assignment.setGridHorizontalPosition(newGridHorizontalPosition);
-		}
-		catch (RuntimeErrorException e) {
-			if((assignment.getGridHorizontalPosition() <=0) || (assignment.getGridHorizontalPosition() >= 15) )
-			throw new InvalidInputException("The horizontal position must be between 1 and " + 15 + ".");
-		}	
+		
+		assignment.setGridHorizontalPosition(newGridHorizontalPosition);
+		
+		if((assignment.getGridHorizontalPosition() <=0) || (assignment.getGridHorizontalPosition() >= 16) )
+			throw new InvalidInputException("The horizontal position must be between 1 and 15.");
+		
 			// set the new vertical position for the block and check if the position is available
-		try{
-			assignment.setGridVerticalPosition(newGridVerticalPosition);
-		}
-		catch (RuntimeErrorException e) {
-			if(assignment.getGridVerticalPosition() <=0 || assignment.getGridVerticalPosition() > 15 )
-				throw new InvalidInputException("The vertical position must be between 1 and " + 15 + ".");
-		}	
+		
+		assignment.setGridVerticalPosition(newGridVerticalPosition);
+		
+	
+		if(assignment.getGridVerticalPosition() <=0 || assignment.getGridVerticalPosition() > 15 )
+			throw new InvalidInputException("The vertical position must be between 1 and 15.");
+			
 
 	}
 	
