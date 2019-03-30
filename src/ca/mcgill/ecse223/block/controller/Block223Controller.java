@@ -1294,10 +1294,10 @@ public class Block223Controller {
  		
  		if (start < 1) start = 1; // Ensure that start index is >= 1
  		if (end > game.numberOfHallOfFameEntries()) end = game.numberOfHallOfFameEntries(); // End cannot exceed total # of entries
- 		start--; // resets index to 0
- 		end--;
+ 		start = game.numberOfHallOfFameEntries() - start; // Resets index to largest index
+ 		end = game.numberOfHallOfFameEntries() - end;
  		
- 		for (int index = start; index <= end; index++) { 
+ 		for (int index = start; index >= end; index--) { 
  			// String username = User.findUsername(game.getHallOfFameEntry(i).getPlayer()); // Old method to find username
  			new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
  			
@@ -1325,12 +1325,12 @@ public class Block223Controller {
 		HallOfFameEntry mostRecent = game.getMostRecentEntry(); // Obtain mostRecentEntry for the game being played
 		int indexR = game.indexOfHallOfFameEntry(mostRecent);
 		
-		int start = indexR - numberOfEntries/2;
-		if (start > game.numberOfHallOfFameEntries() - 1) start = game.numberOfHallOfFameEntries() -1;
+		int start = indexR + numberOfEntries/2;
+		if (start > game.numberOfHallOfFameEntries() - 1) start = game.numberOfHallOfFameEntries() - 1;
 		int end = start - numberOfEntries + 1;
 		if (end < 0) end = 0;
 		
-		for (int index = end; index >= start; index--) {
+		for (int index = start; index >= end; index--) {
 			// String username = User.findUsername(game.getHallOfFameEntry(index).getPlayer());
  			new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
 		}
