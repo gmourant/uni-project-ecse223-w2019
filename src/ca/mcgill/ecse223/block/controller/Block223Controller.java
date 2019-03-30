@@ -1003,15 +1003,15 @@ public class Block223Controller {
 		
 		//If a game hasn't been selected
 		if(Block223Application.getCurrentGame() == null) {
-    		throw new InvalidInputException("A game must be selected to test it.");
+    		throw new InvalidInputException("A game must be selected to publish it.");
     	}
 		//If the current UserRole is not and AdminRole
     	if(!(Block223Application.getCurrentUserRole() instanceof Admin)) {
-    		throw new InvalidInputException("Admin privileges are required to test a game.");
+    		throw new InvalidInputException("Admin privileges are required to publish a game.");
     	}
     	//If the current UserRole is not the admin of this game
     	if(Block223Application.getCurrentGame().getAdmin() != Block223Application.getCurrentUserRole()) {
-    		throw new InvalidInputException("Only the admin who created the game can test it.");
+    		throw new InvalidInputException("Only the admin who created the game can publish it.");
     	}
     	//If there are less than 1 number of blocks defined for the game
     	if(Block223Application.getCurrentGame().getNrBlocksPerLevel() < 1) {
