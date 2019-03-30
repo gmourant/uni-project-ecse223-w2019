@@ -1285,7 +1285,7 @@ public class Block223Controller {
  	public static TOHallOfFame getHallOfFame(int start, int end) throws InvalidInputException {
  		
  		if (!(Block223Application.getCurrentUserRole() instanceof Player)) throw new // Verifies that the user is a Player
- 			InvalidInputException("Player privileges are required to access a game's hall of fame.");
+ 			InvalidInputException("Player privileges are required to access a game's hall of fame.");
  		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
  		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
  		
@@ -1300,6 +1300,7 @@ public class Block223Controller {
  		for (int index = start; index <= end; index++) { 
  			// String username = User.findUsername(game.getHallOfFameEntry(i).getPlayer()); // Old method to find username
  			new TOHallOfFameEntry(index+1, game.getHallOfFameEntry(index).getPlayername(), game.getHallOfFameEntry(index).getScore(), result); // Create transfer object
+ 			
  		}
  		
  		return result; // Returns HOF as a transfer object
