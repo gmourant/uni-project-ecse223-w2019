@@ -280,7 +280,7 @@ public class Block223Controller {
         
     
     }
-   /**
+  /**
      * This method updates game information. Author: Georges Mourant
      *
      * @param name name of the game
@@ -722,7 +722,7 @@ public class Block223Controller {
 			Block223Application.setCurrentUserRole(null);
 		}//End of logout method
 
-     /**
+       /**
 	 * This method selects a block and sets a new position
 	 * @param level
 	 * @param oldGridHorizontalPosition
@@ -755,31 +755,37 @@ public class Block223Controller {
 		// get the selected level and check if the level is within the bounds
 		Level selectedLevel;
 		try{
-			selectedLevel = game.getLevel(level);
+			selectedLevel = game.getLevel(level-1);
 		}
 		catch (IndexOutOfBoundsException e) {
 			throw new InvalidInputException("Level " + level + " does not exist for the game.");
 		}
 
 		// find the block assignment
-		BlockAssignment assignment = findBlockAssignment(selectedLevel, oldGridHorizontalPosition, oldGridVerticalPosition);
+		BlockAssignment assignment = selectedLevel.findBlockAssignment(oldGridHorizontalPosition, oldGridVerticalPosition);
 		if((assignment == null)) {
-			throw new InvalidInputException("A block does not exist at location" + oldGridHorizontalPosition + "/" + oldGridVerticalPosition + ".");
+			throw new InvalidInputException("A block does not exist at location " + oldGridHorizontalPosition + "/" + oldGridVerticalPosition + ".");
 		}
 
+		BlockAssignment assignmentTaken = selectedLevel.findBlockAssignment(newGridHorizontalPosition, newGridVerticalPosition);
+		if((assignmentTaken != null)) {
+			throw new InvalidInputException("A block already exists at location " + newGridHorizontalPosition + "/" + newGridVerticalPosition + ".");
+		}
 		// set the new horizontal position for the block and check if the position is available
 		try{
 			assignment.setGridHorizontalPosition(newGridHorizontalPosition);
 		}
 		catch (RuntimeErrorException e) {
-			throw new InvalidInputException(e.getLocalizedMessage());
+			if((assignment.getGridHorizontalPosition() <=0) || (assignment.getGridHorizontalPosition() >= 15) )
+			throw new InvalidInputException("The horizontal position must be between 1 and " + 15 + ".");
 		}	
 			// set the new vertical position for the block and check if the position is available
 		try{
 			assignment.setGridVerticalPosition(newGridVerticalPosition);
 		}
 		catch (RuntimeErrorException e) {
-			throw new InvalidInputException(e.getLocalizedMessage());
+			if(assignment.getGridVerticalPosition() <=0 || assignment.getGridVerticalPosition() > 15 )
+				throw new InvalidInputException("The vertical position must be between 1 and " + 15 + ".");
 		}	
 
 	}
