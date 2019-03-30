@@ -148,7 +148,7 @@ public class Game implements Serializable
   public boolean setPublished(boolean aPublished)
   {
     boolean wasSet = false;
-    // line 12 "../../../../../Block223PlayMode.ump"
+    // line 13 "../../../../../Block223PlayMode.ump"
     if (published) return wasSet;
     // END OF UMPLE BEFORE INJECTION
     published = aPublished;
@@ -787,7 +787,7 @@ public class Game implements Serializable
       hallOfFameEntries.add(aHallOfFameEntry);
     }
     wasAdded = true;
-    // line 9 "../../../../../Block223PlayMode.ump"
+    // line 10 "../../../../../Block223PlayMode.ump"
     mostRecentEntry = aHallOfFameEntry; // Sets the newest entry as the mostRecentEntry
     // END OF UMPLE AFTER INJECTION
     if(wasAdded)
@@ -902,7 +902,7 @@ public class Game implements Serializable
    * This method returns a block for the doSetup() method
    * @author : Imane Chafi
    */
-  // line 18 "../../../../../Block223PlayMode.ump"
+  // line 19 "../../../../../Block223PlayMode.ump"
    public Block getRandomBlock(){
     Block blockRandom = this.getBlock(PlayedGame.getRandomInt());
    while(blockRandom == null){
