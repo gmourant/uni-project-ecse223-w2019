@@ -118,7 +118,7 @@ class PlayedGame {
   
   // Actions
   
-  /**
+/**
  	 * Public method used to get a random number
  	 * @author https://dzone.com/articles/random-number-generation-in-java
  	 * @return double value
@@ -129,8 +129,14 @@ class PlayedGame {
  	    int x = rand.nextInt(50);
  	    return x;
  	}
+ 	public static int getRandomInt2(){
+ 	    Random rand = new Random();
+ 		//obtain number between 0-4
+ 	    int x = rand.nextInt(4);
+ 	    return x;
+ 	}
 	
-	/**
+		/**
  	 * This private method returns the setup for the Played Game
  	 * by resetting the ball positions and paddle positions and by
  	 * adding random block positions if there is less blocks than the 
@@ -146,44 +152,41 @@ class PlayedGame {
  		this.resetCurrentPaddleX();
  		this.getGame();
  		Level level = game.getLevel(getCurrentLevel()-1);
- 		List <BlockAssignment> assignment = level.getBlockAssignments();
+ 		List <BlockAssignment> assignments = level.getBlockAssignments();
  		
  	
- 		for(BlockAssignment a : assignment) {
+ 		for(BlockAssignment a : assignments) {
  			PlayedBlockAssignment pblock = new PlayedBlockAssignment(Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(a.getGridHorizontalPosition()-1), Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(a.getGridVerticalPosition() - 1), a.getBlock(), this);
  			
  		}
  		//Initializing the x and y variables before the while loop
- 			int x;
- 			int y;
+ 			int x = getRandomInt();
+ 			int y = getRandomInt();
+ 			BlockAssignment randomgridPositionX;
+ 			BlockAssignment randomgridPositionY;
  		while(numberOfBlocks() < game.getNrBlocksPerLevel()) {
- 			
- 			//Pick a random location for x and y 
- 			x = getRandomInt();
- 			y = getRandomInt();
- 			
- 			//Pick random grid location.
- 			BlockAssignment randomgridPositionX = game.getBlockAssignment(x);
- 			BlockAssignment randomgridPositionY = game.getBlockAssignment(y);
-
  			//if chosen, try next position starting from randomly chosen position
- 			if((randomgridPositionX != null )&& (randomgridPositionY != null)){
- 				x++;
- 			 	if((x == 7) && (randomgridPositionX != null )&& (randomgridPositionY != null))
- 			 	y++;
- 			 }
+ 			BlockAssignment taken = level.findBlockAssignment(x, y);
+ 				if(taken !=null){
+ 					x++;
+ 				if(x > 15){
+ 					y++;
+ 				x = 1;
+ 				}
+ 				if(y>15)
+ 				y = 1;
+ 				
+ 			}
  			//going to the right, then next row until last row
  			//then 1/1 until empty position found.
  			//convert to x/y coordinates
- 			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(randomgridPositionX.getGridHorizontalPosition()-1);
- 			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(randomgridPositionY.getGridVerticalPosition() - 1);
- 			
+ 			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(x-1);
+ 			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(y-1);
+
  			
  			PlayedBlockAssignment pblock = new PlayedBlockAssignment(x,y,game.getRandomBlock(), this);
- 			
- 		}
- 		
- 		
+ 			//addBlock(pblock);
+ 	}
  	}
   
   private void doHitPaddleOrWall() {
@@ -207,7 +210,7 @@ class PlayedGame {
     int bscore = block.getPoints();
     setScore(score + bscore);
     pblock.delete();
-    bounceBall();
+    //bounceBall();
   }
 
   private void doHitBlockNextLevel() {
@@ -224,7 +227,8 @@ class PlayedGame {
             * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
             (getCurrentLevel() - 1)));
   }
-  
+
+
   /**
   * This method returns the bounce point that is the closest to the ball. 
   * If there is no bouncePoint, it returns null.
@@ -320,12 +324,7 @@ class PlayedGame {
   }
 
   private void doHitNothingAndNotOutOfBounds() {
-    double x = getCurrentBallX();
-    double y = getCurrentBallY();
-    double dx = getBallDirectionX();
-    double dy = getBallDirectionY();
-    setCurrentBallX(x+dx);
-    setCurrentBallY(y+dy);
+    // TODO implement
   }
 
   /**

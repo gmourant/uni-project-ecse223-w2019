@@ -29,6 +29,11 @@ The second iteration includes a project report that can be found in the reposito
 ### Iteration 3
 
 The third iteration includes ```Controller```,```Persistence```,```View```,```Application```and ```Model``` files that can be found in the ```src``` directory in ```master```. There is also a statement of work excel file to see how the work was divided.
+
 ### Iteration 4
 
 The fourth iteration includes a project report that can be found in the repository's wiki. It states the sequence diagrams for each feature. The code created by the umple files are stated in the ```src``` directory in ```master```.
+
+### Iteration 5
+
+The fifth iteration includes the method specifications for the controller and the view interface. The tests for iteration 3 have also been updated to solve the errors that were in the code. The methods for playing a game can be found in the ```src``` directory in ```master```. 

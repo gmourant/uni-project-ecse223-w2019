@@ -100,6 +100,30 @@ class Block {
 // random attribute not needed anymore
 // Each level is filled up with random blocks just before playing the level to reach the nrBlocksPerLevel defined in Game
 class Level {
+/**
+	 * Public helper method to find the block assignment at a specific level
+	 * author: Sabrina Chan and Imane Chafi
+	 * @param theLevel
+	 * @param gridHorizontalPosition
+	 * @param gridVerticalPosition
+	 * @return
+	 */
+
+	public BlockAssignment findBlockAssignment(int gridHorizontalPosition, int gridVerticalPosition) {
+
+		List<BlockAssignment> assignments = this.getBlockAssignments();
+		for(BlockAssignment assignment: assignments) {
+			int h = assignment.getGridHorizontalPosition();
+			int v = assignment.getGridVerticalPosition();
+
+			if((h==gridHorizontalPosition)&&(v==gridVerticalPosition)){ 
+				return assignment;
+			}
+
+		}
+		return null;
+	}
+
 }
 
 class BlockAssignment {

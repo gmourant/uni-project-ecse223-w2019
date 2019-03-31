@@ -11,7 +11,7 @@ import math.geom2d.polygon.Rectangle2D;
 import java.util.*;
 
 // line 103 "../../../../../Block223Persistence.ump"
-// line 25 "../../../../../Block223PlayMode.ump"
+// line 26 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -84,7 +84,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 79 "../../../../../Block223PlayMode.ump"
+    // line 80 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -739,7 +739,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 61 "../../../../../Block223PlayMode.ump"
+  // line 62 "../../../../../Block223PlayMode.ump"
    public HallOfFameEntry getMostRecentEntry(){
     // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
@@ -750,7 +750,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 67 "../../../../../Block223PlayMode.ump"
+  // line 68 "../../../../../Block223PlayMode.ump"
    public int indexOfHallOfFameEntry(){
     // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry

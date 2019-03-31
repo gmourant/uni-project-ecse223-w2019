@@ -5,6 +5,7 @@ class Block223 {
 
 class Game {
    lazy Boolean published; // Cannot edit a published game
+   // Author: Kelly Ma
    after addHallOfFameEntry {
    		mostRecentEntry = aHallOfFameEntry; // Sets the newest entry as the mostRecentEntry
    }
@@ -12,13 +13,12 @@ class Game {
 		if (published) return wasSet;
 	}
    1 -> 0..1 HallOfFameEntry mostRecentEntry;
-   /*This method returns a block for the doSetup() method*/
+  /*This method returns a block for the doSetup() method*/
   /*@author : Imane Chafi*/
    public Block getRandomBlock(){
-   Block blockRandom = this.getBlock(PlayedGame.getRandomInt());
-   while(blockRandom == null){
-   	blockRandom = this.getBlock(PlayedGame.getRandomInt());}
-  	return blockRandom;
+   	List<Block> blocks = this.getBlocks();
+	Block block = this.getBlock(0);
+  	return block;
    }
 }
 
