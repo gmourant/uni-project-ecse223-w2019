@@ -1,5 +1,11 @@
 class PlayedGame {
 
+  depend ca.mcgill.ecse223.block.model.BouncePoint.BounceDirection;
+  depend math.geom2d.Point2D;
+  depend math.geom2d.conic.Circle2D;
+  depend math.geom2d.line.LineSegment2D;
+  depend math.geom2d.polygon.Rectangle2D;
+
   // State Machine
   
   playStatus {
@@ -69,6 +75,11 @@ class PlayedGame {
     return false;
   }
   
+  /**
+  * This method returns true if the ball hits the last block.
+  * @author Mathieu Bissonnette
+  */
+  
   private boolean hitLastBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -80,6 +91,11 @@ class PlayedGame {
     }
     return false;
   }
+  
+  /**
+  * This method returns true if the ball hits a block.
+  * @author Mathieu Bissonnette
+  */
   
   private boolean hitBlock() {
     int nrBlocks = numberOfBlocks();
@@ -211,15 +227,100 @@ class PlayedGame {
             * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
             (getCurrentLevel() - 1)));
   }
+
+
+  /**
+  * This method returns the bounce point that is the closest to the ball. 
+  * If there is no bouncePoint, it returns null.
+  * @author Mathieu Bissonnette
+  */
   
-  private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block) {
-    // TODO implement
-    return null;
+   private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
+    // Construct the collision box.
+       int gridHorizontalCoordinate = block.getX();
+       int gridVerticalCoordinate = block.getY();
+       int boxTopLeftX = 10+15*(gridHorizontalCoordinate-1);
+       int boxTopLeftY = 10+12*(gridVerticalCoordinate-1);
+       // verify if the ball hits the collision box.
+       Rectangle2D collisionBox = new Rectangle2D(boxTopLeftX,boxTopLeftY,30,30);
+       LineSegment2D ballDirection = new LineSegment2D(currentBallX, currentBallY, currentBallX+ballDirectionX, currentBallX+ballDirectionY);
+       Collection<LineSegment2D> edges = collisionBox.edges();
+       Boolean intersection = false;
+       for (LineSegment2D line : edges) {
+           intersection = !(LineSegment2D.getIntersection(line, ballDirection).isEmpty());
+       }
+       if (intersection) {
+           // find border bounce point.
+           Collection<BouncePoint> bouncePoints = new ArrayList<BouncePoint>();
+           Point2D edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX+5, boxTopLeftY, boxTopLeftX+25, boxTopLeftY));
+           if (edgeIntersectionPoint != null) {
+               BouncePoint bpA = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_Y);
+               bouncePoints.add(bpA);
+           }
+           edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX, boxTopLeftY+5, boxTopLeftX, boxTopLeftY+25));
+           if (edgeIntersectionPoint != null) {
+               BouncePoint bpB = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_X);
+               bouncePoints.add(bpB);
+           }
+           edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX+30, boxTopLeftY+5, boxTopLeftX+30, boxTopLeftY+25));
+           if (edgeIntersectionPoint != null) {
+               BouncePoint bpC = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_X);
+               bouncePoints.add(bpC);
+           }
+           edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX+5, boxTopLeftY+30, boxTopLeftX+25, boxTopLeftY+30));
+           if (edgeIntersectionPoint != null) {
+               BouncePoint bpD = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_Y);
+               bouncePoints.add(bpD);
+           }
+           
+           //Then add corner points
+           
+           Circle2D upperLeftCorner = new Circle2D(boxTopLeftX+5, boxTopLeftY+5, 5);
+           Circle2D lowerLeftCorner = new Circle2D(boxTopLeftX+5, boxTopLeftY+25, 5);
+           Circle2D upperRightCorner = new Circle2D(boxTopLeftX+25, boxTopLeftY+5, 5);
+           Circle2D lowerRightCorner = new Circle2D(boxTopLeftX+25, boxTopLeftY+25, 5);
+           Collection<Point2D> cornerIntersectionPoints = upperLeftCorner.intersections(ballDirection);
+           cornerIntersectionPoints.addAll(lowerLeftCorner.intersections(ballDirection));
+           cornerIntersectionPoints.addAll(upperRightCorner.intersections(ballDirection));
+           cornerIntersectionPoints.addAll(lowerRightCorner.intersections(ballDirection));
+
+           for (Point2D point : cornerIntersectionPoints) {
+               bouncePoints.add(new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_BOTH));
+           }
+           
+           //Then iterated through the collection to find the closest bounce point.
+           
+           BouncePoint closestPoint = null;
+           for (BouncePoint bouncePoint : bouncePoints) {
+               if (isCloser(bouncePoint,closestPoint))
+                   closestPoint = bouncePoint;
+           }
+           
+           //Then return the closer bounce point.
+           
+           return closestPoint;
+           
+       }
+       return null;
   }
   
+  /**
+  * This method returns true if pointA exists and is closer to the ball than pointB.
+  * @author Mathieu Bissonnette
+  */
+  
   private boolean isCloser(BouncePoint pointA, BouncePoint pointB) {
-    // TODO implement
-    return false;
+       // Verify if one of the point is null.
+       if (pointA == null) {
+           return false;
+       }
+       if (pointB == null) {
+           return true;
+       }   
+       // Calculate the distances and check for the smallest one.
+       double distanceA = Math.sqrt(Math.pow(currentBallX-pointA.getX(), 2) + Math.pow(currentBallY-pointA.getY(), 2));
+       double distanceB = Math.sqrt(Math.pow(currentBallX-pointB.getX(), 2) + Math.pow(currentBallY-pointB.getY(), 2));
+       return (distanceA < distanceB);
   }
 
   private void doHitNothingAndNotOutOfBounds() {
@@ -253,4 +354,5 @@ class PlayedGame {
     double paddleTopY = getCurrentPaddleY();
     return (paddleTopY > ballBottomY);
   }
+  
 }
