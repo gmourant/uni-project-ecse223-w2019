@@ -1014,7 +1014,7 @@ public class Block223Controller {
     		throw new InvalidInputException("Only the admin who created the game can publish it.");
     	}
     	//If there are less than 1 number of blocks defined for the game
-    	if(Block223Application.getCurrentGame().getNrBlocksPerLevel() < 1) {
+    	if(Block223Application.getCurrentGame().getBlocks().size() < 1) {
     		throw new InvalidInputException("At least one block must be defined for a game to be published.");
     	}
     	
