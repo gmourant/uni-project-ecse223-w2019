@@ -11,7 +11,7 @@ import math.geom2d.polygon.Rectangle2D;
 import java.util.*;
 
 // line 103 "../../../../../Block223Persistence.ump"
-// line 26 "../../../../../Block223PlayMode.ump"
+// line 25 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -84,7 +84,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 80 "../../../../../Block223PlayMode.ump"
+    // line 79 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -739,7 +739,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 62 "../../../../../Block223PlayMode.ump"
+  // line 61 "../../../../../Block223PlayMode.ump"
    public HallOfFameEntry getMostRecentEntry(){
     // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
@@ -750,7 +750,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 68 "../../../../../Block223PlayMode.ump"
+  // line 67 "../../../../../Block223PlayMode.ump"
    public int indexOfHallOfFameEntry(){
     // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry
@@ -879,6 +879,14 @@ public class PlayedGame implements Serializable
  	    return x;
   }
 
+  // line 133 "../../../../../Block223States.ump"
+   public static  int getRandomInt2(){
+    Random rand = new Random();
+ 		//obtain number between 0-4
+ 	    int x = rand.nextInt(4);
+ 	    return x;
+  }
+
 
   /**
    * 
@@ -889,7 +897,7 @@ public class PlayedGame implements Serializable
    * @author Imane Chafi 
    * 
    */
-  // line 142 "../../../../../Block223States.ump"
+  // line 148 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
  		this.resetCurrentBallY();
@@ -898,50 +906,49 @@ public class PlayedGame implements Serializable
  		this.resetCurrentPaddleX();
  		this.getGame();
  		Level level = game.getLevel(getCurrentLevel()-1);
- 		List <BlockAssignment> assignment = level.getBlockAssignments();
+ 		List <BlockAssignment> assignments = level.getBlockAssignments();
  		
  	
- 		for(BlockAssignment a : assignment) {
+ 		for(BlockAssignment a : assignments) {
  			PlayedBlockAssignment pblock = new PlayedBlockAssignment(Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(a.getGridHorizontalPosition()-1), Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(a.getGridVerticalPosition() - 1), a.getBlock(), this);
  			
  		}
  		//Initializing the x and y variables before the while loop
- 			int x;
- 			int y;
+ 			int x = getRandomInt();
+ 			int y = getRandomInt();
+ 			BlockAssignment randomgridPositionX;
+ 			BlockAssignment randomgridPositionY;
  		while(numberOfBlocks() < game.getNrBlocksPerLevel()) {
- 			
- 			//Pick a random location for x and y 
- 			x = getRandomInt();
- 			y = getRandomInt();
- 			
- 			//Pick random grid location.
- 			BlockAssignment randomgridPositionX = game.getBlockAssignment(x);
- 			BlockAssignment randomgridPositionY = game.getBlockAssignment(y);
-
  			//if chosen, try next position starting from randomly chosen position
- 			if((randomgridPositionX != null )&& (randomgridPositionY != null)){
- 				x++;
- 			 	if((x == 7) && (randomgridPositionX != null )&& (randomgridPositionY != null))
- 			 	y++;
- 			 }
+ 			BlockAssignment taken = level.findBlockAssignment(x, y);
+ 				if(taken !=null){
+ 					x++;
+ 				if(x > 15){
+ 					y++;
+ 				x = 1;
+ 				}
+ 				if(y>15)
+ 				y = 1;
+ 				
+ 			}
  			//going to the right, then next row until last row
  			//then 1/1 until empty position found.
  			//convert to x/y coordinates
- 			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(randomgridPositionX.getGridHorizontalPosition()-1);
- 			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(randomgridPositionY.getGridVerticalPosition() - 1);
- 			
+ 			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(x-1);
+ 			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(y-1);
+
  			
  			PlayedBlockAssignment pblock = new PlayedBlockAssignment(x,y,game.getRandomBlock(), this);
- 			
- 		}
+ 			//addBlock(pblock);
+ 	}
   }
 
-  // line 190 "../../../../../Block223States.ump"
+  // line 193 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     // TODO implement
   }
 
-  // line 194 "../../../../../Block223States.ump"
+  // line 197 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     setLives(lives-1);
     resetCurrentBallX();
@@ -951,7 +958,7 @@ public class PlayedGame implements Serializable
     resetCurrentPaddleX();
   }
 
-  // line 203 "../../../../../Block223States.ump"
+  // line 206 "../../../../../Block223States.ump"
    private void doHitBlock(){
     int score = getScore();
     BouncePoint bounce = getBounce();
@@ -960,10 +967,10 @@ public class PlayedGame implements Serializable
     int bscore = block.getPoints();
     setScore(score + bscore);
     pblock.delete();
-    bounceBall();
+    //bounceBall();
   }
 
-  // line 214 "../../../../../Block223States.ump"
+  // line 217 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     doHitBlock();
     int level = getCurrentLevel();
@@ -986,7 +993,7 @@ public class PlayedGame implements Serializable
    * If there is no bouncePoint, it returns null.
    * @author Mathieu Bissonnette
    */
-  // line 235 "../../../../../Block223States.ump"
+  // line 239 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
     // Construct the collision box.
        int gridHorizontalCoordinate = block.getX();
@@ -1062,7 +1069,7 @@ public class PlayedGame implements Serializable
    * This method returns true if pointA exists and is closer to the ball than pointB.
    * @author Mathieu Bissonnette
    */
-  // line 309 "../../../../../Block223States.ump"
+  // line 313 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
     // Verify if one of the point is null.
        if (pointA == null) {
@@ -1077,14 +1084,9 @@ public class PlayedGame implements Serializable
        return (distanceA < distanceB);
   }
 
-  // line 323 "../../../../../Block223States.ump"
+  // line 327 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-    double x = getCurrentBallX();
-    double y = getCurrentBallY();
-    double dx = getBallDirectionX();
-    double dy = getBallDirectionY();
-    setCurrentBallX(x+dx);
-    setCurrentBallY(y+dy);
+    // TODO implement
   }
 
 
@@ -1093,7 +1095,7 @@ public class PlayedGame implements Serializable
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
-  // line 336 "../../../../../Block223States.ump"
+  // line 335 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
     Player p = getPlayer();
@@ -1113,7 +1115,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 354 "../../../../../Block223States.ump"
+  // line 353 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();

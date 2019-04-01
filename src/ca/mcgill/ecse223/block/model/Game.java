@@ -40,7 +40,7 @@ public class Game implements Serializable
   private boolean published;
   private String name;
   private int nrBlocksPerLevel;
-  private transient Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
+  private Comparator<HallOfFameEntry> hallOfFameEntriesPriority;
 
   //Game Associations
   private HallOfFameEntry mostRecentEntry;
@@ -904,10 +904,9 @@ public class Game implements Serializable
    */
   // line 19 "../../../../../Block223PlayMode.ump"
    public Block getRandomBlock(){
-    Block blockRandom = this.getBlock(PlayedGame.getRandomInt());
-   while(blockRandom == null){
-   	blockRandom = this.getBlock(PlayedGame.getRandomInt());}
-  	return blockRandom;
+    List<Block> blocks = this.getBlocks();
+	Block block = this.getBlock(0);
+  	return block;
   }
 
 

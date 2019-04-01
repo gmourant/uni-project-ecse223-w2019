@@ -192,6 +192,31 @@ public class Level implements Serializable
       aBlockAssignment.delete();
     }
   }
+
+
+  /**
+   * 
+   * Public helper method to find the block assignment at a specific level
+   * author: Sabrina Chan and Imane Chafi
+   * @param theLevel
+   * @param gridHorizontalPosition
+   * @param gridVerticalPosition
+   * @return
+   */
+  // line 114 "../../../../../Block223.ump"
+   public BlockAssignment findBlockAssignment(int gridHorizontalPosition, int gridVerticalPosition){
+    List<BlockAssignment> assignments = this.getBlockAssignments();
+		for(BlockAssignment assignment: assignments) {
+			int h = assignment.getGridHorizontalPosition();
+			int v = assignment.getGridVerticalPosition();
+
+			if((h==gridHorizontalPosition)&&(v==gridVerticalPosition)){ 
+				return assignment;
+			}
+
+		}
+		return null;
+  }
   
   //------------------------
   // DEVELOPER CODE - PROVIDED AS-IS
