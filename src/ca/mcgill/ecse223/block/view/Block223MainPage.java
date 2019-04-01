@@ -17,10 +17,11 @@ import java.awt.event.ItemListener;
 
 public class Block223MainPage extends JFrame {
 
-    public final static Color HEADER_BACKGROUND = new Color(224, 249, 246);
-    public final static Color BUTTON_BACKGROUND = new Color(207, 243, 238);
-    public final static Font UI_FONT = new Font("Century Gothic", Font.PLAIN, 14);
+    public final static Color HEADER_BACKGROUND = new Color(62, 61, 60);
+    public final static Color BUTTON_BACKGROUND = new Color(210, 215, 223);
+    public final static Font UI_FONT = new Font("Consolas", Font.PLAIN, 14);
     public final static int TITLE_SIZE_INCREASE = 4;
+    public final static Color BACKGROUND = new Color(62, 61, 60);
     int level;//We are still working on how to get the levels from the game
     private JLabel currentGameDisplay;
     private JComboBox<String> chooseGame;
@@ -34,10 +35,10 @@ public class Block223MainPage extends JFrame {
         addBlock, deleteBlock,
         updateBlock, positionBlock,
         moveBlock, removeBlock,
-        login, logout, signUp
+        login, logout, signUp, welcome
     }
 
-    private Page currentPage = Page.login;
+    private Page currentPage = Page.welcome;
 
     private JPanel topMenu;
     private JButton save;
@@ -53,6 +54,7 @@ public class Block223MainPage extends JFrame {
         this.setLocationRelativeTo(null); // Places in the center of the screen
         this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
+        this.setBackground(new Color(244,241,187));
 
         thisInstance = this;
 
@@ -94,7 +96,7 @@ public class Block223MainPage extends JFrame {
         logout.setVisible(false);
 
         // show menus if appropriate
-        if (toDisplay != Page.login && toDisplay != Page.signUp) {
+        if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome) {
             leftSide.setVisible(true);
             save.setVisible(true);
             logout.setVisible(true);
@@ -105,7 +107,10 @@ public class Block223MainPage extends JFrame {
         // creates the correct JPanel depending on the selected page specified 
         // in the toDisplay enum
         switch (toDisplay) {
-            case login:
+        	case welcome : 
+        	displayedPage = new PageWelcome(this);
+        		break;
+        	case login:
                 displayedPage = new PageLogin(this);
                 break;
             case logout:
@@ -171,7 +176,9 @@ public class Block223MainPage extends JFrame {
         JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         exitMin.setBackground(topMenu.getBackground()); // match to background
         JButton minimize = createButton("_");
+        minimize.setForeground(Color.WHITE);
         JButton exit = createButton("X");
+        exit.setForeground(Color.WHITE);
         minimize.setBackground(exitMin.getBackground()); // match to background
         exit.setBackground(exitMin.getBackground()); // match to background
         exitMin.add(minimize);
