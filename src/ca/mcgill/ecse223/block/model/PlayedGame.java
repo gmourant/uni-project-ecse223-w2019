@@ -766,10 +766,16 @@ public class PlayedGame implements Serializable
 
   /**
    * Guards
+   * 
+   * This returns true if the ball hits the paddle.
+   * @author Kelly Ma
+   * @return Whether or not the ball hits paddle
    */
-  // line 38 "../../../../../Block223States.ump"
+  // line 43 "../../../../../Block223States.ump"
    private boolean hitPaddle(){
-    // TODO implement
+    BouncePoint bp = calculateBouncePointPaddle();
+    setBounce(bp);
+    if (bp != null) return true;
     return false;
   }
 
@@ -780,7 +786,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 48 "../../../../../Block223States.ump"
+  // line 55 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
     boolean outOfBounds = false;
     if(lives == 1) outOfBounds = isBallOutOfBounds();
@@ -794,12 +800,12 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 59 "../../../../../Block223States.ump"
+  // line 66 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
     return isBallOutOfBounds();
   }
 
-  // line 63 "../../../../../Block223States.ump"
+  // line 70 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     Game game = getGame();
     int nrLevels = game.numberOfLevels();
@@ -822,7 +828,7 @@ public class PlayedGame implements Serializable
    * This method returns true if the ball hits the last block.
    * @author Mathieu Bissonnette
    */
-  // line 84 "../../../../../Block223States.ump"
+  // line 91 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -841,7 +847,7 @@ public class PlayedGame implements Serializable
    * This method returns true if the ball hits a block.
    * @author Mathieu Bissonnette
    */
-  // line 101 "../../../../../Block223States.ump"
+  // line 108 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -856,9 +862,18 @@ public class PlayedGame implements Serializable
     return (getBounce() != null);
   }
 
-  // line 115 "../../../../../Block223States.ump"
+
+  /**
+   * 
+   * This returns true if the ball hits a wall.
+   * @author Kelly Ma
+   * @return Whether or not the ball hits wall
+   */
+  // line 127 "../../../../../Block223States.ump"
    private boolean hitWall(){
-    // TODO implement
+    BouncePoint bp = calculateBouncePointWall();
+    setBounce(bp);
+    if (bp != null) return true;
     return false;
   }
 
@@ -871,7 +886,7 @@ public class PlayedGame implements Serializable
    * @return double value
    * 
    */
-  // line 127 "../../../../../Block223States.ump"
+  // line 141 "../../../../../Block223States.ump"
    public static  int getRandomInt(){
     Random rand = new Random();
  		//obtain number between 0-49
@@ -879,7 +894,7 @@ public class PlayedGame implements Serializable
  	    return x;
   }
 
-  // line 133 "../../../../../Block223States.ump"
+  // line 147 "../../../../../Block223States.ump"
    public static  int getRandomInt2(){
     Random rand = new Random();
  		//obtain number between 0-4
@@ -897,7 +912,7 @@ public class PlayedGame implements Serializable
    * @author Imane Chafi 
    * 
    */
-  // line 148 "../../../../../Block223States.ump"
+  // line 162 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
  		this.resetCurrentBallY();
@@ -943,12 +958,12 @@ public class PlayedGame implements Serializable
  	}
   }
 
-  // line 193 "../../../../../Block223States.ump"
+  // line 207 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
-    // TODO implement
+    bounceBall();
   }
 
-  // line 197 "../../../../../Block223States.ump"
+  // line 211 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     setLives(lives-1);
     resetCurrentBallX();
@@ -958,7 +973,7 @@ public class PlayedGame implements Serializable
     resetCurrentPaddleX();
   }
 
-  // line 206 "../../../../../Block223States.ump"
+  // line 220 "../../../../../Block223States.ump"
    private void doHitBlock(){
     int score = getScore();
     BouncePoint bounce = getBounce();
@@ -967,10 +982,10 @@ public class PlayedGame implements Serializable
     int bscore = block.getPoints();
     setScore(score + bscore);
     pblock.delete();
-    //bounceBall();
+    bounceBall();
   }
 
-  // line 217 "../../../../../Block223States.ump"
+  // line 231 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     doHitBlock();
     int level = getCurrentLevel();
@@ -989,11 +1004,53 @@ public class PlayedGame implements Serializable
 
   /**
    * 
+   * This method is performed when the ball is bounced after hitting the paddle, block, or wall.
+   * @author Kelly Ma
+   */
+  // line 250 "../../../../../Block223States.ump"
+   private void bounceBall(){
+    BouncePoint bp = getBounce(); // Calculate bounce point
+			double newBallDirectionX = ballDirectionX; // Create variables to store new X & Y directions
+			double newBallDirectionY = ballDirectionY;
+		if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_Y)) { // Check direction at bounce point
+			newBallDirectionY = -1 * ballDirectionY; // Flip Y direction
+			if (ballDirectionX * ballDirectionY < 0) { // Check if product of X and Y direction is < 0
+				newBallDirectionX = ballDirectionX + 0.1 * newBallDirectionY; 
+			}
+			else {
+				newBallDirectionX = ballDirectionX + 0.1 * ballDirectionY;
+			}			 
+		} else if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_X)) { // Check direction at bounce point
+			newBallDirectionX = -1 * ballDirectionX; // Flip X direction
+			if (ballDirectionX * ballDirectionY < 0) { // Check if product of X and Y direction is < 0
+				newBallDirectionY = ballDirectionY + 0.1 * newBallDirectionX; 
+			}
+			else {
+				newBallDirectionY = ballDirectionY + 0.1 * ballDirectionX;
+			}
+		} else if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_BOTH)) { // Check if both are flipped
+			newBallDirectionX = -1 * ballDirectionX;
+			newBallDirectionY = -1 * ballDirectionY;
+		}
+		
+		setCurrentBallY(bp.getY()); // Set current ball positions
+		setCurrentBallX(bp.getX());
+		setBallDirectionX(newBallDirectionX); // Set new ball directions
+		setBallDirectionY(newBallDirectionY);
+		
+		if (bp.hasHitBlock()) { // Check if the bounce point has a block
+			bounce.setHitBlock(null);
+		}
+  }
+
+
+  /**
+   * 
    * This method returns the bounce point that is the closest to the ball. 
    * If there is no bouncePoint, it returns null.
    * @author Mathieu Bissonnette
    */
-  // line 239 "../../../../../Block223States.ump"
+  // line 291 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
     // Construct the collision box.
        int gridHorizontalCoordinate = block.getX();
@@ -1069,7 +1126,7 @@ public class PlayedGame implements Serializable
    * This method returns true if pointA exists and is closer to the ball than pointB.
    * @author Mathieu Bissonnette
    */
-  // line 313 "../../../../../Block223States.ump"
+  // line 365 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
     // Verify if one of the point is null.
        if (pointA == null) {
@@ -1084,7 +1141,7 @@ public class PlayedGame implements Serializable
        return (distanceA < distanceB);
   }
 
-  // line 327 "../../../../../Block223States.ump"
+  // line 379 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     // TODO implement
   }
@@ -1095,7 +1152,7 @@ public class PlayedGame implements Serializable
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
-  // line 335 "../../../../../Block223States.ump"
+  // line 387 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
     Player p = getPlayer();
@@ -1115,7 +1172,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 353 "../../../../../Block223States.ump"
+  // line 405 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
