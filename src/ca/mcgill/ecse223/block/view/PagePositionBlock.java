@@ -49,7 +49,6 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
-import ca.mcgill.ecse223.block.model.Block;
 
 public class PagePositionBlock extends ContentPage {
 	
