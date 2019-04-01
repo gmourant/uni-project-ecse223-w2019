@@ -266,17 +266,25 @@ public class User implements Serializable
     	}
   }
 
-  // line 31 "../../../../../Block223.ump"
-   public static  String findUsername(UserRole player){
-    Iterator<Entry<String, User>> it = usersByUsername.entrySet().iterator(); // Set an iterator to the hash map
-		while (it.hasNext()) {
-			User nextUser = (User)it.next(); // Obtain the next user in the hash map
-			List<UserRole> userRoles = nextUser.getRoles(); // Obtain the user's list of roles
-			if (userRoles.contains(player)) { // Check if the inserted player is the same role as one in the list of userRoles
-				return nextUser.getUsername(); // Return username if a match is found
-			}
-		}
-		return null;
+
+  /**
+   * Author: Kelly Ma
+   */
+  // line 33 "../../../../../Block223.ump"
+   public static  String findUsername(UserRole currentuserrole){
+    Map<User, String> usernamesUser = new HashMap<>();
+		for(Map.Entry<String, User> entry : usersByUsername.entrySet()){
+		usernamesUser.put(entry.getValue(), entry.getKey());
+	}
+	for (User value : usernamesUser.keySet()) {
+		List<UserRole> roles = value.getRoles();
+      		for(UserRole role : roles) {
+      			if(role==currentuserrole) {
+      				return value.getUsername().toString();
+      		}
+      	}
+	}
+      return null;
   }
 
 
