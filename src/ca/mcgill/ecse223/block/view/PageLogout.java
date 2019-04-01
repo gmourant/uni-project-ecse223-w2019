@@ -27,7 +27,6 @@ import javax.swing.plaf.ColorChooserUI;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.view.PageLogin;
 import ca.mcgill.ecse223.block.controller.TOUserMode;
 import static ca.mcgill.ecse223.block.controller.Block223Controller.getUserMode;
