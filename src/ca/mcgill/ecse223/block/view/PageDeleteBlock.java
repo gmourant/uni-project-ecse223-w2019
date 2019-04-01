@@ -28,7 +28,6 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGame;
-import ca.mcgill.ecse223.block.model.Block;
 
 /**
  * The page for deleting a block.
