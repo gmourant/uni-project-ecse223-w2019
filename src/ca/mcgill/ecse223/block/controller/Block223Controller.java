@@ -295,7 +295,9 @@ public class Block223Controller {
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-    	
+  
+        // getting current game
+        Game game = Block223Application.getCurrentGame();
 
         if(name == null || name.isEmpty())
 
@@ -305,8 +307,8 @@ public class Block223Controller {
             throw new InvalidInputException("A game must be selected to define game settings.");
         }
         
-        // getting current game
-        Game game = Block223Application.getCurrentGame();
+        if (game.isPublished()) throw new InvalidInputException("A published game cannot be changed");
+        
         
         // getting current game's name
         String currentName = game.getName();
@@ -338,6 +340,9 @@ public class Block223Controller {
             game.setName(name);
         }
 
+        if (game.getNrBlocksPerLevel() == game.numberOfBlocks())
+     		throw new InvalidInputException("The number of blocks has reached the maximum number (" + Block223Application.getCurrentGame().getNrBlocksPerLevel() + ") allowed for this game.");
+        
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
                 ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
@@ -551,9 +556,9 @@ public class Block223Controller {
         
         // Verify the level is not a maximum block capacity.
         List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
-        if (assignments.size() == game.getNrBlocksPerLevel()) {
-        	throw new InvalidInputException("The number of blocks has reached the maximum number (" + game.getNrBlocksPerLevel() +") allowed for this game.");
-        }
+        // Verify the level is not a maximum block capacity.
+     	if (game.getNrBlocksPerLevel() == game.numberOfBlocks())
+     		throw new InvalidInputException("The number of blocks has reached the maximum number (" + Block223Application.getCurrentGame().getNrBlocksPerLevel() + ") allowed for this game.");
         
         // Verify if a block already exist at that position.
         for (BlockAssignment block : assignments) {
