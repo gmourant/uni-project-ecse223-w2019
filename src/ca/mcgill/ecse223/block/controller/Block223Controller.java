@@ -131,13 +131,16 @@ public class Block223Controller {
         // Verify that the ball speed isn't 0
         if (minBallSpeedX <= 0 && minBallSpeedY <= 0) throw new InvalidInputException("The minimum speed of the ball must be greater than zero.");
 
+        if (nrBlocksPerLevel < game.numberOfBlockAssignments())  // 1 on this line is a placeholder for the existing number of levels in a game
+			throw new InvalidInputException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+        
         // Set nrBlocksPerLevel
         try {
-            game.setNrBlocksPerLevel(nrBlocksPerLevel);
+        	game.setNrBlocksPerLevel(nrBlocksPerLevel);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
         }
-   
+        
         // Obtain ball
         Ball ball = game.getBall();
 
@@ -346,8 +349,7 @@ public class Block223Controller {
         }
         
         // updating all other information
-        setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
-                ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
+        setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY, ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
    /**
      * This method creates a block in a game. Author: Imane Chafi
