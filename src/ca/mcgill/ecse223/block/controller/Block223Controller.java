@@ -339,9 +339,6 @@ public class Block223Controller {
 
             game.setName(name);
         }
-
-        if (game.getNrBlocksPerLevel() == game.numberOfBlocks())
-     		throw new InvalidInputException("The number of blocks has reached the maximum number (" + Block223Application.getCurrentGame().getNrBlocksPerLevel() + ") allowed for this game.");
         
         // updating all other information
         setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
