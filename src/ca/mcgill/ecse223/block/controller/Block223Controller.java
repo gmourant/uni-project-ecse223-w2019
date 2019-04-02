@@ -118,6 +118,11 @@ public class Block223Controller {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
 
+        // Verify that the game is not yet published
+        if (game.getPublished()){
+			throw new InvalidInputException("A published game cannot be edited.");
+		}
+        
         // Verify the nrLevels is between [1, 99]
         if (nrLevels < 1 || nrLevels > 99) {
             throw new InvalidInputException("The number of levels must be between 1 and 99.");
