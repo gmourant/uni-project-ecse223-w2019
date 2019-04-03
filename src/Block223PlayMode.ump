@@ -46,8 +46,8 @@ class PlayedGame {
    defaulted Double currentBallY = BALL_INITIAL_Y;
 
    // no direct link to Paddle, because the paddle can be found by navigating to PlayedGame, Game, and then Paddle
-   const Integer PADDLE_MOVE_RIGHT = 1; // pixels moved when right arrow key is pressed
-   const Integer PADDLE_MOVE_LEFT = -1; // pixels moved when left arrow key is pressed
+   const Integer PADDLE_MOVE_RIGHT = 5; // pixels moved when right arrow key is pressed
+   const Integer PADDLE_MOVE_LEFT = -5; // pixels moved when left arrow key is pressed
    Double currentPaddleLength = getGame().getPaddle().getMaxPaddleLength();
    // the position of the paddle is at its top right corner
    defaulted Double currentPaddleX = (Game.PLAY_AREA_SIDE - currentPaddleLength) / 2;
