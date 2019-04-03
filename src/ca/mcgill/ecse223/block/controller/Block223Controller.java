@@ -925,6 +925,7 @@ public class Block223Controller {
 
 	/**
 	 * StartGame method
+	 * 
 	 * @author Imane Chafi
 	 * @param Block223PlayModeInterface ui
 	 * @throws InvalidInputException If the user is not a player
@@ -942,7 +943,9 @@ public class Block223Controller {
 			throw new InvalidInputException("Player privileges are required to play a game.");
 		}
 		if ((Block223Application.getCurrentUserRole() instanceof Admin)
-				&& (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {// Check																					// the
+				&& (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {// Check
+																													// //
+																													// the
 																													// function
 			throw new InvalidInputException("Only the admin of a game can test the game.");
 		}
@@ -1418,22 +1421,48 @@ public class Block223Controller {
 	 *                  are performed in the controller method that uses
 	 *                  updatePaddlePosition
 	 */
-	private static void updatePaddlePosition(String userInputs) {
+	public static void updatePaddlePosition(String userinputs) {
 
-		// Get current game that is being played
+		// Obtain currently played game from application
 		PlayedGame pgame = Block223Application.getCurrentPlayableGame();
-
-		for (int i = 0; i < userInputs.length(); i++) { // Iterate through input queue
-			if (userInputs.charAt(i) == 'l') { // Move left
-				if (pgame.getCurrentPaddleX() >= Math.abs(PlayedGame.PADDLE_MOVE_LEFT))
-					pgame.setCurrentPaddleX(pgame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_LEFT);
-			} else if (userInputs.charAt(i) == 'r') // Move right
-				if (pgame.getCurrentPaddleX() <= Game.PLAY_AREA_SIDE - PlayedGame.PADDLE_MOVE_RIGHT) {
-					pgame.setCurrentPaddleX(pgame.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_RIGHT);
-				} else if (userInputs.charAt(i) == ' ')
-					break; // Pause Game
+		
+		// Iterate through input queue
+		for (int i = 0; i < userinputs.length(); i++) {
+			if (userinputs.charAt(i) == 'l') {
+				movePaddleLeft(pgame); // Move paddle left
+			}
+			if (userinputs.charAt(i) == 'r') {
+				movePaddleRight(pgame); // Move paddle right 
+			}
+			if (userinputs.charAt(i) == ' ') {
+				break; // Pause game
+			}
 		}
+	}
 
+	/**
+	 * Private helper method to move paddle left in the game
+	 * @author Kelly Ma
+	 * @param pgame The currently played game
+	 */
+	private static void movePaddleLeft(PlayedGame pgame) {
+		double left = PlayedGame.PADDLE_MOVE_LEFT;
+		double currentPaddleX = pgame.getCurrentPaddleX();
+		if (currentPaddleX > 0)
+			pgame.setCurrentPaddleX(pgame.getCurrentPaddleX() + left);
+	}
+
+	/**
+	 * Private helper method to move paddle right in the game
+	 * @author Kelly Ma
+	 * @param pgame The currently played game
+	 */
+	private static void movePaddleRight(PlayedGame pgame) {
+		double right = PlayedGame.PADDLE_MOVE_RIGHT;
+		double currentPaddleX = pgame.getCurrentPaddleX();
+		double currentPaddleLength = pgame.getCurrentPaddleLength();
+		if (Game.PLAY_AREA_SIDE - currentPaddleLength > currentPaddleX)
+			pgame.setCurrentPaddleX(pgame.getCurrentPaddleX() + right);
 	}
 
 	/**
