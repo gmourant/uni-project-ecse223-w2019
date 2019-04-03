@@ -55,11 +55,11 @@ public class PageSignUp extends ContentPage{
 	    //UI Sign Up elements
 	    //*****************
 		//Sign up elements 
-		Border border = BorderFactory.createLineBorder(Block223MainPage.HEADER_BACKGROUND, 3);
+		Border border = BorderFactory.createLineBorder(Block223MainPage.getHeaderBackground(), 3);
 
 		//Title page panel
 		JPanel titlePanel = new JPanel(new BorderLayout());
-		titlePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+		titlePanel.setBackground(Block223MainPage.getHeaderBackground());
 		JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
 		titleLabel.setFont(titleFont);
 		titlePanel.add(titleLabel, BorderLayout.CENTER);

@@ -57,7 +57,7 @@ public class PageLogin extends ContentPage {
         refreshDataLogIn();
         
         setLayout(new GridLayout(7, 1));
-        setBackground(Block223MainPage.BACKGROUND);
+        setBackground(Block223MainPage.getUIBackground());
 
         //*****************
         //UI Login elements
@@ -67,7 +67,7 @@ public class PageLogin extends ContentPage {
 
         //Title page panel
         JPanel titlePanel = new JPanel(new BorderLayout());
-        titlePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        titlePanel.setBackground(Block223MainPage.getHeaderBackground());
         JLabel titleLabel = new JLabel("Block 223", JLabel.CENTER);
         titleLabel.setForeground(new Color(227, 228, 219));
         titleLabel.setFont(titleFont);
@@ -76,7 +76,7 @@ public class PageLogin extends ContentPage {
 
         //Username label panel
         JPanel usernameLabelPanel = new JPanel(new BorderLayout());
-        usernameLabelPanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        usernameLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
         JLabel usernameLabel = new JLabel("         Username:");
         usernameLabel.setFont(defaultFont);
         usernameLabel.setForeground(new Color(227, 228, 219 ));
@@ -86,7 +86,7 @@ public class PageLogin extends ContentPage {
 
         //Username text field panel
         JPanel usernameTxtFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        usernameTxtFieldPanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        usernameTxtFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
         usernameTextField = new JTextField();
         usernameTextField.setPreferredSize(new Dimension(253, 27));
         usernameTextField.setBorder(border);
@@ -95,7 +95,7 @@ public class PageLogin extends ContentPage {
 
         //Password label panel
         JPanel passwordLabelPanel = new JPanel(new BorderLayout());
-        passwordLabelPanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        passwordLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
         JLabel passwordLabel = new JLabel("         Password:");
         passwordLabel.setFont(defaultFont);
         passwordLabel.setForeground(new Color(227, 228, 219 ));
@@ -105,7 +105,7 @@ public class PageLogin extends ContentPage {
 
         //Password password field panel
         JPanel passwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        passwordPFieldPanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        passwordPFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
         passwordPField = new JPasswordField();
         passwordPField.setPreferredSize(new Dimension(253, 27));
         passwordPField.setBorder(border);
@@ -114,18 +114,18 @@ public class PageLogin extends ContentPage {
         //Buttons
         //Log in button panel
         JPanel loginBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        loginBtnPanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        loginBtnPanel.setBackground(Block223MainPage.getHeaderBackground());
         JButton logInButton = createButton("Log In");
         logInButton.setFont(new Font("Consolas", Font.PLAIN, 20));
         loginBtnPanel.add(logInButton);
 
         //Sign up button panel
         JPanel signUpBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        signUpBtnPanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        signUpBtnPanel.setBackground(Block223MainPage.getHeaderBackground());
         JButton signUpButton = new JButton("Sign Up!");
         signUpButton.setForeground(new Color(179,141, 151));
         signUpButton.setFont(new Font("Consolas", Font.PLAIN, 20));
-        signUpButton.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        signUpButton.setBackground(Block223MainPage.getHeaderBackground());
         //signUpButton.setForeground(Color.BLUE);
         JLabel recommendSignUp = new JLabel("Don't have an account?");
         recommendSignUp.setFont(new Font("Consolas", Font.PLAIN, 20));

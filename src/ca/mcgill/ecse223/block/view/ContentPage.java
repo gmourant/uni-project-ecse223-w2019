@@ -76,8 +76,8 @@ public abstract class ContentPage extends JPanel{
      */
     public static JLabel createHeader(String txt){
         JLabel heading = new JLabel(txt);
-        heading.setFont(new Font(Block223MainPage.UI_FONT.getFontName(), Font.BOLD, 
-                Block223MainPage.UI_FONT.getSize() + Block223MainPage.TITLE_SIZE_INCREASE));
+        heading.setFont(new Font(Block223MainPage.getUIFont().getFontName(), Font.BOLD, 
+                Block223MainPage.getUIFont().getSize() + Block223MainPage.TITLE_SIZE_INCREASE));
         return heading;
     }
     
@@ -129,7 +129,7 @@ public abstract class ContentPage extends JPanel{
         JComboBox<String> box = new JComboBox();
         box.setPreferredSize(new Dimension(150, 30));
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
-        box.setBackground(Block223MainPage.BUTTON_BACKGROUND);
+        box.setBackground(Block223MainPage.getButtonBackground());
         box.setForeground(Color.DARK_GRAY);
         return box;
     }
@@ -142,7 +142,7 @@ public abstract class ContentPage extends JPanel{
     public static void formatComboBox(JComboBox box){
         box.setPreferredSize(new Dimension(150, 30));
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
-        box.setBackground(Block223MainPage.BUTTON_BACKGROUND);
+        box.setBackground(Block223MainPage.getButtonBackground());
         box.setForeground(Color.DARK_GRAY);
     }
     
@@ -154,10 +154,10 @@ public abstract class ContentPage extends JPanel{
      */
     public static JCheckBox createCheckBox(String txt){
         JCheckBox cb = new JCheckBox(txt);
-        cb.setBackground(Block223MainPage.HEADER_BACKGROUND);
+        cb.setBackground(Block223MainPage.getHeaderBackground());
         cb.setForeground(Color.BLACK);
-        cb.setFont(new Font(Block223MainPage.UI_FONT.getFontName(),Font.BOLD,
-                Block223MainPage.UI_FONT.getSize()));
+        cb.setFont(new Font(Block223MainPage.getUIFont().getFontName(),Font.BOLD,
+                Block223MainPage.getUIFont().getSize()));
         return cb;
     }
     

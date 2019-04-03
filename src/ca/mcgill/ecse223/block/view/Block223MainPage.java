@@ -17,11 +17,14 @@ import java.awt.event.ItemListener;
 
 public class Block223MainPage extends JFrame {
 
-    public final static Color HEADER_BACKGROUND = new Color(62, 61, 60);
-    public final static Color BUTTON_BACKGROUND = new Color(210, 215, 223);
-    public final static Font UI_FONT = new Font("Consolas", Font.PLAIN, 14);
-    public final static int TITLE_SIZE_INCREASE = 4;
-    public final static Color BACKGROUND = new Color(62, 61, 60);
+    public final static ViewTheme THEMES[] = { 
+        new ViewTheme("Boxing Day", new Color(62, 61, 60), new Color(210, 215, 223), 
+                new Color(62, 61, 60), new Font("Consolas", Font.PLAIN, 14)),
+        
+    };
+    public static ViewTheme currentTheme;
+    
+    public static int TITLE_SIZE_INCREASE = 4;
     int level;//We are still working on how to get the levels from the game
     private JLabel currentGameDisplay;
     private JComboBox<String> chooseGame;
@@ -47,7 +50,32 @@ public class Block223MainPage extends JFrame {
     private JList sideMenuItems;
     private ContentPage displayedPage;
     private final Block223MainPage thisInstance;
-
+    
+    public static boolean defineTheme(String name){
+        ViewTheme theme = null;
+        for(int i = 0; i < THEMES.length; i++){
+            if(name.equals(THEMES[i].name)){
+                theme = THEMES[i];
+                break;
+            }
+        }
+        if(theme == null){
+            if(currentTheme == null){
+                defineTheme("Boxing Day");
+            }
+            return false;
+        }
+        currentTheme = theme;
+        setUIFont(new javax.swing.plaf.FontUIResource(getUIFont().getFontName(), 
+                getUIFont().getStyle(), getUIFont().getSize()));
+        return true;
+    }
+    
+    public static Color getHeaderBackground(){return currentTheme.headerBackground;}
+    public static Color getButtonBackground(){return currentTheme.buttonBackground;}
+    public static Color getUIBackground(){return currentTheme.background;}
+    public static Font getUIFont(){return currentTheme.font;}
+    
     public Block223MainPage() {
         this.setSize(570, 500); // Specifies the size should adjust to the needs for space
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
@@ -56,10 +84,12 @@ public class Block223MainPage extends JFrame {
         this.setUndecorated(true);
         this.setBackground(new Color(244,241,187));
 
+        defineTheme("Boxing Day");
         thisInstance = this;
 
         // setting up
-        setUIFont(new javax.swing.plaf.FontUIResource(UI_FONT.getFontName(), UI_FONT.getStyle(), UI_FONT.getSize()));
+        setUIFont(new javax.swing.plaf.FontUIResource(getUIFont().getFontName(), 
+                getUIFont().getStyle(), getUIFont().getSize()));
         setLayout(new BorderLayout());
         setupTopMenu();
         setupSlideMenu();
@@ -164,7 +194,7 @@ public class Block223MainPage extends JFrame {
         topMenu = new JPanel(new GridLayout(1, 4));
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight() / 10));
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
-        topMenu.setBackground(HEADER_BACKGROUND);
+        topMenu.setBackground(getHeaderBackground());
 
         currentGameDisplay = new JLabel(""); // empty by default
         save = createButton("Save");
@@ -353,7 +383,7 @@ public class Block223MainPage extends JFrame {
      */
     public static JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.setBackground(Block223MainPage.BUTTON_BACKGROUND);
+        button.setBackground(getButtonBackground());
         button.setForeground(Color.DARK_GRAY);
         button.setFocusPainted(false);
         return button;

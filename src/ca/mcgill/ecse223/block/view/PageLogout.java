@@ -68,7 +68,7 @@ public class PageLogout extends ContentPage {
 		//******************
 		//Welcome page panel
 		JPanel welcomePanel = new JPanel(new BorderLayout());
-		welcomePanel.setBackground(Block223MainPage.HEADER_BACKGROUND);
+		welcomePanel.setBackground(Block223MainPage.getHeaderBackground());
 		JLabel welcomeLabel = new JLabel("Welcome to BLOCK223", JLabel.CENTER);
 		welcomeLabel.setFont(titleFont);
 		welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
