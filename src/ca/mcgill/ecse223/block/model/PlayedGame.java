@@ -835,7 +835,7 @@ public class PlayedGame implements Serializable
         PlayedBlockAssignment block = getBlock(0);
         BouncePoint bp = calculateBouncePointBlock(block);
         setBounce(bp);
-        return true;
+        return (bp != null);
     }
     return false;
   }
