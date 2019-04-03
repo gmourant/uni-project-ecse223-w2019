@@ -1,7 +1,6 @@
 package ca.mcgill.ecse223.block.view;
 
 import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
-import static ca.mcgill.ecse223.block.view.Block223MainPage.UI_FONT;
 import static ca.mcgill.ecse223.block.view.Block223MainPage.createButton;
 
 import java.awt.BorderLayout;
@@ -359,7 +358,8 @@ public class PagePositionBlock extends ContentPage {
 	        topMenu.setBackground(HEADER_BACKGROUND);
 
 	        JLabel title = new JLabel("View (W.I.P.)"); // empty by default
-	        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
+	        title.setFont(new Font(Block223MainPage.getUIFont().getFamily(), 
+                        Font.BOLD, Block223MainPage.getUIFont().getSize() + TITLE_SIZE_INCREASE));
 	        topMenu.add(title);
 
 	        JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));

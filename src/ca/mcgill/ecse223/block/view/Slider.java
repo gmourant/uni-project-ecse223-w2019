@@ -114,7 +114,7 @@ public class Slider {
 	 * @param label A particular JLabel
 	 */
 	private void defineFont(JLabel label) {
-		label.setFont(new Font(Block223MainPage.UI_FONT.getFamily(), Font.PLAIN, 8));
+		label.setFont(new Font(Block223MainPage.getUIFont().getFamily(), Font.PLAIN, 8));
 	}
 	
 }

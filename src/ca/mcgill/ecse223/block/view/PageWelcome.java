@@ -77,7 +77,7 @@ public class PageWelcome extends ContentPage {
 			Block223Welcome.setForeground(new Color(227, 228, 219 ));
 			add(Block223Welcome);
 			
-			Border border = BorderFactory.createLineBorder(Block223MainPage.HEADER_BACKGROUND, 3);
+			Border border = BorderFactory.createLineBorder(Block223MainPage.getHeaderBackground(), 3);
 			
 			
 		    //Start button panel
