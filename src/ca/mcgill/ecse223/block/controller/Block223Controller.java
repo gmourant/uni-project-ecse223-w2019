@@ -925,7 +925,6 @@ public class Block223Controller {
 
 	/**
 	 * StartGame method
-	 * 
 	 * @author Imane Chafi
 	 * @param Block223PlayModeInterface ui
 	 * @throws InvalidInputException If the user is not a player
@@ -943,12 +942,7 @@ public class Block223Controller {
 			throw new InvalidInputException("Player privileges are required to play a game.");
 		}
 		if ((Block223Application.getCurrentUserRole() instanceof Admin)
-				&& (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {// Check
-																													// for
-																													// the
-																													// admin
-																													// of
-																													// the
+				&& (Block223Application.getCurrentUserRole() != Block223Application.getCurrentGame().getAdmin())) {// Check																					// the
 																													// function
 			throw new InvalidInputException("Only the admin of a game can test the game.");
 		}
