@@ -281,7 +281,7 @@ class PlayedGame {
 		}
 	}
 
-/*Method calculateBouncePointPaddle sets the flip states of the ball 
+ /*Method calculateBouncePointPaddle sets the flip states of the ball 
   when it hits the paddle.
   @author Imane Chafi
   @return BouncePoint*/
