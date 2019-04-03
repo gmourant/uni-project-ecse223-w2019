@@ -963,7 +963,7 @@ public class Block223Controller {
 			Block223Controller.updatePaddlePosition(userInputs);
 			game.move();
 
-			if (userInputs.contains(""))
+			if (userInputs.contains(" "))
 				game.pause();
 
 			// Waiting time for game.getWaitTime
