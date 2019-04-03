@@ -177,7 +177,6 @@ public class Game implements Serializable
     boolean wasSet = false;
     // line 82 "../../../../../Block223.ump"
     if (aNrBlocksPerLevel < 1) throw new RuntimeException("The number of blocks per level must be greater than zero.");
-          if (aNrBlocksPerLevel < nrBlocksPerLevel) throw new RuntimeException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
     // END OF UMPLE BEFORE INJECTION
     nrBlocksPerLevel = aNrBlocksPerLevel;
     wasSet = true;

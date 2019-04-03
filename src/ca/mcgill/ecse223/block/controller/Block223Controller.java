@@ -118,6 +118,11 @@ public class Block223Controller {
             throw new InvalidInputException("Only the admin who created the game can define its game settings.");
         }
 
+        // Verify that the game is not yet published
+        if (game.getPublished()){
+			throw new InvalidInputException("A published game cannot be edited.");
+		}
+        
         // Verify the nrLevels is between [1, 99]
         if (nrLevels < 1 || nrLevels > 99) {
             throw new InvalidInputException("The number of levels must be between 1 and 99.");
@@ -126,13 +131,16 @@ public class Block223Controller {
         // Verify that the ball speed isn't 0
         if (minBallSpeedX <= 0 && minBallSpeedY <= 0) throw new InvalidInputException("The minimum speed of the ball must be greater than zero.");
 
+        if (nrBlocksPerLevel < game.numberOfBlockAssignments())  // 1 on this line is a placeholder for the existing number of levels in a game
+			throw new InvalidInputException("The maximum number of blocks per level cannot be less than the number of existing blocks in a level.");
+        
         // Set nrBlocksPerLevel
         try {
-            game.setNrBlocksPerLevel(nrBlocksPerLevel);
+        	game.setNrBlocksPerLevel(nrBlocksPerLevel);
         } catch (RuntimeException e) {
             throw new InvalidInputException(e.getMessage());
         }
-   
+        
         // Obtain ball
         Ball ball = game.getBall();
 
@@ -295,7 +303,9 @@ public class Block223Controller {
      */
     public static void updateGame(String name, int nrLevels, int nrBlocksPerLevel, int minBallSpeedX, int minBallSpeedY,
         Double ballSpeedIncreaseFactor, int maxPaddleLength, int minPaddleLength) throws InvalidInputException {
-    	
+  
+        // getting current game
+        Game game = Block223Application.getCurrentGame();
 
         if(name == null || name.isEmpty())
 
@@ -305,8 +315,8 @@ public class Block223Controller {
             throw new InvalidInputException("A game must be selected to define game settings.");
         }
         
-        // getting current game
-        Game game = Block223Application.getCurrentGame();
+        if (game.isPublished()) throw new InvalidInputException("A published game cannot be changed");
+        
         
         // getting current game's name
         String currentName = game.getName();
@@ -337,10 +347,9 @@ public class Block223Controller {
 
             game.setName(name);
         }
-
+        
         // updating all other information
-        setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY,
-                ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
+        setGameDetails(nrLevels, nrBlocksPerLevel, minBallSpeedX, minBallSpeedY, ballSpeedIncreaseFactor, maxPaddleLength, minPaddleLength);
     }
    /**
      * This method creates a block in a game. Author: Imane Chafi
@@ -551,9 +560,9 @@ public class Block223Controller {
         
         // Verify the level is not a maximum block capacity.
         List<BlockAssignment> assignments = foundLevel.getBlockAssignments();
-        if (assignments.size() == game.getNrBlocksPerLevel()) {
-        	throw new InvalidInputException("The number of blocks has reached the maximum number (" + game.getNrBlocksPerLevel() +") allowed for this game.");
-        }
+        // Verify the level is not a maximum block capacity.
+     	if (game.getNrBlocksPerLevel() == game.numberOfBlocks())
+     		throw new InvalidInputException("The number of blocks has reached the maximum number (" + Block223Application.getCurrentGame().getNrBlocksPerLevel() + ") allowed for this game.");
         
         // Verify if a block already exist at that position.
         for (BlockAssignment block : assignments) {
@@ -1320,7 +1329,7 @@ public class Block223Controller {
  	 */
  	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
  		
- 		if (Block223Application.getCurrentUserRole() instanceof Admin) throw new InvalidInputException("Player privileges are required to access a game�s hall of fame.");
+ 		if (Block223Application.getCurrentUserRole() instanceof Admin) throw new InvalidInputException("Player privileges are required to access a games hall of fame.");
 		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
 		
@@ -1377,7 +1386,7 @@ public class Block223Controller {
 	}
  	
     /**
-     * This method does what Umple's Game.getWithName(â¦) method would do if it
+     * This method does what Umple's Game.getWithName(Ã¢ÂÂ¦) method would do if it
      * worked properly aka get the game using the name. 
 	 * @author Kelly Ma
 	 * @author Georges Mourant
