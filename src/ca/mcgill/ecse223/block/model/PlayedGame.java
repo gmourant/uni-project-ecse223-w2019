@@ -1369,7 +1369,7 @@ public class PlayedGame implements Serializable
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
-    return (paddleTopY > ballBottomY);
+    return (paddleTopY < ballBottomY);
   }
 
 
