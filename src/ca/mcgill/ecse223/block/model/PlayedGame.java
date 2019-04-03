@@ -3,12 +3,8 @@
 
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
-import ca.mcgill.ecse223.block.model.BouncePoint.BounceDirection;
-import math.geom2d.line.AbstractLine2D;
-import math.geom2d.line.LineSegment2D;
-import math.geom2d.polygon.Rectangle2D;
-import math.geom2d.Point2D;
-import math.geom2d.conic.Circle2D;
+import java.awt.geom.QuadCurve2D;
+import java.awt.geom.Rectangle2D;
 import java.util.*;
 
 // line 103 "../../../../../Block223Persistence.ump"
@@ -414,7 +410,7 @@ public class PlayedGame implements Serializable
       case Moving:
         if (hitPaddle())
         {
-        // line 19 "../../../../../Block223States.ump"
+        // line 15 "../../../../../Block223States.ump"
           doHitPaddleOrWall();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
@@ -422,7 +418,7 @@ public class PlayedGame implements Serializable
         }
         if (isOutOfBoundsAndLastLife())
         {
-        // line 20 "../../../../../Block223States.ump"
+        // line 16 "../../../../../Block223States.ump"
           doOutOfBounds();
           setPlayStatus(PlayStatus.GameOver);
           wasEventProcessed = true;
@@ -430,7 +426,7 @@ public class PlayedGame implements Serializable
         }
         if (isOutOfBounds())
         {
-        // line 21 "../../../../../Block223States.ump"
+        // line 17 "../../../../../Block223States.ump"
           doOutOfBounds();
           setPlayStatus(PlayStatus.Paused);
           wasEventProcessed = true;
@@ -438,7 +434,7 @@ public class PlayedGame implements Serializable
         }
         if (hitLastBlockAndLastLevel())
         {
-        // line 22 "../../../../../Block223States.ump"
+        // line 18 "../../../../../Block223States.ump"
           doHitBlock();
           setPlayStatus(PlayStatus.GameOver);
           wasEventProcessed = true;
@@ -446,7 +442,7 @@ public class PlayedGame implements Serializable
         }
         if (hitLastBlock())
         {
-        // line 23 "../../../../../Block223States.ump"
+        // line 19 "../../../../../Block223States.ump"
           doHitBlockNextLevel();
           setPlayStatus(PlayStatus.Ready);
           wasEventProcessed = true;
@@ -454,7 +450,7 @@ public class PlayedGame implements Serializable
         }
         if (hitBlock())
         {
-        // line 24 "../../../../../Block223States.ump"
+        // line 20 "../../../../../Block223States.ump"
           doHitBlock();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
@@ -462,13 +458,13 @@ public class PlayedGame implements Serializable
         }
         if (hitWall())
         {
-        // line 25 "../../../../../Block223States.ump"
+        // line 21 "../../../../../Block223States.ump"
           doHitPaddleOrWall();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
           break;
         }
-        // line 26 "../../../../../Block223States.ump"
+        // line 22 "../../../../../Block223States.ump"
         doHitNothingAndNotOutOfBounds();
         setPlayStatus(PlayStatus.Moving);
         wasEventProcessed = true;
@@ -488,11 +484,11 @@ public class PlayedGame implements Serializable
     switch(playStatus)
     {
       case Ready:
-        // line 14 "../../../../../Block223States.ump"
+        // line 10 "../../../../../Block223States.ump"
         doSetup();
         break;
       case GameOver:
-        // line 32 "../../../../../Block223States.ump"
+        // line 28 "../../../../../Block223States.ump"
         doGameOver();
         break;
     }
@@ -772,7 +768,7 @@ public class PlayedGame implements Serializable
    * @author Kelly Ma
    * @return Whether or not the ball hits paddle
    */
-  // line 44 "../../../../../Block223States.ump"
+  // line 40 "../../../../../Block223States.ump"
    private boolean hitPaddle(){
     BouncePoint bp = calculateBouncePointPaddle();
     setBounce(bp);
@@ -787,7 +783,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 56 "../../../../../Block223States.ump"
+  // line 52 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
     boolean outOfBounds = false;
     if(lives == 1) outOfBounds = isBallOutOfBounds();
@@ -801,25 +797,27 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 67 "../../../../../Block223States.ump"
+  // line 63 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
     return isBallOutOfBounds();
   }
 
-  // line 71 "../../../../../Block223States.ump"
+  // line 67 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
-    Game game = getGame();
-    int nrLevels = game.numberOfLevels();
-    setBounce(null);
-    if (nrLevels == currentLevel) {
-        int nrBlocks = numberOfBlocks();
-        if (nrBlocks == 1) {
-            PlayedBlockAssignment block = getBlock(0);
-            BouncePoint bp = calculateBouncePointBlock(block);
-            setBounce(bp);
-            return true;
-        }
-    }
+    Game game = this.getGame();
+	int nrLevels = game.numberOfLevels();
+
+	this.setBounce(null);
+
+	if(nrLevels == currentLevel) {
+		int nrBlocks = numberOfBlocks();
+		if(nrBlocks == 1) {
+			PlayedBlockAssignment block = this.getBlock(0);
+			BouncePoint bp = calculateBouncePointBlock(block);
+			setBounce(bp);
+			return (bp!=null);
+		}
+	}
     return false;
   }
 
@@ -829,7 +827,7 @@ public class PlayedGame implements Serializable
    * This method returns true if the ball hits the last block.
    * @author Mathieu Bissonnette
    */
-  // line 92 "../../../../../Block223States.ump"
+  // line 90 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -848,7 +846,7 @@ public class PlayedGame implements Serializable
    * This method returns true if the ball hits a block.
    * @author Mathieu Bissonnette
    */
-  // line 109 "../../../../../Block223States.ump"
+  // line 107 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     int nrBlocks = numberOfBlocks();
     setBounce(null);
@@ -870,7 +868,7 @@ public class PlayedGame implements Serializable
    * @author Kelly Ma
    * @return Whether or not the ball hits wall
    */
-  // line 128 "../../../../../Block223States.ump"
+  // line 126 "../../../../../Block223States.ump"
    private boolean hitWall(){
     BouncePoint bp = calculateBouncePointWall();
     setBounce(bp);
@@ -887,7 +885,7 @@ public class PlayedGame implements Serializable
    * @return double value
    * 
    */
-  // line 142 "../../../../../Block223States.ump"
+  // line 140 "../../../../../Block223States.ump"
    public static  int getRandomInt(){
     Random rand = new Random();
  		//obtain number between 0-49
@@ -895,7 +893,7 @@ public class PlayedGame implements Serializable
  	    return x;
   }
 
-  // line 148 "../../../../../Block223States.ump"
+  // line 146 "../../../../../Block223States.ump"
    public static  int getRandomInt2(){
     Random rand = new Random();
  		//obtain number between 0-4
@@ -913,58 +911,56 @@ public class PlayedGame implements Serializable
    * @author Imane Chafi 
    * 
    */
-  // line 163 "../../../../../Block223States.ump"
+  // line 160 "../../../../../Block223States.ump"
    private void doSetup(){
     this.resetCurrentBallX();
- 		this.resetCurrentBallY();
- 		this.resetBallDirectionX();
- 		this.resetBallDirectionY();
- 		this.resetCurrentPaddleX();
- 		this.getGame();
- 		Level level = game.getLevel(getCurrentLevel()-1);
- 		List <BlockAssignment> assignments = level.getBlockAssignments();
- 		
- 	
- 		for(BlockAssignment a : assignments) {
- 			PlayedBlockAssignment pblock = new PlayedBlockAssignment(Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(a.getGridHorizontalPosition()-1), Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(a.getGridVerticalPosition() - 1), a.getBlock(), this);
- 			
- 		}
- 		//Initializing the x and y variables before the while loop
- 			int x = getRandomInt();
- 			int y = getRandomInt();
- 			BlockAssignment randomgridPositionX;
- 			BlockAssignment randomgridPositionY;
- 		while(numberOfBlocks() < game.getNrBlocksPerLevel()) {
- 			//if chosen, try next position starting from randomly chosen position
- 			BlockAssignment taken = level.findBlockAssignment(x, y);
- 				if(taken !=null){
- 					x++;
- 				if(x > 15){
- 					y++;
- 				x = 1;
- 				}
- 				if(y>15)
- 				y = 1;
- 				
- 			}
- 			//going to the right, then next row until last row
- 			//then 1/1 until empty position found.
- 			//convert to x/y coordinates
- 			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING)*(x-1);
- 			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING)*(y-1);
+		this.resetCurrentBallY();
+		this.resetBallDirectionX();
+		this.resetBallDirectionY();
+		this.resetCurrentPaddleX();
+		this.getGame();
+		Level level = game.getLevel(getCurrentLevel() - 1);
+		List<BlockAssignment> assignments = level.getBlockAssignments();
 
- 			
- 			PlayedBlockAssignment pblock = new PlayedBlockAssignment(x,y,game.getRandomBlock(), this);
- 			//addBlock(pblock);
- 	}
+		for (BlockAssignment a : assignments) {
+			new PlayedBlockAssignment(
+					Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (a.getGridHorizontalPosition() - 1),
+					Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (a.getGridVerticalPosition() - 1),
+					a.getBlock(), this);
+
+		}
+		// Initializing the x and y variables before the while loop
+		int x = getRandomInt();
+		int y = getRandomInt();
+		while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
+			// if chosen, try next position starting from randomly chosen position
+			BlockAssignment taken = level.findBlockAssignment(x, y);
+			if (taken != null) {
+				x++;
+				if (x > 15) {
+					y++;
+					x = 1;
+				}
+				if (y > 15)
+					y = 1;
+
+			}
+			// going to the right, then next row until last row
+			// then 1/1 until empty position found.
+			// convert to x/y coordinates
+			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (x - 1);
+			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (y - 1);
+
+			new PlayedBlockAssignment(x, y, game.getRandomBlock(), this);
+		}
   }
 
-  // line 208 "../../../../../Block223States.ump"
+  // line 203 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     bounceBall();
   }
 
-  // line 212 "../../../../../Block223States.ump"
+  // line 207 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     setLives(lives-1);
     resetCurrentBallX();
@@ -974,7 +970,7 @@ public class PlayedGame implements Serializable
     resetCurrentPaddleX();
   }
 
-  // line 221 "../../../../../Block223States.ump"
+  // line 216 "../../../../../Block223States.ump"
    private void doHitBlock(){
     int score = getScore();
     BouncePoint bounce = getBounce();
@@ -986,20 +982,16 @@ public class PlayedGame implements Serializable
     bounceBall();
   }
 
-  // line 232 "../../../../../Block223States.ump"
+  // line 227 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     doHitBlock();
-    int level = getCurrentLevel();
-    setCurrentLevel(level + 1);
-    Paddle paddle = getGame().getPaddle();
-    int length = paddle.getMaxPaddleLength() 
-            - (paddle.getMaxPaddleLength() - paddle.getMinPaddleLength())
-            / (getGame().numberOfLevels() - 1) 
-            * (getCurrentLevel() - 1);
-    setCurrentPaddleLength(length);
-    setWaitTime(INITIAL_WAIT_TIME 
-            * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
-            (getCurrentLevel() - 1)));
+		   int level = getCurrentLevel();
+		   setCurrentLevel(level+1);
+		   setCurrentPaddleLength(getGame().getPaddle().getMaxPaddleLength() -
+				   (getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength())/
+				   (getGame().numberOfLevels() - 1) * (getCurrentLevel() - 1));
+		   setWaitTime(INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
+				   (getCurrentLevel() - 1)));
   }
 
 
@@ -1073,37 +1065,35 @@ public class PlayedGame implements Serializable
    * This method is performed when the ball is bounced after hitting the paddle, block, or wall.
    * @author Kelly Ma
    */
-  // line 313 "../../../../../Block223States.ump"
+  // line 242 "../../../../../Block223States.ump"
    private void bounceBall(){
     BouncePoint bp = getBounce(); // Calculate bounce point
-			double newBallDirectionX = ballDirectionX; // Create variables to store new X & Y directions
-			double newBallDirectionY = ballDirectionY;
+		double newBallDirectionX = ballDirectionX; // Create variables to store new X & Y directions
+		double newBallDirectionY = ballDirectionY;
 		if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_Y)) { // Check direction at bounce point
 			newBallDirectionY = -1 * ballDirectionY; // Flip Y direction
 			if (ballDirectionX * ballDirectionY < 0) { // Check if product of X and Y direction is < 0
-				newBallDirectionX = ballDirectionX + 0.1 * newBallDirectionY; 
-			}
-			else {
+				newBallDirectionX = ballDirectionX + 0.1 * newBallDirectionY;
+			} else {
 				newBallDirectionX = ballDirectionX + 0.1 * ballDirectionY;
-			}			 
+			}
 		} else if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_X)) { // Check direction at bounce point
 			newBallDirectionX = -1 * ballDirectionX; // Flip X direction
 			if (ballDirectionX * ballDirectionY < 0) { // Check if product of X and Y direction is < 0
-				newBallDirectionY = ballDirectionY + 0.1 * newBallDirectionX; 
-			}
-			else {
+				newBallDirectionY = ballDirectionY + 0.1 * newBallDirectionX;
+			} else {
 				newBallDirectionY = ballDirectionY + 0.1 * ballDirectionX;
 			}
 		} else if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_BOTH)) { // Check if both are flipped
 			newBallDirectionX = -1 * ballDirectionX;
 			newBallDirectionY = -1 * ballDirectionY;
 		}
-		
+
 		setCurrentBallY(bp.getY()); // Set current ball positions
 		setCurrentBallX(bp.getX());
 		setBallDirectionX(newBallDirectionX); // Set new ball directions
 		setBallDirectionY(newBallDirectionY);
-		
+
 		if (bp.hasHitBlock()) { // Check if the bounce point has a block
 			bounce.setHitBlock(null);
 		}
@@ -1116,7 +1106,7 @@ public class PlayedGame implements Serializable
    * @author Imane Chafi
    * @return BouncePoint
    */
-  // line 290 "../../../../../Block223States.ump"
+  // line 280 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointPaddle(){
     /* STEP 1 : Check  if  the  ball  segment (the  segment  determined  by 
 	   the  current  position  of  the  ball  and  the  new position of the 
@@ -1199,79 +1189,183 @@ public class PlayedGame implements Serializable
 
   /**
    * 
+   * This method calculates the bounce point when the ball hits the wall
+   * @author Kelly Ma
+   * @return the bounce point of the wall or null
+   */
+  // line 365 "../../../../../Block223States.ump"
+   private BouncePoint calculateBouncePointWall(){
+    // Get current ball location and direction
+		double currentBallX = getCurrentBallX();
+		double currentBallY = getCurrentBallY();
+		double dX = getBallDirectionX();
+		double dY = getBallDirectionY();
+
+		// Create a list to store all bounce points
+		ArrayList<BouncePoint> bps = new ArrayList<BouncePoint>();
+
+		// Calculate ball radius
+		int radius = Ball.BALL_DIAMETER / 2;
+
+		// Create rectangles for all the areas to be tested
+		Rectangle2D.Double rectA = new Rectangle2D.Double(0, 0, radius, Game.PLAY_AREA_SIDE);
+		Rectangle2D.Double rectB = new Rectangle2D.Double(0, 0, Game.PLAY_AREA_SIDE, radius);
+		Rectangle2D.Double rectC = new Rectangle2D.Double(Game.PLAY_AREA_SIDE - radius, 0, radius, Game.PLAY_AREA_SIDE);
+
+		// Check all intersections
+		boolean intersectionA = rectA.intersectsLine(currentBallX, currentBallY, dX, dY);
+		boolean intersectionB = rectB.intersectsLine(currentBallX, currentBallY, dX, dY);
+		boolean intersectionC = rectC.intersectsLine(currentBallX, currentBallY, dX, dY);
+
+		if (intersectionA && !intersectionB) { // Intersection A only
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+		}
+		if (intersectionA && intersectionB) { // Intersects A and B
+			bps.add(new BouncePoint(radius, radius, BouncePoint.BounceDirection.FLIP_BOTH)); // Flip both directions
+		}
+		if (intersectionC && intersectionB) { // Intersects C and B
+			bps.add(new BouncePoint(Game.PLAY_AREA_SIDE - radius, radius, BouncePoint.BounceDirection.FLIP_BOTH)); // Flip both directions
+		}
+		if (intersectionB && !intersectionA && !intersectionC) { // Intersects B only
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+		}
+		if (intersectionC && !intersectionB) { // Intersects C only 
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+		}
+
+		// Iterate through all points to find the closest one
+		// If closestPoint is not found, returns null
+		BouncePoint closestPoint = null;
+		for (BouncePoint bouncePoint : bps) {
+			if (isCloser(bouncePoint, closestPoint))
+				closestPoint = bouncePoint;
+		}
+
+		return closestPoint; // From collection of all bounce points
+  }
+
+
+  /**
+   * 
    * This method returns the bounce point that is the closest to the ball. 
    * If there is no bouncePoint, it returns null.
    * @author Mathieu Bissonnette
-   * @return the bounce point of the block
+   * @author Kelly Ma
+   * @return the bounce point after hitting a block
    */
-  // line 291 "../../../../../Block223States.ump"
+  // line 425 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
-    // Construct the collision box.
-       int gridHorizontalCoordinate = block.getX();
-       int gridVerticalCoordinate = block.getY();
-       int boxTopLeftX = 10+15*(gridHorizontalCoordinate-1);
-       int boxTopLeftY = 10+12*(gridVerticalCoordinate-1);
-       // verify if the ball hits the collision box.
-       Rectangle2D collisionBox = new Rectangle2D(boxTopLeftX,boxTopLeftY,30,30);
-       LineSegment2D ballDirection = new LineSegment2D(currentBallX, currentBallY, currentBallX+ballDirectionX, currentBallX+ballDirectionY);
-       Collection<LineSegment2D> edges = collisionBox.edges();
-       Boolean intersection = false;
-       for (LineSegment2D line : edges) {
-           intersection = !(LineSegment2D.getIntersection(line, ballDirection).isEmpty());
-       }
-       if (intersection) {
-           // find border bounce point.
-           Collection<BouncePoint> bouncePoints = new ArrayList<BouncePoint>();
-           Point2D edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX+5, boxTopLeftY, boxTopLeftX+25, boxTopLeftY));
-           if (edgeIntersectionPoint != null) {
-               BouncePoint bpA = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_Y);
-               bouncePoints.add(bpA);
-           }
-           edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX, boxTopLeftY+5, boxTopLeftX, boxTopLeftY+25));
-           if (edgeIntersectionPoint != null) {
-               BouncePoint bpB = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_X);
-               bouncePoints.add(bpB);
-           }
-           edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX+30, boxTopLeftY+5, boxTopLeftX+30, boxTopLeftY+25));
-           if (edgeIntersectionPoint != null) {
-               BouncePoint bpC = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_X);
-               bouncePoints.add(bpC);
-           }
-           edgeIntersectionPoint = LineSegment2D.getIntersection(ballDirection,new LineSegment2D(boxTopLeftX+5, boxTopLeftY+30, boxTopLeftX+25, boxTopLeftY+30));
-           if (edgeIntersectionPoint != null) {
-               BouncePoint bpD = new BouncePoint(edgeIntersectionPoint.getX(), edgeIntersectionPoint.getY(), BounceDirection.FLIP_Y);
-               bouncePoints.add(bpD);
-           }
-           
-           //Then add corner points
-           
-           Circle2D upperLeftCorner = new Circle2D(boxTopLeftX+5, boxTopLeftY+5, 5);
-           Circle2D lowerLeftCorner = new Circle2D(boxTopLeftX+5, boxTopLeftY+25, 5);
-           Circle2D upperRightCorner = new Circle2D(boxTopLeftX+25, boxTopLeftY+5, 5);
-           Circle2D lowerRightCorner = new Circle2D(boxTopLeftX+25, boxTopLeftY+25, 5);
-           Collection<Point2D> cornerIntersectionPoints = upperLeftCorner.intersections(ballDirection);
-           cornerIntersectionPoints.addAll(lowerLeftCorner.intersections(ballDirection));
-           cornerIntersectionPoints.addAll(upperRightCorner.intersections(ballDirection));
-           cornerIntersectionPoints.addAll(lowerRightCorner.intersections(ballDirection));
+    // Calculate ball radius
+		int radius = Ball.BALL_DIAMETER / 2;
 
-           for (Point2D point : cornerIntersectionPoints) {
-               bouncePoints.add(new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_BOTH));
-           }
-           
-           //Then iterated through the collection to find the closest bounce point.
-           
-           BouncePoint closestPoint = null;
-           for (BouncePoint bouncePoint : bouncePoints) {
-               if (isCloser(bouncePoint,closestPoint))
-                   closestPoint = bouncePoint;
-           }
-           
-           //Then return the closer bounce point.
-           
-           return closestPoint;
-           
-       }
-       return null;
+		// Get current ball coordinates and directions
+		double currentBallX = this.getCurrentBallX();
+		double currentBallY = this.getCurrentBallY();
+		double dX = currentBallX + this.getBallDirectionX();
+		double dY = currentBallY + this.getBallDirectionY();
+
+		// Add rectangles for testing
+		Rectangle2D.Double rectA = new Rectangle2D.Double(block.getX(), block.getY() - radius, Block.SIZE, radius);
+		Rectangle2D.Double rectB = new Rectangle2D.Double(block.getX() - radius, block.getY(), radius, Block.SIZE);
+		Rectangle2D.Double rectC = new Rectangle2D.Double(block.getX() + Block.SIZE, block.getY(), radius, Block.SIZE);
+		Rectangle2D.Double rectD = new Rectangle2D.Double(block.getX(), block.getY() + Block.SIZE, Block.SIZE, radius);
+
+		// Create new QuadCurve2D.Float for E
+		QuadCurve2D curveE = new QuadCurve2D.Float();
+		curveE.setCurve(block.getX() - Block.SIZE - radius, block.getY(),
+				block.getX() - Block.SIZE - ((int) (radius / (Math.sqrt(2)))),
+				block.getY() - ((int) (radius / (Math.sqrt(2)))), block.getX() - Block.SIZE, block.getY() - radius);
+
+		// Create new QuadCurve2D.Float for F
+		QuadCurve2D curveF = new QuadCurve2D.Float();
+		curveF.setCurve(block.getX() + radius, block.getY(), block.getX() - ((int) (radius / (Math.sqrt(2)))),
+				block.getY() - ((int) (radius / (Math.sqrt(2)))), block.getX(), block.getY() - radius);
+
+		// Create new QuadCurve2D.Float for G
+		QuadCurve2D curveG = new QuadCurve2D.Float();
+		curveG.setCurve(block.getX() - Block.SIZE - radius, block.getY() - Block.SIZE,
+				block.getX() - Block.SIZE + ((int) (radius / (Math.sqrt(2)))),
+				block.getY() - Block.SIZE + ((int) (radius / (Math.sqrt(2)))), block.getX() - Block.SIZE,
+				block.getY() - Block.SIZE - radius);
+
+		// Create new QuadCurve2D.Float for H
+		QuadCurve2D curveH = new QuadCurve2D.Float();
+		curveH.setCurve(block.getX() + radius, block.getY() + Block.SIZE,
+				block.getX() + radius - ((int) (radius / (Math.sqrt(2)))),
+				block.getY() + Block.SIZE + ((int) (radius / (Math.sqrt(2)))), block.getX(),
+				block.getY() + Block.SIZE + radius);
+
+		// All intersections are listed below
+		boolean intersectionA = rectA.intersectsLine(currentBallX, currentBallY, dX, dY);
+		boolean intersectionB = rectB.intersectsLine(currentBallX, currentBallY, dX, dY);
+		boolean intersectionC = rectC.intersectsLine(currentBallX, currentBallY, dX, dY);
+		boolean intersectionD = rectD.intersectsLine(currentBallX, currentBallY, dX, dY);
+		boolean intersectionECurve = curveE.intersects(currentBallX, currentBallY, dX, dY);
+		boolean intersectionFCurve = curveF.intersects(currentBallX, currentBallY, dX, dY);
+		boolean intersectionGCurve = curveE.intersects(currentBallX, currentBallY, dX, dY);
+		boolean intersectionHCurve = curveF.intersects(currentBallX, currentBallY, dX, dY);
+
+		// Create a list to store all bounce points found
+		ArrayList<BouncePoint> bps = new ArrayList<BouncePoint>();
+
+		if (intersectionA) { // Check intersection A
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+		}
+		if (intersectionB) { // Check intersection B
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+		}
+		if (intersectionC) { // Check intersection CLine2D.Double ballPath = new Line2D.Double(currentBallX, currentBallY, dX, dY);
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+		}
+		if (intersectionD) { // Check intersection D
+			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+		}
+		if (intersectionECurve) { // Check curve intersection E
+			if (dX < 0) { // Ball approaches from the right
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+			} else if (dX > 0) { // Ball approaches from the left
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+			} else { // Ball approaches dead-on
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
+			}
+		}
+		if (intersectionFCurve) { // Check curve intersection F
+			if (dX < 0) { // Ball approaches from the right
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+			} else if (dX > 0) { // Ball approaches from the left
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+			} else { // Ball approaches dead-on
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
+			}
+		}
+		if (intersectionGCurve) { // Check curve intersection G
+			if (dX < 0) { // Ball approaches from the right
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+			} else if (dX > 0) { // Ball approaches from the left
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+			} else { // Ball approaches dead-on
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
+			}
+		}
+		if (intersectionHCurve) { // Check curve intersection H
+			if (dX < 0) { // Ball approaches from the right
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+			} else if (dX > 0) { // Ball approaches from the left
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
+			} else { // Ball approaches dead-on
+				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
+			}
+		}
+	
+		// Iterate through all points to find the closest one
+		// If closestPoint is not found, returns null
+		BouncePoint closestPoint = null;
+		for (BouncePoint bouncePoint : bps) {
+			if (isCloser(bouncePoint, closestPoint))
+				closestPoint = bouncePoint;
+		}
+
+		return closestPoint; // From collection of all bounce points
   }
 
 
@@ -1280,7 +1374,7 @@ public class PlayedGame implements Serializable
    * This method returns true if pointA exists and is closer to the ball than pointB.
    * @author Mathieu Bissonnette
    */
-  // line 365 "../../../../../Block223States.ump"
+  // line 544 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
     // Verify if one of the point is null.
        if (pointA == null) {
@@ -1295,7 +1389,12 @@ public class PlayedGame implements Serializable
        return (distanceA < distanceB);
   }
 
-  // line 379 "../../../../../Block223States.ump"
+
+  /**
+   * Method if the ball doesn't hit anything and stays in bounds
+   * @author Imane Chafi
+   */
+  // line 562 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = this.getCurrentBallX();
     double y = this.getCurrentBallY();
@@ -1311,7 +1410,7 @@ public class PlayedGame implements Serializable
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
-  // line 387 "../../../../../Block223States.ump"
+  // line 575 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
     Player p = getPlayer();
@@ -1331,7 +1430,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 405 "../../../../../Block223States.ump"
+  // line 593 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
