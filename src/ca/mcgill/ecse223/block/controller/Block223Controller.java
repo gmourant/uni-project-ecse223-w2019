@@ -1329,7 +1329,7 @@ public class Block223Controller {
  	 */
  	public static TOHallOfFame getHallOfFameWithMostRecentEntry(int numberOfEntries) throws InvalidInputException {
  		
- 		if (Block223Application.getCurrentUserRole() instanceof Admin) throw new InvalidInputException("Player privileges are required to access a game�s hall of fame.");
+ 		if (Block223Application.getCurrentUserRole() instanceof Admin) throw new InvalidInputException("Player privileges are required to access a games hall of fame.");
 		PlayedGame pgame = Block223Application.getCurrentPlayableGame(); // Obtain current played game
 		if (pgame == null) throw new InvalidInputException("A game must be selected to view its hall of fame."); // Throws exception if no game set
 		
@@ -1386,7 +1386,7 @@ public class Block223Controller {
 	}
  	
     /**
-     * This method does what Umple's Game.getWithName(â¦) method would do if it
+     * This method does what Umple's Game.getWithName(Ã¢ÂÂ¦) method would do if it
      * worked properly aka get the game using the name. 
 	 * @author Kelly Ma
 	 * @author Georges Mourant

@@ -1111,13 +1111,100 @@ public class PlayedGame implements Serializable
 
 
   /**
+   * Method calculateBouncePointPaddle sets the flip states of the ball 
+   * when it hits the paddle.
+   * @author Imane Chafi
+   * @return BouncePoint
+   */
+  // line 290 "../../../../../Block223States.ump"
+   private BouncePoint calculateBouncePointPaddle(){
+    /* STEP 1 : Check  if  the  ball  segment (the  segment  determined  by 
+	   the  current  position  of  the  ball  and  the  new position of the 
+	   ball) intersects with the full box (A, B, C, E,F)*/
+	   
+	   int radius = Ball.BALL_DIAMETER/2; // Get ball radius
+	   BouncePoint bp = null; // Initialize ball's bounce point
+	   double currentBallX = this.getCurrentBallX(); // Find ball coordinates
+	   double currentBallY = this.getCurrentBallY();
+	   double nextBallX = currentBallX + this.getBallDirectionX();
+	   double nextBallY = currentBallY + this.getBallDirectionY();
+	   
+	   // Find rectangles for calculation purposes
+	 	Rectangle2D.Double rectA = new Rectangle2D.Double(currentPaddleX, Paddle.VERTICAL_DISTANCE - radius, Paddle.PADDLE_WIDTH, radius ); // Left wall of play area
+	 	Rectangle2D.Double rectB = new Rectangle2D.Double(currentPaddleX - radius, Paddle.VERTICAL_DISTANCE, radius, radius); // Top wall of play area
+	 	Rectangle2D.Double rectC = new Rectangle2D.Double(currentPaddleX + Paddle.PADDLE_WIDTH, Paddle.VERTICAL_DISTANCE, radius, radius); // Right wall of play area
+	 	Rectangle2D.Double rectE = new Rectangle2D.Double(currentPaddleX - radius, Paddle.VERTICAL_DISTANCE - radius, radius, radius); // Right wall of play area
+	 	Rectangle2D.Double rectF = new Rectangle2D.Double(currentPaddleX + Paddle.PADDLE_WIDTH, Paddle.VERTICAL_DISTANCE - radius, radius, radius); // Right wall of play area
+	 // create new QuadCurve2D.Float for E 
+		QuadCurve2D curveE = new QuadCurve2D.Float();
+		curveE.setCurve(currentPaddleX - radius, Paddle.VERTICAL_DISTANCE, currentPaddleX - ((int)(radius/(Math.sqrt(2)))), Paddle.VERTICAL_DISTANCE - ((int)(radius/(Math.sqrt(2)))), currentPaddleX, Paddle.VERTICAL_DISTANCE - radius);
+	 // create new QuadCurve2D.Float for F
+		QuadCurve2D curveF = new QuadCurve2D.Float();
+		curveF.setCurve(currentPaddleX + Paddle.PADDLE_WIDTH + radius, Paddle.VERTICAL_DISTANCE, currentPaddleX + Paddle.PADDLE_WIDTH + ((int)(radius/(Math.sqrt(2)))), Paddle.VERTICAL_DISTANCE - ((int)(radius/(Math.sqrt(2)))), currentPaddleX + Paddle.PADDLE_WIDTH, Paddle.VERTICAL_DISTANCE - radius);
+		// Check points of intersection between ball and lines
+	 	boolean intersectionA = rectA.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectA
+	 	boolean intersectionB = rectB.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectB
+	 	boolean intersectionC = rectC.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectC
+	 	boolean intersectionE = rectE.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectB
+	 	boolean intersectionF = rectF.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectC
+	 	boolean intersectionECurve = curveE.intersects(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectB
+	 	boolean intersectionFCurve = curveF.intersects(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectC
+	   
+	 	/*STEP 2 : For A, B, C, determine the bounce point by intersecting the
+	    ball segment with each of the yellow line segments of A, B,*/
+	 // Create a collection of bounce points to determine which is closest
+	 		List <BouncePoint> bouncePoints = new ArrayList<BouncePoint>();
+	 		
+	 		if (!intersectionA && !intersectionB && !intersectionC) { // Does not hit a hall at all
+				return null;
+			} else if (intersectionA) { // Check intersection of A 
+				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_Y);//X and Y position are set to the same nextBallX and nextBallY
+				bouncePoints.add(bp);
+			} else if (intersectionB) { // Check intersection of B 
+				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
+				bouncePoints.add(bp);
+			} else if (intersectionC) { // Check intersection of C
+				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
+				bouncePoints.add(bp);
+			}
+	 		
+	 		/*STEP  3:  For  E,  F  determine  the 
+	    bounce  point  by  intersecting  the  ball  segment  
+	    with  each  of the  circle  segments of E, */
+			else if (intersectionE || intersectionECurve) { // Check intersection of C
+				
+				//Setting the curve for E : 
+				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
+				bouncePoints.add(bp);
+			}
+			else if (intersectionF || intersectionFCurve) { // Check intersection of C
+				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
+				bouncePoints.add(bp);
+			}
+	 		
+	    /*: If more than one bounce point are found, 
+	    take the bounce point that is the closest to the 
+	    current position of the ball. 
+	    The box of the bounce point determines the bounce behavior */
+	 	// Iterate through all points to find the closest one
+			BouncePoint closestPoint = null;
+	        for (BouncePoint bouncePoint : bouncePoints) {
+	        	if (isCloser(bouncePoint, closestPoint))
+	            	closestPoint = bouncePoint;
+	        }
+
+			return closestPoint; // From collection of all bounce points
+  }
+
+
+  /**
    * 
    * This method returns the bounce point that is the closest to the ball. 
    * If there is no bouncePoint, it returns null.
    * @author Mathieu Bissonnette
    * @return the bounce point of the block
    */
-  // line 355 "../../../../../Block223States.ump"
+  // line 291 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
     // Construct the collision box.
        int gridHorizontalCoordinate = block.getX();
@@ -1193,7 +1280,7 @@ public class PlayedGame implements Serializable
    * This method returns true if pointA exists and is closer to the ball than pointB.
    * @author Mathieu Bissonnette
    */
-  // line 429 "../../../../../Block223States.ump"
+  // line 365 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
     // Verify if one of the point is null.
        if (pointA == null) {
@@ -1208,9 +1295,14 @@ public class PlayedGame implements Serializable
        return (distanceA < distanceB);
   }
 
-  // line 443 "../../../../../Block223States.ump"
+  // line 379 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-    // TODO implement
+    double x = this.getCurrentBallX();
+    double y = this.getCurrentBallY();
+    double dx = this.getBallDirectionX();
+    double dy = this.getBallDirectionY();
+    this.setCurrentBallX(x+dx);
+    this.setCurrentBallY(y+dy);
   }
 
 
@@ -1219,7 +1311,7 @@ public class PlayedGame implements Serializable
    * This performs all the required actions for ending the game.
    * @author Georges Mourant
    */
-  // line 451 "../../../../../Block223States.ump"
+  // line 387 "../../../../../Block223States.ump"
    private void doGameOver(){
     block223 = getBlock223();
     Player p = getPlayer();
@@ -1239,7 +1331,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 469 "../../../../../Block223States.ump"
+  // line 405 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
