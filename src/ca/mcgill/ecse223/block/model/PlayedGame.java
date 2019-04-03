@@ -7,7 +7,7 @@ import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.util.*;
 
-// line 103 "../../../../../Block223Persistence.ump"
+// line 112 "../../../../../Block223Persistence.ump"
 // line 25 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
@@ -36,12 +36,12 @@ public class PlayedGame implements Serializable
    * no direct link to Paddle, because the paddle can be found by navigating to PlayedGame, Game, and then Paddle
    * pixels moved when right arrow key is pressed
    */
-  public static final int PADDLE_MOVE_RIGHT = 1;
+  public static final int PADDLE_MOVE_RIGHT = 5;
 
   /**
    * pixels moved when left arrow key is pressed
    */
-  public static final int PADDLE_MOVE_LEFT = -1;
+  public static final int PADDLE_MOVE_LEFT = -5;
 
   //------------------------
   // MEMBER VARIABLES
@@ -721,7 +721,7 @@ public class PlayedGame implements Serializable
     }
   }
 
-  // line 108 "../../../../../Block223Persistence.ump"
+  // line 117 "../../../../../Block223Persistence.ump"
    public static  void reinitializeAutouniqueID(List<PlayedGame> playedGames){
     nextId = 0; 
     for (PlayedGame playedGame : playedGames) {
@@ -1369,7 +1369,7 @@ public class PlayedGame implements Serializable
    private boolean isBallOutOfBounds(){
     double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
     double paddleTopY = getCurrentPaddleY();
-    return (paddleTopY > ballBottomY);
+    return (paddleTopY < ballBottomY);
   }
 
 
@@ -1398,7 +1398,7 @@ public class PlayedGame implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 106 "../../../../../Block223Persistence.ump"
+  // line 115 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 8597675110221231714L ;
 
   
