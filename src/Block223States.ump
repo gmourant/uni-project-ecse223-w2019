@@ -233,68 +233,6 @@ class PlayedGame {
 		   setWaitTime(INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
 				   (getCurrentLevel() - 1)));
   }
-  
-/**
-   * 
-   * This method calculates the bounce point if the ball hits the wall.
-   * @author Kelly Ma
-   * @return the bounce point of the wall
-   */
-  // line 250 "../../../../../Block223States.ump"
-   private BouncePoint calculateBouncePointWall(){
-	   int radius = Ball.BALL_DIAMETER/2; // Get ball radius
-       ArrayList<BouncePoint> bouncePoints = new ArrayList<BouncePoint>(); // Stores all bounce points
-	   LineSegment2D ballDirection = new LineSegment2D(currentBallX, currentBallY, currentBallX+ballDirectionX, currentBallX+ballDirectionY);
-	      
-	   // Create edges
-	   ArrayList<LineSegment2D> edges = new ArrayList<LineSegment2D>();
-	   edges.add(new LineSegment2D(radius,radius,radius,Game.PLAY_AREA_SIDE-radius)); // edgeA
-	   edges.add(new LineSegment2D(radius,radius,Game.PLAY_AREA_SIDE-radius,radius)); // edgeB
-	   edges.add(new LineSegment2D(Game.PLAY_AREA_SIDE-radius,Game.PLAY_AREA_SIDE-radius,Game.PLAY_AREA_SIDE-radius,Game.PLAY_AREA_SIDE-radius)); // edgeC
-	   Boolean intersection = false;
-       for (LineSegment2D edge : edges) { // Check if there is a line intersection at all
-           intersection = !(AbstractLine2D.getIntersection(edge, ballDirection).isEmpty());
-       }
-       
-       if (intersection) { // Calculate the bouncePoint
-           Point2D intersectionPoint = AbstractLine2D.getIntersection(ballDirection,new LineSegment2D(radius,radius,radius,Game.PLAY_AREA_SIDE-radius));
-           if (intersectionPoint != null) { // Check for intersection with edgeA
-               BouncePoint bpA = new BouncePoint(intersectionPoint.getX(), intersectionPoint.getY(), BounceDirection.FLIP_X);
-               bouncePoints.add(bpA); // Add to list
-           }
-           intersectionPoint = AbstractLine2D.getIntersection(ballDirection, new LineSegment2D(radius,radius,Game.PLAY_AREA_SIDE-radius,radius));
-           if (intersectionPoint != null) { // Check for intersection with edgeB
-               BouncePoint bpB = new BouncePoint(intersectionPoint.getX(), intersectionPoint.getY(), BounceDirection.FLIP_Y);
-               bouncePoints.add(bpB); // Add to list
-           }
-           intersectionPoint = AbstractLine2D.getIntersection(ballDirection,new LineSegment2D(Game.PLAY_AREA_SIDE-radius,Game.PLAY_AREA_SIDE-radius,Game.PLAY_AREA_SIDE-radius,Game.PLAY_AREA_SIDE-radius));
-           if (intersectionPoint != null) { // Check for intersection with edgeC
-               BouncePoint bpC = new BouncePoint(intersectionPoint.getX(), intersectionPoint.getY(), BounceDirection.FLIP_X);
-               bouncePoints.add(bpC); // Add to list
-           }
-       }
-	   
-	   // Check corner points
-       Double circleRadius = Math.sqrt(Math.pow(radius, 2)* Math.pow(radius, 2)); // Calculate radius of corner point
-       Circle2D upperLeftCorner = new Circle2D(0, 0, circleRadius);
-       Circle2D upperRightCorner = new Circle2D(390, 0, circleRadius);
-       Collection<Point2D> cornerIntersectionPoints = upperLeftCorner.intersections(ballDirection);
-       cornerIntersectionPoints.addAll(upperLeftCorner.intersections(ballDirection));
-       cornerIntersectionPoints.addAll(upperRightCorner.intersections(ballDirection));
-
-       for (Point2D point : cornerIntersectionPoints) {
-           bouncePoints.add(new BouncePoint(point.getX(), point.getY(), BounceDirection.FLIP_BOTH));
-       }
-       
-       // Iterate through all points to find the closest one
-       BouncePoint closestPoint = null;
-       for (BouncePoint bouncePoint : bouncePoints) {
-    	   if (isCloser(bouncePoint, closestPoint))
-    		   closestPoint = bouncePoint;
-       }
-
-	   return closestPoint; // From collection of all bounce points
-  }
 
  /**
    * This method is performed when the ball is bounced after hitting the paddle, block, or wall.
