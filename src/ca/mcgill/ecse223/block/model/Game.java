@@ -892,6 +892,15 @@ public class Game implements Serializable
    public static  void reinitializeUniqueName(List<Game> games){
     gamesByName = new HashMap<String, Game>();
 	    for (Game game : games) {
+	    
+	      game.setHallOfFameEntriesPriority(new Comparator<HallOfFameEntry>(){
+          @Override
+          public int compare(HallOfFameEntry arg0, HallOfFameEntry arg1) {
+              return ((Integer)arg0.getScore()).compareTo(
+          ((Integer)arg1.getScore()));
+          }
+});
+	      
 	      gamesByName.put(game.getName(), game);
     	}
   }

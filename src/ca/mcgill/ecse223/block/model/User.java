@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.*;
 
-// line 48 "../../../../../Block223Persistence.ump"
+// line 57 "../../../../../Block223Persistence.ump"
 // line 21 "../../../../../Block223.ump"
 public class User implements Serializable
 {
@@ -258,7 +258,7 @@ public class User implements Serializable
     }
   }
 
-  // line 53 "../../../../../Block223Persistence.ump"
+  // line 62 "../../../../../Block223Persistence.ump"
    public static  void reinitializeUniqueUsername(List<User> users){
     usersByUsername = new HashMap<String, User>();
 	    for (User user : users) {
@@ -298,7 +298,7 @@ public class User implements Serializable
   // DEVELOPER CODE - PROVIDED AS-IS
   //------------------------
   
-  // line 51 "../../../../../Block223Persistence.ump"
+  // line 60 "../../../../../Block223Persistence.ump"
   private static final long serialVersionUID = 4267485601061759914L ;
 
   
