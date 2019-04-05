@@ -132,7 +132,7 @@ public class PageDeleteBlock extends ContentPage {
 	       ids.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
 					// call the controller
-					Block block = Block223Controller.findBlock((int)ids.getSelectedItem());
+					TOBlock block = Block223Controller.findTOBlock((int)ids.getSelectedItem());
 					int R = block.getRed();
 					int G = block.getGreen();
 					int B = block.getBlue();
