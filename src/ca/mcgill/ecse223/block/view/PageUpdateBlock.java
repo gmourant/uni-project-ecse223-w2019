@@ -180,7 +180,7 @@ public class PageUpdateBlock extends ContentPage{
 			public void actionPerformed(ActionEvent e) {
 				int r,g,b,p;
 				Integer id = (Integer) idComboBox.getSelectedItem();
-				Block block = Block223Controller.findBlock(id);
+				TOBlock block = Block223Controller.findTOBlock(id);
 				if (block != null) {
 					r = block.getRed();
 					redSlider.setValue(r);

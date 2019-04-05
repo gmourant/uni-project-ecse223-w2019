@@ -1504,6 +1504,28 @@ public class Block223Controller {
 		}
 		return null;
 	}
+	
+	/**
+	 * This method finds a block inside a list of blocks depending on its ID. Return a transfer object. Author
+	 * : Imane Chafi & Mathieu Bissonnette
+	 */
+
+	public static TOBlock findTOBlock(int id) { // Here, this is how the method was written in the solution document.
+		// I've emailed the teacher about this to have clarification, and whether the
+		// "." is necessary.
+		Game game = Block223Application.getCurrentGame();
+		List<Block> blocks = game.getBlocks();// Here, I would need to get the current game first, put I need to ask the
+												// teacher about the Game.find to understand what it means.
+
+		for (Block block : blocks) {
+
+			int blockId = block.getId(); // Here, the type of blockID should be integer
+			if (id == blockId) {
+				return new TOBlock(block.getId(), block.getRed(), block.getGreen(), block.getBlue(), block.getPoints());
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Private helper method to find the block assignment at a specific level

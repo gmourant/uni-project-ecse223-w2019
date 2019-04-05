@@ -15,7 +15,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	}
 	
 	public String takeInputs() {
-		
+		return null;
 	}
 	
 	public void refresh() {

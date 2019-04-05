@@ -236,7 +236,7 @@ public class PagePositionBlock extends ContentPage {
 			public void actionPerformed(ActionEvent e) {
 				int r,g,b;
 				Integer id = (Integer) idComboBox.getSelectedItem();
-				Block block = Block223Controller.findBlock(id);
+				TOBlock block = Block223Controller.findTOBlock(id);
 				if (block != null) {
 					r = block.getRed();
 					g = block.getGreen();
@@ -290,7 +290,7 @@ public class PagePositionBlock extends ContentPage {
 	    public LevelView(List<TOGridCell> assignments, boolean errorRedirect,  Block223MainPage parent){
 	        framework = parent;
 	        this.errorRedirect = errorRedirect;
-	        this.setSize(900, 600); // Specifies the size should adjust to the needs for space
+	        this.setSize(600, 650); // Specifies the size should adjust to the needs for space
 	        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
 	        this.setLocationRelativeTo(null); // Places in the center of the screen
 	        this.setResizable(false); // stops user from resizing the dialog box
@@ -298,46 +298,35 @@ public class PagePositionBlock extends ContentPage {
 	        this.setVisible(true);
 	        windowHolder = new JPanel(new BorderLayout());
 	        windowHolder.setBorder(BorderFactory.createLineBorder(Color.darkGray));
-	        windowHolder.add(new Grid(assignments));
 	        setupTopMenu();
+	        JPanel grid = new JPanel(new GridLayout(15,15));
+	        for (int row = 0; row < 15; row++) {
+                for (int col = 0; col < 15; col++) {
+
+                    CellPane cellPane = new CellPane();
+                    Border border = null;
+                    if (row < 14) {
+                        if (col < 14) {
+                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+                        } else {
+                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+                        }
+                    } else {
+                        if (col < 14) {
+                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+                        } else {
+                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+                        }
+                    }
+                	TOGridCell cell = coordInList(col+1, row+1, assignments);
+                	if (cell != null)
+                		cellPane.setBackground(new Color(cell.getRed(), cell.getGreen(), cell.getBlue()));
+                    cellPane.setBorder(border);
+                    grid.add(cellPane);
+                }
+            }
+	        windowHolder.add(grid,BorderLayout.CENTER);
 	        add(windowHolder);
-	    }
-	    
-	    class Grid extends JPanel {
-	    	
-	    	Grid(List<TOGridCell> assignments) {
-	        	
-	            setLayout(new GridBagLayout());
-	
-	            GridBagConstraints gbc = new GridBagConstraints();
-	            for (int row = 0; row < 8; row++) {
-	                for (int col = 0; col < 8; col++) {
-	                    gbc.gridx = col;
-	                    gbc.gridy = row;
-	
-	                    CellPane cellPane = new CellPane();
-	                    Border border = null;
-	                    if (row < 7) {
-	                        if (col < 7) {
-	                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
-	                        } else {
-	                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
-	                        }
-	                    } else {
-	                        if (col < 7) {
-	                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
-	                        } else {
-	                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
-	                        }
-	                    }
-                    	TOGridCell cell = coordInList(col, row, assignments);
-                    	if (cell != null)
-                    		cellPane.setBackground(new Color(cell.getRed(), cell.getGreen(), cell.getBlue()));
-	                    cellPane.setBorder(border);
-	                    add(cellPane, gbc);
-	                }
-	            }
-	        }
 	    }
 	
 	    class CellPane extends JPanel {
@@ -354,10 +343,10 @@ public class PagePositionBlock extends ContentPage {
 	        topMenu = new JPanel(new GridLayout(1, 2));
 	        topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
 	                BorderFactory.createEmptyBorder(5, 10, 5, 5)));
-	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/4));
+	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/8));
 	        topMenu.setBackground(HEADER_BACKGROUND);
 
-	        JLabel title = new JLabel("View (W.I.P.)"); // empty by default
+	        JLabel title = new JLabel("Level preview"); // empty by default
 	        title.setFont(new Font(Block223MainPage.getUIFont().getFamily(), 
                         Font.BOLD, Block223MainPage.getUIFont().getSize() + TITLE_SIZE_INCREASE));
 	        topMenu.add(title);
