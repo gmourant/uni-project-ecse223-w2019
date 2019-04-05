@@ -1,6 +1,5 @@
 package ca.mcgill.ecse223.block.view;
 import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
-import static ca.mcgill.ecse223.block.view.Block223MainPage.UI_FONT;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -76,7 +75,7 @@ public class PageMoveBlock extends ContentPage {
 		selectLevelList = new JComboBox<Integer>();
 		selectLevelList.setPreferredSize(new Dimension(150, 30));
 		//selectLevelList.setAlignmentX(Component.CENTER_ALIGNMENT);
-		selectLevelList.setBackground(Block223MainPage.HEADER_BACKGROUND);
+		selectLevelList.setBackground(Block223MainPage.getHeaderBackground());
 		selectLevelList.setForeground(Color.DARK_GRAY);
 		// Populate Level Combobox
         for (Integer i = 1; i < 100; i++) {
@@ -95,7 +94,7 @@ public class PageMoveBlock extends ContentPage {
 		b.add(new JLabel("Select a block ID to move: "));
 		selectBlockList = new JComboBox<Integer>();
 		selectBlockList.setPreferredSize(new Dimension(150, 30));
-		selectBlockList.setBackground(Block223MainPage.HEADER_BACKGROUND);
+		selectBlockList.setBackground(Block223MainPage.getHeaderBackground());
 		b.add(selectBlockList);
 		add(b);
 
@@ -359,7 +358,8 @@ public class LevelView extends JFrame{
         topMenu.setBackground(HEADER_BACKGROUND);
 
         JLabel title = new JLabel("View (W.I.P.)"); // empty by default
-        title.setFont(new Font(UI_FONT.getFamily(), Font.BOLD, UI_FONT.getSize() + TITLE_SIZE_INCREASE));
+        title.setFont(new Font(Block223MainPage.getUIFont().getFamily(), Font.BOLD, 
+                Block223MainPage.getUIFont().getSize() + TITLE_SIZE_INCREASE));
         topMenu.add(title);
 
         JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
