@@ -1,7 +1,6 @@
 class PlayedGame {
 
 	// Import necessary librairies and files here
-	depend java.awt.geom.QuadCurve2D;
 	depend java.awt.geom.Rectangle2D;
 	depend java.awt.geom.Line2D;
 	depend ca.mcgill.ecse223.block.model.BouncePoint.BounceDirection;
@@ -597,7 +596,6 @@ class PlayedGame {
 	 * @author Kelly Ma
 	 * @return the bounce point after hitting a block
 	 */
-
 	private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block) {
 
 		// Get current ball radius
@@ -709,150 +707,145 @@ class PlayedGame {
 					bp.setHitBlock(block);
 					return bp;
 				}
-				BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius,
-						BounceDirection.FLIP_Y);
-				bp.setHitBlock(block);
-				return bp;
 			}
+			BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius, BounceDirection.FLIP_Y);
+			bp.setHitBlock(block);
+			return bp;
+		}
 
-			// Intersection E
-			// Check that one of dX or dY is positive
-			if (intersectionE && !(dX < 0 && dY < 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBlockY) - 2 * currentBlockX;
-				C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					}
+		// Intersection E
+		// Check that one of dX or dY is positive
+		if (intersectionE && !(dX < 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY) - 2 * currentBlockX;
+			C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection F
+		// Ensure that dX is negative or dY is positive
+		if (intersectionF && !(dX > 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBallY) - 2 * (currentBallX + blockSide);
+			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection G
+		if (intersectionG && !(dX < 0 && dY > 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY - blockSide) - 2 * currentBlockX;
+			C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY - blockSide, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
 				}
 			}
 
-			// Intersection F
-			// Ensure that dX is negative or dY is positive
-			if (intersectionF && !(dX > 0 && dY < 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBallY) - 2 * (currentBallX + blockSide);
-				C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					}
-				}
-			}
+		}
 
-			// Intersection G
-			if (intersectionG && !(dX < 0 && dY > 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBlockY - blockSide) - 2 * currentBlockX;
-				C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY - blockSide, 2) - Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					}
-				}
-
-			}
-
-			// Intersection H
-			// Check that dX is negative or dY is negative
-			if (intersectionH && !(dX > 0 && dY > 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBlockY - blockSide) - 2 * (currentBlockX + blockSide);
-				C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY - blockSide, 2)
-						- Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					}
+		// Intersection H
+		// Check that dX is negative or dY is negative
+		if (intersectionH && !(dX > 0 && dY > 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY - blockSide) - 2 * (currentBlockX + blockSide);
+			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY - blockSide, 2)
+					- Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
 				}
 			}
 		}
@@ -860,7 +853,7 @@ class PlayedGame {
 		return null;
 
 	}
-
+	
 	/**
 	 * This method returns true if pointA exists and is closer to the ball than
 	 * pointB.

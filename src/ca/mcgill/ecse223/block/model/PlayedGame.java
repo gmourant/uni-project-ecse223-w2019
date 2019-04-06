@@ -3,7 +3,6 @@
 
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
-import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.geom.Line2D;
 import ca.mcgill.ecse223.block.model.BouncePoint.BounceDirection;
@@ -412,7 +411,7 @@ public class PlayedGame implements Serializable
       case Moving:
         if (hitPaddle())
         {
-        // line 19 "../../../../../Block223States.ump"
+        // line 18 "../../../../../Block223States.ump"
           doHitPaddleOrWall();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
@@ -420,7 +419,7 @@ public class PlayedGame implements Serializable
         }
         if (isOutOfBoundsAndLastLife())
         {
-        // line 20 "../../../../../Block223States.ump"
+        // line 19 "../../../../../Block223States.ump"
           doOutOfBounds();
           setPlayStatus(PlayStatus.GameOver);
           wasEventProcessed = true;
@@ -428,7 +427,7 @@ public class PlayedGame implements Serializable
         }
         if (isOutOfBounds())
         {
-        // line 21 "../../../../../Block223States.ump"
+        // line 20 "../../../../../Block223States.ump"
           doOutOfBounds();
           setPlayStatus(PlayStatus.Paused);
           wasEventProcessed = true;
@@ -436,7 +435,7 @@ public class PlayedGame implements Serializable
         }
         if (hitLastBlockAndLastLevel())
         {
-        // line 22 "../../../../../Block223States.ump"
+        // line 21 "../../../../../Block223States.ump"
           doHitBlock();
           setPlayStatus(PlayStatus.GameOver);
           wasEventProcessed = true;
@@ -444,7 +443,7 @@ public class PlayedGame implements Serializable
         }
         if (hitLastBlock())
         {
-        // line 23 "../../../../../Block223States.ump"
+        // line 22 "../../../../../Block223States.ump"
           doHitBlockNextLevel();
           setPlayStatus(PlayStatus.Ready);
           wasEventProcessed = true;
@@ -452,7 +451,7 @@ public class PlayedGame implements Serializable
         }
         if (hitBlock())
         {
-        // line 24 "../../../../../Block223States.ump"
+        // line 23 "../../../../../Block223States.ump"
           doHitBlock();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
@@ -460,13 +459,13 @@ public class PlayedGame implements Serializable
         }
         if (hitWall())
         {
-        // line 25 "../../../../../Block223States.ump"
+        // line 24 "../../../../../Block223States.ump"
           doHitPaddleOrWall();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
           break;
         }
-        // line 26 "../../../../../Block223States.ump"
+        // line 25 "../../../../../Block223States.ump"
         doHitNothingAndNotOutOfBounds();
         setPlayStatus(PlayStatus.Moving);
         wasEventProcessed = true;
@@ -486,11 +485,11 @@ public class PlayedGame implements Serializable
     switch(playStatus)
     {
       case Ready:
-        // line 14 "../../../../../Block223States.ump"
+        // line 13 "../../../../../Block223States.ump"
         doSetup();
         break;
       case GameOver:
-        // line 32 "../../../../../Block223States.ump"
+        // line 31 "../../../../../Block223States.ump"
         doGameOver();
         break;
     }
@@ -771,7 +770,7 @@ public class PlayedGame implements Serializable
    * @author Kelly Ma
    * @return Whether or not the ball hits paddle
    */
-  // line 45 "../../../../../Block223States.ump"
+  // line 44 "../../../../../Block223States.ump"
    private boolean hitPaddle(){
     BouncePoint bp = calculateBouncePointPaddle();
 		setBounce(bp);
@@ -786,7 +785,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 57 "../../../../../Block223States.ump"
+  // line 56 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
     boolean outOfBounds = false;
 		if (this.getLives() == 1)
@@ -802,12 +801,12 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 70 "../../../../../Block223States.ump"
+  // line 69 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
     return isBallOutOfBounds();
   }
 
-  // line 75 "../../../../../Block223States.ump"
+  // line 74 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
     // Obtain current game, get number of levels
 		Game game = this.getGame();
@@ -837,7 +836,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Mathieu Bissonnette
    */
-  // line 104 "../../../../../Block223States.ump"
+  // line 103 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
     // Check # of blocks and set bouncepoint to null
 		int nrBlocks = numberOfBlocks();
@@ -860,7 +859,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Mathieu Bissonnette
    */
-  // line 127 "../../../../../Block223States.ump"
+  // line 126 "../../../../../Block223States.ump"
    private boolean hitBlock(){
     // Check # blocks, set bouncepoint to null
 		int nrBlocks = numberOfBlocks();
@@ -887,7 +886,7 @@ public class PlayedGame implements Serializable
    * @author Kelly Ma
    * @return Whether or not the ball hits wall
    */
-  // line 152 "../../../../../Block223States.ump"
+  // line 151 "../../../../../Block223States.ump"
    private boolean hitWall(){
     BouncePoint bp = calculateBouncePointWall();
 		setBounce(bp);
@@ -904,7 +903,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Imane Chafi
    */
-  // line 168 "../../../../../Block223States.ump"
+  // line 167 "../../../../../Block223States.ump"
    private void doSetup(){
     // Reset current ball locations, ball directions, and paddle
 		resetCurrentBallX();
@@ -950,12 +949,12 @@ public class PlayedGame implements Serializable
 		}
   }
 
-  // line 214 "../../../../../Block223States.ump"
+  // line 213 "../../../../../Block223States.ump"
    private void doHitPaddleOrWall(){
     bounceBall(); // Method described later
   }
 
-  // line 219 "../../../../../Block223States.ump"
+  // line 218 "../../../../../Block223States.ump"
    private void doOutOfBounds(){
     // # of lives decreases
 		this.setLives(lives - 1);
@@ -968,7 +967,7 @@ public class PlayedGame implements Serializable
 		this.resetCurrentPaddleX();
   }
 
-  // line 232 "../../../../../Block223States.ump"
+  // line 231 "../../../../../Block223States.ump"
    private void doHitBlock(){
     // Get score
 		int score = getScore();
@@ -986,7 +985,7 @@ public class PlayedGame implements Serializable
 		bounceBall();
   }
 
-  // line 250 "../../../../../Block223States.ump"
+  // line 249 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
     // Block is hit
 		doHitBlock();
@@ -1013,7 +1012,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Kelly Ma
    */
-  // line 276 "../../../../../Block223States.ump"
+  // line 275 "../../../../../Block223States.ump"
    private void bounceBall(){
     // Obtain the bounce points
 		BouncePoint bp = getBounce();
@@ -1100,7 +1099,7 @@ public class PlayedGame implements Serializable
    * @param val The current value
    * @return A unit vector
    */
-  // line 360 "../../../../../Block223States.ump"
+  // line 359 "../../../../../Block223States.ump"
    private int getUnitValue(double val){
     if (val >= 0) {
 			return 1;
@@ -1119,7 +1118,7 @@ public class PlayedGame implements Serializable
    * 
    * @return The bounce point after hitting paddle
    */
-  // line 379 "../../../../../Block223States.ump"
+  // line 378 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointPaddle(){
     // Obtain current ball radius, ball location, and direction
 		int radius = Ball.BALL_DIAMETER / 2;
@@ -1277,7 +1276,7 @@ public class PlayedGame implements Serializable
    * @author Kelly Ma
    * @return the bounce point of the wall or null
    */
-  // line 536 "../../../../../Block223States.ump"
+  // line 535 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointWall(){
     // Get ball radius
 		double radius = (double) Ball.BALL_DIAMETER / 2;
@@ -1345,7 +1344,7 @@ public class PlayedGame implements Serializable
    * @author Kelly Ma
    * @return the bounce point after hitting a block
    */
-  // line 603 "../../../../../Block223States.ump"
+  // line 601 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
     // Get current ball radius
 		int radius = Ball.BALL_DIAMETER / 2;
@@ -1456,150 +1455,145 @@ public class PlayedGame implements Serializable
 					bp.setHitBlock(block);
 					return bp;
 				}
-				BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius,
-						BounceDirection.FLIP_Y);
-				bp.setHitBlock(block);
-				return bp;
 			}
+			BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius, BounceDirection.FLIP_Y);
+			bp.setHitBlock(block);
+			return bp;
+		}
 
-			// Intersection E
-			// Check that one of dX or dY is positive
-			if (intersectionE && !(dX < 0 && dY < 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBlockY) - 2 * currentBlockX;
-				C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					}
+		// Intersection E
+		// Check that one of dX or dY is positive
+		if (intersectionE && !(dX < 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY) - 2 * currentBlockX;
+			C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection F
+		// Ensure that dX is negative or dY is positive
+		if (intersectionF && !(dX > 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBallY) - 2 * (currentBallX + blockSide);
+			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection G
+		if (intersectionG && !(dX < 0 && dY > 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY - blockSide) - 2 * currentBlockX;
+			C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY - blockSide, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
 				}
 			}
 
-			// Intersection F
-			// Ensure that dX is negative or dY is positive
-			if (intersectionF && !(dX > 0 && dY < 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBallY) - 2 * (currentBallX + blockSide);
-				C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					}
-				}
-			}
+		}
 
-			// Intersection G
-			if (intersectionG && !(dX < 0 && dY > 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBlockY - blockSide) - 2 * currentBlockX;
-				C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY - blockSide, 2) - Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					}
-				}
-
-			}
-
-			// Intersection H
-			// Check that dX is negative or dY is negative
-			if (intersectionH && !(dX > 0 && dY > 0)) {
-				a = 0;
-				if (dX != 0) // Has X direction
-					a = dY / dX;
-				b = currentBallY - a * currentBallX;
-				// Perform curve calculations here
-				A = 1 + Math.pow(a, 2);
-				B = 2 * a * (b - currentBlockY - blockSide) - 2 * (currentBlockX + blockSide);
-				C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY - blockSide, 2)
-						- Math.pow(radius, 2);
-				D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
-				Xa = (-B - D) / (2 * A);
-				Xb = (-B + D) / (2 * A);
-				// Assign X and Y values for checking
-				X = Xb;
-				if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
-					X = Xa;
-				Y = a * X + b;
-				// Check that the next x and y coordinates are not equal to X and Y
-				// Check that X and Y are not asymptotic
-				if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y))
-						&& !(Double.isNaN(X) || Double.isNaN(Y))) {
-					if (dX < 0) { // Ball is moving towards the left
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
-						bp.setHitBlock(block);
-						return bp;
-					} else { // Ball is moving towards the right
-						BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
-						bp.setHitBlock(block);
-						return bp;
-					}
+		// Intersection H
+		// Check that dX is negative or dY is negative
+		if (intersectionH && !(dX > 0 && dY > 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY - blockSide) - 2 * (currentBlockX + blockSide);
+			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY - blockSide, 2)
+					- Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
 				}
 			}
 		}
@@ -1615,7 +1609,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Mathieu Bissonnette
    */
-  // line 872 "../../../../../Block223States.ump"
+  // line 865 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint A, BouncePoint B){
     // Obtain current ball position
 		double currentBallX = getCurrentBallX();
@@ -1645,7 +1639,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Imane Chafi
    */
-  // line 901 "../../../../../Block223States.ump"
+  // line 894 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = this.getCurrentBallX();
 		double y = this.getCurrentBallY();
@@ -1662,7 +1656,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Georges Mourant
    */
-  // line 915 "../../../../../Block223States.ump"
+  // line 908 "../../../../../Block223States.ump"
    private void doGameOver(){
     Block223 block223 = this.getBlock223();
 		Player p = this.getPlayer();
@@ -1684,7 +1678,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 935 "../../../../../Block223States.ump"
+  // line 928 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     boolean outofbounds = false;
 		if (this.getCurrentBallY() + this.getBallDirectionY() > Game.PLAY_AREA_SIDE - 2 * Game.GRID_DIMENSIONS) {
