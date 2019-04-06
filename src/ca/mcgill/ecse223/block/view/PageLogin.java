@@ -67,6 +67,7 @@ public class PageLogin extends ContentPage {
 
         //Title page panel
         JPanel titlePanel = new JPanel(new BorderLayout());
+        titlePanel.setOpaque(false);
         titlePanel.setBackground(Block223MainPage.getHeaderBackground());
         JLabel titleLabel = new JLabel("Block 223", JLabel.CENTER);
         titleLabel.setForeground(new Color(227, 228, 219));
@@ -77,6 +78,7 @@ public class PageLogin extends ContentPage {
         //Username label panel
         JPanel usernameLabelPanel = new JPanel(new BorderLayout());
         usernameLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
+        usernameLabelPanel.setOpaque(false);
         JLabel usernameLabel = new JLabel("         Username:");
         usernameLabel.setFont(defaultFont);
         usernameLabel.setForeground(new Color(227, 228, 219 ));
@@ -87,6 +89,7 @@ public class PageLogin extends ContentPage {
         //Username text field panel
         JPanel usernameTxtFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         usernameTxtFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
+        usernameTxtFieldPanel.setOpaque(false);
         usernameTextField = new JTextField();
         usernameTextField.setPreferredSize(new Dimension(253, 27));
         usernameTextField.setBorder(border);
@@ -96,6 +99,7 @@ public class PageLogin extends ContentPage {
         //Password label panel
         JPanel passwordLabelPanel = new JPanel(new BorderLayout());
         passwordLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
+        passwordLabelPanel.setOpaque(false);
         JLabel passwordLabel = new JLabel("         Password:");
         passwordLabel.setFont(defaultFont);
         passwordLabel.setForeground(new Color(227, 228, 219 ));
@@ -106,6 +110,7 @@ public class PageLogin extends ContentPage {
         //Password password field panel
         JPanel passwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         passwordPFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
+        passwordPFieldPanel.setOpaque(false);
         passwordPField = new JPasswordField();
         passwordPField.setPreferredSize(new Dimension(253, 27));
         passwordPField.setBorder(border);
@@ -115,6 +120,7 @@ public class PageLogin extends ContentPage {
         //Log in button panel
         JPanel loginBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         loginBtnPanel.setBackground(Block223MainPage.getHeaderBackground());
+        loginBtnPanel.setOpaque(false);
         JButton logInButton = createButton("Log In");
         logInButton.setFont(new Font("Consolas", Font.PLAIN, 20));
         loginBtnPanel.add(logInButton);
@@ -122,13 +128,14 @@ public class PageLogin extends ContentPage {
         //Sign up button panel
         JPanel signUpBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         signUpBtnPanel.setBackground(Block223MainPage.getHeaderBackground());
+        signUpBtnPanel.setOpaque(false);
         JButton signUpButton = new JButton("Sign Up!");
         signUpButton.setForeground(new Color(179,141, 151));
         signUpButton.setFont(new Font("Consolas", Font.PLAIN, 20));
         signUpButton.setBackground(Block223MainPage.getHeaderBackground());
         //signUpButton.setForeground(Color.BLUE);
         JLabel recommendSignUp = new JLabel("Don't have an account?");
-        recommendSignUp.setFont(new Font("Consolas", Font.PLAIN, 20));
+        recommendSignUp.setFont(new Font("Consolas", Font.PLAIN, 18));
         recommendSignUp.setForeground(new Color(227, 228, 219 ));
         Border emptyBorder = BorderFactory.createEmptyBorder();
         signUpButton.setBorder(emptyBorder);
@@ -165,11 +172,31 @@ public class PageLogin extends ContentPage {
     @Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g); //ALWAYS call this method first!
-	    //g.drawRect(160, 100, 50, 50); //Draws square
-	    g.setColor(new Color(213, 172, 169));
-	    g.fillRect(160, 100, 50, 50); //Fills a square
+	    //g.drawRect(60, 100, 50, 50); //Draws square
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(30, 60, 30, 30); //Fills a square
 	    
-	}
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(60, 30, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(90, 0, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(30, 0, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(480, 360, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(510, 330, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(450, 390, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(510, 390, 30, 30); //Fills a square
+	    }
 
     //*******************
     //RefreshData method
@@ -215,6 +242,8 @@ public class PageLogin extends ContentPage {
         changePage(Block223MainPage.Page.signUp);
 
     }//End of signUpActionPerformed method
+    
+    
     
 
 }//End of the PageLogin class
