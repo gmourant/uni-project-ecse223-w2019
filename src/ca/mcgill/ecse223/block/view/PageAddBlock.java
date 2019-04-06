@@ -111,7 +111,7 @@ public class PageAddBlock extends ContentPage{
                 BorderFactory.createEmptyBorder(1, 0, 0, 0)));
         
         //Red slider
-        JLabel redLabel = new JLabel("RED:      ");
+        JLabel redLabel = new JLabel("RED:    ");
         redLabel.setForeground(Color.RED);
         redColorSlider.add(redLabel);
         JSlider redSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 0);
@@ -120,7 +120,7 @@ public class PageAddBlock extends ContentPage{
         add(redColorSlider);
         
        //blueSlider
-        JLabel blueLabel = new JLabel("BLUE:     ");
+        JLabel blueLabel = new JLabel("BLUE:   ");
         blueLabel.setForeground(Color.BLUE);
         blueColorSlider.add(blueLabel);
         JSlider blueSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 0);
@@ -129,7 +129,7 @@ public class PageAddBlock extends ContentPage{
         add(blueColorSlider);
         
         //Green slider
-        JLabel greenLabel = new JLabel("GREEN: ");
+        JLabel greenLabel = new JLabel("GREEN:  ");
         greenLabel.setForeground(greenForest);
         greenColorSlider.add(greenLabel);
         JSlider greenSlider = new JSlider(JSlider.HORIZONTAL, 0, 255, 0);
@@ -213,6 +213,5 @@ public class PageAddBlock extends ContentPage{
         
 	}
 	}
-
 
 
