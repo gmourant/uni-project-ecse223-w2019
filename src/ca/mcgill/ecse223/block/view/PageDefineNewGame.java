@@ -16,60 +16,49 @@ import javax.swing.event.ChangeListener;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.controller.TOGame;
 
 /**
  * This page defines game settings for a game within Block223.
  * 
  * @author Kelly Ma
  */
-public class PageDefineGame extends ContentPage {
+public class PageDefineNewGame extends ContentPage {
 
-	private static final long serialVersionUID = 5362736975311160954L;
+	private static final long serialVersionUID = 5348736975311160954L;
 
-	public PageDefineGame(Block223MainPage parent) {
+	public PageDefineNewGame(Block223MainPage parent) {
 
 		// Inherit features from ContentPage
 		super(parent);
 		setLayout(new GridLayout(10, 1));
 		add(createHeader("Define Game Settings"));
 
-		// Get current game
-		TOGame currentGame = null;
-		try {
-			currentGame = Block223Controller.getCurrentDesignableGame();
-		} catch (InvalidInputException e) {
-			String error = e.getMessage();
-			new ViewError(error, true, parent);
-		}
-
 		// nrLevels Slider
-		Slider nrLevelsSlider = addSlider("Number of Levels", 1, 99, currentGame.getNrLevels());
+		Slider nrLevelsSlider = addSlider("Number of Levels", 1, 99, 30);
 		add(nrLevelsSlider.panel);
 
 		// nrBlocksPerLevel Slider
-		Slider nrBlocksPerLevelSlider = addSlider("Blocks per Level", 1, 50, currentGame.getNrBlocksPerLevel());
+		Slider nrBlocksPerLevelSlider = addSlider("Blocks per Level", 1, 50, 15);
 		add(nrBlocksPerLevelSlider.panel);
 
 		// minBallSpeedX Slider
-		Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 0, 50, currentGame.getMinBallSpeedX());
+		Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 0, 50, 5);
 		add(minBallSpeedXSlider.panel);
 
 		// minBallSpeedY Slider
-		Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 0, 50, currentGame.getMinBallSpeedY());
+		Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 0, 50, 5);
 		add(minBallSpeedYSlider.panel);
 
 		// ballSpeedIncreaseFactor Slider
-		Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.01, 1.0,
-				currentGame.getBallSpeedIncreaseFactor());
+		Slider ballSpeedIncreaseFactorSlider = addSlider("Ball Speed Increase Factor", 0.01, 1.0, 0.4);
 		add(ballSpeedIncreaseFactorSlider.panel);
 
 		// maxPaddleLength Slider
-		Slider maxPaddleLengthSlider = addSlider("Maximum Paddle Length", 1, 390, currentGame.getMaxPaddleLength());
+		Slider maxPaddleLengthSlider = addSlider("Maximum Paddle Length", 1, 390, 300);
 		add(maxPaddleLengthSlider.panel);
 
 		// minPaddleLength Slider
-		Slider minPaddleLengthSlider = addSlider("Minimum Paddle Length", 1, 390, currentGame.getMinPaddleLength());
+		Slider minPaddleLengthSlider = addSlider("Minimum Paddle Length", 1, 390, 20);
 		add(minPaddleLengthSlider.panel);
 
 		// ChangeListener that displays the selected parameter

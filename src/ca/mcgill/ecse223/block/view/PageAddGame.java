@@ -15,66 +15,65 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
 
 /**
  * This page adds a game to Block223.
+ * 
  * @author Kelly Ma
  */
 public class PageAddGame extends ContentPage {
 
 	private static final long serialVersionUID = 4199681302846123272L;
-    private final Block223MainPage frame;
-	
-	public PageAddGame(Block223MainPage parent){
-		
+	private final Block223MainPage frame;
+
+	public PageAddGame(Block223MainPage parent) {
+
 		// Inherit features from ContentPage
-	    super(parent);
-            frame = parent;
-	    setLayout(new GridLayout(7,1));
-        add(createHeader("Add a Game"));
-        
-        // Add a new Game
-        add(new JLabel("Please enter the name of a new game:")); // Prompts user
-        RandomNameGenerator rgen = new RandomNameGenerator(); // Offers name suggestions
-	add(new JLabel("How about... "));
-        JTextField newGame = new JTextField(rgen.generateName());
-        add(newGame);
-        
-        // AddGame and Cancel buttons
-        JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        exitButtons.setBackground(this.getBackground());
-        JButton addGame = createButton("Add Game");
-        JButton cancel = createButton("Cancel");
-        exitButtons.add(addGame);
-        exitButtons.add(cancel);
-        add(exitButtons);
-        
-        // Listener for addGame button
-        addGame.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent a){
-            	String gameName = newGame.getText(); // Retrieves user input
-                try{
-                    Block223Controller.createGame(gameName); // Creates a new game
-                }
-                catch(InvalidInputException e){
-                    displayError(e.getMessage(), false);
-                    return;
-                }
-                try{
-                	Block223Controller.selectGame(gameName); // Sets the game in Block223Application
-                }
-                catch(InvalidInputException e){
-                	displayError(e.getMessage(), false);
-                    return;
-                }
-                frame.setCurrentGameDisplay(gameName);
-                changePage(Block223MainPage.Page.defineGame); // Redirects user to PageDefineGame
-            }
-        });
-        
-        // Listener for Cancel button
-        cancel.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                cancel(); // Returns to the admin menu
-            }
-        });
+		super(parent);
+		frame = parent;
+		setLayout(new GridLayout(7, 1));
+		add(createHeader("Add a Game"));
+
+		// Add a new Game
+		add(new JLabel("Please enter the name of a new game:")); // Prompts user
+		RandomNameGenerator rgen = new RandomNameGenerator(); // Offers name suggestions
+		add(new JLabel("How about... "));
+		JTextField newGame = new JTextField(rgen.generateName());
+		add(newGame);
+
+		// AddGame and Cancel buttons
+		JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+		exitButtons.setBackground(this.getBackground());
+		JButton addGame = createButton("Add Game");
+		JButton cancel = createButton("Cancel");
+		exitButtons.add(addGame);
+		exitButtons.add(cancel);
+		add(exitButtons);
+
+		// Listener for addGame button
+		addGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent a) {
+				String gameName = newGame.getText(); // Retrieves user input
+				try {
+					Block223Controller.createGame(gameName); // Creates a new game
+				} catch (InvalidInputException e) {
+					displayError(e.getMessage(), false);
+					return;
+				}
+				try {
+					Block223Controller.selectGame(gameName); // Sets the game in Block223Application
+				} catch (InvalidInputException e) {
+					displayError(e.getMessage(), false);
+					return;
+				}
+				frame.setCurrentGameDisplay(gameName);
+				changePage(Block223MainPage.Page.defineNewGame); // Redirects user to PageDefineGame
+			}
+		});
+
+		// Listener for Cancel button
+		cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cancel(); // Returns to the admin menu
+			}
+		});
 	}
-	
+
 }
