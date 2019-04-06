@@ -75,7 +75,7 @@ public class PageMoveBlock extends ContentPage {
 		selectLevelList = new JComboBox<Integer>();
 		selectLevelList.setPreferredSize(new Dimension(150, 30));
 		//selectLevelList.setAlignmentX(Component.CENTER_ALIGNMENT);
-		selectLevelList.setBackground(Block223MainPage.getHeaderBackground());
+		selectLevelList.setBackground(Block223MainPage.getButtonBackground());
 		selectLevelList.setForeground(Color.DARK_GRAY);
 		// Populate Level Combobox
         for (Integer i = 1; i < 100; i++) {
@@ -94,7 +94,7 @@ public class PageMoveBlock extends ContentPage {
 		b.add(new JLabel("Select a block ID to move: "));
 		selectBlockList = new JComboBox<Integer>();
 		selectBlockList.setPreferredSize(new Dimension(150, 30));
-		selectBlockList.setBackground(Block223MainPage.getHeaderBackground());
+		selectBlockList.setBackground(Block223MainPage.getButtonBackground());
 		b.add(selectBlockList);
 		add(b);
 

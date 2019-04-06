@@ -53,7 +53,7 @@ public class PageDeleteBlock extends ContentPage {
 	        JComboBox<Integer> ids = new JComboBox<Integer>();
 	        ids.setPreferredSize(new Dimension(150, 30));
 	        ids.setAlignmentX(Component.CENTER_ALIGNMENT);
-	        ids.setBackground(Block223MainPage.getHeaderBackground());
+	        ids.setBackground(Block223MainPage.getButtonBackground());
 	        ids.setForeground(Color.DARK_GRAY);
 	        //ids.addItem();
 	        b.add(ids);

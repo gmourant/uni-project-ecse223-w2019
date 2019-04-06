@@ -19,8 +19,15 @@ public class Block223MainPage extends JFrame {
 
     public final static ViewTheme THEMES[] = { 
         new ViewTheme("Boxing Day", new Color(62, 61, 60), new Color(210, 215, 223), 
-                new Color(62, 61, 60), new Font("Consolas", Font.PLAIN, 14)),
-        
+                new Color(62, 61, 60), new Font("Consolas", Font.PLAIN, 14), 
+                Color.DARK_GRAY, Color.WHITE),
+        new ViewTheme("Spring Galore", new Color(235, 112, 96), new Color(202,194,165), 
+                new Color(221,174,121), new Font("Consolas", Font.PLAIN, 14), 
+                new Color(116, 157, 144), new Color(248,249,248)),
+        new ViewTheme("Last Frontier", "imageThemes/spacethemeHeader.jpg",
+                Color.BLACK, Color.LIGHT_GRAY, "imageThemes/spacethemeBackground.jpg",
+                new Font("Consolas", Font.PLAIN, 14), 
+                Color.WHITE, Color.WHITE),
     };
     public static ViewTheme currentTheme;
     
@@ -29,6 +36,8 @@ public class Block223MainPage extends JFrame {
     private JLabel currentGameDisplay;
     private JComboBox<String> chooseGame;
     private JPanel leftSide;
+    private JButton minimize;
+    private JButton exit;
 
     // enums for tetermining current page
     public enum Page {
@@ -38,7 +47,8 @@ public class Block223MainPage extends JFrame {
         addBlock, deleteBlock,
         updateBlock, positionBlock,
         moveBlock, removeBlock,
-        login, logout, signUp, welcome
+        login, logout, signUp, welcome,
+        pickTheme
     }
 
     private Page currentPage = Page.welcome;
@@ -51,7 +61,7 @@ public class Block223MainPage extends JFrame {
     private ContentPage displayedPage;
     private final Block223MainPage thisInstance;
     
-    public static boolean defineTheme(String name){
+    public boolean defineTheme(String name){
         ViewTheme theme = null;
         for(int i = 0; i < THEMES.length; i++){
             if(name.equals(THEMES[i].name)){
@@ -66,15 +76,43 @@ public class Block223MainPage extends JFrame {
             return false;
         }
         currentTheme = theme;
-        setUIFont(new javax.swing.plaf.FontUIResource(getUIFont().getFontName(), 
-                getUIFont().getStyle(), getUIFont().getSize()));
+        setUIFont(getUIFont(), getDefaultForeground());
+        
+        if(logout != null){
+            logout.setBackground(getButtonBackground());
+            logout.setForeground(getDefaultForeground());
+        }
+        if(save != null){
+            save.setBackground(getButtonBackground());
+            save.setForeground(getDefaultForeground());
+        }
+        
+        if(minimize != null){
+            minimize.setBackground(getHeaderBackgroundFiller());
+            minimize.setForeground(getForegroundForBackground());
+        }
+        if(exit != null){
+            exit.setBackground(getHeaderBackgroundFiller());
+            exit.setForeground(getForegroundForBackground());
+        }
+        
+        if(chooseGame != null){
+            chooseGame.setBackground(getButtonBackground());
+            chooseGame.setForeground(getDefaultForeground());
+        }
+        
+        if(topMenu != null){
+            topMenu.repaint();
+        }
+        
         return true;
     }
     
-    public static Color getHeaderBackground(){return currentTheme.headerBackground;}
+    public static Color getHeaderBackgroundFiller(){return currentTheme.headerBackgroundFiller;}
     public static Color getButtonBackground(){return currentTheme.buttonBackground;}
-    public static Color getUIBackground(){return currentTheme.background;}
     public static Font getUIFont(){return currentTheme.font;}
+    public static Color getDefaultForeground(){return currentTheme.textColor;}
+    public static Color getForegroundForBackground(){return currentTheme.textColorWithHeaderBackground;}
     
     public Block223MainPage() {
         this.setSize(570, 500); // Specifies the size should adjust to the needs for space
@@ -82,14 +120,12 @@ public class Block223MainPage extends JFrame {
         this.setLocationRelativeTo(null); // Places in the center of the screen
         this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
-        this.setBackground(new Color(244,241,187));
 
-        defineTheme("Boxing Day");
+        defineTheme("Spring Galore");
         thisInstance = this;
-
+        
         // setting up
-        setUIFont(new javax.swing.plaf.FontUIResource(getUIFont().getFontName(), 
-                getUIFont().getStyle(), getUIFont().getSize()));
+        setUIFont(getUIFont(), getDefaultForeground());
         setLayout(new BorderLayout());
         setupTopMenu();
         setupSlideMenu();
@@ -137,10 +173,10 @@ public class Block223MainPage extends JFrame {
         // creates the correct JPanel depending on the selected page specified 
         // in the toDisplay enum
         switch (toDisplay) {
-        	case welcome : 
-        	displayedPage = new PageWelcome(this);
-        		break;
-        	case login:
+            case welcome:
+                displayedPage = new PageWelcome(this);
+                break;
+            case login:
                 displayedPage = new PageLogin(this);
                 break;
             case logout:
@@ -179,6 +215,9 @@ public class Block223MainPage extends JFrame {
             case removeBlock:
                 displayedPage = new PageRemoveBlock(this, level);
                 break;
+            case pickTheme:
+                displayedPage = new PagePickTheme(this);
+                break;
             default:
                 displayedPage = new PageLogout(this);
         }
@@ -191,26 +230,25 @@ public class Block223MainPage extends JFrame {
      * @author Georges Mourant
      */
     private void setupTopMenu() {
-        topMenu = new JPanel(new GridLayout(1, 4));
+        topMenu = new JPanelWithBackground(JPanelWithBackground.Background.header, new GridLayout(1, 4));
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight() / 10));
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
-        topMenu.setBackground(getHeaderBackground());
 
-        currentGameDisplay = new JLabel(""); // empty by default
+        currentGameDisplay = new JLabel("None selected"); // empty by default
+        currentGameDisplay.setForeground(getForegroundForBackground());
         save = createButton("Save");
         logout = createButton("Log out");
         topMenu.add(currentGameDisplay);
         topMenu.add(save);
         topMenu.add(logout);
 
-        JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        exitMin.setBackground(topMenu.getBackground()); // match to background
-        JButton minimize = createButton("_");
-        minimize.setForeground(Color.WHITE);
-        JButton exit = createButton("X");
-        exit.setForeground(Color.WHITE);
-        minimize.setBackground(exitMin.getBackground()); // match to background
-        exit.setBackground(exitMin.getBackground()); // match to background
+        JPanel exitMin = new JPanelWithBackground(JPanelWithBackground.Background.header, new FlowLayout(FlowLayout.RIGHT));
+        minimize = createButton("_");
+        minimize.setForeground(getForegroundForBackground());
+        exit = createButton("X");
+        exit.setForeground(getForegroundForBackground());
+        minimize.setBackground(getHeaderBackgroundFiller()); // match to background
+        exit.setBackground(getHeaderBackgroundFiller()); // match to background
         exitMin.add(minimize);
         exitMin.add(exit);
         topMenu.add(exitMin);
@@ -222,14 +260,14 @@ public class Block223MainPage extends JFrame {
 
         // listeners
         save.addActionListener(new ActionListener(){
-                public void actionPerformed(ActionEvent evt){
-            		//call the controller
-            		try {
-            			Block223Controller.saveGame();
-            		} catch(InvalidInputException e) {
-            			new ViewError(e.getMessage(), false, thisInstance);
-            		}
-                }//End of actionPerformed by save method
+            public void actionPerformed(ActionEvent evt){
+                //call the controller
+                try {
+                    Block223Controller.saveGame();
+                } catch(InvalidInputException e) {
+                    new ViewError(e.getMessage(), false, thisInstance);
+                }
+            }//End of actionPerformed by save method
         });
         
         
@@ -293,6 +331,7 @@ public class Block223MainPage extends JFrame {
         listModel.addElement("Update Block");
         listModel.addElement("Move Block");
         listModel.addElement("Remove Block");
+        listModel.addElement("Change Theme");
             
         //SideMenu options
         sideMenu = new JScrollPane(sideMenuItems);
@@ -306,26 +345,42 @@ public class Block223MainPage extends JFrame {
         sideMenuItems.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 String s = (String) sideMenuItems.getSelectedValue();
-                if (s.equals("Add Game")) {
-                    changePage(Block223MainPage.Page.addGame);
-                } else if (s.equals("Delete Game")) {
-                    changePage(Block223MainPage.Page.deleteGame);
-                } else if (s.equals("Add Block")) {
-                    changePage(Block223MainPage.Page.addBlock);
-                } else if (s.equals("Update Block")) {
-                    changePage(Block223MainPage.Page.updateBlock);
-                } else if (s.equals("Delete Block")) {
-                    changePage(Block223MainPage.Page.deleteBlock);
-                } else if (s.equals("Main Menu :")) {
-                    changePage(Block223MainPage.Page.logout);
-                } else if (s.equals("Position Block")) {
-                    changePage(Block223MainPage.Page.positionBlock);
-                } else if (s.equals("Move Block")) {
-                    changePage(Block223MainPage.Page.moveBlock);
-                } else if (s.equals("Remove Block")) {
-                    changePage(Block223MainPage.Page.removeBlock);
-                }else if (s.equals("Update Game")) {
-                    changePage(Block223MainPage.Page.updateGame);
+                switch (s) {
+                    case "Add Game":
+                        changePage(Block223MainPage.Page.addGame);
+                        break;
+                    case "Delete Game":
+                        changePage(Block223MainPage.Page.deleteGame);
+                        break;
+                    case "Add Block":
+                        changePage(Block223MainPage.Page.addBlock);
+                        break;
+                    case "Update Block":
+                        changePage(Block223MainPage.Page.updateBlock);
+                        break;
+                    case "Delete Block":
+                        changePage(Block223MainPage.Page.deleteBlock);
+                        break;
+                    case "Main Menu :":
+                        changePage(Block223MainPage.Page.logout);
+                        break;
+                    case "Position Block":
+                        changePage(Block223MainPage.Page.positionBlock);
+                        break;
+                    case "Move Block":
+                        changePage(Block223MainPage.Page.moveBlock);
+                        break;
+                    case "Remove Block":
+                        changePage(Block223MainPage.Page.removeBlock);
+                        break;
+                    case "Update Game":
+                        changePage(Block223MainPage.Page.updateGame);
+                        break;
+                    case "Change Theme":
+                        changePage(Block223MainPage.Page.pickTheme);
+                        break;
+                    default:
+                        break;
                 }
             }
         });
@@ -384,7 +439,7 @@ public class Block223MainPage extends JFrame {
     public static JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setBackground(getButtonBackground());
-        button.setForeground(Color.DARK_GRAY);
+        button.setForeground(getDefaultForeground());
         button.setFocusPainted(false);
         return button;
     }
@@ -395,14 +450,17 @@ public class Block223MainPage extends JFrame {
      * @author the World Wide Web
      * @param f the desired font
      */
-    private static void setUIFont(javax.swing.plaf.FontUIResource f) {
+    private static void setUIFont(Font font, Color color) {
         java.util.Enumeration keys = UIManager.getDefaults().keys();
         while (keys.hasMoreElements()) {
             Object key = keys.nextElement();
             Object value = UIManager.get(key);
             if (value instanceof javax.swing.plaf.FontUIResource) {
-                UIManager.put(key, f);
+                UIManager.put(key, new javax.swing.plaf.FontUIResource(font));
             }
+//            if(value instanceof javax.swing.plaf.ColorUIResource){
+//                UIManager.put(key, new javax.swing.plaf.ColorUIResource(color));
+//            }
         }
     }
 
@@ -424,6 +482,7 @@ public class Block223MainPage extends JFrame {
     }
     
     public void setCurrentGameDisplay(String txt){
+        if(currentGameDisplay == null) return;
         currentGameDisplay.setText(txt);
     }
 }
