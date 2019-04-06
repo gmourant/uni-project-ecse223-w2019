@@ -756,7 +756,7 @@ class PlayedGame {
 			b = currentBallY - a * currentBallX;
 			// Perform curve calculations here
 			A = 1 + Math.pow(a, 2);
-			B = 2 * a * (b - currentBallY) - 2 * (currentBallX + blockSide);
+			B = 2 * a * (b - currentBlockY) - 2 * (currentBlockX + blockSide);
 			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
 			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
 			Xa = (-B - D) / (2 * A);
