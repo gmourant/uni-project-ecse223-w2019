@@ -708,9 +708,12 @@ class PlayedGame {
 					return bp;
 				}
 			}
-			BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius, BounceDirection.FLIP_Y);
-			bp.setHitBlock(block);
-			return bp;
+			if (dX == 0) {
+				BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius,
+						BounceDirection.FLIP_Y);
+				bp.setHitBlock(block);
+				return bp;
+			}
 		}
 
 		// Intersection E

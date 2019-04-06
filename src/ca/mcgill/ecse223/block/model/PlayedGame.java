@@ -1456,9 +1456,12 @@ public class PlayedGame implements Serializable
 					return bp;
 				}
 			}
-			BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius, BounceDirection.FLIP_Y);
-			bp.setHitBlock(block);
-			return bp;
+			if (dX == 0) {
+				BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius,
+						BounceDirection.FLIP_Y);
+				bp.setHitBlock(block);
+				return bp;
+			}
 		}
 
 		// Intersection E
@@ -1609,7 +1612,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Mathieu Bissonnette
    */
-  // line 865 "../../../../../Block223States.ump"
+  // line 868 "../../../../../Block223States.ump"
    private boolean isCloser(BouncePoint A, BouncePoint B){
     // Obtain current ball position
 		double currentBallX = getCurrentBallX();
@@ -1639,7 +1642,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Imane Chafi
    */
-  // line 894 "../../../../../Block223States.ump"
+  // line 897 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = this.getCurrentBallX();
 		double y = this.getCurrentBallY();
@@ -1656,7 +1659,7 @@ public class PlayedGame implements Serializable
    * 
    * @author Georges Mourant
    */
-  // line 908 "../../../../../Block223States.ump"
+  // line 911 "../../../../../Block223States.ump"
    private void doGameOver(){
     Block223 block223 = this.getBlock223();
 		Player p = this.getPlayer();
@@ -1678,7 +1681,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 928 "../../../../../Block223States.ump"
+  // line 931 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     boolean outofbounds = false;
 		if (this.getCurrentBallY() + this.getBallDirectionY() > Game.PLAY_AREA_SIDE - 2 * Game.GRID_DIMENSIONS) {
