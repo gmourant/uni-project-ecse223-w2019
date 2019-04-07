@@ -63,7 +63,7 @@ public class Block223MainPage extends JFrame {
         updateBlock, positionBlock,
         moveBlock, removeBlock,
         login, logout, signUp, welcome,
-        pickTheme
+        pickTheme, playGame, chooseGame
     }
 
     private Page currentPage = Page.welcome;
@@ -177,17 +177,29 @@ public class Block223MainPage extends JFrame {
         logout.setVisible(false);
 
         // show menus if appropriate
-        if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome) {
+        if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.playGame && toDisplay != Page.chooseGame) {
             leftSide.setVisible(true);
             save.setVisible(true);
             logout.setVisible(true);
-        } else {
+        }
+         if(toDisplay == Page.playGame || toDisplay == Page.chooseGame) {
+        	save.setVisible(true);
+        	logout.setVisible(true);
+        }
+        
+        else {
             setCurrentGameDisplay("");
         }
 
         // creates the correct JPanel depending on the selected page specified 
         // in the toDisplay enum
         switch (toDisplay) {
+            case chooseGame : 
+        		displayedPage = new PageChooseGame(this);
+        		break;
+        	case playGame:
+        		displayedPage = new PagePlayGame(this);
+        		break; 
             case welcome:
                 displayedPage = new PageWelcome(this);
                 break;
@@ -257,8 +269,12 @@ public class Block223MainPage extends JFrame {
         save = createButton("Save");
         logout = createButton("Log out");
         topMenu.add(currentGameDisplay);
-        topMenu.add(save);
-        topMenu.add(logout);
+       // topMenu.add(save);
+        //topMenu.add(logout);
+        save.setForeground(getForegroundForBackground());
+        save.setBackground(Block223MainPage.getHeaderBackgroundFiller());
+        logout.setForeground(getForegroundForBackground());
+        logout.setBackground(Block223MainPage.getHeaderBackgroundFiller());
 
         JPanel exitMin = new JPanelWithBackground(JPanelWithBackground.Background.header, new FlowLayout(FlowLayout.RIGHT));
         minimize = createButton("_");
@@ -267,6 +283,8 @@ public class Block223MainPage extends JFrame {
         exit.setForeground(getForegroundForBackground());
         minimize.setBackground(getHeaderBackgroundFiller()); // match to background
         exit.setBackground(getHeaderBackgroundFiller()); // match to background
+        exitMin.add(save);
+        exitMin.add(logout);
         exitMin.add(minimize);
         exitMin.add(exit);
         topMenu.add(exitMin);

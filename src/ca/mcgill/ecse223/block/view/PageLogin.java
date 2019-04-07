@@ -205,9 +205,7 @@ public class PageLogin extends ContentPage {
                 changePage(Block223MainPage.Page.logout);
                 break;
             case Play:
-                Block223Controller.logout();
-                displayError("Sorry, we're doing some work on the player section. "
-                        + "Please try again after the next iteration.", Page.login);
+               changePage(Block223MainPage.Page.chooseGame);
                 break;
             default:
        }
