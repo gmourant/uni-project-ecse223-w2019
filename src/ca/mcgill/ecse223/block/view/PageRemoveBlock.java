@@ -43,35 +43,20 @@ public class PageRemoveBlock extends ContentPage {
 	
 	private static final String Regex = "\\d+";
 	private static final Pattern pattern = Pattern.compile(Regex);
-	JComboBox<String> coordinateComboBox = null;
 	
 	private String error = "";
 
-	public PageRemoveBlock(Block223MainPage parent, int placeHolder) {
+	public PageRemoveBlock(Block223MainPage parent, int legacy) {
 		super(parent);
 		
-		setLayout(new GridLayout(6,1));
+		setLayout(new GridLayout(5,1));
 		
 		//Header
-	    add(createHeader("Remove a block from a level."));
-	 
-	    //Rectangle changes color with slider
-        JPanel colorPatch; 
-        colorPatch = new JPanel();
-        JPanel gridbagPanel = new JPanel();
-        gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        //colorPatch.setBounds(230,40,50,50);
-        gridbagPanel.setPreferredSize(new Dimension(20, 20));
-        gridbagPanel.setLocation(230,40);
-        add(gridbagPanel);
-        colorPatch.setPreferredSize(new Dimension(40,37));
-        gridbagPanel.add(colorPatch);
-        gridbagPanel.setBackground(this.getBackground());
-        colorPatch.setBackground(Color.black);
-        Color borderColorBlock = new Color(0, 0, 0);
-        Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
-        colorPatch.setBorder(blockBorder);
+	    add(createHeader("Remove a Block from a level"));
         
+        Color borderColor = new Color(207, 243, 238);
+        Border border = BorderFactory.createLineBorder(borderColor, 3);
+
         //Level combobox
         JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         levelPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
@@ -80,7 +65,7 @@ public class PageRemoveBlock extends ContentPage {
         levelPanel.add(levelLabel);
         JComboBox<Integer> levelSelector = new JComboBox<Integer>();
         levelSelector.setPreferredSize(new Dimension(200, 30));
-        levelSelector.setBorder(getBorder());
+        levelSelector.setBorder(border);
         // Populate combobox
         for (Integer i = 1; i < 100; i++) {
         	levelSelector.addItem(i);
@@ -89,29 +74,18 @@ public class PageRemoveBlock extends ContentPage {
         levelPanel.setBackground(this.getBackground());
         add(levelPanel);
         
-        // Populate the Block combobox.
-        List<TOGridCell> blocks = new ArrayList<TOGridCell>();
-        try {
-        blocks = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((int) levelSelector.getSelectedItem());
-        } catch (InvalidInputException e) {
-        	error = e.getMessage();
-        	new ViewError(error, true, parent);
-        }
-        coordinateComboBox = new JComboBox<String>();
-        for (TOGridCell block : blocks) {
-        	coordinateComboBox.addItem(block.getId() + ": " + block.getGridHorizontalPosition() + "," + block.getGridVerticalPosition());
-        }
-        // Set visuals and add Block panel.
-        JPanel blockPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        blockPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+        //Coordinates panel
+        JPanel coordPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        coordPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                  BorderFactory.createEmptyBorder(0, 0, 0, 0)));
-        JLabel idLabel = new JLabel("Block : ");
-        blockPanel.add(idLabel);
-        Border border = BorderFactory.createLineBorder(new Color(0,0,0), 3);
-        coordinateComboBox.setBorder(border);
-        blockPanel.add(coordinateComboBox);
-        blockPanel.setBackground(this.getBackground());
-        add(blockPanel);
+        JLabel coordLabel = new JLabel("X,Y : ");
+        coordPanel.add(coordLabel);
+        JTextField coordTextField = new JTextField();
+        coordTextField.setPreferredSize(new Dimension(200, 30));
+        coordTextField.setBorder(border);
+        coordPanel.add(coordTextField);
+        coordPanel.setBackground(this.getBackground());
+        add(coordPanel);
         
         //View button
         JButton viewButton = createButton("Level view");
@@ -124,51 +98,28 @@ public class PageRemoveBlock extends ContentPage {
         exitButtons.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
                     BorderFactory.createEmptyBorder(1, 0, 0, 2)));
         exitButtons.setBackground(this.getBackground());
-        JButton removeButton = createButton("Remove Block");
+        JButton addButton = createButton("Remove Block");
         JButton cancelButton = createButton("Cancel");
-        exitButtons.add(removeButton);
+        exitButtons.add(addButton);
         exitButtons.add(cancelButton);
         add(exitButtons);
         
-        levelSelector.addActionListener(new java.awt.event.ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		refreshData();
-        	}
-
-			private void refreshData() {
-				coordinateComboBox = new JComboBox<String>();
-		        List<TOGridCell> blocks = new ArrayList<TOGridCell>();
-		        try {
-		        blocks = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((int) levelSelector.getSelectedItem());
-		        } catch (InvalidInputException e) {
-		        	error = e.getMessage();
-		        	new ViewError(error, true, parent);
-		        }
-		        for (TOGridCell block : blocks) {
-		        	coordinateComboBox.addItem(block.getId() + ": " + block.getGridHorizontalPosition() + "," + block.getGridVerticalPosition());
-		        }
-				
-			}
-			
-        });
-        
-        // removeButton and CancelButton listeners
-        removeButton.addActionListener(new java.awt.event.ActionListener() {
+        // addButton and CancelButton listeners
+        addButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				
 				// Parse the coordinate textField.
-				String coord = (String) coordinateComboBox.getSelectedItem();
-				Integer x = 1;
-				Integer y = 1;
+				String coord = coordTextField.getText();
+				Integer x = 0;
+				Integer y = 0;
 				Matcher matcher = null;
 				
 				try {
 					matcher = pattern.matcher(coord);
 					matcher.find();
-					matcher.find();
 					x = Integer.parseInt(matcher.group());
 					matcher.find();
-					x = Integer.parseInt(matcher.group());
+					y = Integer.parseInt(matcher.group());
 				} catch(NumberFormatException e) {
 					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
 					new ViewError(error, false, parent);
@@ -179,13 +130,15 @@ public class PageRemoveBlock extends ContentPage {
 				
 				// Call the controller.
 				try {
-					Block223Controller.removeBlock((int)levelSelector.getSelectedItem(), x, y);
-					System.out.println("Block removed");
+					Block223Controller.removeBlock(
+							(int)levelSelector.getSelectedItem(),
+							x, y);
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
-					if (error.equals("A game must be selected to position a block.")
-							|| error.equals("Admin privileges are required to position a block.")
-							|| error.equals("Only the admin who created the game can position a block.")) {
+					if (error.equals("A game must be selected to remove a block.")
+							|| error.equals("Admin privileges are required to remove a block.")
+							|| error.equals("Only the admin who created the game can remove a block.")) {
+						new ViewError(error, true, parent);
 					}
 					new ViewError(error, false, parent);
 				} catch (NumberFormatException e) {
@@ -195,23 +148,9 @@ public class PageRemoveBlock extends ContentPage {
 					error = "No block selected.";
 					new ViewError(error, false, parent);
 				}
-
-				refreshData();
-			}
-
-			private void refreshData() {
-				coordinateComboBox = new JComboBox<String>();
-		        List<TOGridCell> blocks = new ArrayList<TOGridCell>();
-		        try {
-		        blocks = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((int) levelSelector.getSelectedItem());
-		        } catch (InvalidInputException e) {
-		        	error = e.getMessage();
-		        	new ViewError(error, true, parent);
-		        }
-		        for (TOGridCell block : blocks) {
-		        	coordinateComboBox.addItem(block.getId() + ": " + block.getGridHorizontalPosition() + "," + block.getGridVerticalPosition());
-		        }
 				
+				// update visuals
+				//refreshData();
 			}
 			
 		});
@@ -234,49 +173,6 @@ public class PageRemoveBlock extends ContentPage {
         		
         	}
         });
-
-        //Action listener idComboBox 
-        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
-        ActionListener actionListenerId = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int r,g,b;
-				String string = (String) coordinateComboBox.getSelectedItem();
-				Integer id = 1;
-				Matcher matcher = null;
-				try {
-					matcher = pattern.matcher(string);
-					matcher.find();
-					id = Integer.parseInt(matcher.group());
-				} catch(NumberFormatException err) {
-					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
-					new ViewError(error, false, parent);
-				} catch(IllegalStateException err) {
-					error = "Could not match coordinates.";
-					new ViewError(error, false, parent);
-				}
-				
-				TOBlock block = Block223Controller.findTOBlock(id);
-				if (block != null) {
-					r = block.getRed();
-					g = block.getGreen();
-					b = block.getBlue();
-					colorPatch.setBackground(new Color(r,g,b));
-				}
-			}
-        };
-        
-        coordinateComboBox.addActionListener(actionListenerId);
-        
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-        	public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		cancel();
-        	}
-        });
-        
-       //Side menu editing
-       //JList sideMenu = getSideMenuList();
-       //add(sideMenu);
 
 	}
 	
