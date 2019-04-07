@@ -63,7 +63,7 @@ public class PageRemoveBlock extends ContentPage {
         levelPanel.add(levelLabel);
         JComboBox<Integer> levelSelector = new JComboBox<Integer>();
         levelSelector.setPreferredSize(new Dimension(200, 30));
-        levelSelector.setBorder(border);
+        //levelSelector.setBorder(border);
         // Populate combobox
         for (Integer i = 1; i < 100; i++) {
         	levelSelector.addItem(i);
@@ -80,7 +80,7 @@ public class PageRemoveBlock extends ContentPage {
         coordPanel.add(coordLabel);
         JTextField coordTextField = new JTextField();
         coordTextField.setPreferredSize(new Dimension(200, 30));
-        coordTextField.setBorder(border);
+        //coordTextField.setBorder(border);
         coordPanel.add(coordTextField);
         coordPanel.setBackground(this.getBackground());
         add(coordPanel);

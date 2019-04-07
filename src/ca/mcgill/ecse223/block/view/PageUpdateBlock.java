@@ -87,8 +87,8 @@ public class PageUpdateBlock extends ContentPage{
         	idComboBox.addItem(block.getId());
         }
         // Set visuals and add ID panel.
-        Border border = BorderFactory.createLineBorder(borderColor, 3);
-        idComboBox.setBorder(border);
+        //Border border = BorderFactory.createLineBorder(borderColor, 3);
+        //idComboBox.setBorder(border);
         idPanel.add(idComboBox);
         idPanel.setBackground(this.getBackground());
         add(idPanel);

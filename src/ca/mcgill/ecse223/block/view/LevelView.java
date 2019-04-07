@@ -30,17 +30,18 @@ import ca.mcgill.ecse223.block.controller.TOGridCell;
  */
 
 public class LevelView extends JFrame{
-
-    final Color HEADER_BACKGROUND = 
-            new Color(255 + (255 - 255)*5/8, 204 + (255 - 204)*5/8, 204 + (255 - 204)*5/8);
     
     private final Block223MainPage framework;
     private final boolean errorRedirect;
     private final JPanel windowHolder;
     private JPanel topMenu;
     private JButton exit;
+    private ViewTheme theme = null;
     
     public LevelView(List<TOGridCell> assignments, boolean errorRedirect,  Block223MainPage parent){
+    	
+    	theme = parent.currentTheme;
+    	
         framework = parent;
         this.errorRedirect = errorRedirect;
         this.setSize(600, 650); // Specifies the size should adjust to the needs for space
@@ -103,11 +104,12 @@ public class LevelView extends JFrame{
         topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
                 BorderFactory.createEmptyBorder(5, 10, 5, 5)));
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/8));
-        topMenu.setBackground(HEADER_BACKGROUND);
+        topMenu.setBackground(theme.headerBackgroundFiller);
 
         JLabel title = new JLabel("Level preview"); // empty by default
         title.setFont(new Font(Block223MainPage.getUIFont().getFamily(), 
                     Font.BOLD, Block223MainPage.getUIFont().getSize() + TITLE_SIZE_INCREASE));
+        title.setForeground(theme.textColorWithHeaderBackground);
         topMenu.add(title);
 
         JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -122,7 +124,7 @@ public class LevelView extends JFrame{
         JPanel holder = new JPanel(new BorderLayout());
         holder.setBorder(BorderFactory.createCompoundBorder(holder.getBorder(), 
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-        holder.setBackground(Color.WHITE);
+        holder.setBackground(Color.white);
         holder.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()*3/4));
         
         windowHolder.add(holder, BorderLayout.CENTER);

@@ -40,6 +40,8 @@ public class PagePositionBlock extends ContentPage {
 	public PagePositionBlock(Block223MainPage parent) {
 		super(parent);
 		
+		ViewTheme theme = parent.currentTheme;
+		
 		setLayout(new GridLayout(7,1));
 		
 		//Header
@@ -70,9 +72,7 @@ public class PagePositionBlock extends ContentPage {
         idPanel.add(idLabel);
         JComboBox<Integer> idComboBox = new JComboBox<Integer>();
         idComboBox.setPreferredSize(new Dimension(200, 30));
-        // Color aqua = new Color(224, 249, 246);
-        // Color greenForest = new Color(50,205,50);
-        Color borderColor = new Color(207, 243, 238);
+        Color borderColor = theme.textColor;
         // Populate the ID combobox.
         List<TOBlock> blocks = new ArrayList<TOBlock>();
         try {
@@ -85,8 +85,8 @@ public class PagePositionBlock extends ContentPage {
         	idComboBox.addItem(block.getId());
         }
         // Set visuals and add ID panel.
-        Border border = BorderFactory.createLineBorder(borderColor, 3);
-        idComboBox.setBorder(border);
+        Border border = BorderFactory.createLineBorder(borderColor, 1);
+        //idComboBox.setBorder(border);
         idPanel.add(idComboBox);
         idPanel.setBackground(this.getBackground());
         add(idPanel);
@@ -100,7 +100,7 @@ public class PagePositionBlock extends ContentPage {
         levelPanel.add(levelLabel);
         JComboBox<Integer> levelSelector = new JComboBox<Integer>();
         levelSelector.setPreferredSize(new Dimension(200, 30));
-        levelSelector.setBorder(border);
+        //levelSelector.setBorder(border);
         // Populate combobox
         for (Integer i = 1; i < 100; i++) {
         	levelSelector.addItem(i);
@@ -117,7 +117,7 @@ public class PagePositionBlock extends ContentPage {
         coordPanel.add(coordLabel);
         JTextField coordTextField = new JTextField();
         coordTextField.setPreferredSize(new Dimension(200, 30));
-        coordTextField.setBorder(border);
+        //coordTextField.setBorder(border);
         coordPanel.add(coordTextField);
         coordPanel.setBackground(this.getBackground());
         add(coordPanel);
