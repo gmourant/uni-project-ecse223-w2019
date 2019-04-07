@@ -7,13 +7,11 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 
@@ -123,8 +121,6 @@ public class PageDefineNewGame extends ContentPage {
 							minBallSpeedXSlider.getIValue(), minBallSpeedYSlider.getIValue(),
 							ballSpeedIncreaseFactorSlider.getDValue(), maxPaddleLengthSlider.getIValue(),
 							minPaddleLengthSlider.getIValue());
-					// Reassure user that their game has been saved
-					add(new JLabel(Block223Application.getCurrentGame().getName() + " has been saved."));
 				} catch (InvalidInputException e) {
 					displayError(e.getMessage(), false);
 					return;
