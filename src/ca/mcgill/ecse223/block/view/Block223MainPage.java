@@ -272,8 +272,9 @@ public class Block223MainPage extends JFrame {
        // topMenu.add(save);
         //topMenu.add(logout);
         save.setForeground(getForegroundForBackground());
+        save.setBackground(Block223MainPage.getHeaderBackgroundFiller());
         logout.setForeground(getForegroundForBackground());
-        
+        logout.setBackground(Block223MainPage.getHeaderBackgroundFiller());
 
         JPanel exitMin = new JPanelWithBackground(JPanelWithBackground.Background.header, new FlowLayout(FlowLayout.RIGHT));
         minimize = createButton("_");
