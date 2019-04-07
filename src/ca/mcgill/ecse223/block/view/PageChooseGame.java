@@ -6,6 +6,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -102,7 +104,7 @@ public class PageChooseGame extends ContentPage {
 		        for(TOPlayableGame pausedGame : pausedGames){
 		        	
 		        if(pausedGame.getNumber()!= -1 && pausedGame.getCurrentLevel() !=0) {
-		        	   pausedGamesBox.addItem(pausedGame.getName());
+		        	   pausedGamesBox.addItem(pausedGame.getName() + pausedGame.getNumber());
 		        }
 		        	}
 		        pausedGamesPanel.add(pausedGamesBox);
@@ -110,15 +112,44 @@ public class PageChooseGame extends ContentPage {
 		        add(pausedGamesPanel);
 	    
 	    
-	} 
 	
-	//Method to change listener for the buttons : 
+	//Method to change listener for the comboBox for newGame: 
 	
-	private void gameButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		//Change page to adminMenu
-		changePage(Block223MainPage.Page.playGame);
-	}//End of createGameButtonButtonActionPerformed
-
+		newGamesBox.addActionListener(new java.awt.event.ActionListener(){
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+            String newGame = (String)newGamesBox.getSelectedItem();
+            int id = newGamesBox.getSelectedIndex();
+           // Block223MainPage.currentGameDisplay.setText(game);
+            try{
+                Block223Controller.selectPlayableGame(newGame, id);//We need to have the id of the game
+                changePage(Block223MainPage.Page.playGame);
+            } catch (InvalidInputException e){
+            	displayError(e.getMessage(), false);
+				return;
+            }
+        }
+    });
+    
+//Method to change listener for the comboBox for newGame: 
+	
+    pausedGamesBox.addActionListener(new java.awt.event.ActionListener()  {
+        public void actionPerformed(java.awt.event.ActionEvent evt){
+            String game = (String)pausedGamesBox.getSelectedItem(); 
+            int idPaused = pausedGamesBox.getSelectedIndex();
+           // currentGameDisplay.setText(game);
+            try{
+                Block223Controller.selectPlayableGame(game, idPaused);
+                changePage(Block223MainPage.Page.playGame);
+            } catch (InvalidInputException e){
+            	displayError(e.getMessage(), false);
+				return;
+            }
+        }
+    });
+    
+    
+    
+}
 	
 	//Method for drawing blocks : 
 	protected void paintComponent(Graphics g) {
