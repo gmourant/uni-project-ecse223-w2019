@@ -156,32 +156,47 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// ***********************
 		StartButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				changePage(Block223MainPage.Page.login);
-				StartButton.setVisible(false);
+				StartButton.setVisible(false); // Remove
+
+				// Thread for the game loop
+				KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
+					@Override
+					public synchronized boolean dispatchKeyEvent(final KeyEvent e) {
+						int nextMove = e.getKeyCode();
+						switch (nextMove) {
+						case KeyEvent.VK_LEFT:
+							userString += "l"; // Add left to the input queue
+							break;
+						case KeyEvent.VK_RIGHT:
+							userString += "r"; // Add right to the input queue
+							break;
+						case KeyEvent.VK_SPACE:
+							userString += " "; // Add a pause to the input queue
+							break;
+						}
+						// Pass the KeyEvent to the next KeyEventDispatcher in the queue
+						return false;
+					}
+				};
+				KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
+
+				Runnable play = new Runnable() {
+					@Override
+					public void run() {
+
+						try {
+							Block223Controller.startGame(PagePlayGame.this);
+
+						} catch (InvalidInputException e) {
+							new ViewError(e.getMessage(), true, frame);
+						}
+						StartButton.setVisible(true);
+					}
+				};
+				Thread t = new Thread(play);
+				t.start();
 			}
 		});
-
-		// Thread for the game loop
-		KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
-			@Override
-			public synchronized boolean dispatchKeyEvent(final KeyEvent e) {
-				int nextMove = e.getKeyCode();
-				switch (nextMove) {
-				case KeyEvent.VK_LEFT:
-					userString += "l"; // Add left to the input queue
-					break;
-				case KeyEvent.VK_RIGHT:
-					userString += "r"; // Add right to the input queue
-					break;
-				case KeyEvent.VK_SPACE:
-					userString += " "; // Add a pause to the input queue
-					break;
-				}
-				// Pass the KeyEvent to the next KeyEventDispatcher in the queue
-				return false;
-			}
-		};
-		KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(keyEventDispatcher);
 
 	}// End of constructor for PlayGame
 
