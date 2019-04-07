@@ -4,7 +4,6 @@ import ca.mcgill.ecse223.block.view.Block223MainPage.Page;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -13,18 +12,27 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 
 /**
  * This class is the superclass of each individual page class.
  * It provides inherited methods which each page can use uniformly.
  */
-public abstract class ContentPage extends JPanel{
+public abstract class ContentPage extends JPanelWithBackground{
     private final Block223MainPage framework; // the instance of it's parent
     
     public ContentPage(Block223MainPage framework){
+        super();
         this.framework = framework;
         setBackground(Color.WHITE); // background
+        framework.loadGameList();
+        // adding padding
+        setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                    BorderFactory.createEmptyBorder(10, 20, 10, 20)));
+    }
+    
+    public ContentPage(Block223MainPage framework, JPanelWithBackground.Background b){
+        super(b);
+        this.framework = framework;
         framework.loadGameList();
         // adding padding
         setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
@@ -76,7 +84,7 @@ public abstract class ContentPage extends JPanel{
      */
     public static JLabel createHeader(String txt){
         JLabel heading = new JLabel(txt);
-        heading.setFont(new Font(Block223MainPage.getUIFont().getFontName(), Font.BOLD, 
+        heading.setFont(Block223MainPage.getUIFont().deriveFont(Font.BOLD, 
                 Block223MainPage.getUIFont().getSize() + Block223MainPage.TITLE_SIZE_INCREASE));
         return heading;
     }
@@ -130,7 +138,7 @@ public abstract class ContentPage extends JPanel{
         box.setPreferredSize(new Dimension(150, 30));
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
         box.setBackground(Block223MainPage.getButtonBackground());
-        box.setForeground(Color.DARK_GRAY);
+        box.setForeground(Block223MainPage.getDefaultForeground());
         return box;
     }
     
@@ -143,7 +151,7 @@ public abstract class ContentPage extends JPanel{
         box.setPreferredSize(new Dimension(150, 30));
         box.setAlignmentX(Component.CENTER_ALIGNMENT);
         box.setBackground(Block223MainPage.getButtonBackground());
-        box.setForeground(Color.DARK_GRAY);
+        box.setForeground(Block223MainPage.getDefaultForeground());
     }
     
     /**
@@ -154,10 +162,9 @@ public abstract class ContentPage extends JPanel{
      */
     public static JCheckBox createCheckBox(String txt){
         JCheckBox cb = new JCheckBox(txt);
-        cb.setBackground(Block223MainPage.getHeaderBackground());
-        cb.setForeground(Color.BLACK);
-        cb.setFont(new Font(Block223MainPage.getUIFont().getFontName(),Font.BOLD,
-                Block223MainPage.getUIFont().getSize()));
+        cb.setBackground(Block223MainPage.getHeaderBackgroundFiller());
+        cb.setForeground(Block223MainPage.getForegroundForBackground());
+        cb.setFont(Block223MainPage.getUIFont().deriveFont(Font.BOLD));
         return cb;
     }
     
@@ -190,7 +197,7 @@ public abstract class ContentPage extends JPanel{
     public static Slider addSlider(String name, Integer min, Integer max, Integer val) {
     	Slider slider = new Slider(name, min, max, val);
     	return slider;
-	}
+    }
     
     /**
      * @author Kelly Ma
@@ -201,7 +208,7 @@ public abstract class ContentPage extends JPanel{
      * @return A Slider containing a JPanel, JLabel, and JSlider
      */
     public static Slider addSlider(String name, Double min, Double max, Double val) {
-    	Slider slider = new Slider(name, min, max, val);
-    	return slider;
-	}
+        Slider slider = new Slider(name, min, max, val);
+        return slider;
+    }
 }

@@ -1,7 +1,6 @@
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -11,6 +10,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.awt.Color;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -25,6 +25,7 @@ import javax.swing.plaf.ColorChooserUI;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.view.JPanelWithBackground.Background;
 
 /**
  * Page where the user will have be able to register for an account.
@@ -47,39 +48,34 @@ public class PageSignUp extends ContentPage{
 	//Constructor method
 	//*******************
 	public PageSignUp(Block223MainPage frame) {
-		super(frame);
+		super(frame, JPanelWithBackground.Background.general);
 		setLayout(new GridLayout(8,1));
-		setBackground(Block223MainPage.getUIBackground());
 
 		//*****************
 	    //UI Sign Up elements
 	    //*****************
 		//Sign up elements 
-		   Border border = BorderFactory.createLineBorder(new Color(179,141, 151 ), 3);
+		Border border = BorderFactory.createLineBorder(Block223MainPage.getHeaderBackgroundFiller(), 3);
 
 		//Title page panel
-		JPanel titlePanel = new JPanel(new BorderLayout());
-		titlePanel.setBackground(Block223MainPage.getHeaderBackground());
-		JLabel titleLabel = new JLabel("Block 223", JLabel.CENTER);
-		titlePanel.setOpaque(false);
+		JPanel titlePanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
+		JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
 		titleLabel.setFont(titleFont);
-		titleLabel.setForeground(new Color(227, 228, 219));
+		titleLabel.setForeground(Block223MainPage.getForegroundForBackground());
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
-		
+
 		//Username label panel
-	    JPanel usernameLabelPanel = new JPanel(new BorderLayout());
-	    usernameLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
-	    usernameLabelPanel.setOpaque(false);
+	    JPanel usernameLabelPanel = 
+                    new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel usernameLabel = new JLabel("         Username:");
 	    usernameLabel.setFont(defaultFont);
-	    usernameLabel.setForeground(new Color(227, 228, 219));
+		usernameLabel.setForeground(Block223MainPage.getDefaultForeground());
 	    usernameLabel.setHorizontalAlignment(JLabel.LEFT);
 	    usernameLabelPanel.add(usernameLabel, BorderLayout.WEST);
 	    
 	    //Username text field panel
-	    JPanel usernameTxtFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    usernameTxtFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
-	    usernameTxtFieldPanel.setOpaque(false);
+	    JPanel usernameTxtFieldPanel = 
+                    new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 	    usernameTextField = new JTextField();
 	    usernameTextField.setPreferredSize(new Dimension(253, 27));
 	    usernameTextField.setBorder(border);
@@ -88,48 +84,43 @@ public class PageSignUp extends ContentPage{
 	    
 	    //Password
 	    //Player password label panel
-	    JPanel playerPwordLabelPanel = new JPanel(new BorderLayout());
-	    playerPwordLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
-	    usernameTxtFieldPanel.setOpaque(false);
+	    JPanel playerPwordLabelPanel = 
+                    new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel playerPasswordLabel = new JLabel("         Player password:");
 	    playerPasswordLabel.setFont(defaultFont);
-	    playerPasswordLabel.setForeground(new Color(227, 228, 219));
+		playerPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
 	    playerPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
 	    playerPwordLabelPanel.add(playerPasswordLabel, BorderLayout.WEST);
 	    
 	    //Player password password field panel
-	    JPanel playerPwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    playerPwordPFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
-	    playerPwordPFieldPanel.setOpaque(false);
+	    JPanel playerPwordPFieldPanel = 
+                    new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 	    playerPasswordPField = new JPasswordField();
 	    playerPasswordPField.setPreferredSize(new Dimension(253, 27));
 	    playerPasswordPField.setBorder(border);
 	    playerPwordPFieldPanel.add(playerPasswordPField);
 	    
 	    //Admin password label panel
-	    JPanel adminPwordLabelPanel = new JPanel(new BorderLayout());
-	    adminPwordLabelPanel.setBackground(Block223MainPage.getHeaderBackground());
+	    JPanel adminPwordLabelPanel =
+                    new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel adminPasswordLabel = new JLabel("         Admin password (optional):");
 	    adminPasswordLabel.setFont(defaultFont);
-	    adminPwordLabelPanel.setOpaque(false);
-	    adminPasswordLabel.setForeground(new Color(227, 228, 219));
+		adminPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
 	    adminPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
 	    adminPwordLabelPanel.add(adminPasswordLabel, BorderLayout.WEST);
 	    
 	    //Admin password password field panel
-	    JPanel adminPwordPFieldPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    adminPwordPFieldPanel.setBackground(Block223MainPage.getHeaderBackground());
-	    adminPwordPFieldPanel.setOpaque(false);
+	    JPanel adminPwordPFieldPanel =
+                    new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 	    adminPasswordPField = new JPasswordField();
 	    adminPasswordPField.setPreferredSize(new Dimension(253, 27));
 	    adminPasswordPField.setBorder(border);
 	    adminPwordPFieldPanel.add(adminPasswordPField);
 	    
 	    //Sign up button panel
-	    JPanel signUpBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-	    signUpBtnPanel.setBackground(Block223MainPage.getHeaderBackground());
-	    JButton signUpButton = createButton(" Sign Up ");
-	    signUpBtnPanel.setOpaque(false);
+	    JPanel signUpBtnPanel =
+                    new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
+	    JButton signUpButton = createButton("Sign Up");
 	    signUpBtnPanel.add(signUpButton);
 	    
 	    //****************************
