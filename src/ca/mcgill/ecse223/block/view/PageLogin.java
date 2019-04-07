@@ -3,35 +3,25 @@ package ca.mcgill.ecse223.block.view;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ColorChooserUI;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import static ca.mcgill.ecse223.block.controller.Block223Controller.getUserMode;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.controller.TOUserMode;
-import ca.mcgill.ecse223.block.view.Block223MainPage;
 import ca.mcgill.ecse223.block.view.Block223MainPage.Page;
+
 
 /**
  * Page where the user will have to log in.
@@ -62,27 +52,27 @@ public class PageLogin extends ContentPage {
         //UI Login elements
         //*****************
         //Login elements 
-        Border border = BorderFactory.createLineBorder(new Color(179,141, 151 ), 3);
+        Border border = BorderFactory.createLineBorder(new Color(179,141, 151), 3);
 
         //Title page panel
-        JPanel titlePanel = new JPanelWithBackground(JPanelWithBackground.Background.header, new BorderLayout());
+        JPanel titlePanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
         JLabel titleLabel = new JLabel("Block 223", JLabel.CENTER);
         titleLabel.setForeground(new Color(227, 228, 219));
         titleLabel.setFont(titleFont);
-        titleLabel.setForeground(new Color(227, 228, 219 ));
+        titleLabel.setForeground(Block223MainPage.getForegroundForBackground());
         titlePanel.add(titleLabel, BorderLayout.CENTER);
 
         //Username label panel
-        JPanel usernameLabelPanel = new JPanelWithBackground(JPanelWithBackground.Background.transparent, new BorderLayout());
+        JPanel usernameLabelPanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
         JLabel usernameLabel = new JLabel("         Username:");
         usernameLabel.setFont(defaultFont);
-        usernameLabel.setForeground(new Color(227, 228, 219 ));
+        usernameLabel.setForeground(Block223MainPage.getForegroundForBackground());
         usernameLabel.setHorizontalAlignment(JLabel.LEFT);
         usernameLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
         usernameLabelPanel.add(usernameLabel, BorderLayout.WEST);
 
         //Username text field panel
-        JPanel usernameTxtFieldPanel = new JPanelWithBackground(JPanelWithBackground.Background.transparent, new FlowLayout(FlowLayout.CENTER));
+        JPanel usernameTxtFieldPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
         usernameTextField = new JTextField();
         usernameTextField.setPreferredSize(new Dimension(253, 27));
         usernameTextField.setBorder(border);
@@ -90,16 +80,16 @@ public class PageLogin extends ContentPage {
         usernameTxtFieldPanel.add(usernameTextField);
 
         //Password label panel
-        JPanel passwordLabelPanel = new JPanelWithBackground(JPanelWithBackground.Background.transparent, new BorderLayout());
+        JPanel passwordLabelPanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
         JLabel passwordLabel = new JLabel("         Password:");
         passwordLabel.setFont(defaultFont);
-        passwordLabel.setForeground(new Color(227, 228, 219 ));
+        passwordLabel.setForeground(Block223MainPage.getForegroundForBackground());
         passwordLabel.setHorizontalAlignment(JLabel.LEFT);
         passwordLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
         passwordLabelPanel.add(passwordLabel, BorderLayout.WEST);
 
         //Password password field panel
-        JPanel passwordPFieldPanel = new JPanelWithBackground(JPanelWithBackground.Background.transparent, new FlowLayout(FlowLayout.CENTER));
+        JPanel passwordPFieldPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
         passwordPField = new JPasswordField();
         passwordPField.setPreferredSize(new Dimension(253, 27));
         passwordPField.setBorder(border);
@@ -107,13 +97,13 @@ public class PageLogin extends ContentPage {
 
         //Buttons
         //Log in button panel
-        JPanel loginBtnPanel = new JPanelWithBackground(JPanelWithBackground.Background.transparent, new FlowLayout(FlowLayout.CENTER));
+        JPanel loginBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
         JButton logInButton = createButton("Log In");
         logInButton.setFont(new Font("Consolas", Font.PLAIN, 20));
         loginBtnPanel.add(logInButton);
 
         //Sign up button panel
-        JPanel signUpBtnPanel = new JPanelWithBackground(JPanelWithBackground.Background.transparent, new FlowLayout(FlowLayout.CENTER));
+        JPanel signUpBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
         JButton signUpButton = new JButton("Sign Up!");
         signUpButton.setForeground(new Color(179,141, 151));
         signUpButton.setFont(new Font("Consolas", Font.PLAIN, 20));
