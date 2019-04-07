@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -22,7 +23,10 @@ import javax.swing.border.LineBorder;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOCurrentBlock;
+import ca.mcgill.ecse223.block.controller.TOGridCell;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
+import ca.mcgill.ecse223.block.model.Block;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
 import ca.mcgill.ecse223.block.controller.TOHallOfFame;
@@ -252,57 +256,28 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		g.setColor(new Color(179, 141, 151));
 		g.fillRect(140, Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE, 100, 10); // Fills a square
 
-		// Rectangles for PlayGame :
-
-		// First row:
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(50, 100, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(100, 100, 30, 30); // Fills a square
-
-		// Paddle :
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(150, 100, 30, 30); // Fills a square
-
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(200, 100, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(250, 100, 30, 30); // Fills a square
-
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(300, 100, 30, 30); // Fills a square
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		// Second row:
-
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(50, 150, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(100, 150, 30, 30); // Fills a square
-
-		// Paddle :
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(150, 150, 30, 30); // Fills a square
-
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(200, 150, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(250, 150, 30, 30); // Fills a square
+		// Add grid cell elements.
+		
+		List<TOCurrentBlock> blocks = new ArrayList<TOCurrentBlock>();
+		
+		try {
+			blocks = Block223Controller.getCurrentPlayableGame().getBlocks();
+		} catch (InvalidInputException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		for (TOCurrentBlock block : blocks) {
+			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
+			g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
+			g.setColor(color);
+		}
 
 		// Paddle :
 		g.setColor(new Color(222, 195, 190));
 		g.fillRect(300, 150, 30, 30); // Fills a square
 
+		
 		// Small drawing :
 
 		// Left :
