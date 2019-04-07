@@ -59,7 +59,7 @@ public class PageSignUp extends ContentPage{
 
 		//Title page panel
 		JPanel titlePanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
-		JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
+		JLabel titleLabel = new JLabel("Block 223", JLabel.CENTER);
 		titleLabel.setFont(titleFont);
 		titleLabel.setForeground(Block223MainPage.getForegroundForBackground());
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
@@ -69,7 +69,7 @@ public class PageSignUp extends ContentPage{
                     new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel usernameLabel = new JLabel("         Username:");
 	    usernameLabel.setFont(defaultFont);
-		usernameLabel.setForeground(Block223MainPage.getDefaultForeground());
+		usernameLabel.setForeground(Block223MainPage.getForegroundForBackground());
 	    usernameLabel.setHorizontalAlignment(JLabel.LEFT);
 	    usernameLabelPanel.add(usernameLabel, BorderLayout.WEST);
 	    
@@ -88,7 +88,7 @@ public class PageSignUp extends ContentPage{
                     new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel playerPasswordLabel = new JLabel("         Player password:");
 	    playerPasswordLabel.setFont(defaultFont);
-		playerPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
+		playerPasswordLabel.setForeground(Block223MainPage.getForegroundForBackground());
 	    playerPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
 	    playerPwordLabelPanel.add(playerPasswordLabel, BorderLayout.WEST);
 	    
@@ -105,7 +105,7 @@ public class PageSignUp extends ContentPage{
                     new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel adminPasswordLabel = new JLabel("         Admin password (optional):");
 	    adminPasswordLabel.setFont(defaultFont);
-		adminPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
+		adminPasswordLabel.setForeground(Block223MainPage.getForegroundForBackground());
 	    adminPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
 	    adminPwordLabelPanel.add(adminPasswordLabel, BorderLayout.WEST);
 	    
