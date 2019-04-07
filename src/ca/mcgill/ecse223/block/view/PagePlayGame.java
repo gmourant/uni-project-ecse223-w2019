@@ -24,6 +24,7 @@ import javax.swing.border.LineBorder;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOCurrentBlock;
+import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.model.Block;
@@ -252,70 +253,30 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); // ALWAYS call this method first!
-		// g.drawRect(60, 100, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(140, Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE, 100, 10); // Fills a square
 
 		// Add grid cell elements.
 		
 		List<TOCurrentBlock> blocks = new ArrayList<TOCurrentBlock>();
-		
+		TOCurrentlyPlayedGame game = null;
 		try {
-			blocks = Block223Controller.getCurrentPlayableGame().getBlocks();
-		} catch (InvalidInputException e) {
+			game = Block223Controller.getCurrentPlayableGame();
+		} catch (InvalidInputException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 		
+			blocks = game.getBlocks();
+
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
-			g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
 			g.setColor(color);
+			g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
 		}
 
 		// Paddle :
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(300, 150, 30, 30); // Fills a square
+		g.setColor(Color.BLACK);
 
 		
-		// Small drawing :
-
-		// Left :
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(20, 370, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(35, 385, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(50, 400, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(20, 400, 20, 20); // Fills a square
-
-		// Right :
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(330, 370, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(315, 385, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(300, 400, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(330, 400, 20, 20); // Fills a square
-
-		// Ball :
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillOval(140, 300, 15, 15);
 
 	}
 
