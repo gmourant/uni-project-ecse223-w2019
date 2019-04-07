@@ -1,15 +1,12 @@
 package ca.mcgill.ecse223.block.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
-import javax.management.RuntimeErrorException;
 import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
 import ca.mcgill.ecse223.block.model.PlayedGame.PlayStatus;
 
