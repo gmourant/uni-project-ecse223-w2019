@@ -105,6 +105,7 @@ public class PageDeleteBlock extends ContentPage {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				// call the controller
 				try {
+                                    if(ids.getSelectedItem() == null) return;
 					Block223Controller.deleteBlock((int) ids.getSelectedItem());
 				} catch (InvalidInputException e) {
 					displayError(e.getMessage(), false);
