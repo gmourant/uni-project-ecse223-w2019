@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
 
@@ -183,7 +184,6 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 				Runnable play = new Runnable() {
 					@Override
 					public void run() {
-
 						try {
 							Block223Controller.startGame(PagePlayGame.this);
 
@@ -210,6 +210,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 	@Override
 	public void refresh() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void endGame(int nrOfLives, TOHallOfFameEntry hof) {
 		// TODO Auto-generated method stub
 
 	}
