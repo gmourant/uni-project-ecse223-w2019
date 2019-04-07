@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
+import javax.swing.border.EmptyBorder;
 
 public class Block223MainPage extends JFrame {
 
@@ -177,12 +178,14 @@ public class Block223MainPage extends JFrame {
         }
         // make sure all buttons are visible
         leftSide.setVisible(false);
+        currentGameDisplay.setVisible(false);
         save.setVisible(false);
         logout.setVisible(false);
 
         // show menus if appropriate
         if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.playGame && toDisplay != Page.chooseGame) {
             leftSide.setVisible(true);
+            currentGameDisplay.setVisible(true);
             save.setVisible(true);
             logout.setVisible(true);
         }
@@ -268,13 +271,12 @@ public class Block223MainPage extends JFrame {
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight() / 10));
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
 
-        currentGameDisplay = new JLabel("None selected"); // empty by default
+        currentGameDisplay = new JLabel("No Game Selected");
+        currentGameDisplay.setBorder(new EmptyBorder(0,10,0,0));
         currentGameDisplay.setForeground(getForegroundForBackground());
         save = createButton("Save");
         logout = createButton("Log out");
         topMenu.add(currentGameDisplay);
-       // topMenu.add(save);
-        //topMenu.add(logout);
         save.setForeground(getForegroundForBackground());
         save.setBackground(Block223MainPage.getHeaderBackgroundFiller());
         logout.setForeground(getForegroundForBackground());
@@ -522,7 +524,7 @@ public class Block223MainPage extends JFrame {
     }
     
     public void setCurrentGameDisplay(String txt){
-        if(currentGameDisplay == null) return;
+        if(currentGameDisplay == null || txt.equals("")) return;
         currentGameDisplay.setText(txt);
     }
 }
