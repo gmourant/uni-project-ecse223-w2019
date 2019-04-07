@@ -107,6 +107,10 @@ public class Block223MainPage extends JFrame {
             save.setBackground(getButtonBackground());
             save.setForeground(getDefaultForeground());
         }
+        if(publish != null){
+            publish.setBackground(getButtonBackground());
+            publish.setForeground(getDefaultForeground());
+        }
         
         if(minimize != null){
             minimize.setBackground(getHeaderBackgroundFiller());
@@ -194,7 +198,7 @@ public class Block223MainPage extends JFrame {
             save.setVisible(true);
             logout.setVisible(true);
         }
-        if(toDisplay == Page.playGame){ // && check if is not published
+        if(toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.chooseGame){ // && check if is not published
             try{
                 Block223Controller.getCurrentDesignableGame();
                 publish.setVisible(true);
@@ -280,6 +284,8 @@ public class Block223MainPage extends JFrame {
         topMenu.add(currentGameDisplay, BorderLayout.WEST);
         
         publish = createButton("Publish");
+        publish.setForeground(getForegroundForBackground());
+        publish.setBackground(getHeaderBackgroundFiller());
         save = createButton("Save");
         logout = createButton("Log out");
         save.setForeground(getForegroundForBackground());
@@ -300,7 +306,7 @@ public class Block223MainPage extends JFrame {
         exitMin.add(minimize);
         exitMin.add(exit);
         topMenu.add(exitMin, BorderLayout.EAST);
-
+        
         add(topMenu, BorderLayout.NORTH);
 
         // always show
