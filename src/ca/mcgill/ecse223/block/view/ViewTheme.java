@@ -2,7 +2,6 @@ package ca.mcgill.ecse223.block.view;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
 
 public class ViewTheme{
     public enum Type {Color, Image}

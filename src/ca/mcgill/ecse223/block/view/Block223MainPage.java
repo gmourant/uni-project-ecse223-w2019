@@ -140,7 +140,7 @@ public class Block223MainPage extends JFrame {
         this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
 
-        defineTheme("Boxing Day");
+        defineTheme("Spring Galore");
         thisInstance = this;
         
         // setting up
