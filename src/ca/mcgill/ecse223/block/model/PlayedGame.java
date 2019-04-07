@@ -82,7 +82,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 79 "../../../../../Block223PlayMode.ump"
+    // line 87 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -163,6 +163,10 @@ public class PlayedGame implements Serializable
   public boolean setBallDirectionX(double aBallDirectionX)
   {
     boolean wasSet = false;
+    // line 60 "../../../../../Block223PlayMode.ump"
+    // Divide by 10 if speed is over 10
+       		if (aBallDirectionX >= 10) aBallDirectionX /= 10.0;
+    // END OF UMPLE BEFORE INJECTION
     ballDirectionX = aBallDirectionX;
     wasSet = true;
     return wasSet;
@@ -179,6 +183,10 @@ public class PlayedGame implements Serializable
   public boolean setBallDirectionY(double aBallDirectionY)
   {
     boolean wasSet = false;
+    // line 64 "../../../../../Block223PlayMode.ump"
+    // Divide by 10 if speed is over 10
+       		if (aBallDirectionY >= 10) aBallDirectionY /= 10.0;
+    // END OF UMPLE BEFORE INJECTION
     ballDirectionY = aBallDirectionY;
     wasSet = true;
     return wasSet;
@@ -737,7 +745,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 61 "../../../../../Block223PlayMode.ump"
+  // line 69 "../../../../../Block223PlayMode.ump"
    public HallOfFameEntry getMostRecentEntry(){
     // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
@@ -748,7 +756,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 67 "../../../../../Block223PlayMode.ump"
+  // line 75 "../../../../../Block223PlayMode.ump"
    public int indexOfHallOfFameEntry(){
     // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry

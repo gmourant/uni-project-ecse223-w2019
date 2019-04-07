@@ -24,10 +24,10 @@ import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
 
 public class PagePositionBlock extends ContentPage {
-	
+
 	private static final String Regex = "\\d+";
 	private static final Pattern pattern = Pattern.compile(Regex);
-	
+
 	private String error = "";
 
 	public PagePositionBlock(Block223MainPage parent) {
@@ -135,33 +135,31 @@ public class PagePositionBlock extends ContentPage {
         // addButton and CancelButton listeners
         addButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				
+
 				// Parse the coordinate textField.
 				String coord = coordTextField.getText();
 				Integer x = 0;
 				Integer y = 0;
 				Matcher matcher = null;
-				
+
 				try {
 					matcher = pattern.matcher(coord);
 					matcher.find();
 					x = Integer.parseInt(matcher.group());
 					matcher.find();
 					y = Integer.parseInt(matcher.group());
-				} catch(NumberFormatException e) {
+				} catch (NumberFormatException e) {
 					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
 					new ViewError(error, false, parent);
-				} catch(IllegalStateException e) {
+				} catch (IllegalStateException e) {
 					error = "Could not match coordinates.";
 					new ViewError(error, false, parent);
 				}
-				
+
 				// Call the controller.
 				try {
-					Block223Controller.positionBlock(
-							(Integer)idComboBox.getSelectedItem(),
-							(int)levelSelector.getSelectedItem(),
-							x, y);
+					Block223Controller.positionBlock((Integer) idComboBox.getSelectedItem(),
+							(int) levelSelector.getSelectedItem(), x, y);
 				} catch (InvalidInputException e) {
 					error = e.getMessage();
 					if (error.equals("A game must be selected to position a block.")
@@ -177,61 +175,62 @@ public class PagePositionBlock extends ContentPage {
 					error = "No block selected.";
 					new ViewError(error, false, parent);
 				}
-				
-				// update visuals
-				//refreshData();
-			}
-			
-		});
-        
-        // viewButton listener
-        
-        viewButton.addActionListener(new java.awt.event.ActionListener() {
-        	public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		
-        		// Get the block assignments of the current level.
-        		
-        		List<TOGridCell> assignments = new ArrayList<TOGridCell>();
-        		try {
-        			assignments = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((Integer)levelSelector.getSelectedItem());
-        			new LevelView(assignments, false, parent);
-        		} catch (InvalidInputException e) {
-        			error = e.getMessage();
-					new ViewError(error, false, parent);
-        		}
-        		
-        	}
-        });
 
-        //Action listener idComboBox 
-        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
-        ActionListener actionListenerId = new ActionListener() {
+				// update visuals
+				// refreshData();
+			}
+
+		});
+
+		// viewButton listener
+
+		viewButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+
+				// Get the block assignments of the current level.
+
+				List<TOGridCell> assignments = new ArrayList<TOGridCell>();
+				try {
+					assignments = Block223Controller
+							.getBlocksAtLevelOfCurrentDesignableGame((Integer) levelSelector.getSelectedItem());
+					new LevelView(assignments, false, parent);
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					new ViewError(error, false, parent);
+				}
+
+			}
+		});
+
+		// Action listener idComboBox
+		// @author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+		ActionListener actionListenerId = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int r,g,b;
+				int r, g, b;
 				Integer id = (Integer) idComboBox.getSelectedItem();
 				TOBlock block = Block223Controller.findTOBlock(id);
 				if (block != null) {
 					r = block.getRed();
 					g = block.getGreen();
 					b = block.getBlue();
-					colorPatch.setBackground(new Color(r,g,b));
+					colorPatch.setBackground(new Color(r, g, b));
 				}
 			}
-        };
-        
-        idComboBox.addActionListener(actionListenerId);
-        
-        cancelButton.addActionListener(new java.awt.event.ActionListener() {
-        	public void actionPerformed(java.awt.event.ActionEvent evt) {
-        		cancel();
-        	}
-        });
-        
-       //Side menu editing
-       //JList sideMenu = getSideMenuList();
-       //add(sideMenu);
+		};
+
+		idComboBox.addActionListener(actionListenerId);
+
+		cancelButton.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				cancel();
+			}
+		});
+
+		// Side menu editing
+		// JList sideMenu = getSideMenuList();
+		// add(sideMenu);
 
 	}
-	
+  
 }

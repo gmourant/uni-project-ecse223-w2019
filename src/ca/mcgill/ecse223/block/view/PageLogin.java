@@ -107,7 +107,10 @@ public class PageLogin extends ContentPage {
         JButton signUpButton = new JButton("Sign Up!");
         signUpButton.setForeground(new Color(179,141, 151));
         signUpButton.setFont(new Font("Consolas", Font.PLAIN, 20));
-        signUpButton.setBackground(Block223MainPage.getButtonBackground());
+        signUpButton.setOpaque(false);
+        //signUpButton.setBackground(Block223MainPage.getButtonBackground());
+        signUpButton.setContentAreaFilled(false);
+        signUpButton.setBorderPainted(false);
         //signUpButton.setForeground(Color.BLUE);
         JLabel recommendSignUp = new JLabel("Don't have an account?");
         recommendSignUp.setFont(new Font("Consolas", Font.PLAIN, 18));
@@ -205,9 +208,7 @@ public class PageLogin extends ContentPage {
                 changePage(Block223MainPage.Page.logout);
                 break;
             case Play:
-                Block223Controller.logout();
-                displayError("Sorry, we're doing some work on the player section. "
-                        + "Please try again after the next iteration.", Page.login);
+               changePage(Block223MainPage.Page.chooseGame);
                 break;
             default:
        }

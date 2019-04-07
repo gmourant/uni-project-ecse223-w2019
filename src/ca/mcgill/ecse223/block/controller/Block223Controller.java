@@ -1,17 +1,27 @@
 package ca.mcgill.ecse223.block.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import ca.mcgill.ecse223.block.model.*;
-import ca.mcgill.ecse223.block.application.*;
-import ca.mcgill.ecse223.block.persistence.Block223Persistence;
-import javax.management.RuntimeErrorException;
-import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
+import ca.mcgill.ecse223.block.application.Block223Application;
+import ca.mcgill.ecse223.block.model.Admin;
+import ca.mcgill.ecse223.block.model.Ball;
+import ca.mcgill.ecse223.block.model.Block;
+import ca.mcgill.ecse223.block.model.Block223;
+import ca.mcgill.ecse223.block.model.BlockAssignment;
+import ca.mcgill.ecse223.block.model.Game;
+import ca.mcgill.ecse223.block.model.HallOfFameEntry;
+import ca.mcgill.ecse223.block.model.Level;
+import ca.mcgill.ecse223.block.model.Paddle;
+import ca.mcgill.ecse223.block.model.PlayedBlockAssignment;
+import ca.mcgill.ecse223.block.model.PlayedGame;
 import ca.mcgill.ecse223.block.model.PlayedGame.PlayStatus;
+import ca.mcgill.ecse223.block.model.Player;
+import ca.mcgill.ecse223.block.model.User;
+import ca.mcgill.ecse223.block.model.UserRole;
+import ca.mcgill.ecse223.block.persistence.Block223Persistence;
+import ca.mcgill.ecse223.block.view.Block223PlayModeInterface;
 
 public class Block223Controller {
 
@@ -973,12 +983,18 @@ public class Block223Controller {
 
 			}
 			if (game.getPlayStatus() != PlayStatus.GameOver) {
-				ui.refresh(); // Refresh the UI 
+				HallOfFameEntry mostRecent = game.getMostRecentEntry();
+				// Call endGame instead of refresh
+				// The TOHallOfFameEntry is not part of a TOHallOfFame
+				ui.endGame(game.getLives(),
+						new TOHallOfFameEntry(0, mostRecent.getPlayername(), mostRecent.getScore(), null));
 			}
 
 		}
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
 			Block223Application.setCurrentPlayableGame(null); // Remove playable game if GameOver
+			Block223 block223 = Block223Application.getBlock223();
+			Block223Persistence.save(block223); // Save to persistence to ensure the playedGame is removed from the file
 		}
 		if (game.getPlayer() != null) {
 			game.setBounce(null);
@@ -1017,7 +1033,7 @@ public class Block223Controller {
 		if (Block223Application.getCurrentGame().getAdmin() != admin) {
 			throw new InvalidInputException("Only the admin who created the game can test it.");
 		}
-		
+
 		// If there are less than 1 number of blocks defined for the game
 		if (Block223Application.getCurrentGame().getBlocks().size() < 1) {
 			throw new InvalidInputException("At least one block must be defined for a game to be tested.");
@@ -1071,6 +1087,7 @@ public class Block223Controller {
 
 		Game game = Block223Application.getCurrentGame();
 		game.setPublished(true);
+		Block223Persistence.save(Block223Application.getBlock223());
 
 	}// End of publishGame method
 

@@ -57,6 +57,14 @@ class PlayedGame {
    1 <@>- * PlayedBlockAssignment blocks;
    0..1 -> 0..1 BouncePoint bounce;
    
+   before setBallDirectionX { // Divide by 10 if speed is over 10
+   		if (aBallDirectionX >= 10) aBallDirectionX /= 10.0;
+   }
+   
+   before setBallDirectionY { // Divide by 10 if speed is over 10
+   		if (aBallDirectionY >= 10) aBallDirectionY /= 10.0;
+   }
+   
    // Author: Kelly Ma
    public HallOfFameEntry getMostRecentEntry() { // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame

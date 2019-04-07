@@ -2,36 +2,24 @@ package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.GraphicsEnvironment;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ColorChooserUI;
 
-import ca.mcgill.ecse223.block.controller.Block223Controller;
-import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.view.JPanelWithBackground;
 
 /**
  * Page Welcome for the user
@@ -52,8 +40,7 @@ public class PageWelcome extends ContentPage {
 		//Constructor method
 		//*******************
 		public PageWelcome(Block223MainPage frame) {
-			super(frame);
-			setBackground(new Color (62, 61, 60));
+			super(frame, Background.general);
 			m_timer = new Timer(m_interval, new TimerAction());
 			m_timer.start();  // start animation by starting the timer.
 	
@@ -74,27 +61,26 @@ public class PageWelcome extends ContentPage {
 			//Welcome elements
 			Block223Welcome = new JLabel("Block 223");
 			Block223Welcome.setFont(new Font("Consolas",Font.PLAIN,60));
-			Block223Welcome.setForeground(new Color(227, 228, 219 ));
+			Block223Welcome.setForeground(Block223MainPage.getForegroundForBackground());
 			add(Block223Welcome);
 			
 			//Border border = BorderFactory.createLineBorder(Block223MainPage.getHeaderBackground(), 3);
 			
 			
 		    //Start button panel
-		    JPanel StartButtonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		    JPanel StartButtonPanel = new JPanelWithBackground(Background.general, new FlowLayout(FlowLayout.CENTER));
 		    StartButtonPanel.setLocation(250, 300);
 		    
 		    StartButtonPanel.setBackground(Color.WHITE);
 		    JButton StartButton = createButton(" Start Game ");
 		    StartButton.setFont(new Font("Consolas",Font.PLAIN,40));
-		    StartButton.setBackground(new Color (62, 61, 60));
+		    StartButton.setBackground(Block223MainPage.getHeaderBackgroundFiller());
 		    Border border1 = new LineBorder(Color.WHITE, 3);
 		    StartButton.setBorder(border1);
 		    StartButton.setForeground(Color.WHITE);
 		    StartButtonPanel.add(StartButton,BorderLayout.PAGE_END );
 		   // StartButtonPanel.setLayout(null);
 		    StartButtonPanel.setLocation(250, 300);
-		  StartButtonPanel.setBackground(new Color (62, 61, 60));
 		    
 		    //****************************
 	      	//Adding panels to the screen

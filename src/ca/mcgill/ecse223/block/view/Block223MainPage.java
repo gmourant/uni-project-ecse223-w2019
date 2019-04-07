@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
+import javax.swing.border.EmptyBorder;
 
 public class Block223MainPage extends JFrame {
 
@@ -41,6 +42,10 @@ public class Block223MainPage extends JFrame {
                 new Color(116, 157, 144), new Color(248,249,248)),
         new ViewTheme("Last Frontier", "imageThemes/spacethemeHeader.jpg",
                 Color.BLACK, Color.LIGHT_GRAY, "imageThemes/spacethemeBackground.jpg",
+                new Font("Consolas", Font.PLAIN, 14), 
+                Color.WHITE, Color.WHITE),
+        new ViewTheme("Under The Sea", "imageThemes/water.jpg",
+        		 new Color(0, 67, 133), new Color(0, 67, 133), "imageThemes/water.jpg",
                 new Font("Consolas", Font.PLAIN, 14), 
                 Color.WHITE, Color.WHITE),
     };
@@ -63,12 +68,13 @@ public class Block223MainPage extends JFrame {
         updateBlock, positionBlock,
         moveBlock, removeBlock,
         login, logout, signUp, welcome,
-        pickTheme
+        pickTheme, playGame, chooseGame
     }
 
     private Page currentPage = Page.welcome;
 
     private JPanel topMenu;
+    private JButton publish;
     private JButton save;
     private JButton logout;
     private JScrollPane sideMenu;
@@ -78,9 +84,9 @@ public class Block223MainPage extends JFrame {
     
     public boolean defineTheme(String name){
         ViewTheme theme = null;
-        for(int i = 0; i < THEMES.length; i++){
-            if(name.equals(THEMES[i].name)){
-                theme = THEMES[i];
+        for (ViewTheme aTheme : THEMES) {
+            if (name.equals(aTheme.name)) {
+                theme = aTheme;
                 break;
             }
         }
@@ -100,6 +106,10 @@ public class Block223MainPage extends JFrame {
         if(save != null){
             save.setBackground(getButtonBackground());
             save.setForeground(getDefaultForeground());
+        }
+        if(publish != null){
+            publish.setBackground(getButtonBackground());
+            publish.setForeground(getDefaultForeground());
         }
         
         if(minimize != null){
@@ -136,7 +146,7 @@ public class Block223MainPage extends JFrame {
         this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
 
-        defineTheme("Boxing Day");
+        defineTheme("Spring Galore");
         thisInstance = this;
         
         // setting up
@@ -173,21 +183,37 @@ public class Block223MainPage extends JFrame {
         }
         // make sure all buttons are visible
         leftSide.setVisible(false);
+        currentGameDisplay.setVisible(false);
+        publish.setVisible(false);
         save.setVisible(false);
         logout.setVisible(false);
 
         // show menus if appropriate
-        if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome) {
+        if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.playGame && toDisplay != Page.chooseGame) {
             leftSide.setVisible(true);
+            currentGameDisplay.setVisible(true);
             save.setVisible(true);
             logout.setVisible(true);
-        } else {
-            setCurrentGameDisplay("");
+        } else if(toDisplay == Page.playGame || toDisplay == Page.chooseGame) {
+            save.setVisible(true);
+            logout.setVisible(true);
+        }
+        if(toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.chooseGame){ // && check if is not published
+            try{
+                Block223Controller.getCurrentDesignableGame();
+                publish.setVisible(true);
+            } catch(InvalidInputException e){}
         }
 
         // creates the correct JPanel depending on the selected page specified 
         // in the toDisplay enum
         switch (toDisplay) {
+            case chooseGame: 
+                displayedPage = new PageChooseGame(this);
+                break;
+            case playGame:
+                displayedPage = new PagePlayGame(this);
+                break; 
             case welcome:
                 displayedPage = new PageWelcome(this);
                 break;
@@ -248,17 +274,24 @@ public class Block223MainPage extends JFrame {
      * @author Georges Mourant
      */
     private void setupTopMenu() {
-        topMenu = new JPanelWithBackground(JPanelWithBackground.Background.header, new GridLayout(1, 4));
+        topMenu = new JPanelWithBackground(JPanelWithBackground.Background.header, new BorderLayout());
         topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight() / 10));
         topMenu.setBorder(BorderFactory.createLineBorder(Color.darkGray));
 
-        currentGameDisplay = new JLabel("None selected"); // empty by default
+        currentGameDisplay = new JLabel("No Game Selected");
+        currentGameDisplay.setBorder(new EmptyBorder(0,10,0,0));
         currentGameDisplay.setForeground(getForegroundForBackground());
+        topMenu.add(currentGameDisplay, BorderLayout.WEST);
+        
+        publish = createButton("Publish");
+        publish.setForeground(getForegroundForBackground());
+        publish.setBackground(getHeaderBackgroundFiller());
         save = createButton("Save");
         logout = createButton("Log out");
-        topMenu.add(currentGameDisplay);
-        topMenu.add(save);
-        topMenu.add(logout);
+        save.setForeground(getForegroundForBackground());
+        save.setBackground(getHeaderBackgroundFiller());
+        logout.setForeground(getForegroundForBackground());
+        logout.setBackground(getHeaderBackgroundFiller());
 
         JPanel exitMin = new JPanelWithBackground(JPanelWithBackground.Background.header, new FlowLayout(FlowLayout.RIGHT));
         minimize = createButton("_");
@@ -267,16 +300,31 @@ public class Block223MainPage extends JFrame {
         exit.setForeground(getForegroundForBackground());
         minimize.setBackground(getHeaderBackgroundFiller()); // match to background
         exit.setBackground(getHeaderBackgroundFiller()); // match to background
+        exitMin.add(publish);
+        exitMin.add(save);
+        exitMin.add(logout);
         exitMin.add(minimize);
         exitMin.add(exit);
-        topMenu.add(exitMin);
-
+        topMenu.add(exitMin, BorderLayout.EAST);
+        
         add(topMenu, BorderLayout.NORTH);
 
         // always show
         topMenu.setVisible(true);
 
         // listeners
+        
+        publish.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+                //call the controller
+                try {
+                    Block223Controller.publishGame();
+                } catch(InvalidInputException e) {
+                    new ViewError(e.getMessage(), false, thisInstance);
+                }
+            }//End of actionPerformed by save method
+        });
+        
         save.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent evt){
                 //call the controller
@@ -500,7 +548,7 @@ public class Block223MainPage extends JFrame {
     }
     
     public void setCurrentGameDisplay(String txt){
-        if(currentGameDisplay == null) return;
+        if(currentGameDisplay == null || txt.equals("")) return;
         currentGameDisplay.setText(txt);
     }
 }
