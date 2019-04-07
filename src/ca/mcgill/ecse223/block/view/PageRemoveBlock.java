@@ -1,22 +1,37 @@
 package ca.mcgill.ecse223.block.view;
 
+import static ca.mcgill.ecse223.block.view.Block223MainPage.TITLE_SIZE_INCREASE;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.MatteBorder;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
+import ca.mcgill.ecse223.block.view.PagePositionBlock.LevelView;
+import ca.mcgill.ecse223.block.view.PagePositionBlock.LevelView.CellPane;
 
 /**
  * PageRemoveBlock: UI for the remove block feature
@@ -25,96 +40,362 @@ import ca.mcgill.ecse223.block.controller.TOGridCell;
  *
  */
 public class PageRemoveBlock extends ContentPage {
-
-	JComboBox<String> removeBlockList; 
-	JLabel errorMessage; 
-	JButton removeBlockButton;
-	private HashMap<Integer, TOGridCell> aRemoveBlock;
 	
+	private static final String Regex = "\\d+";
+	private static final Pattern pattern = Pattern.compile(Regex);
+	JComboBox<String> coordinateComboBox = null;
+	
+	private String error = "";
 
-	// data elements 
-	private HashMap<Integer, TOGridCell> selectBlock;  // represents index
-	private int level;
-	private String error = null;
+	public PageRemoveBlock(Block223MainPage parent, int placeHolder) {
+		super(parent);
+		
+		setLayout(new GridLayout(6,1));
+		
+		//Header
+	    add(createHeader("Remove a block from a level."));
+	 
+	    //Rectangle changes color with slider
+        JPanel colorPatch; 
+        colorPatch = new JPanel();
+        JPanel gridbagPanel = new JPanel();
+        gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        //colorPatch.setBounds(230,40,50,50);
+        gridbagPanel.setPreferredSize(new Dimension(20, 20));
+        gridbagPanel.setLocation(230,40);
+        add(gridbagPanel);
+        colorPatch.setPreferredSize(new Dimension(40,37));
+        gridbagPanel.add(colorPatch);
+        gridbagPanel.setBackground(this.getBackground());
+        colorPatch.setBackground(Color.black);
+        Color borderColorBlock = new Color(0, 0, 0);
+        Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
+        colorPatch.setBorder(blockBorder);
+        
+        //Level combobox
+        JPanel levelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        levelPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                 BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        JLabel levelLabel = new JLabel("Level : ");
+        levelPanel.add(levelLabel);
+        JComboBox<Integer> levelSelector = new JComboBox<Integer>();
+        levelSelector.setPreferredSize(new Dimension(200, 30));
+        levelSelector.setBorder(getBorder());
+        // Populate combobox
+        for (Integer i = 1; i < 100; i++) {
+        	levelSelector.addItem(i);
+        }
+        levelPanel.add(levelSelector);
+        levelPanel.setBackground(this.getBackground());
+        add(levelPanel);
+        
+        // Populate the Block combobox.
+        List<TOGridCell> blocks = new ArrayList<TOGridCell>();
+        try {
+        blocks = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((int) levelSelector.getSelectedItem());
+        } catch (InvalidInputException e) {
+        	error = e.getMessage();
+        	new ViewError(error, true, parent);
+        }
+        coordinateComboBox = new JComboBox<String>();
+        for (TOGridCell block : blocks) {
+        	coordinateComboBox.addItem(block.getId() + ": " + block.getGridHorizontalPosition() + "," + block.getGridVerticalPosition());
+        }
+        // Set visuals and add Block panel.
+        JPanel blockPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        blockPanel.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                 BorderFactory.createEmptyBorder(0, 0, 0, 0)));
+        JLabel idLabel = new JLabel("Block : ");
+        blockPanel.add(idLabel);
+        Border border = BorderFactory.createLineBorder(new Color(0,0,0), 3);
+        coordinateComboBox.setBorder(border);
+        blockPanel.add(coordinateComboBox);
+        blockPanel.setBackground(this.getBackground());
+        add(blockPanel);
+        
+        //View button
+        JButton viewButton = createButton("Level view");
+        viewButton.setPreferredSize(new Dimension(200, 20));
+        add(viewButton);
+        
 
+        //Button Panels
+        JPanel exitButtons = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        exitButtons.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), 
+                    BorderFactory.createEmptyBorder(1, 0, 0, 2)));
+        exitButtons.setBackground(this.getBackground());
+        JButton removeButton = createButton("Remove Block");
+        JButton cancelButton = createButton("Cancel");
+        exitButtons.add(removeButton);
+        exitButtons.add(cancelButton);
+        add(exitButtons);
+        
+        levelSelector.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		refreshData();
+        	}
 
-	public PageRemoveBlock(Block223MainPage frame, int aLevel){
-		super(frame);
-		setLayout(new GridLayout(7,1));
-		add(createHeader("Remove Block"));
-		level = aLevel;
-
-		JPanel b = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		b.setBackground(this.getBackground());
-		// ERROR LABEL
-		b.add(new JLabel("Select block to remove"));
-		removeBlockList = createComboBox(); //(imane has the code)
-		b.add(removeBlockList);
-		add(b);
-
-		// JPanel for my button 
-		JPanel button = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		button.setBorder(BorderFactory.createCompoundBorder(this.getBorder(), BorderFactory.createEmptyBorder(3, 0, 0, 10)));
-		button.setBackground(this.getBackground());
-		removeBlockButton = createButton("Delete");
-		JButton cancel = createButton("Cancel");
-		button.add(removeBlockButton);
-		button.add(cancel);
-		add(button);
-
-		// adding action listeners to the select button to confirm choices
-		removeBlockButton.addActionListener(new java.awt.event.ActionListener() {
+			private void refreshData() {
+				coordinateComboBox = new JComboBox<String>();
+		        List<TOGridCell> blocks = new ArrayList<TOGridCell>();
+		        try {
+		        blocks = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((int) levelSelector.getSelectedItem());
+		        } catch (InvalidInputException e) {
+		        	error = e.getMessage();
+		        	new ViewError(error, true, parent);
+		        }
+		        for (TOGridCell block : blocks) {
+		        	coordinateComboBox.addItem(block.getId() + ": " + block.getGridHorizontalPosition() + "," + block.getGridVerticalPosition());
+		        }
+				
+			}
+			
+        });
+        
+        // removeButton and CancelButton listeners
+        removeButton.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				removeBlockButtonActionPerformed(evt);
+				
+				// Parse the coordinate textField.
+				String coord = (String) coordinateComboBox.getSelectedItem();
+				Integer x = 1;
+				Integer y = 1;
+				Matcher matcher = null;
+				
+				try {
+					matcher = pattern.matcher(coord);
+					matcher.find();
+					matcher.find();
+					x = Integer.parseInt(matcher.group());
+					matcher.find();
+					x = Integer.parseInt(matcher.group());
+				} catch(NumberFormatException e) {
+					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
+					new ViewError(error, false, parent);
+				} catch(IllegalStateException e) {
+					error = "Could not match coordinates.";
+					new ViewError(error, false, parent);
+				}
+				
+				// Call the controller.
+				try {
+					Block223Controller.removeBlock((int)levelSelector.getSelectedItem(), x, y);
+					System.out.println("Block removed");
+				} catch (InvalidInputException e) {
+					error = e.getMessage();
+					if (error.equals("A game must be selected to position a block.")
+							|| error.equals("Admin privileges are required to position a block.")
+							|| error.equals("Only the admin who created the game can position a block.")) {
+					}
+					new ViewError(error, false, parent);
+				} catch (NumberFormatException e) {
+					error = "The block ID must be a valid number.";
+					new ViewError(error, false, parent);
+				} catch (NullPointerException e) {
+					error = "No block selected.";
+					new ViewError(error, false, parent);
+				}
+
+				refreshData();
 			}
+
+			private void refreshData() {
+				coordinateComboBox = new JComboBox<String>();
+		        List<TOGridCell> blocks = new ArrayList<TOGridCell>();
+		        try {
+		        blocks = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((int) levelSelector.getSelectedItem());
+		        } catch (InvalidInputException e) {
+		        	error = e.getMessage();
+		        	new ViewError(error, true, parent);
+		        }
+		        for (TOGridCell block : blocks) {
+		        	coordinateComboBox.addItem(block.getId() + ": " + block.getGridHorizontalPosition() + "," + block.getGridVerticalPosition());
+		        }
+				
+			}
+			
 		});
-		 cancel.addActionListener(new ActionListener() {
+        
+        // viewButton listener
+        
+        viewButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent evt) {
+        		
+        		// Get the block assignments of the current level.
+        		
+        		List<TOGridCell> assignments = new ArrayList<TOGridCell>();
+        		try {
+        			assignments = Block223Controller.getBlocksAtLevelOfCurrentDesignableGame((Integer)levelSelector.getSelectedItem());
+        			new LevelView(assignments, false, parent);
+        		} catch (InvalidInputException e) {
+        			error = e.getMessage();
+					new ViewError(error, false, parent);
+        		}
+        		
+        	}
+        });
 
- 			public void actionPerformed(ActionEvent evt) {
- 				cancel();}
-     });
-
-	} // end of PageRemoveBlock
-
-	public void refreshData() {
-		errorMessage.setText(error);
-		aRemoveBlock = new HashMap<Integer, TOGridCell>();
-		removeBlockList.removeAllItems(); // jcombobox
-		int index = 0;
-		try {
-			for (TOGridCell cell : Block223Controller.getBlocksAtLevelOfCurrentDesignableGame(level)) {
-				aRemoveBlock.put(index, cell);
-				removeBlockList.addItem("R: " + cell.getRed() + "G: " + cell.getGreen() + "B: " + cell.getBlue() + "X: " + cell.getGridHorizontalPosition()
-				+ "Y: " + cell.getGridVerticalPosition());
-				index++;
+        //Action listener idComboBox 
+        //@author http://math.hws.edu/eck/cs124/javanotes4/source/RGBColorChooser.java
+        ActionListener actionListenerId = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int r,g,b;
+				String string = (String) coordinateComboBox.getSelectedItem();
+				Integer id = 1;
+				Matcher matcher = null;
+				try {
+					matcher = pattern.matcher(string);
+					matcher.find();
+					id = Integer.parseInt(matcher.group());
+				} catch(NumberFormatException err) {
+					error = "The coordinate numeric values must have a valid format (i.e. 12,34).";
+					new ViewError(error, false, parent);
+				} catch(IllegalStateException err) {
+					error = "Could not match coordinates.";
+					new ViewError(error, false, parent);
+				}
+				
+				TOBlock block = Block223Controller.findTOBlock(id);
+				if (block != null) {
+					r = block.getRed();
+					g = block.getGreen();
+					b = block.getBlue();
+					colorPatch.setBackground(new Color(r,g,b));
+				}
 			}
-			// if index invalid
-		} catch (InvalidInputException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		};
-		removeBlockList.setSelectedIndex(-1);
-	} // end of RefreshData
+        };
+        
+        coordinateComboBox.addActionListener(actionListenerId);
+        
+        cancelButton.addActionListener(new java.awt.event.ActionListener() {
+        	public void actionPerformed(java.awt.event.ActionEvent evt) {
+        		cancel();
+        	}
+        });
+        
+       //Side menu editing
+       //JList sideMenu = getSideMenuList();
+       //add(sideMenu);
 
-
-	private void removeBlockButtonActionPerformed(java.awt.event.ActionEvent evt) {
-		// clear error message and basic input validation
-		error = "";
-		int chosenBlock = removeBlockList.getSelectedIndex();
-		if (chosenBlock < 0) {
-			error = "No blocks have been chosen";
-			//add(new JLabel("No blocks have been chosen"));
+	}
+	
+	private TOGridCell coordInList(int x, int y, List<TOGridCell> list) {
+		for (TOGridCell cell : list) {
+			if (x == cell.getGridHorizontalPosition() && y == cell.getGridVerticalPosition()) {
+				return cell;
+			}
 		}
-		if (error.length() == 0) {
-			// call the controller
-			try {
-				TOGridCell selectedCell = selectBlock.get(chosenBlock);
-				Block223Controller.removeBlock(level, selectedCell.getGridHorizontalPosition(), selectedCell.getGridVerticalPosition());
-			} catch (InvalidInputException e) {
-				error = e.getMessage();
-			}
-		}// end of if
-		refreshData(); // update visuals
-	}// end of refreshData
+		return null;
+	}
+	
+	/**
+	 *  This class creates a new level grid view to visualize the designed levels.
+	 *  
+	 *  @author Georges Mourant modified by @author Mathieu Bissonnette
+	 *  
+	 */
+	
+	public class LevelView extends JFrame{
+
+	    final Color HEADER_BACKGROUND = 
+	            new Color(255 + (255 - 255)*5/8, 204 + (255 - 204)*5/8, 204 + (255 - 204)*5/8);
+	    
+	    private final Block223MainPage framework;
+	    private final boolean errorRedirect;
+	    private final JPanel windowHolder;
+	    private JPanel topMenu;
+	    private JButton exit;
+	    
+	    public LevelView(List<TOGridCell> assignments, boolean errorRedirect,  Block223MainPage parent){
+	        framework = parent;
+	        this.errorRedirect = errorRedirect;
+	        this.setSize(600, 650); // Specifies the size should adjust to the needs for space
+	        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does
+	        this.setLocationRelativeTo(null); // Places in the center of the screen
+	        this.setResizable(false); // stops user from resizing the dialog box
+	        this.setUndecorated(true);
+	        this.setVisible(true);
+	        windowHolder = new JPanel(new BorderLayout());
+	        windowHolder.setBorder(BorderFactory.createLineBorder(Color.darkGray));
+	        setupTopMenu();
+	        JPanel grid = new JPanel(new GridLayout(15,15));
+	        for (int row = 0; row < 15; row++) {
+                for (int col = 0; col < 15; col++) {
+
+                    CellPane cellPane = new CellPane();
+                    Border border = null;
+                    if (row < 14) {
+                        if (col < 14) {
+                            border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
+                        } else {
+                            border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
+                        }
+                    } else {
+                        if (col < 14) {
+                            border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
+                        } else {
+                            border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
+                        }
+                    }
+                	TOGridCell cell = coordInList(col+1, row+1, assignments);
+                	if (cell != null)
+                		cellPane.setBackground(new Color(cell.getRed(), cell.getGreen(), cell.getBlue()));
+                    cellPane.setBorder(border);
+                    grid.add(cellPane);
+                }
+            }
+	        windowHolder.add(grid,BorderLayout.CENTER);
+	        add(windowHolder);
+	    }
+	
+	    class CellPane extends JPanel {
+	
+	        private Color defaultBackground;
+	    
+	    }
+	    
+	    /**
+	     * This method initalises all the information for the top menu.
+	     * @author Georges Mourant
+	     */
+	    private void setupTopMenu() {
+	        topMenu = new JPanel(new GridLayout(1, 2));
+	        topMenu.setBorder(BorderFactory.createCompoundBorder(topMenu.getBorder(), 
+	                BorderFactory.createEmptyBorder(5, 10, 5, 5)));
+	        topMenu.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()/8));
+	        topMenu.setBackground(HEADER_BACKGROUND);
+
+	        JLabel title = new JLabel("Level preview"); // empty by default
+	        title.setFont(new Font(Block223MainPage.getUIFont().getFamily(), 
+                        Font.BOLD, Block223MainPage.getUIFont().getSize() + TITLE_SIZE_INCREASE));
+	        topMenu.add(title);
+
+	        JPanel exitMin = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+	        exitMin.setBackground(topMenu.getBackground()); // match to background
+	        exit = createButton("X");
+	        exit.setBackground(exitMin.getBackground()); // match to background
+	        exitMin.add(exit);
+	        topMenu.add(exitMin);
+
+	        windowHolder.add(topMenu, BorderLayout.NORTH);
+	        
+	        JPanel holder = new JPanel(new BorderLayout());
+	        holder.setBorder(BorderFactory.createCompoundBorder(holder.getBorder(), 
+	                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+	        holder.setBackground(Color.WHITE);
+	        holder.setPreferredSize(new Dimension(this.getWidth(), this.getHeight()*3/4));
+	        
+	        windowHolder.add(holder, BorderLayout.CENTER);
+	        
+	        exit.addActionListener(new ActionListener(){
+	                public void actionPerformed(ActionEvent e){
+	                    if(errorRedirect)
+	                        framework.changePage(Block223MainPage.Page.adminMenu);
+	                    dispose(); // quit program
+	                }
+	        });
+	    }
+	}
 } // end of class
 
