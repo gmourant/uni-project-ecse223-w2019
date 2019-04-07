@@ -1087,6 +1087,7 @@ public class Block223Controller {
 
 		Game game = Block223Application.getCurrentGame();
 		game.setPublished(true);
+		Block223Persistence.save(Block223Application.getBlock223());
 
 	}// End of publishGame method
 
