@@ -65,7 +65,11 @@ public class PageUpdateBlock extends ContentPage {
 		colorPatch.setPreferredSize(new Dimension(40, 37));
 		gridbagPanel.add(colorPatch);
 		gridbagPanel.setBackground(this.getBackground());
-		colorPatch.setBackground(new Color(blocks.get(0).getRed(), blocks.get(0).getGreen(), blocks.get(0).getBlue()));
+        try {
+        	colorPatch.setBackground(new Color(blocks.get(0).getRed(), blocks.get(0).getGreen(), blocks.get(0).getBlue()));
+        } catch (Exception e) {
+        	colorPatch.setBackground(Color.black);
+        }
 		Color borderColorBlock = new Color(0, 0, 0);
 		Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
 		colorPatch.setBorder(blockBorder);

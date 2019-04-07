@@ -35,6 +35,16 @@ public class PagePositionBlock extends ContentPage {
 		
 		ViewTheme theme = parent.currentTheme;
 		
+		// Get the blocks of the current designable game.
+		
+        List<TOBlock> blocks = new ArrayList<TOBlock>();
+        try {
+        blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
+        } catch (InvalidInputException e) {
+        	error = e.getMessage();
+        	new ViewError(error, true, parent);
+        }
+		
 		setLayout(new GridLayout(7,1));
 		
 		//Header
@@ -52,7 +62,11 @@ public class PagePositionBlock extends ContentPage {
         colorPatch.setPreferredSize(new Dimension(40,37));
         gridbagPanel.add(colorPatch);
         gridbagPanel.setBackground(this.getBackground());
-        colorPatch.setBackground(Color.black);
+        try {
+        	colorPatch.setBackground(new Color(blocks.get(0).getRed(), blocks.get(0).getGreen(), blocks.get(0).getBlue()));
+        } catch (Exception e) {
+        	colorPatch.setBackground(Color.black);
+        }
         Color borderColorBlock = new Color(0, 0, 0);
         Border blockBorder = BorderFactory.createLineBorder(borderColorBlock, 1);
         colorPatch.setBorder(blockBorder);
@@ -67,13 +81,6 @@ public class PagePositionBlock extends ContentPage {
         idComboBox.setPreferredSize(new Dimension(200, 30));
         Color borderColor = theme.textColor;
         // Populate the ID combobox.
-        List<TOBlock> blocks = new ArrayList<TOBlock>();
-        try {
-        blocks = Block223Controller.getBlocksOfCurrentDesignableGame();
-        } catch (InvalidInputException e) {
-        	error = e.getMessage();
-        	new ViewError(error, true, parent);
-        }
         for (TOBlock block : blocks) {
         	idComboBox.addItem(block.getId());
         }
