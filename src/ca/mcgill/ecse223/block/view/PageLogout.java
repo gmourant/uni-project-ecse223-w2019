@@ -52,8 +52,8 @@ public class PageLogout extends ContentPage {
 		//UI Logout elements
 		//******************
 		//Welcome page panel
-		JPanel welcomePanel = new JPanelWithBackground(Background.header, new BorderLayout());
-		JPanel welcomePanel2 = new JPanelWithBackground(Background.header, new BorderLayout());
+		JPanel welcomePanel = new JPanelWithBackground(Background.general, new BorderLayout());
+		JPanel welcomePanel2 = new JPanelWithBackground(Background.general, new BorderLayout());
 		JLabel welcomeLabel = new JLabel("Welcome to", JLabel.CENTER);
 		welcomeLabel.setFont(new Font("Consolas",Font.PLAIN,55));
 		JLabel welcomeLabel2 = new JLabel("Block223", JLabel.CENTER);
@@ -72,7 +72,7 @@ public class PageLogout extends ContentPage {
 
 		//Buttons 
 		//Create game button panel
-		JPanel createGameBtnPanel = new JPanelWithBackground(Background.header, new FlowLayout(FlowLayout.CENTER));
+		JPanel createGameBtnPanel = new JPanelWithBackground(Background.general, new FlowLayout(FlowLayout.CENTER));
 		JButton createGameButton = createButton("Create Game");
 		createGameButton.setFont(new Font("Consolas",Font.PLAIN,25));
 		createGameBtnPanel.add(createGameButton);
