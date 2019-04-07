@@ -57,7 +57,7 @@ public class Block223MainPage extends JFrame {
     // enums for tetermining current page
     public enum Page {
         adminMenu, // page for selecting destination page
-        addGame, defineGame,
+        addGame, defineGame, defineNewGame,
         deleteGame, updateGame,
         addBlock, deleteBlock,
         updateBlock, positionBlock,

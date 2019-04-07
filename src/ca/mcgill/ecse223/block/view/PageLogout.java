@@ -3,35 +3,20 @@ package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.List;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.ColorChooserUI;
 
-import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
-import ca.mcgill.ecse223.block.controller.InvalidInputException;
-import ca.mcgill.ecse223.block.model.Admin;
-import ca.mcgill.ecse223.block.view.PageLogin;
-import ca.mcgill.ecse223.block.controller.TOUserMode;
 import static ca.mcgill.ecse223.block.controller.Block223Controller.getUserMode;
+import static ca.mcgill.ecse223.block.view.JPanelWithBackground.Background;
 
 /**
  * Welcome page with log out option
@@ -63,13 +48,12 @@ public class PageLogout extends ContentPage {
 	public PageLogout(Block223MainPage parent) {
 		super(parent);
 		setLayout(new GridLayout(4,1));
-		setBackground(Block223MainPage.getUIBackground());
 
 		//******************
 		//UI Logout elements
 		//******************
 		//Welcome page panel
-		JPanel welcomePanel = new JPanelWithBackground(JPanelWithBackground.Background.header, new BorderLayout());
+		JPanel welcomePanel = new JPanelWithBackground(Background.header, new BorderLayout());
 		JLabel welcomeLabel = new JLabel("Welcome to", JLabel.CENTER);
 		JLabel welcomeLabel2 = new JLabel("Block223", JLabel.CENTER);
 		welcomeLabel.setForeground(Block223MainPage.getForegroundForBackground());
@@ -81,15 +65,13 @@ public class PageLogout extends ContentPage {
 
 		//Buttons 
 		//Create game button panel
-		JPanel createGameBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		createGameBtnPanel.setBackground(Block223MainPage.getUIBackground());
+		JPanel createGameBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 		JButton createGameButton = createButton("Create Game");
 		createGameButton.setFont(new Font("Consolas",Font.PLAIN,25));
 		createGameBtnPanel.add(createGameButton);
 
 		//Log out button panel
-		JPanel logOutBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		logOutBtnPanel.setBackground(Color.WHITE);
+		JPanel logOutBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 		JButton logOutButton = createButton("Log out");
 		logOutBtnPanel.add(logOutButton);
 
@@ -97,7 +79,6 @@ public class PageLogout extends ContentPage {
 		//Adding panels to the screen
 		//****************************
 		add(welcomePanel);
-		add(welcomePanel2);
 		add(Box.createRigidArea(new Dimension(5,0)));
 		//JList sideMenu = getSideMenuList();
 		//sideMenu.setVisible(false);

@@ -30,9 +30,6 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOBlock;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
-import ca.mcgill.ecse223.block.view.PagePositionBlock.LevelView;
-import ca.mcgill.ecse223.block.view.PagePositionBlock.LevelView.CellPane;
-import ca.mcgill.ecse223.block.view.PagePositionBlock.LevelView.Grid;
 
 /**
  * PageMoveBlock: UI for move block feature
