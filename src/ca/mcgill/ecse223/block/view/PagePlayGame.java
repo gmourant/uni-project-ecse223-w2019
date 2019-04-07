@@ -92,10 +92,15 @@ public class PagePlayGame extends ContentPage {
 			
 			//Add labels to panels : 
 			playerPane.add(Block223);
-			hallOfFamePane.add(hallOfFameLabel);
+			hallOfFamePane.setLayout(new BorderLayout());
+			hallOfFamePane.add(hallOfFameLabel, BorderLayout.NORTH);
 			hallOfFamePane.add(nextLevelPane);
-			JButton next = createButton(">");
-			JButton previous = createButton("<");
+			JButton startGame = createButton("Start Game");
+			JPanel startButtonPanel = new JPanel();
+			startButtonPanel.setBackground(new Color(179,141, 151));
+			startButtonPanel.add(startGame);
+			hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
+			
 			//hallOfFamePane.add(next,previous);
 			//hallOfFamePane.add(previous, BorderLayout.PAGE_END);
 			//hallOfFamePane.add(next, BorderLayout.PAGE_END);
