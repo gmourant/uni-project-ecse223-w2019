@@ -43,6 +43,10 @@ public class Block223MainPage extends JFrame {
                 Color.BLACK, Color.LIGHT_GRAY, "imageThemes/spacethemeBackground.jpg",
                 new Font("Consolas", Font.PLAIN, 14), 
                 Color.WHITE, Color.WHITE),
+        new ViewTheme("Under The Sea", "imageThemes/water.jpg",
+        		 new Color(0, 67, 133), new Color(0, 67, 133), "imageThemes/water.jpg",
+                new Font("Consolas", Font.PLAIN, 14), 
+                Color.WHITE, Color.WHITE),
     };
     public static ViewTheme currentTheme;
     
