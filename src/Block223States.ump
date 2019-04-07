@@ -887,20 +887,17 @@ class PlayedGame {
 		return false;
 	}
 
-	/*
-	 * Method if the ball doesn't hit anything and stays in bounds
-	 * 
-	 * @author Imane Chafi
-	 */
-
-	private void doHitNothingAndNotOutOfBounds() {
-		double x = this.getCurrentBallX();
-		double y = this.getCurrentBallY();
-		double dx = this.getBallDirectionX();
-		double dy = this.getBallDirectionY();
-		this.setCurrentBallX(x + dx);
-		this.setCurrentBallY(y + dy);
-	}
+	/** Method for when the ball doesn't hit anything and stays inside the bounds
+    * @author Sofia Dieguez
+    */
+   private void doHitNothingAndNotOutOfBounds(){
+    double x = getCurrentBallX();
+		double y = getCurrentBallY();
+		double dx = getBallDirectionX();
+		double dy = getBallDirectionY();
+		setCurrentBallX(x + dx);
+		setCurrentBallY(y + dy);
+   }// End of doHitNothingAndNotOutOfBounds() method
 
 	/**
 	 * This performs all the required actions for ending the game.

@@ -1638,28 +1638,28 @@ public class PlayedGame implements Serializable
 
 
   /**
-   * Method if the ball doesn't hit anything and stays in bounds
-   * 
-   * @author Imane Chafi
+   * Method for when the ball doesn't hit anything and stays inside the bounds
+   * @author Sofia Dieguez
    */
-  // line 897 "../../../../../Block223States.ump"
+  // line 894 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
-    double x = this.getCurrentBallX();
-		double y = this.getCurrentBallY();
-		double dx = this.getBallDirectionX();
-		double dy = this.getBallDirectionY();
-		this.setCurrentBallX(x + dx);
-		this.setCurrentBallY(y + dy);
+    double x = getCurrentBallX();
+		double y = getCurrentBallY();
+		double dx = getBallDirectionX();
+		double dy = getBallDirectionY();
+		setCurrentBallX(x + dx);
+		setCurrentBallY(y + dy);
   }
 
 
   /**
+   * End of doHitNothingAndNotOutOfBounds() method
    * 
    * This performs all the required actions for ending the game.
    * 
    * @author Georges Mourant
    */
-  // line 911 "../../../../../Block223States.ump"
+  // line 908 "../../../../../Block223States.ump"
    private void doGameOver(){
     Block223 block223 = this.getBlock223();
 		Player p = this.getPlayer();
@@ -1681,7 +1681,7 @@ public class PlayedGame implements Serializable
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 931 "../../../../../Block223States.ump"
+  // line 928 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
     boolean outofbounds = false;
 		if (this.getCurrentBallY() + this.getBallDirectionY() > Game.PLAY_AREA_SIDE - 2 * Game.GRID_DIMENSIONS) {
