@@ -37,7 +37,7 @@ public class PageUpdateBlock extends ContentPage {
 
 	// data elements
 	private String error = null;
-
+  
 	public PageUpdateBlock(Block223MainPage parent) {
 		super(parent);
 		setLayout(new GridLayout(8, 1));
