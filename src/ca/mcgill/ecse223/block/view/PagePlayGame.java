@@ -38,6 +38,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	// Stores input queue from paddle
 	private String userString = "";
 	private JPanel playerPane;
+	private JLabel currentLevel;
+	private JLabel nrLives;
+	private JLabel currentScore;
+	private String level;
+	private String score;
+	private String lives;
 
 	// *******************
 	// Constructor method
@@ -71,30 +77,27 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		// Define Labels :
 		JLabel Block223 = new JLabel(" Block 223 ");
-		String level = "";
 		try { // Obtain current level
 			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel();
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, true, frame);
 		}
-		JLabel currentLevel = new JLabel(level);
-		String lives = "";
+		currentLevel = new JLabel(level);
 		try { // Obtain current level
 			level = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives();
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, true, frame);
 		}
-		JLabel nrLives = new JLabel(lives);
-		String score = "";
+		nrLives = new JLabel(lives);
 		try { // Obtain current level
 			level = "Score: " + Block223Controller.getCurrentPlayableGame().getScore();
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, true, frame);
 		}
-		JLabel currentScore = new JLabel(score);
+		currentScore = new JLabel(score);
 		Block223.setFont(new Font("Consolas", Font.PLAIN, 50));
 		currentLevel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		nrLives.setFont(new Font("Consolas", Font.PLAIN, 20));
@@ -193,10 +196,10 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		return passString;
 	}
 
+	// Implement method to repaint the play area
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
-
+		playerPane.repaint();
 	}
 
 	@Override
