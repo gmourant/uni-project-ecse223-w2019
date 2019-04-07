@@ -37,7 +37,7 @@ public class PageMoveBlock extends ContentPage {
 		
 		ViewTheme theme = parent.currentTheme;
 		
-		setLayout(new GridLayout(7,1));
+		setLayout(new GridLayout(6,1));
 		
 		//Header
 	    add(createHeader("Move a Block"));
