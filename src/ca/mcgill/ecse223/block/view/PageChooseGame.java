@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -15,6 +16,11 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
+import ca.mcgill.ecse223.block.controller.Block223Controller;
+import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
+import ca.mcgill.ecse223.block.controller.TOGame;
+import ca.mcgill.ecse223.block.controller.TOPlayableGame;
 import ca.mcgill.ecse223.block.model.Game;
 
 public class PageChooseGame extends ContentPage {
@@ -43,14 +49,65 @@ public class PageChooseGame extends ContentPage {
 		JLabel blank = createHeader("  ");
 		blank.setFont(new Font("Consolas",Font.PLAIN,20));
 		add(blank);
-	//Button elements : 
-		JButton gameButton = new JButton();//We can add the names of the game from the controller afterwards.
-		JButton gameButton2 = new JButton();
-		JButton gameButton3 = new JButton();
-		JButton gameButton4 = new JButton();
-		JButton gameButton5 = new JButton();
-		JButton gameButton6 = new JButton();
-		gameButton.setBackground(new Color(179, 141, 151));
+
+		 //JPanels for the division of games : 
+		JPanel myPanel = new JPanel();
+		JPanel secondPanel = new JPanel();
+		secondPanel.setBackground(Block223MainPage.getHeaderBackgroundFiller());
+		
+
+	//Button listeners : 
+	
+	//New games to play : 
+		
+		//The buttons should come up when the game is created, and the names of the button
+		//should be the names of the games created. 
+		
+		 List<TOPlayableGame> games;
+	        try{
+	            games = Block223Controller.getPlayableGames();
+	        }
+	        catch(InvalidInputException e){
+	            // stop now to prevent future errors based on this exception
+	            return;
+	        }
+	        // add this list
+	        for(TOPlayableGame game : games){
+	           JButton button =  createButton(game.getName());
+	            secondPanel.add(button);
+	        }
+	 //Paused Games to play :
+	        
+	       JPanel pausedPanel = new JPanel();
+	        pausedPanel.setBackground(Block223MainPage.getHeaderBackgroundFiller());
+	        
+
+			 List<TOPlayableGame> pausedGames;
+		        try{
+		        	pausedGames = Block223Controller.getPlayableGames();
+		        }
+		        catch(InvalidInputException e){
+		            // stop now to prevent future errors based on this exception
+		            return;
+		        }
+		        // add this list
+		        for(TOPlayableGame pausedGame : pausedGames){
+		        	JButton pausedGameButton;
+		        if(pausedGame.getNumber()!= -1 && pausedGame.getCurrentLevel() !=0) {
+		            pausedGameButton =  createButton(pausedGame.getName());
+		            pausedPanel.add(pausedGameButton);
+		        }
+		        	}
+	        
+	     
+	    
+	   /* public void setCurrentGameDisplay(String txt){
+	        if(currentGameDisplay == null) return;
+	        currentGameDisplay.setText(txt);
+	    }*/
+		
+		
+		/*gameButton.setBackground(new Color(179, 141, 151));
 		gameButton.setText("Game 1");
 		gameButton.setFont(new Font("Consolas",Font.PLAIN,40));
 		gameButton.setSize(100, 170);
@@ -73,22 +130,8 @@ public class PageChooseGame extends ContentPage {
 		gameButton6.setText("Game 6");
 		gameButton6.setFont(new Font("Consolas",Font.PLAIN,40));
 		gameButton6.setBackground(new Color(235, 207, 178));
-		gameButton5.setSize(100, 170);
-		
-		
-	 //JPanels for the division of games : 
-		JPanel myPanel = new JPanel();
-		JPanel bigPanel = new JPanel();
-		bigPanel.setSize(400, 450);
-		JPanel secondPanel = new JPanel();
-		secondPanel.setBackground(Block223MainPage.getHeaderBackgroundFiller());
-		secondPanel.add(gameButton2);
-		secondPanel.setAlignmentX(CENTER_ALIGNMENT);
-		secondPanel.add(gameButton4);
-		secondPanel.add(gameButton);
-		secondPanel.add(gameButton3);
-		secondPanel.add(gameButton5);
-		secondPanel.add(gameButton6);
+		gameButton5.setSize(100, 170);*/
+
 		
 		//Split properties
 		JSplitPane split = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, secondPanel ,myPanel);
@@ -101,17 +144,17 @@ public class PageChooseGame extends ContentPage {
 		JScrollPane scrollPane = new JScrollPane(myPanel);
 		 scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 	        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-	        parent.add(scrollPane);
-	        scrollPane.add(scrollBar);
-	        add(split); 
+	       
+	     add(split); 
+	     add(pausedPanel);
 	   
 	     
-	       //Listeners : 
+	     /*  //Listeners : 
 	    	gameButton.addActionListener(new java.awt.event.ActionListener() {
 				public void actionPerformed(java.awt.event.ActionEvent evt) {
 					gameButtonActionPerformed(evt);
 				}
-			});
+			});*/
 	        
 	    
 	} 
