@@ -45,7 +45,7 @@ public class PageLogout extends ContentPage {
 	//Constructor method
 	//*******************
 	public PageLogout(Block223MainPage parent) {
-		super(parent);
+		super(parent,  JPanelWithBackground.Background.general);
 		setLayout(new GridLayout(4,1));
 
 		//******************
@@ -53,22 +53,31 @@ public class PageLogout extends ContentPage {
 		//******************
 		//Welcome page panel
 		JPanel welcomePanel = new JPanelWithBackground(Background.header, new BorderLayout());
+		JPanel welcomePanel2 = new JPanelWithBackground(Background.header, new BorderLayout());
 		JLabel welcomeLabel = new JLabel("Welcome to", JLabel.CENTER);
+		welcomeLabel.setFont(new Font("Consolas",Font.PLAIN,55));
 		JLabel welcomeLabel2 = new JLabel("Block223", JLabel.CENTER);
 		welcomeLabel.setForeground(Block223MainPage.getForegroundForBackground());
-		welcomeLabel.setFont(new Font("Consolas",Font.PLAIN,55));
 		welcomeLabel2.setForeground(Block223MainPage.getForegroundForBackground());
 		welcomeLabel2.setFont(titleFont);
 		welcomePanel.add(welcomeLabel);
-		welcomePanel.add(welcomeLabel2);
+		welcomePanel2.add(welcomeLabel2);
+		add(welcomePanel);
+		//Blank panel : 
+		JPanel blank = new JPanel();
+		JLabel nothing = new JLabel(" ");
+		blank.add(nothing);
+		blank.setOpaque(false);
+		//add(blank);
 
 		//Buttons 
 		//Create game button panel
-		JPanel createGameBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
+		JPanel createGameBtnPanel = new JPanelWithBackground(Background.header, new FlowLayout(FlowLayout.CENTER));
 		JButton createGameButton = createButton("Create Game");
 		createGameButton.setFont(new Font("Consolas",Font.PLAIN,25));
 		createGameBtnPanel.add(createGameButton);
-
+	
+		
 		//Log out button panel
 		JPanel logOutBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 		JButton logOutButton = createButton("Log out");
@@ -77,15 +86,13 @@ public class PageLogout extends ContentPage {
 		//****************************
 		//Adding panels to the screen
 		//****************************
-		add(welcomePanel);
+		add(welcomePanel2);
 		add(Box.createRigidArea(new Dimension(5,0)));
+		add(createGameBtnPanel);
 		//JList sideMenu = getSideMenuList();
 		//sideMenu.setVisible(false);
-		
-		if(isAdmin) {
-			add(createGameBtnPanel);
+	
 			//sideMenu.setVisible(true);
-		}
 		
 		//add(logOutBtnPanel);
 
