@@ -19,6 +19,8 @@ import javax.swing.JSplitPane;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import ca.mcgill.ecse223.block.controller.Block223Controller;
+import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
 
@@ -26,6 +28,7 @@ import ca.mcgill.ecse223.block.model.Paddle;
  * Page Welcome for the user
  * 
  * @author Imane Chafi
+ * @author Kelly Ma
  */
 
 public class PagePlayGame extends ContentPage implements Block223PlayModeInterface {
@@ -68,7 +71,34 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		// Define Labels :
 		JLabel Block223 = new JLabel(" Block 223 ");
+		String level = "";
+		try { // Obtain current level
+			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel();
+		} catch (InvalidInputException e) {
+			String error = e.getMessage();
+			new ViewError(error, true, frame);
+		}
+		JLabel currentLevel = new JLabel(level);
+		String lives = "";
+		try { // Obtain current level
+			level = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives();
+		} catch (InvalidInputException e) {
+			String error = e.getMessage();
+			new ViewError(error, true, frame);
+		}
+		JLabel nrLives = new JLabel(lives);
+		String score = "";
+		try { // Obtain current level
+			level = "Score: " + Block223Controller.getCurrentPlayableGame().getScore();
+		} catch (InvalidInputException e) {
+			String error = e.getMessage();
+			new ViewError(error, true, frame);
+		}
+		JLabel currentScore = new JLabel(score);
 		Block223.setFont(new Font("Consolas", Font.PLAIN, 50));
+		currentLevel.setFont(new Font("Consolas", Font.PLAIN, 20));
+		nrLives.setFont(new Font("Consolas", Font.PLAIN, 20));
+		currentScore.setFont(new Font("Consolas", Font.PLAIN, 20));
 		// Block223.setBorder(blueline);
 		Block223.setForeground(new Color(227, 228, 219));
 		JLabel hallOfFameLabel = new JLabel(" Hall of Fame ");
@@ -80,6 +110,9 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		// Add labels to panels :
 		playerPane.add(Block223);
+		playerPane.add(currentLevel);
+		playerPane.add(nrLives);
+		playerPane.add(currentScore);
 		hallOfFamePane.setLayout(new BorderLayout());
 		hallOfFamePane.add(hallOfFameLabel, BorderLayout.NORTH);
 		hallOfFamePane.add(nextLevelPane);
