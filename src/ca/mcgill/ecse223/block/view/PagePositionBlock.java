@@ -280,26 +280,32 @@ public class PagePositionBlock extends ContentPage {
 	        windowHolder = new JPanel(new BorderLayout());
 	        windowHolder.setBorder(BorderFactory.createLineBorder(Color.darkGray));
 	        setupTopMenu();
-	        JPanel grid = new JPanel(new GridLayout(15,15));
-	        for (int row = 0; row < 15; row++) {
-                for (int col = 0; col < 15; col++) {
+	        JPanel grid = new JPanel(new GridLayout(16,16));
+	        for (int row = 0; row < 16; row++) {
+                for (int col = 0; col < 16; col++) {
 
                     CellPane cellPane = new CellPane();
                     Border border = null;
-                    if (row < 14) {
-                        if (col < 14) {
+                    if (row == 0 && col == 0) {
+                    	cellPane.add(new JLabel("Y \\ X"));
+                    } else if (row == 0) {
+                    	cellPane.add(new JLabel(""+col));
+                	} else if (col == 0) {
+                    	cellPane.add(new JLabel(""+row));
+                    } else if (row < 15) {
+                        if (col < 15) {
                             border = new MatteBorder(1, 1, 0, 0, Color.GRAY);
                         } else {
                             border = new MatteBorder(1, 1, 0, 1, Color.GRAY);
                         }
                     } else {
-                        if (col < 14) {
+                        if (col < 15) {
                             border = new MatteBorder(1, 1, 1, 0, Color.GRAY);
                         } else {
                             border = new MatteBorder(1, 1, 1, 1, Color.GRAY);
                         }
                     }
-                	TOGridCell cell = coordInList(col+1, row+1, assignments);
+                	TOGridCell cell = coordInList(col, row, assignments);
                 	if (cell != null)
                 		cellPane.setBackground(new Color(cell.getRed(), cell.getGreen(), cell.getBlue()));
                     cellPane.setBorder(border);
