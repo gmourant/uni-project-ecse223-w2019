@@ -107,7 +107,7 @@ public class PageLogin extends ContentPage {
         JButton signUpButton = new JButton("Sign Up!");
         signUpButton.setForeground(new Color(179,141, 151));
         signUpButton.setFont(new Font("Consolas", Font.PLAIN, 20));
-        signUpButton.setBackground(Block223MainPage.getButtonBackground());
+        signUpButton.setBackground(Block223MainPage.getDefaultForeground());
         //signUpButton.setForeground(Color.BLUE);
         JLabel recommendSignUp = new JLabel("Don't have an account?");
         recommendSignUp.setFont(new Font("Consolas", Font.PLAIN, 18));
