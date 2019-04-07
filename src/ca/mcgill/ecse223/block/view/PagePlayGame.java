@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -21,8 +22,10 @@ import javax.swing.border.LineBorder;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
+import ca.mcgill.ecse223.block.controller.TOHallOfFame;
 
 /**
  * Page Welcome for the user
@@ -122,10 +125,33 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		startButtonPanel.add(startGame);
 		hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
 
-		// hallOfFamePane.add(next,previous);
-		// hallOfFamePane.add(previous, BorderLayout.PAGE_END);
-		// hallOfFamePane.add(next, BorderLayout.PAGE_END);
-		// Create a split pane with the two scroll panes in it.
+		//Adding Labels for the HallOfFame : 
+		 TOHallOfFame hallOfFameEntries;
+	        try{
+	            hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
+	        }
+	        catch(InvalidInputException e){
+	            displayError(e.getMessage(), true);
+	            // stop now to prevent future errors based on this exception
+	            return;
+	        }
+	        // add this list
+	       List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+	       for( TOHallOfFameEntry entry : hallOfFame) { 
+	    	   String name = entry.getPlayername();
+	    	   int scoring = entry.getScore();
+	    	   int position = entry.getPosition();
+	    	   JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
+	    	   hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
+	    	   
+	    	   
+	       }
+		
+	       JLabel test = new JLabel("test");
+	       JLabel test2 = new JLabel("test2");
+	       hallOfFamePane.add(test);
+	       hallOfFamePane.add(test2);
+		
 
 		// Provide minimum sizes for the two components in the split pane
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
@@ -154,7 +180,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// ***********************
 		// Adding ActionListener
 		// ***********************
-		StartButton.addActionListener(new java.awt.event.ActionListener() {
+		startGame.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				StartButton.setVisible(false); // Remove
 
