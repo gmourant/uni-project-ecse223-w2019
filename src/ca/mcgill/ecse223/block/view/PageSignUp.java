@@ -36,8 +36,8 @@ public class PageSignUp extends ContentPage{
 	
 	
 	//UI elements
-	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
-	private static Font titleFont = new Font("Century Gothic",Font.BOLD,20);
+    private static Font defaultFont = new Font("Consolas", Font.PLAIN, 14);
+    private static Font titleFont = new Font("Consolas", Font.PLAIN, 50);
 	
 	JTextField usernameTextField;
 	JPasswordField playerPasswordPField;
@@ -47,28 +47,28 @@ public class PageSignUp extends ContentPage{
 	//Constructor method
 	//*******************
 	public PageSignUp(Block223MainPage frame) {
-            super(frame, JPanelWithBackground.Background.general);
-            setLayout(new GridLayout(8,1));
+		super(frame, JPanelWithBackground.Background.general);
+		setLayout(new GridLayout(8,1));
 
-            //*****************
+		//*****************
 	    //UI Sign Up elements
 	    //*****************
-            //Sign up elements 
-            Border border = BorderFactory.createLineBorder(Block223MainPage.getHeaderBackgroundFiller(), 3);
+		//Sign up elements 
+		Border border = BorderFactory.createLineBorder(Block223MainPage.getHeaderBackgroundFiller(), 3);
 
-            //Title page panel
-            JPanel titlePanel = new JPanelWithBackground(Background.header, new BorderLayout());
-            JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
-            titleLabel.setFont(titleFont);
-            titleLabel.setForeground(Block223MainPage.getForegroundForBackground());
-            titlePanel.add(titleLabel, BorderLayout.CENTER);
+		//Title page panel
+		JPanel titlePanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
+		JLabel titleLabel = new JLabel("BLOCK223", JLabel.CENTER);
+		titleLabel.setFont(titleFont);
+		titleLabel.setForeground(Block223MainPage.getForegroundForBackground());
+		titlePanel.add(titleLabel, BorderLayout.CENTER);
 
-            //Username label panel
+		//Username label panel
 	    JPanel usernameLabelPanel = 
                     new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel usernameLabel = new JLabel("         Username:");
 	    usernameLabel.setFont(defaultFont);
-            usernameLabel.setForeground(Block223MainPage.getDefaultForeground());
+		usernameLabel.setForeground(Block223MainPage.getDefaultForeground());
 	    usernameLabel.setHorizontalAlignment(JLabel.LEFT);
 	    usernameLabelPanel.add(usernameLabel, BorderLayout.WEST);
 	    
@@ -87,7 +87,7 @@ public class PageSignUp extends ContentPage{
                     new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel playerPasswordLabel = new JLabel("         Player password:");
 	    playerPasswordLabel.setFont(defaultFont);
-            playerPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
+		playerPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
 	    playerPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
 	    playerPwordLabelPanel.add(playerPasswordLabel, BorderLayout.WEST);
 	    
@@ -104,7 +104,7 @@ public class PageSignUp extends ContentPage{
                     new JPanelWithBackground(Background.transparent, new BorderLayout());
 	    JLabel adminPasswordLabel = new JLabel("         Admin password (optional):");
 	    adminPasswordLabel.setFont(defaultFont);
-            adminPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
+		adminPasswordLabel.setForeground(Block223MainPage.getDefaultForeground());
 	    adminPasswordLabel.setHorizontalAlignment(JLabel.LEFT);
 	    adminPwordLabelPanel.add(adminPasswordLabel, BorderLayout.WEST);
 	    
@@ -142,9 +142,10 @@ public class PageSignUp extends ContentPage{
 	    		signUpButtonActionPerformed(evt);
 	    	}
 	    });
-	    
-	    
-	}//End of PageSignUp constructor
+   
+	}
+
+	//End of PageSignUp constructor
 	
 	//*******************
 	//RefreshData method
@@ -175,5 +176,34 @@ public class PageSignUp extends ContentPage{
 		
 		changePage(Block223MainPage.Page.login);
 	}
+	
+	@Override
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g); //ALWAYS call this method first!
+	    //g.drawRect(60, 100, 50, 50); //Draws square
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(30, 60, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(235, 207, 178));
+	    g.fillRect(60, 30, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(90, 0, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(235, 207, 178));
+	    g.fillRect(30, 0, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(480, 360, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(235, 207, 178));
+	    g.fillRect(510, 330, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(450, 390, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(235, 207, 178));
+	    g.fillRect(510, 390, 30, 30); //Fills a square
+	    }
 
 }//End of PageSignUp class

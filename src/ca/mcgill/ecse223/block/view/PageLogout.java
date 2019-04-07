@@ -1,3 +1,4 @@
+
 package ca.mcgill.ecse223.block.view;
 
 import java.awt.BorderLayout;
@@ -27,6 +28,7 @@ import javax.swing.plaf.ColorChooserUI;
 import ca.mcgill.ecse223.block.application.Block223Application;
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.model.Admin;
 import ca.mcgill.ecse223.block.view.PageLogin;
 import ca.mcgill.ecse223.block.controller.TOUserMode;
 import static ca.mcgill.ecse223.block.controller.Block223Controller.getUserMode;
@@ -52,8 +54,8 @@ public class PageLogout extends ContentPage {
 	}
 	
 	//UI elements
-	private static Font defaultFont = new Font("Century Gothic",Font.PLAIN,14);
-	private static Font titleFont = new Font("Century Gothic",Font.PLAIN,20);
+    private static Font defaultFont = new Font("Consolas", Font.PLAIN, 14);
+    private static Font titleFont = new Font("Consolas", Font.PLAIN, 40);
 
 	//*******************
 	//Constructor method
@@ -61,23 +63,28 @@ public class PageLogout extends ContentPage {
 	public PageLogout(Block223MainPage parent) {
 		super(parent);
 		setLayout(new GridLayout(4,1));
-		setBackground(Color.WHITE);
+		setBackground(Block223MainPage.getUIBackground());
 
 		//******************
 		//UI Logout elements
 		//******************
 		//Welcome page panel
 		JPanel welcomePanel = new JPanelWithBackground(JPanelWithBackground.Background.header, new BorderLayout());
-		JLabel welcomeLabel = new JLabel("Welcome to BLOCK223", JLabel.CENTER);
-                welcomeLabel.setForeground(Block223MainPage.getForegroundForBackground());
-		welcomeLabel.setFont(titleFont);
-		welcomePanel.add(welcomeLabel, BorderLayout.CENTER);
+		JLabel welcomeLabel = new JLabel("Welcome to", JLabel.CENTER);
+		JLabel welcomeLabel2 = new JLabel("Block223", JLabel.CENTER);
+		welcomeLabel.setForeground(Block223MainPage.getForegroundForBackground());
+		welcomeLabel.setFont(new Font("Consolas",Font.PLAIN,55));
+		welcomeLabel2.setForeground(Block223MainPage.getForegroundForBackground());
+		welcomeLabel2.setFont(titleFont);
+		welcomePanel.add(welcomeLabel);
+		welcomePanel.add(welcomeLabel2);
 
 		//Buttons 
 		//Create game button panel
 		JPanel createGameBtnPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		createGameBtnPanel.setBackground(Color.WHITE);
+		createGameBtnPanel.setBackground(Block223MainPage.getUIBackground());
 		JButton createGameButton = createButton("Create Game");
+		createGameButton.setFont(new Font("Consolas",Font.PLAIN,25));
 		createGameBtnPanel.add(createGameButton);
 
 		//Log out button panel
@@ -90,6 +97,7 @@ public class PageLogout extends ContentPage {
 		//Adding panels to the screen
 		//****************************
 		add(welcomePanel);
+		add(welcomePanel2);
 		add(Box.createRigidArea(new Dimension(5,0)));
 		//JList sideMenu = getSideMenuList();
 		//sideMenu.setVisible(false);
@@ -117,6 +125,55 @@ public class PageLogout extends ContentPage {
 		});
 
 	}//End of PageLogout constructor
+	
+	protected void paintComponent(Graphics g) {
+	    super.paintComponent(g); //ALWAYS call this method first!
+	    //g.drawRect(60, 100, 50, 50); //Draws square
+	    //g.setColor(new Color(179,141, 151));
+	   // g.fillRect(290, 280, 30, 30); //Fills a square
+	    
+	    //g.setColor(new Color(227, 228, 219));
+	    //g.fillRect(190, 280, 30, 30); //Fills a square
+	    
+	    //g.setColor(new Color(179,141, 151));
+	   // g.fillRect(90, 280, 30, 30); //Fills a square
+	  
+	    //Middle Blocks Pattern
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(140, 280, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(240, 280, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(340, 280, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(40, 280, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(290, 230, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(227, 228, 219));
+	    g.fillRect(190, 230, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(90, 230, 30, 30); //Fills a square
+	    
+	    //g.setColor(new Color(227, 228, 219));
+	    //g.fillRect(140, 230, 30, 30); //Fills a square
+	    
+	    //g.setColor(new Color(179,141, 151));
+	    //g.fillRect(240, 230, 30, 30); //Fills a square
+	    
+	   g.setColor(new Color(227, 228, 219));
+	    g.fillRect(370, 230, 30, 30); //Fills a square
+	    
+	    g.setColor(new Color(179,141, 151));
+	    g.fillRect(5, 230, 30, 30); //Fills a square
+	  
+	    }
+
 
 	//***********************
 	//ActionPerformed methods

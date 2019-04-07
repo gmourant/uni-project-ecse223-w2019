@@ -3,8 +3,9 @@
 
 package ca.mcgill.ecse223.block.model;
 import java.io.Serializable;
-import java.awt.geom.QuadCurve2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.geom.Line2D;
+import ca.mcgill.ecse223.block.model.BouncePoint.BounceDirection;
 import java.util.*;
 
 // line 112 "../../../../../Block223Persistence.ump"
@@ -410,7 +411,7 @@ public class PlayedGame implements Serializable
       case Moving:
         if (hitPaddle())
         {
-        // line 15 "../../../../../Block223States.ump"
+        // line 18 "../../../../../Block223States.ump"
           doHitPaddleOrWall();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
@@ -418,7 +419,7 @@ public class PlayedGame implements Serializable
         }
         if (isOutOfBoundsAndLastLife())
         {
-        // line 16 "../../../../../Block223States.ump"
+        // line 19 "../../../../../Block223States.ump"
           doOutOfBounds();
           setPlayStatus(PlayStatus.GameOver);
           wasEventProcessed = true;
@@ -426,7 +427,7 @@ public class PlayedGame implements Serializable
         }
         if (isOutOfBounds())
         {
-        // line 17 "../../../../../Block223States.ump"
+        // line 20 "../../../../../Block223States.ump"
           doOutOfBounds();
           setPlayStatus(PlayStatus.Paused);
           wasEventProcessed = true;
@@ -434,7 +435,7 @@ public class PlayedGame implements Serializable
         }
         if (hitLastBlockAndLastLevel())
         {
-        // line 18 "../../../../../Block223States.ump"
+        // line 21 "../../../../../Block223States.ump"
           doHitBlock();
           setPlayStatus(PlayStatus.GameOver);
           wasEventProcessed = true;
@@ -442,7 +443,7 @@ public class PlayedGame implements Serializable
         }
         if (hitLastBlock())
         {
-        // line 19 "../../../../../Block223States.ump"
+        // line 22 "../../../../../Block223States.ump"
           doHitBlockNextLevel();
           setPlayStatus(PlayStatus.Ready);
           wasEventProcessed = true;
@@ -450,7 +451,7 @@ public class PlayedGame implements Serializable
         }
         if (hitBlock())
         {
-        // line 20 "../../../../../Block223States.ump"
+        // line 23 "../../../../../Block223States.ump"
           doHitBlock();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
@@ -458,13 +459,13 @@ public class PlayedGame implements Serializable
         }
         if (hitWall())
         {
-        // line 21 "../../../../../Block223States.ump"
+        // line 24 "../../../../../Block223States.ump"
           doHitPaddleOrWall();
           setPlayStatus(PlayStatus.Moving);
           wasEventProcessed = true;
           break;
         }
-        // line 22 "../../../../../Block223States.ump"
+        // line 25 "../../../../../Block223States.ump"
         doHitNothingAndNotOutOfBounds();
         setPlayStatus(PlayStatus.Moving);
         wasEventProcessed = true;
@@ -484,11 +485,11 @@ public class PlayedGame implements Serializable
     switch(playStatus)
     {
       case Ready:
-        // line 10 "../../../../../Block223States.ump"
+        // line 13 "../../../../../Block223States.ump"
         doSetup();
         break;
       case GameOver:
-        // line 28 "../../../../../Block223States.ump"
+        // line 31 "../../../../../Block223States.ump"
         doGameOver();
         break;
     }
@@ -765,596 +766,910 @@ public class PlayedGame implements Serializable
    * Guards
    * 
    * This returns true if the ball hits the paddle.
+   * 
    * @author Kelly Ma
    * @return Whether or not the ball hits paddle
    */
-  // line 40 "../../../../../Block223States.ump"
+  // line 44 "../../../../../Block223States.ump"
    private boolean hitPaddle(){
     BouncePoint bp = calculateBouncePointPaddle();
-    setBounce(bp);
-    if (bp != null) return true;
-    return false;
+		setBounce(bp);
+		return bp != null;
   }
 
 
   /**
    * 
    * This returns true if the ball is out of bounds and is last life.
+   * 
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 52 "../../../../../Block223States.ump"
+  // line 56 "../../../../../Block223States.ump"
    private boolean isOutOfBoundsAndLastLife(){
     boolean outOfBounds = false;
-    if(lives == 1) outOfBounds = isBallOutOfBounds();
-    return outOfBounds;
+		if (this.getLives() == 1)
+			outOfBounds = isBallOutOfBounds();
+		return outOfBounds;
   }
 
 
   /**
    * 
    * This returns true if the ball is out of bounds.
+   * 
    * @author Georges Mourant
    * @return if ball is out of bounds and last life
    */
-  // line 63 "../../../../../Block223States.ump"
+  // line 69 "../../../../../Block223States.ump"
    private boolean isOutOfBounds(){
     return isBallOutOfBounds();
   }
 
-  // line 67 "../../../../../Block223States.ump"
+  // line 74 "../../../../../Block223States.ump"
    private boolean hitLastBlockAndLastLevel(){
-    Game game = this.getGame();
-	int nrLevels = game.numberOfLevels();
+    // Obtain current game, get number of levels
+		Game game = this.getGame();
+		int nrLevels = game.numberOfLevels();
 
-	this.setBounce(null);
+		// Remove bouncepoint
+		this.setBounce(null);
 
-	if(nrLevels == currentLevel) {
-		int nrBlocks = numberOfBlocks();
-		if(nrBlocks == 1) {
-			PlayedBlockAssignment block = this.getBlock(0);
-			BouncePoint bp = calculateBouncePointBlock(block);
-			setBounce(bp);
-			return (bp!=null);
+		// Check if game is at last level
+		if (nrLevels == currentLevel) {
+			int nrBlocks = numberOfBlocks();
+			// Check if game is at the last block
+			if (nrBlocks == 1) {
+				PlayedBlockAssignment pblock = this.getBlock(0);
+				BouncePoint bp = calculateBouncePointBlock(pblock);
+				setBounce(bp);
+				return (bp != null);
+			}
 		}
-	}
-    return false;
+		return false;
   }
 
 
   /**
    * 
    * This method returns true if the ball hits the last block.
+   * 
    * @author Mathieu Bissonnette
    */
-  // line 90 "../../../../../Block223States.ump"
+  // line 103 "../../../../../Block223States.ump"
    private boolean hitLastBlock(){
-    int nrBlocks = numberOfBlocks();
-    setBounce(null);
-    if (nrBlocks == 1) {
-        PlayedBlockAssignment block = getBlock(0);
-        BouncePoint bp = calculateBouncePointBlock(block);
-        setBounce(bp);
-        return (bp != null);
-    }
-    return false;
+    // Check # of blocks and set bouncepoint to null
+		int nrBlocks = numberOfBlocks();
+		setBounce(null);
+
+		// Check if there's only one block left (last block)
+		if (nrBlocks == 1) {
+			PlayedBlockAssignment block = this.getBlock(0);
+			BouncePoint bp = calculateBouncePointBlock(block);
+			setBounce(bp);
+			return (bp != null);
+		}
+		return false;
   }
 
 
   /**
    * 
    * This method returns true if the ball hits a block.
+   * 
    * @author Mathieu Bissonnette
    */
-  // line 107 "../../../../../Block223States.ump"
+  // line 126 "../../../../../Block223States.ump"
    private boolean hitBlock(){
-    int nrBlocks = numberOfBlocks();
-    setBounce(null);
-    for (int i = 0; i <= (nrBlocks - 1); i++) {
-        PlayedBlockAssignment block = getBlock(i);
-        BouncePoint bp = calculateBouncePointBlock(block);
-        bounce = getBounce();
-        boolean closer = isCloser(bp, bounce);
-        if (closer)
-            setBounce(bp);
-    }
-    return (getBounce() != null);
+    // Check # blocks, set bouncepoint to null
+		int nrBlocks = numberOfBlocks();
+		setBounce(null);
+
+		// Calculate bouncepoint for block in game
+		for (PlayedBlockAssignment block : getBlocks()) {
+			BouncePoint bp = calculateBouncePointBlock(block);
+			bounce = getBounce(); // Get their respective bounce point
+			boolean bpIsCloser = isCloser(bp, bounce); // Check if the bouncepoint is closer
+			if (bpIsCloser) {
+				bp.setHitBlock(block);
+				setBounce(bp);
+			}
+		}
+		return getBounce() != null;
   }
 
 
   /**
    * 
    * This returns true if the ball hits a wall.
+   * 
    * @author Kelly Ma
    * @return Whether or not the ball hits wall
    */
-  // line 126 "../../../../../Block223States.ump"
+  // line 151 "../../../../../Block223States.ump"
    private boolean hitWall(){
     BouncePoint bp = calculateBouncePointWall();
-    setBounce(bp);
-    if (bp != null) return true;
-    return false;
+		setBounce(bp);
+		return bp != null;
   }
 
 
   /**
    * Actions
    * 
-   * Public method used to get a random number
-   * @author https://dzone.com/articles/random-number-generation-in-java
-   * @return double value
+   * This private method returns the setup for the Played Game by resetting the
+   * ball positions and paddle positions and by adding random block positions if
+   * there is less blocks than the set number of blocks/level.
    * 
+   * @author Imane Chafi
    */
-  // line 140 "../../../../../Block223States.ump"
-   public static  int getRandomInt(){
-    Random rand = new Random();
- 		//obtain number between 0-49
- 	    int x = rand.nextInt(50);
- 	    return x;
-  }
-
-  // line 146 "../../../../../Block223States.ump"
-   public static  int getRandomInt2(){
-    Random rand = new Random();
- 		//obtain number between 0-4
- 	    int x = rand.nextInt(4);
- 	    return x;
-  }
-
-
-  /**
-   * 
-   * This private method returns the setup for the Played Game
-   * by resetting the ball positions and paddle positions and by
-   * adding random block positions if there is less blocks than the 
-   * set number of blocks/level.
-   * @author Imane Chafi 
-   * 
-   */
-  // line 160 "../../../../../Block223States.ump"
+  // line 167 "../../../../../Block223States.ump"
    private void doSetup(){
-    this.resetCurrentBallX();
+    // Reset current ball locations, ball directions, and paddle
+		resetCurrentBallX();
+		resetCurrentBallY();
+		resetBallDirectionX();
+		resetBallDirectionY();
+		resetCurrentPaddleX();
+
+		// Obtain game, level, and all block assignments
+		Game game = getGame();
+		Level level = game.getLevel(currentLevel - 1);
+		List<BlockAssignment> assignments = level.getBlockAssignments();
+
+		// Create a new PlayedBlockAssignment for each assignment in the list of
+		// assignments
+		for (BlockAssignment assignment : assignments) {
+			new PlayedBlockAssignment(
+					Game.WALL_PADDING
+							+ (Block.SIZE + Game.COLUMNS_PADDING) * (assignment.getGridHorizontalPosition() - 1),
+					Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (assignment.getGridVerticalPosition() - 1),
+					assignment.getBlock(), this);
+		}
+
+		// Create random locations if the number of blocks is less than the desired
+		// number
+		while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
+			// Instantiate a randomizer
+			Random rand = new Random();
+			// Generate a random position
+			int x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * rand.nextInt(15);
+			int y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * rand.nextInt(15);
+			// Check if an assignemnt already exists in the location
+			boolean blockFound = false;
+			for (PlayedBlockAssignment pbassignment : getBlocks()) {
+				if (pbassignment.getX() == x && pbassignment.getY() == y) {
+					blockFound = true;
+					break;
+				}
+			}
+			// If no block currently exists, add the random block
+			if (!blockFound)
+				new PlayedBlockAssignment(x, y, game.getRandomBlock(), this);
+		}
+  }
+
+  // line 213 "../../../../../Block223States.ump"
+   private void doHitPaddleOrWall(){
+    bounceBall(); // Method described later
+  }
+
+  // line 218 "../../../../../Block223States.ump"
+   private void doOutOfBounds(){
+    // # of lives decreases
+		this.setLives(lives - 1);
+
+		// Reset ball location, directions, and paddle position
+		this.resetCurrentBallX();
 		this.resetCurrentBallY();
 		this.resetBallDirectionX();
 		this.resetBallDirectionY();
 		this.resetCurrentPaddleX();
-		this.getGame();
-		Level level = game.getLevel(getCurrentLevel() - 1);
-		List<BlockAssignment> assignments = level.getBlockAssignments();
-
-		for (BlockAssignment a : assignments) {
-			new PlayedBlockAssignment(
-					Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (a.getGridHorizontalPosition() - 1),
-					Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (a.getGridVerticalPosition() - 1),
-					a.getBlock(), this);
-
-		}
-		// Initializing the x and y variables before the while loop
-		int x = getRandomInt();
-		int y = getRandomInt();
-		while (numberOfBlocks() < game.getNrBlocksPerLevel()) {
-			// if chosen, try next position starting from randomly chosen position
-			BlockAssignment taken = level.findBlockAssignment(x, y);
-			if (taken != null) {
-				x++;
-				if (x > 15) {
-					y++;
-					x = 1;
-				}
-				if (y > 15)
-					y = 1;
-
-			}
-			// going to the right, then next row until last row
-			// then 1/1 until empty position found.
-			// convert to x/y coordinates
-			x = Game.WALL_PADDING + (Block.SIZE + Game.COLUMNS_PADDING) * (x - 1);
-			y = Game.WALL_PADDING + (Block.SIZE + Game.ROW_PADDING) * (y - 1);
-
-			new PlayedBlockAssignment(x, y, game.getRandomBlock(), this);
-		}
   }
 
-  // line 203 "../../../../../Block223States.ump"
-   private void doHitPaddleOrWall(){
-    bounceBall();
-  }
-
-  // line 207 "../../../../../Block223States.ump"
-   private void doOutOfBounds(){
-    setLives(lives-1);
-    resetCurrentBallX();
-    resetCurrentBallY();
-    resetBallDirectionX();
-    resetBallDirectionY();
-    resetCurrentPaddleX();
-  }
-
-  // line 216 "../../../../../Block223States.ump"
+  // line 231 "../../../../../Block223States.ump"
    private void doHitBlock(){
-    int score = getScore();
-    BouncePoint bounce = getBounce();
-    PlayedBlockAssignment pblock = bounce.getHitBlock();
-    Block block = pblock.getBlock();
-    int bscore = block.getPoints();
-    setScore(score + bscore);
-    pblock.delete();
-    bounceBall();
+    // Get score
+		int score = getScore();
+		bounce = getBounce();
+		PlayedBlockAssignment pblock = bounce.getHitBlock();
+		Block block = pblock.getBlock();
+
+		// Get number of points for the block hit
+		// Add this to the score
+		int bscore = block.getPoints();
+		this.setScore(score + bscore);
+
+		// Delete the specific block assignment and bounce the ball
+		pblock.delete();
+		bounceBall();
   }
 
-  // line 227 "../../../../../Block223States.ump"
+  // line 249 "../../../../../Block223States.ump"
    private void doHitBlockNextLevel(){
-    doHitBlock();
-		   int level = getCurrentLevel();
-		   setCurrentLevel(level+1);
-		   setCurrentPaddleLength(getGame().getPaddle().getMaxPaddleLength() -
-				   (getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength())/
-				   (getGame().numberOfLevels() - 1) * (getCurrentLevel() - 1));
-		   setWaitTime(INITIAL_WAIT_TIME * Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(),
-				   (getCurrentLevel() - 1)));
+    // Block is hit
+		doHitBlock();
+		int level = getCurrentLevel();
+
+		// Obtain the next level
+		setCurrentLevel(level + 1);
+
+		// Set the next paddle length
+		setCurrentPaddleLength(getGame().getPaddle().getMaxPaddleLength()
+				- (getGame().getPaddle().getMaxPaddleLength() - getGame().getPaddle().getMinPaddleLength())
+						/ (getGame().numberOfLevels() - 1) * (getCurrentLevel() - 1));
+
+		// Add wait time
+		setWaitTime(INITIAL_WAIT_TIME
+				* Math.pow(getGame().getBall().getBallSpeedIncreaseFactor(), (getCurrentLevel() - 1)));
   }
 
 
   /**
    * 
-   * This method is performed when the ball is bounced after hitting the paddle, block, or wall.
+   * This method is performed when the ball is bounced after hitting the paddle,
+   * block, or wall.
+   * 
    * @author Kelly Ma
    */
-  // line 242 "../../../../../Block223States.ump"
+  // line 275 "../../../../../Block223States.ump"
    private void bounceBall(){
-    BouncePoint bp = getBounce(); // Calculate bounce point
-		double newBallDirectionX = ballDirectionX; // Create variables to store new X & Y directions
-		double newBallDirectionY = ballDirectionY;
-		if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_Y)) { // Check direction at bounce point
-			newBallDirectionY = -1 * ballDirectionY; // Flip Y direction
-			if (ballDirectionX * ballDirectionY < 0) { // Check if product of X and Y direction is < 0
-				newBallDirectionX = ballDirectionX + 0.1 * newBallDirectionY;
-			} else {
-				newBallDirectionX = ballDirectionX + 0.1 * ballDirectionY;
-			}
-		} else if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_X)) { // Check direction at bounce point
-			newBallDirectionX = -1 * ballDirectionX; // Flip X direction
-			if (ballDirectionX * ballDirectionY < 0) { // Check if product of X and Y direction is < 0
-				newBallDirectionY = ballDirectionY + 0.1 * newBallDirectionX;
-			} else {
-				newBallDirectionY = ballDirectionY + 0.1 * ballDirectionX;
-			}
-		} else if (bp.getDirection().equals(BouncePoint.BounceDirection.FLIP_BOTH)) { // Check if both are flipped
-			newBallDirectionX = -1 * ballDirectionX;
-			newBallDirectionY = -1 * ballDirectionY;
-		}
+    // Obtain the bounce points
+		BouncePoint bp = getBounce();
 
-		setCurrentBallY(bp.getY()); // Set current ball positions
-		setCurrentBallX(bp.getX());
-		setBallDirectionX(newBallDirectionX); // Set new ball directions
-		setBallDirectionY(newBallDirectionY);
+		// Get current ball coordinates
+		double currentBallX = getCurrentBallX();
+		double currentBallY = getCurrentBallY();
 
-		if (bp.hasHitBlock()) { // Check if the bounce point has a block
-			bounce.setHitBlock(null);
+		// Get upcoming ball coordinates
+		double nextBallX = bp.getX() - currentBallX;
+		double nextBallY = bp.getY() - currentBallY;
+
+		// Get remaining distance left
+		double distanceLeftX = getBallDirectionX() - nextBallX;
+		double distanceLeftY = getBallDirectionY() - nextBallY;
+
+		if (distanceLeftX == 0 && distanceLeftY == 0) {
+			// If there is no distance left, set the ball positions as current ones
+			setCurrentBallX(bp.getX());
+			setCurrentBallY(bp.getY());
+		} else {
+			// Create variables to store new ball positions and directions
+			double newDirX, newDirY, newCurrentBallX, newCurrentBallY;
+			// First, check if the direction change is in X
+			if (bp.getDirection() == BounceDirection.FLIP_X) {
+				newDirX = -getBallDirectionX();
+				newDirY = getBallDirectionY() + getUnitValue(getBallDirectionY()) * 0.1 * Math.abs(newDirX);
+				if (getBallDirectionX() != 0) {
+					newCurrentBallX = bp.getX() + distanceLeftX * newDirX / getBallDirectionX();
+				} else {
+					newCurrentBallX = bp.getX() + distanceLeftY * newDirX / getBallDirectionY();
+				}
+				if (getBallDirectionY() != 0) {
+					newCurrentBallY = bp.getY() + distanceLeftY * newDirY / getBallDirectionY();
+				} else {
+					newCurrentBallY = bp.getY() + distanceLeftX * newDirY / getBallDirectionX();
+				}
+			}
+			// Check if the direction change is in Y
+			else if (bp.getDirection() == BounceDirection.FLIP_Y) {
+				newDirY = -getBallDirectionY();
+				newDirX = getBallDirectionX() + getUnitValue(getBallDirectionX()) * 0.1 * Math.abs(newDirY);
+				if (getBallDirectionX() != 0) {
+					newCurrentBallX = bp.getX() + distanceLeftX * newDirX / getBallDirectionX();
+				} else {
+					newCurrentBallX = bp.getX() + distanceLeftY * newDirX / getBallDirectionY();
+				}
+				if (getBallDirectionY() != 0) {
+					newCurrentBallY = bp.getY() + distanceLeftY * newDirY / getBallDirectionY();
+				} else {
+					newCurrentBallY = bp.getY() + distanceLeftX * newDirY / getBallDirectionX();
+				}
+			}
+			// Check if the direction change is in both
+			else {
+				newDirX = -getBallDirectionX();
+				newDirY = -getBallDirectionY();
+				if (getBallDirectionX() != 0) {
+					newCurrentBallX = bp.getX() + distanceLeftX * newDirX / getBallDirectionX();
+				} else {
+					newCurrentBallX = bp.getX() + distanceLeftY * newDirX / getBallDirectionY();
+				}
+				if (getBallDirectionY() != 0) {
+					newCurrentBallY = bp.getY() + distanceLeftY * newDirY / getBallDirectionY();
+				} else {
+					newCurrentBallY = bp.getY() + distanceLeftX * newDirY / getBallDirectionX();
+				}
+			}
+			// Set ball positions and directions
+			setCurrentBallX(newCurrentBallX);
+			setCurrentBallY(newCurrentBallY);
+			setBallDirectionX(newDirX);
+			setBallDirectionY(newDirY);
 		}
+		// Remove bounce point
+		setBounce(null);
   }
 
 
   /**
-   * Method calculateBouncePointPaddle sets the flip states of the ball 
-   * when it hits the paddle.
-   * @author Imane Chafi
-   * @return BouncePoint
+   * 
+   * This method returns a unit vector with value of either -1 or 1
+   * 
+   * @param val The current value
+   * @return A unit vector
    */
-  // line 280 "../../../../../Block223States.ump"
-   private BouncePoint calculateBouncePointPaddle(){
-    /* STEP 1 : Check  if  the  ball  segment (the  segment  determined  by 
-	   the  current  position  of  the  ball  and  the  new position of the 
-	   ball) intersects with the full box (A, B, C, E,F)*/
-	   
-	   int radius = Ball.BALL_DIAMETER/2; // Get ball radius
-	   BouncePoint bp = null; // Initialize ball's bounce point
-	   double currentBallX = this.getCurrentBallX(); // Find ball coordinates
-	   double currentBallY = this.getCurrentBallY();
-	   double nextBallX = currentBallX + this.getBallDirectionX();
-	   double nextBallY = currentBallY + this.getBallDirectionY();
-	   
-	   // Find rectangles for calculation purposes
-	 	Rectangle2D.Double rectA = new Rectangle2D.Double(currentPaddleX, Paddle.VERTICAL_DISTANCE - radius, Paddle.PADDLE_WIDTH, radius ); // Left wall of play area
-	 	Rectangle2D.Double rectB = new Rectangle2D.Double(currentPaddleX - radius, Paddle.VERTICAL_DISTANCE, radius, radius); // Top wall of play area
-	 	Rectangle2D.Double rectC = new Rectangle2D.Double(currentPaddleX + Paddle.PADDLE_WIDTH, Paddle.VERTICAL_DISTANCE, radius, radius); // Right wall of play area
-	 	Rectangle2D.Double rectE = new Rectangle2D.Double(currentPaddleX - radius, Paddle.VERTICAL_DISTANCE - radius, radius, radius); // Right wall of play area
-	 	Rectangle2D.Double rectF = new Rectangle2D.Double(currentPaddleX + Paddle.PADDLE_WIDTH, Paddle.VERTICAL_DISTANCE - radius, radius, radius); // Right wall of play area
-	 // create new QuadCurve2D.Float for E 
-		QuadCurve2D curveE = new QuadCurve2D.Float();
-		curveE.setCurve(currentPaddleX - radius, Paddle.VERTICAL_DISTANCE, currentPaddleX - ((int)(radius/(Math.sqrt(2)))), Paddle.VERTICAL_DISTANCE - ((int)(radius/(Math.sqrt(2)))), currentPaddleX, Paddle.VERTICAL_DISTANCE - radius);
-	 // create new QuadCurve2D.Float for F
-		QuadCurve2D curveF = new QuadCurve2D.Float();
-		curveF.setCurve(currentPaddleX + Paddle.PADDLE_WIDTH + radius, Paddle.VERTICAL_DISTANCE, currentPaddleX + Paddle.PADDLE_WIDTH + ((int)(radius/(Math.sqrt(2)))), Paddle.VERTICAL_DISTANCE - ((int)(radius/(Math.sqrt(2)))), currentPaddleX + Paddle.PADDLE_WIDTH, Paddle.VERTICAL_DISTANCE - radius);
-		// Check points of intersection between ball and lines
-	 	boolean intersectionA = rectA.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectA
-	 	boolean intersectionB = rectB.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectB
-	 	boolean intersectionC = rectC.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectC
-	 	boolean intersectionE = rectE.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectB
-	 	boolean intersectionF = rectF.intersectsLine(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectC
-	 	boolean intersectionECurve = curveE.intersects(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectB
-	 	boolean intersectionFCurve = curveF.intersects(currentBallX, currentBallY, nextBallX, nextBallY); // Ball intersects rectC
-	   
-	 	/*STEP 2 : For A, B, C, determine the bounce point by intersecting the
-	    ball segment with each of the yellow line segments of A, B,*/
-	 // Create a collection of bounce points to determine which is closest
-	 		List <BouncePoint> bouncePoints = new ArrayList<BouncePoint>();
-	 		
-	 		if (!intersectionA && !intersectionB && !intersectionC) { // Does not hit a hall at all
-				return null;
-			} else if (intersectionA) { // Check intersection of A 
-				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_Y);//X and Y position are set to the same nextBallX and nextBallY
-				bouncePoints.add(bp);
-			} else if (intersectionB) { // Check intersection of B 
-				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
-				bouncePoints.add(bp);
-			} else if (intersectionC) { // Check intersection of C
-				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
-				bouncePoints.add(bp);
-			}
-	 		
-	 		/*STEP  3:  For  E,  F  determine  the 
-	    bounce  point  by  intersecting  the  ball  segment  
-	    with  each  of the  circle  segments of E, */
-			else if (intersectionE || intersectionECurve) { // Check intersection of C
-				
-				//Setting the curve for E : 
-				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
-				bouncePoints.add(bp);
-			}
-			else if (intersectionF || intersectionFCurve) { // Check intersection of C
-				bp = new BouncePoint(nextBallX, nextBallY, BouncePoint.BounceDirection.FLIP_X);
-				bouncePoints.add(bp);
-			}
-	 		
-	    /*: If more than one bounce point are found, 
-	    take the bounce point that is the closest to the 
-	    current position of the ball. 
-	    The box of the bounce point determines the bounce behavior */
-	 	// Iterate through all points to find the closest one
-			BouncePoint closestPoint = null;
-	        for (BouncePoint bouncePoint : bouncePoints) {
-	        	if (isCloser(bouncePoint, closestPoint))
-	            	closestPoint = bouncePoint;
-	        }
+  // line 359 "../../../../../Block223States.ump"
+   private int getUnitValue(double val){
+    if (val >= 0) {
+			return 1;
+		}
+		return -1;
+  }
 
-			return closestPoint; // From collection of all bounce points
+
+  /**
+   * Method calculateBouncePointPaddle sets the flip states of the ball when it
+   * hits the paddle.
+   * 
+   * @author Imane Chafi
+   * 
+   * @author Kelly Ma
+   * 
+   * @return The bounce point after hitting paddle
+   */
+  // line 378 "../../../../../Block223States.ump"
+   private BouncePoint calculateBouncePointPaddle(){
+    // Obtain current ball radius, ball location, and direction
+		int radius = Ball.BALL_DIAMETER / 2;
+		double currentBallX = getCurrentBallX();
+		double currentBallY = getCurrentBallY();
+		double dX = getBallDirectionX();
+		double dY = getBallDirectionY();
+
+		// Create a line segment to check for intersection using ball's current location
+		// and next location
+		Line2D segment = new Line2D.Double(currentBallX, currentBallY, currentBallX + dX, currentBallY + dY);
+
+		// Get current paddle position, length, and width
+		double currentPaddleX = getCurrentPaddleX();
+		double currentPaddleY = getCurrentPaddleY();
+		double paddleLength = getCurrentPaddleLength();
+		int paddleWidth = Paddle.PADDLE_WIDTH;
+
+		// Create rectangles to represent the different possible bounce locations
+		Rectangle2D rectangleA = new Rectangle2D.Double(currentPaddleX, currentPaddleY - radius, paddleLength,
+				paddleWidth);
+		Rectangle2D rectangleB = new Rectangle2D.Double(currentPaddleX - radius, currentPaddleY, radius, paddleWidth);
+		Rectangle2D rectangleC = new Rectangle2D.Double(currentPaddleX + paddleLength, currentPaddleY, radius,
+				paddleWidth);
+		Rectangle2D rectangleE = new Rectangle2D.Double(currentPaddleX - radius, currentPaddleY - radius, radius,
+				radius);
+		Rectangle2D rectangleF = new Rectangle2D.Double(currentPaddleX + paddleLength, currentPaddleY - radius, radius,
+				radius);
+
+		// Create boolean values to check for intersection
+		boolean intersectionA = segment.intersects(rectangleA);
+		boolean intersectionB = segment.intersects(rectangleB);
+		boolean intersectionC = segment.intersects(rectangleC);
+		boolean intersectionE = segment.intersects(rectangleE);
+		boolean intersectionF = segment.intersects(rectangleF);
+
+		// Declare variables to store calculation values
+		double a, b, A, B, C, D, checkX, checkY, Xa, Xb, X, Y;
+
+		/*
+		 * Check for line segment's intersections with the rectangles and appropriate
+		 * edges, for each intersection
+		 */
+
+		// Intersection A
+		if (intersectionA) {
+			if (dX == 0) { // No X direction
+				return new BouncePoint(currentBallX, currentPaddleY - radius, BounceDirection.FLIP_Y);
+			} else {
+				a = dY / dX;
+				b = currentBallY - a * currentBallX;
+				checkY = currentPaddleY - radius;
+				checkX = (checkY - b) / a;
+				// Check that the next x and y coordinates are not equal to checkX and checkY
+				if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY))
+					return new BouncePoint(checkX, checkY, BounceDirection.FLIP_Y);
+			}
+		}
+
+		// Intersection B
+		if (intersectionB) {
+			if (dX != 0) {
+				a = dY / dX;
+				b = currentBallY - a * currentBallX;
+				checkX = currentPaddleX - radius;
+				checkY = a * checkX + b;
+				// Check that the next x and y coordinates are not equal to checkX and checkY
+				if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY))
+					return new BouncePoint(checkX, checkY, BounceDirection.FLIP_X);
+			}
+		}
+
+		// Intersection C
+		if (intersectionC) {
+			if (dX != 0) {
+				a = dY / dX;
+				b = currentBallY - a * currentBallX;
+				checkX = currentPaddleX + paddleLength + radius;
+				checkY = a * checkX + b;
+				// Check that the next x and y coordinates are not equal to checkX and checkY
+				if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY))
+					return new BouncePoint(checkX, checkY, BounceDirection.FLIP_X);
+			}
+		}
+
+		// Intersection E
+		// Ensure that one of dX or dY are positive
+		if (intersectionE && !(dX < 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0)
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentPaddleY) - 2 * currentPaddleX;
+			C = Math.pow(currentPaddleX, 2) + Math.pow(b - currentPaddleY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) {
+					// Flip Y if ball is move left
+					return new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+				} else {
+					return new BouncePoint(X, Y, BounceDirection.FLIP_X);
+				}
+			}
+		}
+
+		// Intersection E
+		// Ensure that dX is negative or dY is positive
+		if (intersectionF && !(dX > 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0)
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentPaddleY) - 2 * (currentPaddleX + paddleLength);
+			C = Math.pow((currentPaddleX + paddleLength), 2) + Math.pow(b - currentPaddleY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) {
+					return new BouncePoint(X, Y, BounceDirection.FLIP_X);
+				} else {
+					return new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+				}
+			}
+		}
+		// If no intersections are found, return null
+		return null;
   }
 
 
   /**
    * 
    * This method calculates the bounce point when the ball hits the wall
+   * 
    * @author Kelly Ma
    * @return the bounce point of the wall or null
    */
-  // line 365 "../../../../../Block223States.ump"
+  // line 535 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointWall(){
-    // Get current ball location and direction
+    // Get ball radius
+		double radius = (double) Ball.BALL_DIAMETER / 2;
+
+		// Obtain current ball coordinates and directions
 		double currentBallX = getCurrentBallX();
 		double currentBallY = getCurrentBallY();
 		double dX = getBallDirectionX();
 		double dY = getBallDirectionY();
 
-		// Create a list to store all bounce points
-		ArrayList<BouncePoint> bps = new ArrayList<BouncePoint>();
+		// Declare variables to store calculation values
+		double a = dY / dX;
+		double b = currentBallY - a * currentBallX;
+		double checkX, checkY;
 
-		// Calculate ball radius
-		int radius = Ball.BALL_DIAMETER / 2;
-
-		// Create rectangles for all the areas to be tested
-		Rectangle2D.Double rectA = new Rectangle2D.Double(0, 0, radius, Game.PLAY_AREA_SIDE);
-		Rectangle2D.Double rectB = new Rectangle2D.Double(0, 0, Game.PLAY_AREA_SIDE, radius);
-		Rectangle2D.Double rectC = new Rectangle2D.Double(Game.PLAY_AREA_SIDE - radius, 0, radius, Game.PLAY_AREA_SIDE);
-
-		// Check all intersections
-		boolean intersectionA = rectA.intersectsLine(currentBallX, currentBallY, dX, dY);
-		boolean intersectionB = rectB.intersectsLine(currentBallX, currentBallY, dX, dY);
-		boolean intersectionC = rectC.intersectsLine(currentBallX, currentBallY, dX, dY);
-
-		if (intersectionA && !intersectionB) { // Intersection A only
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-		}
-		if (intersectionA && intersectionB) { // Intersects A and B
-			bps.add(new BouncePoint(radius, radius, BouncePoint.BounceDirection.FLIP_BOTH)); // Flip both directions
-		}
-		if (intersectionC && intersectionB) { // Intersects C and B
-			bps.add(new BouncePoint(Game.PLAY_AREA_SIDE - radius, radius, BouncePoint.BounceDirection.FLIP_BOTH)); // Flip both directions
-		}
-		if (intersectionB && !intersectionA && !intersectionC) { // Intersects B only
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-		}
-		if (intersectionC && !intersectionB) { // Intersects C only 
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
+		// Check intersection with upper wall, side B
+		if (currentBallY + dY <= radius) {
+			// Check if top-left corner is hit
+			if (currentBallX + dX <= radius)
+				return new BouncePoint(radius, radius, BounceDirection.FLIP_BOTH);
+			// Check if top-right corner is hit
+			if (currentBallX + dX >= Game.PLAY_AREA_SIDE - radius)
+				return new BouncePoint(Game.PLAY_AREA_SIDE - radius, radius, BounceDirection.FLIP_BOTH);
+			// At this point, the ball will not hit the corners
+			// Check that the ball's X direction is not 0
+			if (dX != 0) {
+				checkY = radius;
+				checkX = (checkY - b) / a;
+				return new BouncePoint(checkX, checkY, BounceDirection.FLIP_Y);
+			} else {
+				// The ball has no X direction
+				return new BouncePoint(currentBallX, radius, BounceDirection.FLIP_Y);
+			}
 		}
 
-		// Iterate through all points to find the closest one
-		// If closestPoint is not found, returns null
-		BouncePoint closestPoint = null;
-		for (BouncePoint bouncePoint : bps) {
-			if (isCloser(bouncePoint, closestPoint))
-				closestPoint = bouncePoint;
+		// Check intersection with side A
+		if (currentBallX + dX <= radius) {
+			if (dX != 0) {
+				checkX = radius;
+				checkY = a * checkX + b;
+				return new BouncePoint(checkX, checkY, BounceDirection.FLIP_X);
+			}
 		}
 
-		return closestPoint; // From collection of all bounce points
+		// Check intersection with side C
+		if (currentBallX + dX >= Game.PLAY_AREA_SIDE - radius) {
+			if (dX != 0) {
+				checkX = Game.PLAY_AREA_SIDE - radius;
+				checkY = a * checkX + b;
+				return new BouncePoint(checkX, checkY, BounceDirection.FLIP_X);
+			}
+		}
+
+		// Return null if no bouncepoints are found
+		return null;
   }
 
 
   /**
    * 
-   * This method returns the bounce point that is the closest to the ball. 
-   * If there is no bouncePoint, it returns null.
+   * This method returns the bounce point that is the closest to the ball. If
+   * there is no bouncePoint, it returns null.
+   * 
    * @author Mathieu Bissonnette
    * @author Kelly Ma
    * @return the bounce point after hitting a block
    */
-  // line 425 "../../../../../Block223States.ump"
+  // line 601 "../../../../../Block223States.ump"
    private BouncePoint calculateBouncePointBlock(PlayedBlockAssignment block){
-    // Calculate ball radius
+    // Get current ball radius
 		int radius = Ball.BALL_DIAMETER / 2;
 
-		// Get current ball coordinates and directions
-		double currentBallX = this.getCurrentBallX();
-		double currentBallY = this.getCurrentBallY();
-		double dX = currentBallX + this.getBallDirectionX();
-		double dY = currentBallY + this.getBallDirectionY();
+		// Get current ball location and direction
+		double currentBallX = getCurrentBallX();
+		double currentBallY = getCurrentBallY();
+		double dX = getBallDirectionX();
+		double dY = getBallDirectionY();
 
-		// Add rectangles for testing
-		Rectangle2D.Double rectA = new Rectangle2D.Double(block.getX(), block.getY() - radius, Block.SIZE, radius);
-		Rectangle2D.Double rectB = new Rectangle2D.Double(block.getX() - radius, block.getY(), radius, Block.SIZE);
-		Rectangle2D.Double rectC = new Rectangle2D.Double(block.getX() + Block.SIZE, block.getY(), radius, Block.SIZE);
-		Rectangle2D.Double rectD = new Rectangle2D.Double(block.getX(), block.getY() + Block.SIZE, Block.SIZE, radius);
+		// Store segment to be used for intersections
+		Line2D segment = new Line2D.Double(currentBallX, currentBallY, currentBallX + dX, currentBallY + dY);
 
-		// Create new QuadCurve2D.Float for E
-		QuadCurve2D curveE = new QuadCurve2D.Float();
-		curveE.setCurve(block.getX() - Block.SIZE - radius, block.getY(),
-				block.getX() - Block.SIZE - ((int) (radius / (Math.sqrt(2)))),
-				block.getY() - ((int) (radius / (Math.sqrt(2)))), block.getX() - Block.SIZE, block.getY() - radius);
+		// Get current block length (same as width)
+		int blockSide = Block.SIZE;
 
-		// Create new QuadCurve2D.Float for F
-		QuadCurve2D curveF = new QuadCurve2D.Float();
-		curveF.setCurve(block.getX() + radius, block.getY(), block.getX() - ((int) (radius / (Math.sqrt(2)))),
-				block.getY() - ((int) (radius / (Math.sqrt(2)))), block.getX(), block.getY() - radius);
+		// Get current block positions
+		int currentBlockX = block.getX();
+		int currentBlockY = block.getY();
 
-		// Create new QuadCurve2D.Float for G
-		QuadCurve2D curveG = new QuadCurve2D.Float();
-		curveG.setCurve(block.getX() - Block.SIZE - radius, block.getY() - Block.SIZE,
-				block.getX() - Block.SIZE + ((int) (radius / (Math.sqrt(2)))),
-				block.getY() - Block.SIZE + ((int) (radius / (Math.sqrt(2)))), block.getX() - Block.SIZE,
-				block.getY() - Block.SIZE - radius);
+		// Create rectangles for intersection calculations
+		Rectangle2D rectangleA = new Rectangle2D.Double(currentBlockX, currentBlockY - radius, blockSide, radius);
+		Rectangle2D rectangleB = new Rectangle2D.Double(currentBlockX - radius, currentBlockY, radius, blockSide);
+		Rectangle2D rectangleC = new Rectangle2D.Double(currentBlockX + blockSide, currentBlockY, radius, blockSide);
+		Rectangle2D rectangleD = new Rectangle2D.Double(currentBlockX, currentBlockY + blockSide, blockSide, radius);
+		Rectangle2D rectangleE = new Rectangle2D.Double(currentBlockX - radius, currentBlockY - radius, radius, radius);
+		Rectangle2D rectangleF = new Rectangle2D.Double(currentBlockX + blockSide, currentBlockY - radius, radius,
+				radius);
+		Rectangle2D rectangleG = new Rectangle2D.Double(currentBlockX - radius, currentBlockY + blockSide, radius,
+				radius);
+		Rectangle2D rectangleH = new Rectangle2D.Double(currentBlockX + blockSide, currentBlockY + blockSide, radius,
+				radius);
 
-		// Create new QuadCurve2D.Float for H
-		QuadCurve2D curveH = new QuadCurve2D.Float();
-		curveH.setCurve(block.getX() + radius, block.getY() + Block.SIZE,
-				block.getX() + radius - ((int) (radius / (Math.sqrt(2)))),
-				block.getY() + Block.SIZE + ((int) (radius / (Math.sqrt(2)))), block.getX(),
-				block.getY() + Block.SIZE + radius);
+		// Create boolean values to check for intersection
+		boolean intersectionA = segment.intersects(rectangleA);
+		boolean intersectionB = segment.intersects(rectangleB);
+		boolean intersectionC = segment.intersects(rectangleC);
+		boolean intersectionD = segment.intersects(rectangleD);
+		boolean intersectionE = segment.intersects(rectangleE);
+		boolean intersectionF = segment.intersects(rectangleF);
+		boolean intersectionG = segment.intersects(rectangleG);
+		boolean intersectionH = segment.intersects(rectangleH);
 
-		// All intersections are listed below
-		boolean intersectionA = rectA.intersectsLine(currentBallX, currentBallY, dX, dY);
-		boolean intersectionB = rectB.intersectsLine(currentBallX, currentBallY, dX, dY);
-		boolean intersectionC = rectC.intersectsLine(currentBallX, currentBallY, dX, dY);
-		boolean intersectionD = rectD.intersectsLine(currentBallX, currentBallY, dX, dY);
-		boolean intersectionECurve = curveE.intersects(currentBallX, currentBallY, dX, dY);
-		boolean intersectionFCurve = curveF.intersects(currentBallX, currentBallY, dX, dY);
-		boolean intersectionGCurve = curveE.intersects(currentBallX, currentBallY, dX, dY);
-		boolean intersectionHCurve = curveF.intersects(currentBallX, currentBallY, dX, dY);
+		// Declare variables to store calculation values
+		double a, b, A, B, C, D, checkX, checkY, Xa, Xb, X, Y;
 
-		// Create a list to store all bounce points found
-		ArrayList<BouncePoint> bps = new ArrayList<BouncePoint>();
-
-		if (intersectionA) { // Check intersection A
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-		}
-		if (intersectionB) { // Check intersection B
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-		}
-		if (intersectionC) { // Check intersection CLine2D.Double ballPath = new Line2D.Double(currentBallX, currentBallY, dX, dY);
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-		}
-		if (intersectionD) { // Check intersection D
-			bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-		}
-		if (intersectionECurve) { // Check curve intersection E
-			if (dX < 0) { // Ball approaches from the right
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-			} else if (dX > 0) { // Ball approaches from the left
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-			} else { // Ball approaches dead-on
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
+		// Intersection A
+		if (intersectionA) {
+			if (dX == 0) { // No X direction
+				BouncePoint bp = new BouncePoint(currentBallX, currentBlockY - radius, BounceDirection.FLIP_Y);
+				bp.setHitBlock(block);
+				return bp;
+			}
+			a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			checkY = currentBlockY - radius;
+			checkX = (checkY - b) / a;
+			// Check that the next x and y coordinates are not equal to checkX and checkY
+			if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY)) {
+				BouncePoint bp = new BouncePoint(checkX, checkY, BounceDirection.FLIP_Y);
+				bp.setHitBlock(block);
+				return bp;
 			}
 		}
-		if (intersectionFCurve) { // Check curve intersection F
-			if (dX < 0) { // Ball approaches from the right
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-			} else if (dX > 0) { // Ball approaches from the left
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-			} else { // Ball approaches dead-on
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
+
+		// Intersection B
+		if (intersectionB) {
+			if (dX != 0) { // Has X direction
+				a = dY / dX;
+				b = currentBallY - a * currentBallX;
+				checkX = currentBlockX - radius;
+				checkY = a * checkX + b;
+				// Check that the next x and y coordinates are not equal to checkX and checkY
+				if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY)) {
+					BouncePoint bp = new BouncePoint(checkX, checkY, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				}
 			}
-		}
-		if (intersectionGCurve) { // Check curve intersection G
-			if (dX < 0) { // Ball approaches from the right
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-			} else if (dX > 0) { // Ball approaches from the left
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-			} else { // Ball approaches dead-on
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
-			}
-		}
-		if (intersectionHCurve) { // Check curve intersection H
-			if (dX < 0) { // Ball approaches from the right
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_X));
-			} else if (dX > 0) { // Ball approaches from the left
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_Y));
-			} else { // Ball approaches dead-on
-				bps.add(new BouncePoint(dX, dY, BouncePoint.BounceDirection.FLIP_BOTH));
-			}
-		}
-	
-		// Iterate through all points to find the closest one
-		// If closestPoint is not found, returns null
-		BouncePoint closestPoint = null;
-		for (BouncePoint bouncePoint : bps) {
-			if (isCloser(bouncePoint, closestPoint))
-				closestPoint = bouncePoint;
 		}
 
-		return closestPoint; // From collection of all bounce points
+		// IntersectionC
+		if (intersectionC) {
+			if (dX != 0) { // Has X direction
+				a = dY / dX;
+				b = currentBallY - a * currentBallX;
+				checkX = currentBlockX + radius + blockSide;
+				checkY = a * checkX + b;
+				// Check that the next x and y coordinates are not equal to checkX and checkY
+				if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY)) {
+					BouncePoint bp = new BouncePoint(checkX, checkY, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection D
+		if (intersectionD) {
+			if (dX != 0) { // Has X direction
+				a = dY / dX;
+				b = currentBallY - a * currentBallX;
+				checkY = currentBlockY + blockSide + radius;
+				checkX = (checkY - b) / a;
+				// Check that the next x and y coordinates are not equal to checkX and checkY
+				if (!((currentBallX + dX) == checkX && (currentBallY + dY) == checkY)) {
+					BouncePoint bp = new BouncePoint(checkX, checkY, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+			if (dX == 0) {
+				BouncePoint bp = new BouncePoint(currentBallX, currentBlockY + blockSide + radius,
+						BounceDirection.FLIP_Y);
+				bp.setHitBlock(block);
+				return bp;
+			}
+		}
+
+		// Intersection E
+		// Check that one of dX or dY is positive
+		if (intersectionE && !(dX < 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY) - 2 * currentBlockX;
+			C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection F
+		// Ensure that dX is negative or dY is positive
+		if (intersectionF && !(dX > 0 && dY < 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY) - 2 * (currentBlockX + blockSide);
+			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+
+		// Intersection G
+		if (intersectionG && !(dX < 0 && dY > 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY - blockSide) - 2 * currentBlockX;
+			C = Math.pow(currentBlockX, 2) + Math.pow(b - currentBlockY - blockSide, 2) - Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+
+		}
+
+		// Intersection H
+		// Check that dX is negative or dY is negative
+		if (intersectionH && !(dX > 0 && dY > 0)) {
+			a = 0;
+			if (dX != 0) // Has X direction
+				a = dY / dX;
+			b = currentBallY - a * currentBallX;
+			// Perform curve calculations here
+			A = 1 + Math.pow(a, 2);
+			B = 2 * a * (b - currentBlockY - blockSide) - 2 * (currentBlockX + blockSide);
+			C = Math.pow((currentBlockX + blockSide), 2) + Math.pow(b - currentBlockY - blockSide, 2)
+					- Math.pow(radius, 2);
+			D = Math.sqrt(Math.pow(B, 2) - 4 * A * C);
+			Xa = (-B - D) / (2 * A);
+			Xb = (-B + D) / (2 * A);
+			// Assign X and Y values for checking
+			X = Xb;
+			if (Math.abs(currentBallX - Xa) < Math.abs(currentBallX - Xb))
+				X = Xa;
+			Y = a * X + b;
+			// Check that the next x and y coordinates are not equal to X and Y
+			// Check that X and Y are not asymptotic
+			if (!(((currentBallX + dX) == X && (currentBallY + dY) == Y)) && !(Double.isNaN(X) || Double.isNaN(Y))) {
+				if (dX < 0) { // Ball is moving towards the left
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_X);
+					bp.setHitBlock(block);
+					return bp;
+				} else { // Ball is moving towards the right
+					BouncePoint bp = new BouncePoint(X, Y, BounceDirection.FLIP_Y);
+					bp.setHitBlock(block);
+					return bp;
+				}
+			}
+		}
+		// No bouncepoints found
+		return null;
   }
 
 
   /**
    * 
-   * This method returns true if pointA exists and is closer to the ball than pointB.
+   * This method returns true if pointA exists and is closer to the ball than
+   * pointB.
+   * 
    * @author Mathieu Bissonnette
    */
-  // line 544 "../../../../../Block223States.ump"
-   private boolean isCloser(BouncePoint pointA, BouncePoint pointB){
-    // Verify if one of the point is null.
-       if (pointA == null) {
-           return false;
-       }
-       if (pointB == null) {
-           return true;
-       }   
-       // Calculate the distances and check for the smallest one.
-       double distanceA = Math.sqrt(Math.pow(currentBallX-pointA.getX(), 2) + Math.pow(currentBallY-pointA.getY(), 2));
-       double distanceB = Math.sqrt(Math.pow(currentBallX-pointB.getX(), 2) + Math.pow(currentBallY-pointB.getY(), 2));
-       return (distanceA < distanceB);
+  // line 868 "../../../../../Block223States.ump"
+   private boolean isCloser(BouncePoint A, BouncePoint B){
+    // Obtain current ball position
+		double currentBallX = getCurrentBallX();
+		double currentBallY = getCurrentBallY();
+
+		// Before performing any calculations, check if A and B exist
+		if (A == null)
+			return false;
+		if (B == null)
+			return true;
+
+		// Calculate distance to A and B
+		// Verify which one is closest
+		double distanceA = Math.sqrt(Math.pow((A.getX() - currentBallX), 2) + Math.pow(A.getY() - currentBallY, 2));
+		double distanceB = Math.sqrt(Math.pow((B.getX() - currentBallX), 2) + Math.pow(B.getY() - currentBallY, 2));
+
+		// Return true is distanceA is bigger
+		// In all other cases, return false
+		if (distanceB > distanceA)
+			return true;
+		return false;
   }
 
 
   /**
    * Method if the ball doesn't hit anything and stays in bounds
+   * 
    * @author Imane Chafi
    */
-  // line 562 "../../../../../Block223States.ump"
+  // line 897 "../../../../../Block223States.ump"
    private void doHitNothingAndNotOutOfBounds(){
     double x = this.getCurrentBallX();
-    double y = this.getCurrentBallY();
-    double dx = this.getBallDirectionX();
-    double dy = this.getBallDirectionY();
-    this.setCurrentBallX(x+dx);
-    this.setCurrentBallY(y+dy);
+		double y = this.getCurrentBallY();
+		double dx = this.getBallDirectionX();
+		double dy = this.getBallDirectionY();
+		this.setCurrentBallX(x + dx);
+		this.setCurrentBallY(y + dy);
   }
 
 
   /**
    * 
    * This performs all the required actions for ending the game.
+   * 
    * @author Georges Mourant
    */
-  // line 575 "../../../../../Block223States.ump"
+  // line 911 "../../../../../Block223States.ump"
    private void doGameOver(){
-    block223 = getBlock223();
-    Player p = getPlayer();
-    if(p != null){
-      game = getGame();
-      HallOfFameEntry hofe = new HallOfFameEntry(score, playername, p, game, block223);
-      game.setMostRecentEntry(hofe);
-    }
-    delete();
+    Block223 block223 = this.getBlock223();
+		Player p = this.getPlayer();
+
+		if (p != null) {
+			Game game = this.getGame();
+			HallOfFameEntry hof = new HallOfFameEntry(this.score, this.getPlayername(), p, game, block223);
+			game.setMostRecentEntry(hof);
+		}
+		this.delete();
   }
 
 
@@ -1362,14 +1677,17 @@ public class PlayedGame implements Serializable
    * Guard Helper methods
    * 
    * This returns true if the ball is out of bounds.
+   * 
    * @author Georges Mourant
    * @return if ball is out of bounds
    */
-  // line 593 "../../../../../Block223States.ump"
+  // line 931 "../../../../../Block223States.ump"
    private boolean isBallOutOfBounds(){
-    double ballBottomY = getCurrentBallY() + Ball.BALL_DIAMETER;
-    double paddleTopY = getCurrentPaddleY();
-    return (paddleTopY < ballBottomY);
+    boolean outofbounds = false;
+		if (this.getCurrentBallY() + this.getBallDirectionY() > Game.PLAY_AREA_SIDE - 2 * Game.GRID_DIMENSIONS) {
+			outofbounds = true;
+		}
+		return outofbounds;
   }
 
 

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import ca.mcgill.ecse223.block.model.*;
 import ca.mcgill.ecse223.block.application.*;
 import ca.mcgill.ecse223.block.persistence.Block223Persistence;
@@ -954,32 +956,34 @@ public class Block223Controller {
 			throw new InvalidInputException("Admin privileges are required to test a game.");
 		}
 
+		// Obtain current game, enter play mode, and get user inputs
 		PlayedGame game = Block223Application.getCurrentPlayableGame();
 		game.play();
-		ui.takeInputs(); // Method to be implemented, ask why they need to be static.
-
-		if (game.getPlayStatus() == PlayStatus.Moving) {
-			String userInputs = ui.takeInputs();
-			Block223Controller.updatePaddlePosition(userInputs);
-			game.move();
-
-			if (userInputs.contains(" "))
-				game.pause();
-
-			// Waiting time for game.getWaitTime
-			try {
-				Thread.sleep((long) game.getWaitTime());
-			} catch (InterruptedException ex) {
-				Thread.currentThread().interrupt();
+		String inputs = ui.takeInputs(); // The input queue
+		while (game.getPlayStatus() == PlayStatus.Moving) {
+			inputs = ui.takeInputs();
+			updatePaddlePosition(inputs);
+			game.move(); // Move paddle accordingly from input queue
+			if (inputs.contains(" ")) {
+				game.pause(); // Pause game if use presses the space bar
 			}
-			ui.refresh();
+			try {
+				TimeUnit.MILLISECONDS.sleep((long) game.getWaitTime() / 30);
+			} catch (InterruptedException e) {
+
+			}
+			if (game.getPlayStatus() != PlayStatus.GameOver) {
+				ui.refresh(); // Refresh the UI 
+			}
+
 		}
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
-			Block223Application.setCurrentPlayableGame(null);
-		} else if (game.getPlayer() != null) {
+			Block223Application.setCurrentPlayableGame(null); // Remove playable game if GameOver
+		}
+		if (game.getPlayer() != null) {
+			game.setBounce(null);
 			Block223 block223 = Block223Application.getBlock223();
-
-			Block223Persistence.save(block223);
+			Block223Persistence.save(block223); // Save to persistence
 		}
 
 	}
@@ -1425,14 +1429,14 @@ public class Block223Controller {
 
 		// Obtain currently played game from application
 		PlayedGame pgame = Block223Application.getCurrentPlayableGame();
-		
+
 		// Iterate through input queue
 		for (int i = 0; i < userinputs.length(); i++) {
 			if (userinputs.charAt(i) == 'l') {
 				movePaddleLeft(pgame); // Move paddle left
 			}
 			if (userinputs.charAt(i) == 'r') {
-				movePaddleRight(pgame); // Move paddle right 
+				movePaddleRight(pgame); // Move paddle right
 			}
 			if (userinputs.charAt(i) == ' ') {
 				break; // Pause game
@@ -1442,32 +1446,32 @@ public class Block223Controller {
 
 	/**
 	 * Private helper method to move paddle left in the game
+	 * 
 	 * @author Kelly Ma
 	 * @param pgame The currently played game
 	 */
-	private static void movePaddleLeft(PlayedGame pgame) {
-		double left = PlayedGame.PADDLE_MOVE_LEFT;
-		double currentPaddleX = pgame.getCurrentPaddleX();
-		if (currentPaddleX > 0)
-			pgame.setCurrentPaddleX(pgame.getCurrentPaddleX() + left);
+	private static void movePaddleLeft(PlayedGame game) {
+		if (game.getCurrentPaddleX() >= Math.abs(PlayedGame.PADDLE_MOVE_LEFT)) {
+			game.setCurrentPaddleX(game.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_LEFT);
+		}
 	}
 
 	/**
 	 * Private helper method to move paddle right in the game
+	 * 
 	 * @author Kelly Ma
 	 * @param pgame The currently played game
 	 */
-	private static void movePaddleRight(PlayedGame pgame) {
-		double right = PlayedGame.PADDLE_MOVE_RIGHT;
-		double currentPaddleX = pgame.getCurrentPaddleX();
-		double currentPaddleLength = pgame.getCurrentPaddleLength();
-		if (Game.PLAY_AREA_SIDE - currentPaddleLength > currentPaddleX)
-			pgame.setCurrentPaddleX(pgame.getCurrentPaddleX() + right);
+	private static void movePaddleRight(PlayedGame game) {
+		if (game.getCurrentPaddleX() <= Game.PLAY_AREA_SIDE - PlayedGame.PADDLE_MOVE_RIGHT
+				- game.getCurrentPaddleLength()) {
+			game.setCurrentPaddleX(game.getCurrentPaddleX() + PlayedGame.PADDLE_MOVE_RIGHT);
+		}
 	}
 
 	/**
-	 * This method does what Umple's Game.getWithName(Ã¢ÂÂ¦) method would do if it
-	 * worked properly aka get the game using the name.
+	 * This method does what Umple's Game.getWithName(Ã¢ÂÂ¦) method would do
+	 * if it worked properly aka get the game using the name.
 	 * 
 	 * @author Kelly Ma
 	 * @author Georges Mourant
@@ -1504,10 +1508,10 @@ public class Block223Controller {
 		}
 		return null;
 	}
-	
+
 	/**
-	 * This method finds a block inside a list of blocks depending on its ID. Return a transfer object. Author
-	 * : Imane Chafi & Mathieu Bissonnette
+	 * This method finds a block inside a list of blocks depending on its ID. Return
+	 * a transfer object. Author : Imane Chafi & Mathieu Bissonnette
 	 */
 
 	public static TOBlock findTOBlock(int id) { // Here, this is how the method was written in the solution document.

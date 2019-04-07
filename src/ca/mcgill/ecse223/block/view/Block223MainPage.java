@@ -1,26 +1,41 @@
 package ca.mcgill.ecse223.block.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOGame;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 
 public class Block223MainPage extends JFrame {
 
     public final static ViewTheme THEMES[] = { 
         new ViewTheme("Boxing Day", new Color(62, 61, 60), new Color(210, 215, 223), 
                 new Color(62, 61, 60), new Font("Consolas", Font.PLAIN, 14), 
-                Color.DARK_GRAY, Color.WHITE),
+                Color.DARK_GRAY, new Color(227, 228, 219)),
         new ViewTheme("Spring Galore", new Color(235, 112, 96), new Color(202,194,165), 
                 new Color(221,174,121), new Font("Consolas", Font.PLAIN, 14), 
                 new Color(116, 157, 144), new Color(248,249,248)),
@@ -187,6 +202,9 @@ public class Block223MainPage extends JFrame {
                 break;
             case addGame:
                 displayedPage = new PageAddGame(this);
+                break;
+            case defineNewGame:
+                displayedPage = new PageDefineNewGame(this);
                 break;
             case defineGame:
                 displayedPage = new PageDefineGame(this);
