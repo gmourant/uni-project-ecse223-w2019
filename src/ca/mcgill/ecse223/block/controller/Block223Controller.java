@@ -1153,6 +1153,9 @@ public class Block223Controller {
 		if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the game can access its information.");
 		}
+                if(Block223Application.getCurrentGame().isPublished()){
+                    throw new InvalidInputException("Game is published and therefore no longer designable.");
+                }
 		// return game as transfer object
 		return new TOGame(game.getName(), game.numberOfLevels(), game.getNrBlocksPerLevel(),
 				game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
