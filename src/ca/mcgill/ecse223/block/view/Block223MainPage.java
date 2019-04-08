@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -213,7 +212,7 @@ public class Block223MainPage extends JFrame {
                 break;
             case playGame:
                 displayedPage = new PagePlayGame(this);
-                break; 
+                break;
             case welcome:
                 displayedPage = new PageWelcome(this);
                 break;
@@ -319,6 +318,9 @@ public class Block223MainPage extends JFrame {
                 //call the controller
                 try {
                     Block223Controller.publishGame();
+                    setCurrentGameDisplay();
+                    publish.setVisible(false);
+                    changePage(Page.logout);
                 } catch(InvalidInputException e) {
                     new ViewError(e.getMessage(), false, thisInstance);
                 }
@@ -341,6 +343,7 @@ public class Block223MainPage extends JFrame {
                 public void actionPerformed(ActionEvent evt){
                 	//call to controller
             		Block223Controller.logout();
+                        setCurrentGameDisplay("No Game Selected");
             		//Go back to login screen
             		changePage(Block223MainPage.Page.login);
                 }
@@ -397,6 +400,7 @@ public class Block223MainPage extends JFrame {
         listModel.addElement("Update Block");
         listModel.addElement("Move Block");
         listModel.addElement("Remove Block");
+        listModel.addElement("Test Game");
         listModel.addElement("Change Theme");
             
         //SideMenu options
@@ -442,6 +446,9 @@ public class Block223MainPage extends JFrame {
                     case "Update Game":
                         changePage(Block223MainPage.Page.updateGame);
                         break;
+                    case "Test Game":
+                        changePage(Block223MainPage.Page.playGame);
+                        break;
                     case "Change Theme":
                         changePage(Block223MainPage.Page.pickTheme);
                         break;
@@ -470,6 +477,11 @@ public class Block223MainPage extends JFrame {
                 } catch (InvalidInputException ev){
                     new ViewError(ev.getMessage(), false, thisInstance);
                 }
+                
+                try{
+                    Block223Controller.getCurrentDesignableGame();
+                    publish.setVisible(true);
+                } catch(InvalidInputException ev){}
             }
         });
     }
@@ -547,6 +559,9 @@ public class Block223MainPage extends JFrame {
         }
     }
     
+    public void setCurrentGameDisplay(){
+        setCurrentGameDisplay("No Game Selected");
+    }
     public void setCurrentGameDisplay(String txt){
         if(currentGameDisplay == null || txt.equals("")) return;
         currentGameDisplay.setText(txt);
