@@ -13,7 +13,7 @@ import java.util.Map;
 
 // line 36 "../../../../../Block223Persistence.ump"
 // line 6 "../../../../../Block223PlayMode.ump"
-// line 68 "../../../../../Block223.ump"
+// line 65 "../../../../../Block223.ump"
 public class Game implements Serializable {
 
 	// ------------------------
@@ -64,7 +64,7 @@ public class Game implements Serializable {
 	// ------------------------
 
 	public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, Ball aBall, Paddle aPaddle, Block223 aBlock223) {
-		// line 78 "../../../../../Block223.ump"
+		// line 75 "../../../../../Block223.ump"
 		if (aName == null)
 			throw new RuntimeException("The name of a game must be specified.");
 		// END OF UMPLE BEFORE INJECTION
@@ -105,7 +105,7 @@ public class Game implements Serializable {
 	public Game(String aName, int aNrBlocksPerLevel, Admin aAdmin, int aMinBallSpeedXForBall, int aMinBallSpeedYForBall,
 			double aBallSpeedIncreaseFactorForBall, int aMaxPaddleLengthForPaddle, int aMinPaddleLengthForPaddle,
 			Block223 aBlock223) {
-		// line 78 "../../../../../Block223.ump"
+		// line 75 "../../../../../Block223.ump"
 		if (aName == null)
 			throw new RuntimeException("The name of a game must be specified.");
 		// END OF UMPLE BEFORE INJECTION
@@ -167,7 +167,7 @@ public class Game implements Serializable {
 
 	public boolean setNrBlocksPerLevel(int aNrBlocksPerLevel) {
 		boolean wasSet = false;
-		// line 82 "../../../../../Block223.ump"
+		// line 79 "../../../../../Block223.ump"
 		if (aNrBlocksPerLevel < 1)
 			throw new RuntimeException("The number of blocks per level must be greater than zero.");
 		// END OF UMPLE BEFORE INJECTION

@@ -196,7 +196,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// ***********************
 		startGame.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				StartButton.setVisible(false); // Remove
+				startGame.setVisible(false); // Remove
 
 				// Thread for the game loop
 				KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
@@ -225,11 +225,10 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 					public void run() {
 						try {
 							Block223Controller.startGame(PagePlayGame.this);
-
 						} catch (InvalidInputException e) {
 							new ViewError(e.getMessage(), true, frame);
 						}
-						StartButton.setVisible(true);
+						startGame.setVisible(true);
 					}
 				};
 				Thread t = new Thread(play);
