@@ -35,6 +35,9 @@ public class PageWelcome extends ContentPage {
 	    private int   m_interval  = 35;  // Milliseconds between updates.
 	    private Timer m_timer;           // Timer fires to anmimate one step.
 		JLabel Block223Welcome;
+		public static Color lightColor = new Color(227, 228, 219);//grey color default
+		public static Color mediumColor = new Color(235,207,178);//beige color default
+		public static Color darkColor = new Color(213,172,169);//pink color default
 		
 		//*******************
 		//Constructor method
@@ -159,19 +162,19 @@ public class PageWelcome extends ContentPage {
 		    g.setColor(new Color(0,0,0));
 		    
 		    //g.drawRect(160, 100, 50, 50); //Draws square
-		    g.setColor(new Color(213, 172, 169));
+		    g.setColor(darkColor);
 		    g.fillRect(160, 100, 50, 50); //Fills a square
 		    
 		   // g.drawRect(260, 100, 50, 50); //Draws square
-		    g.setColor(new Color(235, 207, 178));
+		    g.setColor(mediumColor);
 		    g.fillRect(260, 100, 50, 50); //Fills a square
 		    
 		    //g.drawRect(360, 100, 50, 50); //Draws square
-		    g.setColor(new Color(179, 141, 151));
+		    g.setColor(mediumColor);
 		    g.fillRect(360, 100, 50, 50); //Fills a square
 		    
 		   // g.drawRect(460, 100, 50, 50); //Draws square
-		    g.setColor(new Color(227, 228, 219));
+		    g.setColor(lightColor);
 		    g.fillRect(460, 100, 50, 50); //Fills a square
 		    
 		    //g.drawRect(60, 200, 50, 50); //Draws square
@@ -179,19 +182,19 @@ public class PageWelcome extends ContentPage {
 		    g.fillRect(60, 200, 50, 50); //Fills a square
 		    
 		    //g.drawRect(160, 200, 50, 50); //Draws square
-		    g.setColor(new Color(213, 172, 169));
+		    g.setColor(darkColor);
 		    g.fillRect(160, 200, 50, 50); //Fills a square
 		    
 		    //g.drawRect(260, 200, 50, 50); //Draws square
-		    g.setColor(new Color(227, 228, 219));
+		    g.setColor(lightColor);
 		    g.fillRect(260, 200, 50, 50); //Fills a square
 		    
 		    //g.drawRect(360, 200, 50, 50); //Draws square
-		    g.setColor(new Color(213, 172, 169));
+		    g.setColor(darkColor);
 		    g.fillRect(360, 200, 50, 50); //Fills a square
 		    
 		    //g.drawRect(460, 200, 50, 50); //Draws square
-		    g.setColor(new Color(179, 141, 151));
+		    g.setColor(mediumColor);
 		    g.fillRect(460, 200, 50, 50); //Fills a square
 		    
 		    //Paddle : 
@@ -199,7 +202,7 @@ public class PageWelcome extends ContentPage {
 		    g.fillRect(210, 350, 150, 20); //Fills a square
 		    
 		    //Ball : 
-		    g.setColor(new Color(213, 172, 169));
+		    g.setColor(darkColor);
 		    g.setColor(new Color(185, 49, 79));
 		    ball.draw(g);
 		}

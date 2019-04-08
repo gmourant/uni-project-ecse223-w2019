@@ -36,13 +36,20 @@ public class Block223MainPage extends JFrame {
         new ViewTheme("Boxing Day", new Color(62, 61, 60), new Color(210, 215, 223), 
                 new Color(62, 61, 60), new Font("Consolas", Font.PLAIN, 14), 
                 Color.DARK_GRAY, new Color(227, 228, 219)),
-        new ViewTheme("Spring Galore", new Color(235, 112, 96), new Color(202,194,165), 
+        
+        new ViewTheme("Orange is the new black", new Color(235, 112, 96), new Color(202,194,165), 
                 new Color(221,174,121), new Font("Consolas", Font.PLAIN, 14), 
                 new Color(116, 157, 144), new Color(248,249,248)),
+        
+        new ViewTheme("Spring Galore", new Color(206,236,151), new Color(255,202,212),
+                new Color(217, 187, 249), new Font("Consolas", Font.PLAIN, 14), 
+                new Color(94, 133, 181), new Color(255, 238, 147)),
+        
         new ViewTheme("Last Frontier", "imageThemes/spacethemeHeader.jpg",
                 Color.BLACK, Color.LIGHT_GRAY, "imageThemes/spacethemeBackground.jpg",
                 new Font("Consolas", Font.PLAIN, 14), 
                 Color.WHITE, Color.WHITE),
+        
         new ViewTheme("Under The Sea", "imageThemes/water.jpg",
         		 new Color(0, 67, 133), new Color(0, 67, 133), "imageThemes/water.jpg",
                 new Font("Consolas", Font.PLAIN, 14), 
@@ -57,6 +64,7 @@ public class Block223MainPage extends JFrame {
     private JPanel leftSide;
     private JButton minimize;
     private JButton exit;
+    private JButton quit;
 
     // enums for tetermining current page
     public enum Page {
@@ -145,7 +153,7 @@ public class Block223MainPage extends JFrame {
         this.setResizable(true); // stops user from resizing the dialog box
         this.setUndecorated(true);
 
-        defineTheme("Spring Galore");
+        defineTheme("Boxing Day");
         thisInstance = this;
         
         // setting up
@@ -186,7 +194,8 @@ public class Block223MainPage extends JFrame {
         publish.setVisible(false);
         save.setVisible(false);
         logout.setVisible(false);
-
+        quit.setVisible(false);
+        
         // show menus if appropriate
         if (toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.playGame && toDisplay != Page.chooseGame) {
             leftSide.setVisible(true);
@@ -197,6 +206,9 @@ public class Block223MainPage extends JFrame {
             save.setVisible(true);
             logout.setVisible(true);
         }
+         if(toDisplay == Page.playGame)
+        	quit.setVisible(true);
+      
         if(toDisplay != Page.login && toDisplay != Page.signUp && toDisplay != Page.welcome && toDisplay != Page.chooseGame){ // && check if is not published
             try{
                 Block223Controller.getCurrentDesignableGame();
@@ -291,6 +303,9 @@ public class Block223MainPage extends JFrame {
         save.setBackground(getHeaderBackgroundFiller());
         logout.setForeground(getForegroundForBackground());
         logout.setBackground(getHeaderBackgroundFiller());
+        quit = createButton("quit");
+        quit.setForeground(getForegroundForBackground());
+        quit.setBackground(getHeaderBackgroundFiller());
 
         JPanel exitMin = new JPanelWithBackground(JPanelWithBackground.Background.header, new FlowLayout(FlowLayout.RIGHT));
         minimize = createButton("_");
@@ -300,6 +315,7 @@ public class Block223MainPage extends JFrame {
         minimize.setBackground(getHeaderBackgroundFiller()); // match to background
         exit.setBackground(getHeaderBackgroundFiller()); // match to background
         exitMin.add(publish);
+        exitMin.add(quit);
         exitMin.add(save);
         exitMin.add(logout);
         exitMin.add(minimize);
@@ -348,6 +364,14 @@ public class Block223MainPage extends JFrame {
             		changePage(Block223MainPage.Page.login);
                 }
         });//End of actionPerformed by logout method
+        
+        quit.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent evt){
+        		//Go back to login screen
+        		changePage(Block223MainPage.Page.chooseGame);
+            }
+    });//End of actionPerformed by quit  method
+       
         
         minimize.addActionListener(new ActionListener(){
                 public void actionPerformed(ActionEvent e){
