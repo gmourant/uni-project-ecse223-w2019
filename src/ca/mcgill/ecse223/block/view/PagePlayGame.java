@@ -316,7 +316,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		blocks = game.getBlocks();
 		
 		int xOffset = 20;
-		int yOffset = 0;
+		int yOffset = 10;
 
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
