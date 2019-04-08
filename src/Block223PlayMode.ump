@@ -57,12 +57,12 @@ class PlayedGame {
    1 <@>- * PlayedBlockAssignment blocks;
    0..1 -> 0..1 BouncePoint bounce;
    
-   before setBallDirectionX { // Divide by 10 if speed is over 10
-   		if (aBallDirectionX >= 10) aBallDirectionX /= 10.0;
+   before setBallDirectionX { // Divide by 2 if speed is over 10
+   		if (aBallDirectionX >= 10) aBallDirectionX /= 2.0;
    }
    
-   before setBallDirectionY { // Divide by 10 if speed is over 10
-   		if (aBallDirectionY >= 10) aBallDirectionY /= 10.0;
+   before setBallDirectionY { // Divide by 2 if speed is over 10
+   		if (aBallDirectionY >= 10) aBallDirectionY /= 2.0;
    }
    
    // Author: Kelly Ma
