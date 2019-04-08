@@ -46,6 +46,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	private String userString = ""; // Stores input queue from paddle
 	private JPanel playerPane;
 	String gameName;
+	Border border = BorderFactory.createLineBorder(new Color(179, 141, 151), 3);
 
 	// *******************
 	// Constructor method
@@ -167,6 +168,8 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// Provide minimum sizes for the two components in the split pane
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
 
+		// Add border
+		playerPane.setBorder(border);
 		add(playerPane);
 		add(hallOfFamePane);
 
