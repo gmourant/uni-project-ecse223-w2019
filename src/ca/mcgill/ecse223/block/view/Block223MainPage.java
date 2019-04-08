@@ -59,7 +59,7 @@ public class Block223MainPage extends JFrame {
     
     public static int TITLE_SIZE_INCREASE = 4;
     int level;//We are still working on how to get the levels from the game
-    private JLabel currentGameDisplay;
+    static JLabel currentGameDisplay;
     private JComboBox<String> chooseGame;
     private JPanel leftSide;
     private JButton minimize;
