@@ -118,7 +118,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 			String error = e.getMessage();
 			new ViewError(error, testGame, frame);
 		}
-		JLabel currentLevel = new JLabel(level);
+		currentLevel = new JLabel(level);
 		String lives = "";
 		try { // Obtain current nr lives
 			if(testGame && !gameStarted){
@@ -130,7 +130,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 			String error = e.getMessage();
 			new ViewError(error, testGame, frame);
 		}
-		JLabel nrLives = new JLabel(lives);
+		nrLives = new JLabel(lives);
 		String score = "";
 		try { // Obtain current score
 			if(testGame && !gameStarted){
@@ -288,19 +288,31 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	public void refresh() {
 		playerPane.repaint();
 		try { // Obtain current level
+                    if(testGame && !gameStarted){
+                        level = "Level: ";
+                    } else {
 			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel() + " ";
-		} catch (InvalidInputException e) {
+                    }
+                } catch (InvalidInputException e) {
 			e.printStackTrace();
 		}
 		currentLevel.setText(level);
 		try { // Obtain current nr lives
-			lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
-		} catch (InvalidInputException e) {
+                    if(testGame && !gameStarted){
+                        lives = "Lives: ";
+                    } else {
+                        lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
+                    }
+                } catch (InvalidInputException e) {
 			e.printStackTrace();
 		}
 		nrLives.setText(lives);
 		try { // Obtain current score
-			score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+                    if(testGame && !gameStarted){
+                        score = "Score: ";
+                    } else {
+                        score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+                    }
 		} catch (InvalidInputException e) {
 			e.printStackTrace();
 		}
