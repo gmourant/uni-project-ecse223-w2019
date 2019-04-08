@@ -25,13 +25,12 @@ import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
 import ca.mcgill.ecse223.block.controller.TOCurrentBlock;
 import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
-import ca.mcgill.ecse223.block.controller.TOGridCell;
+import ca.mcgill.ecse223.block.controller.TOHallOfFame;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
 import ca.mcgill.ecse223.block.model.Ball;
 import ca.mcgill.ecse223.block.model.Block;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
-import ca.mcgill.ecse223.block.controller.TOHallOfFame;
 
 /**
  * Page Welcome for the user
@@ -44,9 +43,9 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	// UI elements
 	private static Font defaultFont = new Font("Bank Gothic", Font.PLAIN, 14);
 	private static Font titleFont = new Font("Futura", Font.PLAIN, 60);
-	// Stores input queue from paddle
-	private String userString = "";
+	private String userString = ""; // Stores input queue from paddle
 	private JPanel playerPane;
+	String gameName;
 
 	// *******************
 	// Constructor method
@@ -79,7 +78,13 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		nextLevelPane.setBackground(new Color(219, 39, 99));
 
 		// Define Labels :
-		JLabel Block223 = new JLabel(" Block 223 ");
+		try { // Obtain current level
+			gameName = Block223Controller.getCurrentPlayableGame().getGamename();
+		} catch (InvalidInputException e) {
+			String error = e.getMessage();
+			new ViewError(error, true, frame);
+		}
+		JLabel Block223 = new JLabel(gameName);
 		String level = "";
 		try { // Obtain current level
 			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel();
@@ -104,7 +109,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 			new ViewError(error, true, frame);
 		}
 		JLabel currentScore = new JLabel(score);
-		Block223.setFont(new Font("Consolas", Font.PLAIN, 50));
+		Block223.setFont(new Font("Consolas", Font.PLAIN, 40));
 		currentLevel.setFont(new Font("Consolas", Font.PLAIN, 20));
 		currentLevel.setForeground(new Color(227, 228, 219));
 		nrLives.setFont(new Font("Consolas", Font.PLAIN, 20));
@@ -132,33 +137,30 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		startButtonPanel.add(startGame);
 		hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
 
-		//Adding Labels for the HallOfFame : 
-		 TOHallOfFame hallOfFameEntries;
-	        try{
-	            hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
-	        }
-	        catch(InvalidInputException e){
-	            displayError(e.getMessage(), true);
-	            // stop now to prevent future errors based on this exception
-	            return;
-	        }
-	        // add this list
-	       List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
-	       for( TOHallOfFameEntry entry : hallOfFame) { 
-	    	   String name = entry.getPlayername();
-	    	   int scoring = entry.getScore();
-	    	   int position = entry.getPosition();
-	    	   JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
-	    	   hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
-	    	   
-	    	   
-	       }
-		
-	       JLabel test = new JLabel("test");
-	       JLabel test2 = new JLabel("test2");
-	       hallOfFamePane.add(test);
-	       hallOfFamePane.add(test2);
-		
+		// Adding Labels for the HallOfFame :
+		TOHallOfFame hallOfFameEntries;
+		try {
+			hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
+		} catch (InvalidInputException e) {
+			displayError(e.getMessage(), true);
+			// stop now to prevent future errors based on this exception
+			return;
+		}
+		// add this list
+		List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+		for (TOHallOfFameEntry entry : hallOfFame) {
+			String name = entry.getPlayername();
+			int scoring = entry.getScore();
+			int position = entry.getPosition();
+			JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
+			hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
+
+		}
+
+		JLabel test = new JLabel("test");
+		JLabel test2 = new JLabel("test2");
+		hallOfFamePane.add(test);
+		hallOfFamePane.add(test2);
 
 		// Provide minimum sizes for the two components in the split pane
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
@@ -257,7 +259,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		super.paintComponent(g); // ALWAYS call this method first!
 
 		// Add grid cell elements.
-		
+
 		List<TOCurrentBlock> blocks = new ArrayList<TOCurrentBlock>();
 		TOCurrentlyPlayedGame game = null;
 		try {
@@ -266,8 +268,8 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-			blocks = game.getBlocks();
+
+		blocks = game.getBlocks();
 
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
@@ -277,11 +279,13 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		// Paddle :
 		g.setColor(Color.BLACK);
-		g.fillRect((int) game.getCurrentPaddleX(), Game.PLAY_AREA_SIDE-Paddle.VERTICAL_DISTANCE, (int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
+		g.fillRect((int) game.getCurrentPaddleX(), Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE,
+				(int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
 
 		// Ball
 		g.setColor(Color.BLACK);
-		g.fillOval((int) game.getCurrentBallX()-Ball.BALL_DIAMETER/2, (int) game.getCurrentBallY()-Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
+		g.fillOval((int) game.getCurrentBallX() - Ball.BALL_DIAMETER / 2,
+				(int) game.getCurrentBallY() - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 
 	}
 
