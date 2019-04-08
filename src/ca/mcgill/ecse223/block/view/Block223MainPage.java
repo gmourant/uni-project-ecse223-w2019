@@ -60,7 +60,7 @@ public class Block223MainPage extends JFrame {
 	private JButton exit;
 	private JButton quit;
 
-	// enums for tetermining current page
+	// enums for determining current page
 	public enum Page {
 		adminMenu, // page for selecting destination page
 		addGame, defineGame, defineNewGame, deleteGame, updateGame, addBlock, deleteBlock, updateBlock, positionBlock,
