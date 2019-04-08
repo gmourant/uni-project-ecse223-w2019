@@ -279,7 +279,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
 			g.setColor(color);
-			g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
+			g.fillRect(block.getX()+Block.SIZE, block.getY(), Block.SIZE, Block.SIZE);
 		}
 
 		// Paddle :
