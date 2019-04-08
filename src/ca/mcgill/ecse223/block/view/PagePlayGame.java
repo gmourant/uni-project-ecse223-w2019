@@ -27,6 +27,7 @@ import ca.mcgill.ecse223.block.controller.TOCurrentBlock;
 import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
 import ca.mcgill.ecse223.block.controller.TOGridCell;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
+import ca.mcgill.ecse223.block.model.Ball;
 import ca.mcgill.ecse223.block.model.Block;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
@@ -275,8 +276,11 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		// Paddle :
 		g.setColor(Color.BLACK);
+		g.fillRect((int) game.getCurrentPaddleX(), Game.PLAY_AREA_SIDE-Paddle.VERTICAL_DISTANCE, (int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
 
-		
+		// Ball
+		g.setColor(Color.BLACK);
+		g.fillOval((int) game.getCurrentBallX()-Ball.BALL_DIAMETER/2, (int) game.getCurrentBallY()-Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 
 	}
 
