@@ -139,6 +139,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.add(nextLevelPane);
 		hallOfFamePane.add(hallOfFameLabel);
 		JButton startGame = createButton("Start Game");
+		startGame.setBackground(new Color (235,207,178));
 		JPanel startButtonPanel = new JPanel();
 		startButtonPanel.setBackground(new Color(179, 141, 151));
 		startButtonPanel.add(startGame);
@@ -167,7 +168,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JLabel test2 = new JLabel("test2");
 		//hallOfFamePane.add(test);
 		//hallOfFamePane.add(test2);
-
+		
 		// Provide minimum sizes for the two components in the split pane
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
 
