@@ -253,10 +253,31 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 	@Override
 	public void endGame(int nrOfLives, TOHallOfFameEntry hof) {
-		// TODO Auto-generated method stub
+		int positionHigh = 0;
+		int positionLow;
+		
+	//Switching the entries for the hallOfFame
+		TOHallOfFame hallOfFameEntries;
+		try {
+			hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
+			List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+			for (TOHallOfFameEntry entry : hallOfFame) {
+			
+			if(hof.getScore() > entry.getScore()) {
+				positionHigh = entry.getPosition();
+			    entry.setPosition(hof.getPosition());
+			    hof.setPosition(positionHigh);}
+			}	
+			
+			} catch (InvalidInputException e) {
+			displayError(e.getMessage(), true);
+			// stop now to prevent future errors based on this exception
+			return;
+		}
 
+		//Setting the numberOfLives lower : 
+		nrOfLives--;
 	}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); // ALWAYS call this method first!
