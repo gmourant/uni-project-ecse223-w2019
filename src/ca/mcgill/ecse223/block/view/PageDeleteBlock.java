@@ -72,7 +72,11 @@ public class PageDeleteBlock extends ContentPage {
 		gridbagPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		gridbagPanel.setPreferredSize(new Dimension(10, 10));
 		gridbagPanel.setLocation(130, 40);
-		colorPatch.setBackground(new Color(blocks.get(0).getRed(), blocks.get(0).getGreen(), blocks.get(0).getBlue()));
+        try {
+        	colorPatch.setBackground(new Color(blocks.get(0).getRed(), blocks.get(0).getGreen(), blocks.get(0).getBlue()));
+        } catch (Exception e) {
+        	colorPatch.setBackground(Color.black);
+        }
 		colorPatch.setPreferredSize(new Dimension(57, 60));
 		gridbagPanel.add(colorPatch);
 		add(gridbagPanel);
@@ -101,6 +105,7 @@ public class PageDeleteBlock extends ContentPage {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				// call the controller
 				try {
+                                    if(ids.getSelectedItem() == null) return;
 					Block223Controller.deleteBlock((int) ids.getSelectedItem());
 				} catch (InvalidInputException e) {
 					displayError(e.getMessage(), false);
