@@ -271,20 +271,17 @@ public class User implements Serializable
    * Author: Kelly Ma
    */
   // line 33 "../../../../../Block223.ump"
-   public static  String findUsername(UserRole currentuserrole){
-    Map<User, String> usernamesUser = new HashMap<>();
-		for(Map.Entry<String, User> entry : usersByUsername.entrySet()){
-		usernamesUser.put(entry.getValue(), entry.getKey());
-	}
-	for (User value : usernamesUser.keySet()) {
-		List<UserRole> roles = value.getRoles();
-      		for(UserRole role : roles) {
-      			if(role==currentuserrole) {
-      				return value.getUsername().toString();
-      		}
-      	}
-	}
-      return null;
+   public static  String findUsername(UserRole aRole){
+    List<UserRole> userRoles = new ArrayList<UserRole>();
+       for (String username: usersByUsername.keySet()) {
+            userRoles = usersByUsername.get(username).getRoles();
+            for(UserRole role: userRoles){
+                 if(aRole == role){
+                     return username;
+                 }
+            }
+       }  
+       return null;
   }
 
 

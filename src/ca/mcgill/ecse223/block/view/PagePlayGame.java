@@ -47,6 +47,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	private JPanel playerPane;
 	String gameName;
     private final boolean testGame;
+	Border border = BorderFactory.createLineBorder(new Color(179, 141, 151), 3);
 
 	// *******************
 	// Constructor method
@@ -143,7 +144,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.setOpaque(true);
 
 		// Add labels to panels :
-		//playerPane.add(Block223);
+		// playerPane.add(Block223);
 		playerPane.add(currentLevel);
 		playerPane.add(nrLives);
 		playerPane.add(currentScore);
@@ -184,6 +185,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// Provide minimum sizes for the two components in the split pane
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
 
+		// Add border
 		add(playerPane);
 		if(!testGame) add(hallOfFamePane);
 
@@ -210,7 +212,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// ***********************
 		startGame.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				StartButton.setVisible(false); // Remove
+				startGame.setVisible(false); // Remove
 
 				// Thread for the game loop
 				KeyEventDispatcher keyEventDispatcher = new KeyEventDispatcher() {
@@ -238,11 +240,11 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 					@Override
 					public void run() {
 						try {
-                                                    Block223Controller.startGame(PagePlayGame.this);
+							Block223Controller.startGame(PagePlayGame.this);
 						} catch (InvalidInputException e) {
-                                                    new ViewError(e.getMessage(), testGame, frame);
+							new ViewError(e.getMessage(), testGame, frame);
 						}
-						StartButton.setVisible(true);
+						startGame.setVisible(true);
 					}
 				};
 				Thread t = new Thread(play);
@@ -262,7 +264,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
+		playerPane.repaint();
 
 	}
 
@@ -293,7 +295,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
 			g.setColor(color);
-			g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
+			g.fillRect(block.getX() + Block.SIZE, block.getY(), Block.SIZE, Block.SIZE);
 		}
 
 		// Paddle :
@@ -305,6 +307,10 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		g.setColor(Color.BLACK);
 		g.fillOval((int) game.getCurrentBallX() - Ball.BALL_DIAMETER / 2,
 				(int) game.getCurrentBallY() - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
+
+		// Outline :
+		g.setColor(Block223MainPage.getForegroundForBackground());
+		g.drawRect(10, 10, Game.PLAY_AREA_SIDE + 20, Game.PLAY_AREA_SIDE + 30);
 
 	}
 

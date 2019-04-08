@@ -123,6 +123,8 @@ public class PageChooseGame extends ContentPage {
             try{
                 Block223Controller.selectPlayableGame(newGame, id);//We need to have the id of the game
                 changePage(Block223MainPage.Page.playGame);
+		Block223MainPage.currentGameDisplay.setVisible(true);
+                Block223MainPage.currentGameDisplay.setText(newGame);
             } catch (InvalidInputException e){
             	displayError(e.getMessage(), false);
 				return;
@@ -140,6 +142,8 @@ public class PageChooseGame extends ContentPage {
             try{
                 Block223Controller.selectPlayableGame(game, idPaused);
                 changePage(Block223MainPage.Page.playGame);
+		Block223MainPage.currentGameDisplay.setVisible(true);
+                Block223MainPage.currentGameDisplay.setText(game);
             } catch (InvalidInputException e){
             	displayError(e.getMessage(), false);
 				return;

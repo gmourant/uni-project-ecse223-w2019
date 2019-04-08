@@ -983,16 +983,15 @@ public class Block223Controller {
 
 			}
 			if (game.getPlayStatus() != PlayStatus.GameOver) {
-				HallOfFameEntry mostRecent = game.getMostRecentEntry();
-				// Call endGame instead of refresh
-				// The TOHallOfFameEntry is not part of a TOHallOfFame
-				ui.endGame(game.getLives(),
-						new TOHallOfFameEntry(0, mostRecent.getPlayername(), mostRecent.getScore(), null));
+				ui.refresh();
 			}
 
 		}
 		if (game.getPlayStatus() == PlayStatus.GameOver) {
 			Block223Application.setCurrentPlayableGame(null); // Remove playable game if GameOver
+			HallOfFameEntry mostRecent = game.getMostRecentEntry();
+			ui.endGame(game.getLives(),
+					new TOHallOfFameEntry(0, mostRecent.getPlayername(), mostRecent.getScore(), null));
 			Block223 block223 = Block223Application.getBlock223();
 			Block223Persistence.save(block223); // Save to persistence to ensure the playedGame is removed from the file
 		}
@@ -1153,9 +1152,9 @@ public class Block223Controller {
 		if (Block223Application.getCurrentUserRole() != game.getAdmin()) {
 			throw new InvalidInputException("Only the admin who created the game can access its information.");
 		}
-                if(Block223Application.getCurrentGame().isPublished()){
-                    throw new InvalidInputException("Game is published and therefore no longer designable.");
-                }
+		if (Block223Application.getCurrentGame().isPublished()) {
+			throw new InvalidInputException("Game is published and therefore no longer designable.");
+		}
 		// return game as transfer object
 		return new TOGame(game.getName(), game.numberOfLevels(), game.getNrBlocksPerLevel(),
 				game.getBall().getMinBallSpeedX(), game.getBall().getMinBallSpeedY(),
