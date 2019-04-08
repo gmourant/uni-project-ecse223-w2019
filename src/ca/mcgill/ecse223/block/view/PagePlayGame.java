@@ -46,7 +46,8 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	private String userString = ""; // Stores input queue from paddle
 	private JPanel playerPane;
 	String gameName;
-    private final boolean testGame;
+        private final boolean testGame;
+        private boolean gameStarted;
 	Border border = BorderFactory.createLineBorder(new Color(179, 141, 151), 3);
 
 	// *******************
@@ -61,16 +62,9 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
                 
                 this.testGame = testGame;
                 
-		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+                if(testGame) frame.setSize(700, frame.getHeight());
                 
-                if(testGame){
-                    try {
-                        Block223Controller.testGame(PagePlayGame.this);
-                    } catch (InvalidInputException e) {
-                        new ViewError(e.getMessage(), true, frame);
-                        return;
-                    }
-                }
+		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
                 
 		// *****************
 		// UI elements
@@ -94,10 +88,14 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.setMaximumSize(new Dimension(400, 450));
 		// hallOfFamePane.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		nextLevelPane.setBackground(new Color(219, 39, 99));
-
+                
 		// Define Labels :
 		try { // Get game name
+                    if(testGame && !gameStarted){
+                        gameName = Block223Controller.getCurrentDesignableGame().getName();
+                    } else {
 			gameName = Block223Controller.getCurrentPlayableGame().getGamename();
+                    }
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, testGame, frame);
@@ -105,7 +103,11 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JLabel Block223 = new JLabel(gameName);
 		String level = "";
 		try { // Obtain current level
+                    if(testGame && !gameStarted){
+                        level = "Level: ";
+                    } else {
 			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel() + " ";
+                    }
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, testGame, frame);
@@ -113,7 +115,11 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JLabel currentLevel = new JLabel(level);
 		String lives = "";
 		try { // Obtain current level
+                    if(testGame && !gameStarted){
+                        lives = "Lives: ";
+                    } else {
 			lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
+                    }
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, testGame, frame);
@@ -121,7 +127,11 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JLabel nrLives = new JLabel(lives);
 		String score = "";
 		try { // Obtain current level
+                    if(testGame && !gameStarted){
+                        score = "Score: ";
+                    } else {
 			score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+                    }
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
 			new ViewError(error, testGame, frame);
@@ -158,24 +168,25 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
 
 		// Adding Labels for the HallOfFame :
-		TOHallOfFame hallOfFameEntries;
-		try {
-			hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
-		} catch (InvalidInputException e) {
-			displayError(e.getMessage(), testGame);
-			// stop now to prevent future errors based on this exception
-			return;
-		}
-		// add this list
-		List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
-		for (TOHallOfFameEntry entry : hallOfFame) {
-			String name = entry.getPlayername();
-			int scoring = entry.getScore();
-			int position = entry.getPosition();
-			JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
-			hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
-
-		}
+                if(!(testGame && !gameStarted)){
+                    TOHallOfFame hallOfFameEntries;
+                    try {
+                            hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
+                    } catch (InvalidInputException e) {
+                            displayError(e.getMessage(), testGame);
+                            // stop now to prevent future errors based on this exception
+                            return;
+                    }
+                    // add this list
+                    List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+                    for (TOHallOfFameEntry entry : hallOfFame) {
+                            String name = entry.getPlayername();
+                            int scoring = entry.getScore();
+                            int position = entry.getPosition();
+                            JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
+                            hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
+                    }
+                }
 
 		JLabel test = new JLabel("test");
 		JLabel test2 = new JLabel("test2");
@@ -187,7 +198,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		// Add border
 		add(playerPane);
-		if(!testGame) add(hallOfFamePane);
+		add(hallOfFamePane);
 
 		// Save and logout and quit buttons :
 
@@ -240,7 +251,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 					@Override
 					public void run() {
 						try {
-							Block223Controller.startGame(PagePlayGame.this);
+                                                    if(testGame && !gameStarted){
+                                                        Block223Controller.testGame(PagePlayGame.this);
+                                                        gameStarted = true;
+                                                    } else {
+                                                        Block223Controller.startGame(PagePlayGame.this);
+                                                    }
 						} catch (InvalidInputException e) {
 							new ViewError(e.getMessage(), testGame, frame);
 						}
