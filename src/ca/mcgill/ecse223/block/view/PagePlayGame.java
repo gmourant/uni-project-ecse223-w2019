@@ -294,26 +294,29 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		}
 
 		blocks = game.getBlocks();
+		
+		int xOffset = 20;
+		int yOffset = 0;
 
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
 			g.setColor(color);
-			g.fillRect(block.getX() + Block.SIZE, block.getY(), Block.SIZE, Block.SIZE);
+			g.fillRect(block.getX() + xOffset, block.getY() + yOffset, Block.SIZE, Block.SIZE);
 		}
 
 		// Paddle :
 		g.setColor(Color.BLACK);
-		g.fillRect((int) game.getCurrentPaddleX(), Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE,
+		g.fillRect((int) game.getCurrentPaddleX() + xOffset, Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE - Paddle.PADDLE_WIDTH + yOffset,
 				(int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
 
 		// Ball
 		g.setColor(Color.BLACK);
-		g.fillOval((int) game.getCurrentBallX() - Ball.BALL_DIAMETER / 2,
-				(int) game.getCurrentBallY() - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
+		g.fillOval((int) game.getCurrentBallX()+ xOffset - Ball.BALL_DIAMETER / 2,
+				(int) game.getCurrentBallY() + yOffset - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 
 		// Outline :
 		g.setColor(Block223MainPage.getForegroundForBackground());
-		g.drawRect(10, 10, Game.PLAY_AREA_SIDE + 20, Game.PLAY_AREA_SIDE + 30);
+		g.drawRect(xOffset, yOffset, Game.PLAY_AREA_SIDE, Game.PLAY_AREA_SIDE);
 
 	}
 
