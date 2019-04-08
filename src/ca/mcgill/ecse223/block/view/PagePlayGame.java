@@ -53,15 +53,26 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	private JLabel currentScore;
 	private JLabel nrLives;
 	String gameName;
+        private final boolean testGame;
+        private boolean gameStarted;
 	Border border = BorderFactory.createLineBorder(new Color(179, 141, 151), 3);
 
 	// *******************
 	// Constructor method
 	// *******************
-	public PagePlayGame(Block223MainPage frame) {
+        public PagePlayGame(Block223MainPage frame) {
+            this(frame, false);
+        }
+        
+	public PagePlayGame(Block223MainPage frame, boolean testGame) {
 		super(frame, JPanelWithBackground.Background.general);
+                
+                this.testGame = testGame;
+                
+                if(testGame) frame.setSize(700, frame.getHeight());
+                
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
-
+                
 		// *****************
 		// UI elements
 		// *****************
@@ -84,34 +95,52 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.setMaximumSize(new Dimension(400, 450));
 		// hallOfFamePane.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		nextLevelPane.setBackground(new Color(219, 39, 99));
-
+                
 		// Define Labels :
 		try { // Obtain current game name
-			gameName = Block223Controller.getCurrentPlayableGame().getGamename();
+			if(testGame && !gameStarted){
+				gameName = Block223Controller.getCurrentDesignableGame().getName();
+			} else {
+				gameName = Block223Controller.getCurrentPlayableGame().getGamename();
+			}
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
-			new ViewError(error, true, frame);
+			new ViewError(error, testGame, frame);
 		}
 		JLabel Block223 = new JLabel(gameName);
 		try { // Obtain current level
+                    if(testGame && !gameStarted){
+                        level = "Level: ";
+                    } else {
 			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel() + " ";
+                    }
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
-			new ViewError(error, true, frame);
+			new ViewError(error, testGame, frame);
 		}
 		currentLevel = new JLabel(level);
+		String lives = "";
 		try { // Obtain current nr lives
-			lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
+			if(testGame && !gameStarted){
+				lives = "Lives: ";
+			} else {
+				lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
+			}
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
-			new ViewError(error, true, frame);
+			new ViewError(error, testGame, frame);
 		}
 		nrLives = new JLabel(lives);
+		String score = "";
 		try { // Obtain current score
-			score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+			if(testGame && !gameStarted){
+				score = "Score: ";
+			} else {
+				score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+			}
 		} catch (InvalidInputException e) {
 			String error = e.getMessage();
-			new ViewError(error, true, frame);
+			new ViewError(error, testGame, frame);
 		}
 		currentScore = new JLabel(score);
 		Block223.setFont(new Font("Consolas", Font.PLAIN, 40));
@@ -145,24 +174,25 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		startButtonPanel.add(startGame);
 		hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
 		// Adding Labels for the HallOfFame :
-		TOHallOfFame hallOfFameEntries;
-		try {
-			hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
-		} catch (InvalidInputException e) {
-			displayError(e.getMessage(), true);
-			// stop now to prevent future errors based on this exception
-			return;
-		}
-		// add this list
-		List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
-		for (TOHallOfFameEntry entry : hallOfFame) {
-			String name = entry.getPlayername();
-			int scoring = entry.getScore();
-			int position = entry.getPosition();
-			JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
-			hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
-
-		}
+                if(!(testGame && !gameStarted)){
+                    TOHallOfFame hallOfFameEntries;
+                    try {
+                            hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
+                    } catch (InvalidInputException e) {
+                            displayError(e.getMessage(), testGame);
+                            // stop now to prevent future errors based on this exception
+                            return;
+                    }
+                    // add this list
+                    List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+                    for (TOHallOfFameEntry entry : hallOfFame) {
+                            String name = entry.getPlayername();
+                            int scoring = entry.getScore();
+                            int position = entry.getPosition();
+                            JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
+                            hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
+                    }
+                }
 
 		JLabel test = new JLabel("test");
 		JLabel test2 = new JLabel("test2");
@@ -227,9 +257,14 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 					@Override
 					public void run() {
 						try {
-							Block223Controller.startGame(PagePlayGame.this);
+                                                    if(testGame && !gameStarted){
+                                                        Block223Controller.testGame(PagePlayGame.this);
+                                                        gameStarted = true;
+                                                    } else {
+                                                        Block223Controller.startGame(PagePlayGame.this);
+                                                    }
 						} catch (InvalidInputException e) {
-							new ViewError(e.getMessage(), true, frame);
+							new ViewError(e.getMessage(), testGame, frame);
 						}
 						startGame.setVisible(true);
 					}
@@ -253,19 +288,31 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	public void refresh() {
 		playerPane.repaint();
 		try { // Obtain current level
+                    if(testGame && !gameStarted){
+                        level = "Level: ";
+                    } else {
 			level = "Level: " + Block223Controller.getCurrentPlayableGame().getCurrentLevel() + " ";
-		} catch (InvalidInputException e) {
+                    }
+                } catch (InvalidInputException e) {
 			e.printStackTrace();
 		}
 		currentLevel.setText(level);
 		try { // Obtain current nr lives
-			lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
-		} catch (InvalidInputException e) {
+                    if(testGame && !gameStarted){
+                        lives = "Lives: ";
+                    } else {
+                        lives = "Lives: " + Block223Controller.getCurrentPlayableGame().getLives() + " ";
+                    }
+                } catch (InvalidInputException e) {
 			e.printStackTrace();
 		}
 		nrLives.setText(lives);
 		try { // Obtain current score
-			score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+                    if(testGame && !gameStarted){
+                        score = "Score: ";
+                    } else {
+                        score = "Score: " + Block223Controller.getCurrentPlayableGame().getScore() + " ";
+                    }
 		} catch (InvalidInputException e) {
 			e.printStackTrace();
 		}
@@ -311,7 +358,8 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 			game = Block223Controller.getCurrentPlayableGame();
 		} catch (InvalidInputException e1) {
 			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			//e1.printStackTrace();
+                        return;
 		}
 
 		blocks = game.getBlocks();

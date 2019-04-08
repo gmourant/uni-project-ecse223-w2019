@@ -114,7 +114,7 @@ public class PageChooseGame extends ContentPage {
 			}
 		});
 
-//Method to change listener for the comboBox for newGame: 
+//Method to change listener for the comboBox for pausedGame: 
 
 		pausedGamesBox.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -122,7 +122,7 @@ public class PageChooseGame extends ContentPage {
 				int idPaused = pausedGamesBox.getSelectedIndex();
 				// currentGameDisplay.setText(game);
 				try {
-					Block223Controller.selectPlayableGame(game, idPaused);
+					Block223Controller.selectPlayableGame(game, ids[idPaused]);
 					changePage(Block223MainPage.Page.playGame);
 					Block223MainPage.currentGameDisplay.setVisible(true);
 					Block223MainPage.currentGameDisplay.setText(game);

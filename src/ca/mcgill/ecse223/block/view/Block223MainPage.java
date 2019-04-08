@@ -64,7 +64,7 @@ public class Block223MainPage extends JFrame {
 	public enum Page {
 		adminMenu, // page for selecting destination page
 		addGame, defineGame, defineNewGame, deleteGame, updateGame, addBlock, deleteBlock, updateBlock, positionBlock,
-		moveBlock, removeBlock, login, logout, signUp, welcome, pickTheme, playGame, chooseGame
+		moveBlock, removeBlock, login, logout, signUp, welcome, pickTheme, playGame, chooseGame, testGame
 	}
 
 	private Page currentPage = Page.welcome;
@@ -279,6 +279,9 @@ public class Block223MainPage extends JFrame {
 		case pickTheme:
 			displayedPage = new PagePickTheme(this);
 			break;
+		case testGame:
+			displayedPage = new PagePlayGame(this, true);
+			break;
 		default:
 			displayedPage = new PageLogout(this);
 		}
@@ -474,7 +477,7 @@ public class Block223MainPage extends JFrame {
 					changePage(Block223MainPage.Page.updateGame);
 					break;
 				case "Test Game":
-					changePage(Block223MainPage.Page.playGame);
+					changePage(Block223MainPage.Page.testGame);
 					break;
 				case "Change Theme":
 					changePage(Block223MainPage.Page.pickTheme);
