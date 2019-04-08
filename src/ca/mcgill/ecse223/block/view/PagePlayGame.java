@@ -100,13 +100,14 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JLabel currentScore = new JLabel(score);
 		Block223.setFont(new Font("Consolas", Font.PLAIN, 50));
 		currentLevel.setFont(new Font("Consolas", Font.PLAIN, 20));
+		currentLevel.setForeground(new Color(227, 228, 219));
 		nrLives.setFont(new Font("Consolas", Font.PLAIN, 20));
 		currentScore.setFont(new Font("Consolas", Font.PLAIN, 20));
 		// Block223.setBorder(blueline);
 		Block223.setForeground(new Color(227, 228, 219));
 		JLabel hallOfFameLabel = new JLabel(" Hall of Fame ");
 		hallOfFameLabel.setBorder(blackline);
-		hallOfFameLabel.setFont(new Font("Consolas", Font.PLAIN, 20));
+		hallOfFameLabel.setFont(new Font("Consolas", Font.PLAIN, 15));
 		hallOfFameLabel.setBackground(new Color(179, 141, 151));
 		// hallOfFamePane.setLayout(new GridLayout(7, 1));
 		hallOfFamePane.setOpaque(true);
