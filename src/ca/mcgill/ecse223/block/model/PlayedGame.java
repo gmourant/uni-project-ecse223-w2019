@@ -164,8 +164,8 @@ public class PlayedGame implements Serializable
   {
     boolean wasSet = false;
     // line 60 "../../../../../Block223PlayMode.ump"
-    // Divide by 10 if speed is over 10
-       		if (aBallDirectionX >= 10) aBallDirectionX /= 10.0;
+    // Divide by 2 if speed is over 10
+       		if (aBallDirectionX >= 10) aBallDirectionX /= 2.0;
     // END OF UMPLE BEFORE INJECTION
     ballDirectionX = aBallDirectionX;
     wasSet = true;
@@ -184,8 +184,8 @@ public class PlayedGame implements Serializable
   {
     boolean wasSet = false;
     // line 64 "../../../../../Block223PlayMode.ump"
-    // Divide by 10 if speed is over 10
-       		if (aBallDirectionY >= 10) aBallDirectionY /= 10.0;
+    // Divide by 2 if speed is over 10
+       		if (aBallDirectionY >= 10) aBallDirectionY /= 2.0;
     // END OF UMPLE BEFORE INJECTION
     ballDirectionY = aBallDirectionY;
     wasSet = true;
