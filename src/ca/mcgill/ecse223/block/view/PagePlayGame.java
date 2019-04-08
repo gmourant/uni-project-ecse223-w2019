@@ -66,7 +66,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		Border raised = BorderFactory.createRaisedBevelBorder();
 		// Border redLine = BorderFactory.createLineBorder(new Color(167, 162, 169));
 		// Create Panes :
-		playerPane = new JPanel(new BorderLayout());
+		playerPane = new JPanel();
 		JPanel hallOfFamePane = new JPanel();
 		JPanel nextLevelPane = new JPanel();
 
@@ -127,7 +127,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.setOpaque(true);
 
 		// Add labels to panels :
-		playerPane.add(Block223);
+		//playerPane.add(Block223);
 		playerPane.add(currentLevel);
 		playerPane.add(nrLives);
 		playerPane.add(currentScore);
@@ -169,7 +169,6 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
 
 		// Add border
-		playerPane.setBorder(border);
 		add(playerPane);
 		add(hallOfFamePane);
 
@@ -291,6 +290,10 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		g.fillOval((int) game.getCurrentBallX() - Ball.BALL_DIAMETER / 2,
 				(int) game.getCurrentBallY() - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 
+		//Outline : 
+		g.setColor(Block223MainPage.getForegroundForBackground());
+		g.drawRect(10, 10, Game.PLAY_AREA_SIDE+20, Game.PLAY_AREA_SIDE+30);
+		
 	}
 
 }
