@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -22,7 +23,12 @@ import javax.swing.border.LineBorder;
 
 import ca.mcgill.ecse223.block.controller.Block223Controller;
 import ca.mcgill.ecse223.block.controller.InvalidInputException;
+import ca.mcgill.ecse223.block.controller.TOCurrentBlock;
+import ca.mcgill.ecse223.block.controller.TOCurrentlyPlayedGame;
+import ca.mcgill.ecse223.block.controller.TOGridCell;
 import ca.mcgill.ecse223.block.controller.TOHallOfFameEntry;
+import ca.mcgill.ecse223.block.model.Ball;
+import ca.mcgill.ecse223.block.model.Block;
 import ca.mcgill.ecse223.block.model.Game;
 import ca.mcgill.ecse223.block.model.Paddle;
 import ca.mcgill.ecse223.block.controller.TOHallOfFame;
@@ -249,99 +255,33 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); // ALWAYS call this method first!
-		// g.drawRect(60, 100, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(140, Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE, 100, 10); // Fills a square
 
-		// Rectangles for PlayGame :
+		// Add grid cell elements.
+		
+		List<TOCurrentBlock> blocks = new ArrayList<TOCurrentBlock>();
+		TOCurrentlyPlayedGame game = null;
+		try {
+			game = Block223Controller.getCurrentPlayableGame();
+		} catch (InvalidInputException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+			blocks = game.getBlocks();
 
-		// First row:
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(50, 100, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(100, 100, 30, 30); // Fills a square
-
-		// Paddle :
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(150, 100, 30, 30); // Fills a square
-
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(200, 100, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(250, 100, 30, 30); // Fills a square
-
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(300, 100, 30, 30); // Fills a square
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		// Second row:
-
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(50, 150, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(100, 150, 30, 30); // Fills a square
+		for (TOCurrentBlock block : blocks) {
+			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
+			g.setColor(color);
+			g.fillRect(block.getX(), block.getY(), Block.SIZE, Block.SIZE);
+		}
 
 		// Paddle :
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(150, 150, 30, 30); // Fills a square
+		g.setColor(Color.BLACK);
+		g.fillRect((int) game.getCurrentPaddleX(), Game.PLAY_AREA_SIDE-Paddle.VERTICAL_DISTANCE, (int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
 
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(200, 150, 30, 30); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(250, 150, 30, 30); // Fills a square
-
-		// Paddle :
-		g.setColor(new Color(222, 195, 190));
-		g.fillRect(300, 150, 30, 30); // Fills a square
-
-		// Small drawing :
-
-		// Left :
-		// g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(20, 370, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(35, 385, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(50, 400, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(20, 400, 20, 20); // Fills a square
-
-		// Right :
-		g.setColor(new Color(213, 172, 169));
-		g.fillRect(330, 370, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(new Color(179, 141, 151));
-		g.fillRect(315, 385, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(300, 400, 20, 20); // Fills a square
-
-		// g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillRect(330, 400, 20, 20); // Fills a square
-
-		// Ball :
-		g.setColor(Block223MainPage.getButtonBackground());
-		g.fillOval(140, 300, 15, 15);
+		// Ball
+		g.setColor(Color.BLACK);
+		g.fillOval((int) game.getCurrentBallX()-Ball.BALL_DIAMETER/2, (int) game.getCurrentBallY()-Ball.BALL_DIAMETER/2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 
 	}
 
