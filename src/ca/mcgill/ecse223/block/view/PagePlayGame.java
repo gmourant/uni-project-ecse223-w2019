@@ -127,7 +127,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.setOpaque(true);
 
 		// Add labels to panels :
-		//playerPane.add(Block223);
+		// playerPane.add(Block223);
 		playerPane.add(currentLevel);
 		playerPane.add(nrLives);
 		playerPane.add(currentScore);
@@ -247,16 +247,37 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
+		playerPane.repaint();
 
 	}
 
 	@Override
 	public void endGame(int nrOfLives, TOHallOfFameEntry hof) {
-		// TODO Auto-generated method stub
+		int positionHigh = 0;
+		int positionLow;
+		
+	//Switching the entries for the hallOfFame
+		TOHallOfFame hallOfFameEntries;
+		try {
+			hallOfFameEntries = Block223Controller.getHallOfFameWithMostRecentEntry(10);
+			List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+			for (TOHallOfFameEntry entry : hallOfFame) {
+			
+			if(hof.getScore() > entry.getScore()) {
+				positionHigh = entry.getPosition();
+			    entry.setPosition(hof.getPosition());
+			    hof.setPosition(positionHigh);}
+			}	
+			
+			} catch (InvalidInputException e) {
+			displayError(e.getMessage(), true);
+			// stop now to prevent future errors based on this exception
+			return;
+		}
 
+		//Setting the numberOfLives lower : 
+		nrOfLives--;
 	}
-
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); // ALWAYS call this method first!
@@ -277,7 +298,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		for (TOCurrentBlock block : blocks) {
 			Color color = new Color(block.getRed(), block.getGreen(), block.getBlue());
 			g.setColor(color);
-			g.fillRect(block.getX()+Block.SIZE, block.getY(), Block.SIZE, Block.SIZE);
+			g.fillRect(block.getX() + Block.SIZE, block.getY(), Block.SIZE, Block.SIZE);
 		}
 
 		// Paddle :
@@ -290,10 +311,10 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		g.fillOval((int) game.getCurrentBallX() - Ball.BALL_DIAMETER / 2,
 				(int) game.getCurrentBallY() - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 
-		//Outline : 
+		// Outline :
 		g.setColor(Block223MainPage.getForegroundForBackground());
-		g.drawRect(10, 10, Game.PLAY_AREA_SIDE+20, Game.PLAY_AREA_SIDE+30);
-		
+		g.drawRect(10, 10, Game.PLAY_AREA_SIDE + 20, Game.PLAY_AREA_SIDE + 30);
+
 	}
 
 }
