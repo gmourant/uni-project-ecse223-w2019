@@ -185,6 +185,8 @@ public class Block223MainPage extends JFrame {
 	 * @param toDisplay enum of the desired page
 	 */
 	private void displayPage(Page toDisplay) {
+            setSize(570, 500);
+            
 		// removes old page JPanel from JFrame
 		if (displayedPage != null) {
 			displayedPage.setVisible(false);

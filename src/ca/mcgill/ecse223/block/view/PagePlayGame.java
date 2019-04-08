@@ -69,7 +69,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
                 
                 this.testGame = testGame;
                 
-                if(testGame) frame.setSize(700, frame.getHeight());
+                if(testGame) frame.setSize(750, frame.getHeight());
                 
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
                 
