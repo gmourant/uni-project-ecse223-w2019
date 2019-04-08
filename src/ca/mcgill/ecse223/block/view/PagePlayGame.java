@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.Graphics;
 import java.awt.KeyEventDispatcher;
 import java.awt.KeyboardFocusManager;
@@ -134,15 +135,14 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		playerPane.add(currentLevel);
 		playerPane.add(nrLives);
 		playerPane.add(currentScore);
-		hallOfFamePane.setLayout(new BorderLayout());
-		hallOfFamePane.add(hallOfFameLabel, BorderLayout.NORTH);
+		hallOfFamePane.setLayout(new GridLayout(6,4));
 		hallOfFamePane.add(nextLevelPane);
+		hallOfFamePane.add(hallOfFameLabel);
 		JButton startGame = createButton("Start Game");
 		JPanel startButtonPanel = new JPanel();
 		startButtonPanel.setBackground(new Color(179, 141, 151));
 		startButtonPanel.add(startGame);
 		hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
-
 		// Adding Labels for the HallOfFame :
 		TOHallOfFame hallOfFameEntries;
 		try {
@@ -165,8 +165,8 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 
 		JLabel test = new JLabel("test");
 		JLabel test2 = new JLabel("test2");
-		hallOfFamePane.add(test);
-		hallOfFamePane.add(test2);
+		//hallOfFamePane.add(test);
+		//hallOfFamePane.add(test2);
 
 		// Provide minimum sizes for the two components in the split pane
 		JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, hallOfFamePane, nextLevelPane);
