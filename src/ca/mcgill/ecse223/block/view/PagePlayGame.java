@@ -65,7 +65,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		Border raised = BorderFactory.createRaisedBevelBorder();
 		// Border redLine = BorderFactory.createLineBorder(new Color(167, 162, 169));
 		// Create Panes :
-		playerPane = new JPanel();
+		playerPane = new JPanel(new BorderLayout());
 		JPanel hallOfFamePane = new JPanel();
 		JPanel nextLevelPane = new JPanel();
 
@@ -126,7 +126,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.setOpaque(true);
 
 		// Add labels to panels :
-		//playerPane.add(Block223);
+		playerPane.add(Block223);
 		playerPane.add(currentLevel);
 		playerPane.add(nrLives);
 		playerPane.add(currentScore);
