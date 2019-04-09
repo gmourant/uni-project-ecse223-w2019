@@ -334,7 +334,7 @@ public class Block223MainPage extends JFrame {
 
 		currentGameDisplay = new JLabel("No Game Selected");
 		currentGameDisplay.setBorder(new EmptyBorder(0, 10, 0, 0));
-		currentGameDisplay.setForeground(getForegroundForBackground());
+		currentGameDisplay.setForeground(getDefaultForeground());
 		topMenu.add(currentGameDisplay, BorderLayout.WEST);
 
 		publish = createButton("Publish");

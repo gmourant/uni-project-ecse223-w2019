@@ -138,28 +138,28 @@ public class PageChooseGame extends ContentPage {
 	// Method for drawing blocks :
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		g.setColor(new Color(227, 228, 219));
+		g.setColor(Block223MainPage.getLightColor());
 		g.fillRect(480, 10, 20, 20); // Fills a square
 
-		g.setColor(new Color(179, 141, 151));
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(520, 10, 20, 20); // Fills a square
 
-		g.setColor(new Color(227, 228, 219));
+		g.setColor(Block223MainPage.getLightColor());
 		g.fillRect(500, 30, 20, 20); // Fills a square
 
-		g.setColor(new Color(179, 141, 151));
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(520, 50, 20, 20); // Fills a square
 
-		g.setColor(new Color(227, 228, 219));
+		g.setColor(Block223MainPage.getLightColor());
 		g.fillRect(30, 10, 20, 20); // Fills a square
 
-		g.setColor(new Color(179, 141, 151));
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(70, 10, 20, 20); // Fills a square
 
-		g.setColor(new Color(227, 228, 219));
+		g.setColor(Block223MainPage.getLightColor());
 		g.fillRect(50, 30, 20, 20); // Fills a square
 
-		g.setColor(new Color(179, 141, 151));
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(30, 50, 20, 20); // Fills a square
 	}
 }
