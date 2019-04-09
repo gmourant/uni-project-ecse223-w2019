@@ -53,7 +53,7 @@ public class Block223MainPage extends JFrame {
 					"imageThemes/spacethemeBackground.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE,
 					Color.WHITE,
 					new Color (216,225,233), new Color(244,232,193), new Color(147,183,190),
-					new Color(232,197,71), new Color(33,41,92)),
+					new Color(232,197,71), new Color(3, 55, 160)),
 
 			new ViewTheme("Under The Sea", "imageThemes/water.jpg", new Color(0, 67, 133), new Color(0, 67, 133),
 					"imageThemes/water.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE, Color.WHITE,
