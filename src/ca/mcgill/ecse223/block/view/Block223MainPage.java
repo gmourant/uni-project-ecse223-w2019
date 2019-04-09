@@ -46,7 +46,7 @@ public class Block223MainPage extends JFrame {
 
 			new ViewTheme("Spring Galore", new Color(206, 236, 151), new Color(255, 202, 212), new Color(217, 187, 249),
 					new Font("Consolas", Font.PLAIN, 14), new Color(94, 133, 181), new Color(255, 238, 147),
-					new Color (245,255,198), new Color(247,225,215), new Color(154,209,212),
+					new Color (177, 214, 149), new Color(247,225,215), new Color(154,209,212),
 					new Color(90, 170, 149), new Color(156, 122, 151)),
 
 			new ViewTheme("Last Frontier", "imageThemes/spacethemeHeader.jpg", Color.BLACK, Color.LIGHT_GRAY,
