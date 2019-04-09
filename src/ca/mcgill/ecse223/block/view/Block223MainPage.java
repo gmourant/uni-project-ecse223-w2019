@@ -42,7 +42,7 @@ public class Block223MainPage extends JFrame {
 					new Color(221, 174, 121), new Font("Consolas", Font.PLAIN, 14), new Color(116, 157, 144),
 					new Color(248, 249, 248),
 					new Color (248,244,227), new Color(247,197,159), new Color(154,153,140),
-					new Color(243,155,109), new Color(95,84,73)),
+					new Color(119, 95, 89), new Color(119, 107, 89)),
 
 			new ViewTheme("Spring Galore", new Color(206, 236, 151), new Color(255, 202, 212), new Color(217, 187, 249),
 					new Font("Consolas", Font.PLAIN, 14), new Color(94, 133, 181), new Color(255, 238, 147),
