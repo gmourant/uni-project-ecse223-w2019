@@ -5,6 +5,8 @@ import static ca.mcgill.ecse223.block.view.ContentPage.createButton;
 import static ca.mcgill.ecse223.block.view.ContentPage.createComboBox;
 import static ca.mcgill.ecse223.block.view.ContentPage.createHeader;
 import static ca.mcgill.ecse223.block.view.Block223MainPage.THEMES;
+
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -36,6 +38,7 @@ public class PagePickTheme extends ContentPage {
         
         // create game dropdown
         JComboBox<String> themeList = createComboBox();
+        themeList.setPreferredSize(new Dimension(250,30));
         
         // add this list
         for(ViewTheme theme : THEMES) {

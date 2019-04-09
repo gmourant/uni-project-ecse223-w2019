@@ -41,10 +41,10 @@ public class PageSignUp extends ContentPage{
 	public static Color mediumColor = Block223MainPage.getMediumColor();
 	public static Color darkColor = Block223MainPage.getDarkColor();
 	
-	BlockAnimation block1 = new BlockAnimation(30,60,5);
-	BlockAnimation block2 = new BlockAnimation(60,30,4);
-	BlockAnimation block3 = new BlockAnimation(90,0,3);
-	BlockAnimation block4 = new BlockAnimation(30,0,0);
+	BlockAnimation block1 = new BlockAnimation(30,80,5);
+	BlockAnimation block2 = new BlockAnimation(60,50,4);
+	BlockAnimation block3 = new BlockAnimation(90,20,3);
+	BlockAnimation block4 = new BlockAnimation(30,20,0);
 	BlockAnimation block5 = new BlockAnimation(480,360,5);
 	BlockAnimation block6 = new BlockAnimation(510,330,4);
 	BlockAnimation block7 = new BlockAnimation(450,390,3);

@@ -53,6 +53,8 @@ public class PageLogin extends ContentPage {
 	public static Color mediumColor = Block223MainPage.getMediumColor();
 	public static Color darkColor = Block223MainPage.getDarkColor();
     
+	
+	
     BlockAnimation block1 = new BlockAnimation(30,60,5);
     BlockAnimation block2 = new BlockAnimation(60,30,4);
     BlockAnimation block3 = new BlockAnimation(90,0,3);
@@ -267,28 +269,36 @@ public class PageLogin extends ContentPage {
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); //ALWAYS call this method first!
 		g.setColor(darkColor);
-		block1.draw(g);
+		g.fillRect(30,80,30,30);
+		//block1.draw(g);
 
 		g.setColor(mediumColor);
-		block2.draw(g);
+		g.fillRect(60,50,30,30);
+		//block2.draw(g);
 
 		g.setColor(darkColor);
-		block3.draw(g);
+		g.fillRect(90,20,30,30);
+		//block3.draw(g);
 
 		g.setColor(mediumColor);
-		block4.draw(g);
+		g.fillRect(30,20,30,30);
+		//block4.draw(g);
 
 		g.setColor(darkColor);
-		block5.draw(g);
+		g.fillRect(480,360,30,30);
+		//block5.draw(g);
 
 		g.setColor(darkColor);
-		block6.draw(g);
+		g.fillRect(510,330,30,30);
+		//block6.draw(g);
 
 		g.setColor(mediumColor);
-		block7.draw(g);
+		g.fillRect(450,390,30,30);
+		//block7.draw(g);
 
 		g.setColor(mediumColor);
-		block8.draw(g);
+		g.fillRect(510,390,30,30);
+		//block8.draw(g);
 	}
 
 	////////////////////////////////////inner listener class ActionListener
