@@ -34,21 +34,33 @@ public class Block223MainPage extends JFrame {
 
 	public final static ViewTheme THEMES[] = {
 			new ViewTheme("Boxing Day", new Color(62, 61, 60), new Color(210, 215, 223), new Color(62, 61, 60),
-					new Font("Consolas", Font.PLAIN, 14), Color.DARK_GRAY, new Color(227, 228, 219)),
+					new Font("Consolas", Font.PLAIN, 14), Color.DARK_GRAY, new Color(227, 228, 219),
+					new Color(227,228,219), new Color(235,207,178),  new Color(213,172,169),
+					new Color(185, 49, 79), new Color(179,141,151) ),
 
 			new ViewTheme("Orange is the new black", new Color(235, 112, 96), new Color(202, 194, 165),
 					new Color(221, 174, 121), new Font("Consolas", Font.PLAIN, 14), new Color(116, 157, 144),
-					new Color(248, 249, 248)),
+					new Color(248, 249, 248),
+					new Color (248,244,227), new Color(247,197,159), new Color(154,153,140),
+					new Color(119, 95, 89), new Color(119, 107, 89)),
 
 			new ViewTheme("Spring Galore", new Color(206, 236, 151), new Color(255, 202, 212), new Color(217, 187, 249),
-					new Font("Consolas", Font.PLAIN, 14), new Color(94, 133, 181), new Color(255, 238, 147)),
+					new Font("Consolas", Font.PLAIN, 14), new Color(94, 133, 181), new Color(255, 238, 147),
+					new Color (245,255,198), new Color(247,225,215), new Color(154,209,212),
+					new Color(90, 170, 149), new Color(156, 122, 151)),
 
 			new ViewTheme("Last Frontier", "imageThemes/spacethemeHeader.jpg", Color.BLACK, Color.LIGHT_GRAY,
 					"imageThemes/spacethemeBackground.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE,
-					Color.WHITE),
+					Color.WHITE,
+					new Color (216,225,233), new Color(244,232,193), new Color(147,183,190),
+					new Color(232,197,71), new Color(3, 55, 160)),
 
 			new ViewTheme("Under The Sea", "imageThemes/water.jpg", new Color(0, 67, 133), new Color(0, 67, 133),
-					"imageThemes/water.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE, Color.WHITE), };
+					"imageThemes/water.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE, Color.WHITE,
+					new Color (171,210,250), new Color(118,146,255), new Color(61,81,140),
+					new Color(192, 201, 219), new Color(192, 207, 219)), 
+			};
+	
 	public static ViewTheme currentTheme;
 
 	public static int TITLE_SIZE_INCREASE = 4;
@@ -125,14 +137,14 @@ public class Block223MainPage extends JFrame {
 		if (topMenu != null) {
 			topMenu.repaint();
 		}
-
+		
 		return true;
 	}
 
 	public static Color getHeaderBackgroundFiller() {
 		return currentTheme.headerBackgroundFiller;
 	}
-
+	
 	public static Color getButtonBackground() {
 		return currentTheme.buttonBackground;
 	}
@@ -148,7 +160,27 @@ public class Block223MainPage extends JFrame {
 	public static Color getForegroundForBackground() {
 		return currentTheme.textColorWithHeaderBackground;
 	}
-
+	
+	public static Color getLightColor() {
+		return currentTheme.lightColor;
+	}
+	
+	public static Color getMediumColor() {
+		return currentTheme.mediumColor;
+	}
+	
+	public static Color getDarkColor() {
+		return currentTheme.darkColor;
+	}
+	
+	public static Color getBallColor() {
+		return currentTheme.ballColor;
+	}
+	
+	public static Color getPaddleColor() {
+		return currentTheme.paddleColor;
+	}
+	
 	public Block223MainPage() {
 		this.setSize(570, 500); // Specifies the size should adjust to the needs for space
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Specifies what the X to close does

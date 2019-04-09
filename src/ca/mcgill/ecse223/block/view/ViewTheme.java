@@ -15,10 +15,17 @@ public class ViewTheme{
     public final Font font;
     public final Color textColor;
     public final Color textColorWithHeaderBackground;
+    public final Color lightColor;//Color for one of the UI blocks
+    public final Color mediumColor;//Color for one of the UI blocks 
+    public final Color darkColor;//Color for one of the UI blocks
+    public final Color ballColor;//Color of ball for UI
+    public final Color paddleColor;//Color of ball for UI
     
     public ViewTheme(String name, Color headerBackground,
             Color buttonBackground, Color background, Font font, 
-            Color defaultColor, Color colorOfTextWithHeaderBackground){
+            Color defaultColor, Color colorOfTextWithHeaderBackground,
+            Color lightColor, Color mediumColor, Color darkColor, 
+            Color ballColor, Color paddleColor){
         type = Type.Color;
         this.name = name;
         this.headerBackground = headerBackground;
@@ -28,11 +35,18 @@ public class ViewTheme{
         this.font = font;
         textColor = defaultColor;
         textColorWithHeaderBackground = colorOfTextWithHeaderBackground;
+        this.lightColor = lightColor;
+        this.mediumColor = mediumColor;
+        this.darkColor = darkColor;
+        this.ballColor = ballColor;
+        this.paddleColor = paddleColor;
     }
     
     public ViewTheme(String name, String headerBackground, Color headerBackgroundFiller,
             Color buttonBackground, String background, Font font, 
-            Color defaultColor, Color colorOfTextWithHeaderBackground){
+            Color defaultColor, Color colorOfTextWithHeaderBackground,
+            Color lightColor, Color mediumColor, Color darkColor, 
+            Color ballColor, Color paddleColor){
         type = Type.Image;
         this.name = name;
         this.headerBackground = headerBackground;
@@ -42,5 +56,10 @@ public class ViewTheme{
         this.font = font;
         textColor = defaultColor;
         textColorWithHeaderBackground = colorOfTextWithHeaderBackground;
+        this.lightColor = lightColor;
+        this.mediumColor = mediumColor;
+        this.darkColor = darkColor;
+        this.ballColor = ballColor;
+        this.paddleColor = paddleColor;
     }
 }

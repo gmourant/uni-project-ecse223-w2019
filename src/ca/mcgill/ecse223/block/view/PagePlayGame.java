@@ -91,7 +91,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		// Define Pane backgrounds and colors :
 		playerPane.setOpaque(false);
 		// playerPane.setBorder(redLine);
-		hallOfFamePane.setBackground(new Color(179, 141, 151));
+		hallOfFamePane.setBackground(Block223MainPage.getDarkColor());
 		hallOfFamePane.setMaximumSize(new Dimension(400, 450));
 		// hallOfFamePane.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		nextLevelPane.setBackground(new Color(219, 39, 99));
@@ -155,7 +155,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		JLabel hallOfFameLabel = new JLabel(" Hall of Fame ");
 		hallOfFameLabel.setBorder(blackline);
 		hallOfFameLabel.setFont(new Font("Consolas", Font.PLAIN, 15));
-		hallOfFameLabel.setBackground(new Color(179, 141, 151));
+		hallOfFameLabel.setBackground(Block223MainPage.getLightColor());
 		// hallOfFamePane.setLayout(new GridLayout(7, 1));
 		hallOfFamePane.setOpaque(true);
 
@@ -168,9 +168,9 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFamePane.add(nextLevelPane);
 		hallOfFamePane.add(hallOfFameLabel);
 		JButton startGame = createButton("Start Game");
-		startGame.setBackground(new Color (235,207,178));
+		startGame.setBackground(Block223MainPage.getButtonBackground());
 		JPanel startButtonPanel = new JPanel();
-		startButtonPanel.setBackground(new Color(179, 141, 151));
+		startButtonPanel.setBackground(Block223MainPage.getDarkColor());
 		startButtonPanel.add(startGame);
 		hallOfFamePane.add(startButtonPanel, BorderLayout.SOUTH);
 		// Adding Labels for the HallOfFame :
@@ -215,14 +215,14 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		SaveButtonPanel.setBackground(Color.WHITE);
 		JButton StartButton = createButton(" Save ");
 		StartButton.setFont(new Font("Consolas", Font.PLAIN, 12));
-		StartButton.setBackground(new Color(62, 61, 60));
+		StartButton.setBackground(Block223MainPage.getButtonBackground());
 		Border border1 = new LineBorder(Color.WHITE, 3);
 		StartButton.setBorder(border1);
 		StartButton.setForeground(Color.WHITE);
 		SaveButtonPanel.add(StartButton, BorderLayout.PAGE_END);
 		// StartButtonPanel.setLayout(null);
 		SaveButtonPanel.setLocation(250, 300);
-		SaveButtonPanel.setBackground(new Color(62, 61, 60));
+		SaveButtonPanel.setBackground(Block223MainPage.getHeaderBackgroundFiller());
 
 		// ***********************
 		// Adding ActionListener
@@ -374,12 +374,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		}
 
 		// Paddle :
-		g.setColor(Color.BLACK);
+		g.setColor(Block223MainPage.getPaddleColor());
 		g.fillRect((int) game.getCurrentPaddleX() + xOffset, Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE - Paddle.PADDLE_WIDTH + yOffset,
 				(int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
 
 		// Ball
-		g.setColor(Color.BLACK);
+		g.setColor(Block223MainPage.getBallColor());
 		g.fillOval((int) game.getCurrentBallX()+ xOffset - Ball.BALL_DIAMETER / 2,
 				(int) game.getCurrentBallY() + yOffset - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 

@@ -25,14 +25,14 @@ public class PageChooseGame extends ContentPage {
 		JPanel Block223WelcomePane = new JPanelWithBackground(Background.transparent);
 		JLabel Block223Welcome = new JLabel("Block 223");
 		Block223Welcome.setFont(new Font("Consolas", Font.PLAIN, 65));
-		Block223Welcome.setForeground(new Color(235, 207, 178));
+		Block223Welcome.setForeground(Block223MainPage.getForegroundForBackground());
 		Block223WelcomePane.add(Block223Welcome, BorderLayout.CENTER);
 		add(Block223WelcomePane);
 
 		// Header message to choose a game :
 		JPanel headerMessagePanel = new JPanelWithBackground(Background.general);
 		JLabel headerMessage = createHeader("Choose a game to play!");
-		headerMessage.setForeground(Block223MainPage.getForegroundForBackground());
+		headerMessage.setForeground(Block223MainPage.getLightColor());
 		headerMessage.setFont(new Font("Consolas", Font.PLAIN, 30));
 		headerMessagePanel.add(headerMessage, BorderLayout.CENTER);
 		add(headerMessagePanel);
@@ -40,8 +40,8 @@ public class PageChooseGame extends ContentPage {
 		// JPanels for the comboBoxes :
 		JPanel newGamesPanel = new JPanel();
 		JPanel pausedGamesPanel = new JPanel();
-		newGamesPanel.setBackground(Block223MainPage.getHeaderBackgroundFiller());
-		pausedGamesPanel.setBackground(Block223MainPage.getHeaderBackgroundFiller());
+		newGamesPanel.setOpaque(false);
+		pausedGamesPanel.setOpaque(false);
 
 		// JPanel for the labels of games :
 
