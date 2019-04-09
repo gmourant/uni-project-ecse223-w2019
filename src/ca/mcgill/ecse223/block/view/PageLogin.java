@@ -48,6 +48,11 @@ public class PageLogin extends ContentPage {
 	//UI elements
     private static Font defaultFont = new Font("Consolas", Font.PLAIN, 14);
     private static Font titleFont = new Font("Consolas", Font.PLAIN, 50);
+    
+    public static Color lightColor = Block223MainPage.getLightColor();
+	public static Color mediumColor = Block223MainPage.getMediumColor();
+	public static Color darkColor = Block223MainPage.getDarkColor();
+    
     BlockAnimation block1 = new BlockAnimation(30,60,5);
     BlockAnimation block2 = new BlockAnimation(60,30,4);
     BlockAnimation block3 = new BlockAnimation(90,0,3);
@@ -79,12 +84,12 @@ public class PageLogin extends ContentPage {
 		//UI Login elements
 		//*****************
 		//Login elements 
-		Border border = BorderFactory.createLineBorder(new Color(179,141, 151), 3);
+		Border border = BorderFactory.createLineBorder(darkColor, 3);
 
 		//Title page panel
 		JPanel titlePanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
 		JLabel titleLabel = new JLabel("Block 223", JLabel.CENTER);
-		titleLabel.setForeground(new Color(227, 228, 219));
+		//titleLabel.setForeground(new Color(227, 228, 219));
 		titleLabel.setFont(titleFont);
 		titleLabel.setForeground(Block223MainPage.getForegroundForBackground());
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
@@ -95,7 +100,7 @@ public class PageLogin extends ContentPage {
 		usernameLabel.setFont(defaultFont);
 		usernameLabel.setForeground(Block223MainPage.getForegroundForBackground());
 		usernameLabel.setHorizontalAlignment(JLabel.LEFT);
-		usernameLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
+		//usernameLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
 		usernameLabelPanel.add(usernameLabel, BorderLayout.WEST);
 
 		//Username text field panel
@@ -112,7 +117,7 @@ public class PageLogin extends ContentPage {
 		passwordLabel.setFont(defaultFont);
 		passwordLabel.setForeground(Block223MainPage.getForegroundForBackground());
 		passwordLabel.setHorizontalAlignment(JLabel.LEFT);
-		passwordLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
+		//passwordLabel.setFont(new Font("Consolas", Font.PLAIN, 17));
 		passwordLabelPanel.add(passwordLabel, BorderLayout.WEST);
 
 		//Password password field panel
@@ -132,7 +137,7 @@ public class PageLogin extends ContentPage {
 		//Sign up button panel
 		JPanel signUpBtnPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 		JButton signUpButton = new JButton("Sign Up!");
-		signUpButton.setForeground(new Color(179,141, 151));
+		signUpButton.setForeground(Block223MainPage.getMediumColor());
 		signUpButton.setFont(new Font("Consolas", Font.PLAIN, 20));
 		signUpButton.setOpaque(false);
 		//signUpButton.setBackground(Block223MainPage.getButtonBackground());
@@ -141,7 +146,7 @@ public class PageLogin extends ContentPage {
 		//signUpButton.setForeground(Color.BLUE);
 		JLabel recommendSignUp = new JLabel("Don't have an account?");
 		recommendSignUp.setFont(new Font("Consolas", Font.PLAIN, 18));
-		recommendSignUp.setForeground(new Color(227, 228, 219 ));
+		recommendSignUp.setForeground(Block223MainPage.getLightColor());
 		Border emptyBorder = BorderFactory.createEmptyBorder();
 		signUpButton.setBorder(emptyBorder);
 		signUpBtnPanel.add(recommendSignUp);
@@ -175,8 +180,7 @@ public class PageLogin extends ContentPage {
 
 	}//End of PageLogin constructor
 	//Animating the blocks
-	Color colorBeige = new Color(179,141,151);
-	Color colorBurgundy = new Color(235,207,178);
+	
 	int side = 30;
 	long delay = 40;
 	private int x = 1;
@@ -215,64 +219,6 @@ public class PageLogin extends ContentPage {
 		thread.start();
 
 	}//End of start method
-
-
-	@Override
-	protected void paintComponent(Graphics g) {
-		super.paintComponent(g); //ALWAYS call this method first!
-		g.setColor(new Color(179,141, 151));
-		block1.draw(g);
-
-		g.setColor(new Color(235, 207, 178));
-		block2.draw(g);
-
-		g.setColor(new Color(179,141, 151));
-		block3.draw(g);
-
-		g.setColor(new Color(235, 207, 178));
-		block4.draw(g);
-
-		g.setColor(new Color(179,141, 151));
-		block5.draw(g);
-
-		g.setColor(new Color(179,141, 151));
-		block6.draw(g);
-
-		g.setColor(new Color(235, 207, 178));
-		block7.draw(g);
-
-		g.setColor(new Color(235, 207, 178));
-		block8.draw(g);
-	}
-
-	////////////////////////////////////inner listener class ActionListener
-	class TimerAction implements ActionListener {
-		//================================================== actionPerformed
-		/** ActionListener of the timer.  Each time this is called,
-		 *  the ball's position is updated, creating the appearance of
-		 *  movement.
-		 *@param e This ActionEvent parameter is unused.
-		 */
-		public void actionPerformed(ActionEvent e) {
-			block1.setBounds(getWidth(), getHeight());
-			block1.animateBlock();  // animate block1.
-			block2.setBounds(getWidth(), getHeight());
-			block2.animateBlock();  // animate block2.
-			block3.setBounds(getWidth(), getHeight());
-			block3.animateBlock();  // animate block3.
-			block4.setBounds(getWidth(), getHeight());
-			block4.animateBlock();  // animate block4.
-			block5.setBounds(getWidth(), getHeight());
-			block5.animateBlock();  // animate block5.
-			block6.setBounds(getWidth(), getHeight());
-			block6.animateBlock();  // animate block6.
-			block7.setBounds(getWidth(), getHeight());
-			block7.animateBlock();  // animate block7.
-			block8.setBounds(getWidth(), getHeight());
-			block8.animateBlock();  // animate block8.
-			repaint();  // Repaint indirectly calls paintComponent.
-		}
-	}
 
 	//*******************
 	//RefreshData method
@@ -317,5 +263,62 @@ public class PageLogin extends ContentPage {
 
 	}//End of signUpActionPerformed method
 
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g); //ALWAYS call this method first!
+		g.setColor(darkColor);
+		block1.draw(g);
+
+		g.setColor(mediumColor);
+		block2.draw(g);
+
+		g.setColor(darkColor);
+		block3.draw(g);
+
+		g.setColor(mediumColor);
+		block4.draw(g);
+
+		g.setColor(darkColor);
+		block5.draw(g);
+
+		g.setColor(darkColor);
+		block6.draw(g);
+
+		g.setColor(mediumColor);
+		block7.draw(g);
+
+		g.setColor(mediumColor);
+		block8.draw(g);
+	}
+
+	////////////////////////////////////inner listener class ActionListener
+	class TimerAction implements ActionListener {
+		//================================================== actionPerformed
+		/** ActionListener of the timer.  Each time this is called,
+		 *  the ball's position is updated, creating the appearance of
+		 *  movement.
+		 *@param e This ActionEvent parameter is unused.
+		 */
+		public void actionPerformed(ActionEvent e) {
+			block1.setBounds(getWidth(), getHeight());
+			block1.animateBlock();  // animate block1.
+			block2.setBounds(getWidth(), getHeight());
+			block2.animateBlock();  // animate block2.
+			block3.setBounds(getWidth(), getHeight());
+			block3.animateBlock();  // animate block3.
+			block4.setBounds(getWidth(), getHeight());
+			block4.animateBlock();  // animate block4.
+			block5.setBounds(getWidth(), getHeight());
+			block5.animateBlock();  // animate block5.
+			block6.setBounds(getWidth(), getHeight());
+			block6.animateBlock();  // animate block6.
+			block7.setBounds(getWidth(), getHeight());
+			block7.animateBlock();  // animate block7.
+			block8.setBounds(getWidth(), getHeight());
+			block8.animateBlock();  // animate block8.
+			repaint();  // Repaint indirectly calls paintComponent.
+		}
+	}
+	
 
 }//End of the PageLogin class

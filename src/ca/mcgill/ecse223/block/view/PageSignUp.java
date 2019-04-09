@@ -33,13 +33,14 @@ import ca.mcgill.ecse223.block.controller.InvalidInputException;
  * */
 public class PageSignUp extends ContentPage{
 
-	//data elements
-
-
 	//UI elements
 	private static Font defaultFont = new Font("Consolas", Font.PLAIN, 14);
 	private static Font titleFont = new Font("Consolas", Font.PLAIN, 50);
 
+	public static Color lightColor = Block223MainPage.getLightColor();
+	public static Color mediumColor = Block223MainPage.getMediumColor();
+	public static Color darkColor = Block223MainPage.getDarkColor();
+	
 	BlockAnimation block1 = new BlockAnimation(30,60,5);
 	BlockAnimation block2 = new BlockAnimation(60,30,4);
 	BlockAnimation block3 = new BlockAnimation(90,0,3);
@@ -79,8 +80,7 @@ public class PageSignUp extends ContentPage{
 		titlePanel.add(titleLabel, BorderLayout.CENTER);
 
 		//Username label panel
-		JPanel usernameLabelPanel = 
-				new JPanelWithBackground(Background.transparent, new BorderLayout());
+		JPanel usernameLabelPanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
 		JLabel usernameLabel = new JLabel("         Username:");
 		usernameLabel.setFont(defaultFont);
 		usernameLabel.setForeground(Block223MainPage.getForegroundForBackground());
@@ -88,8 +88,7 @@ public class PageSignUp extends ContentPage{
 		usernameLabelPanel.add(usernameLabel, BorderLayout.WEST);
 
 		//Username text field panel
-		JPanel usernameTxtFieldPanel = 
-				new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
+		JPanel usernameTxtFieldPanel = new JPanelWithBackground(Background.transparent, new FlowLayout(FlowLayout.CENTER));
 		usernameTextField = new JTextField();
 		usernameTextField.setPreferredSize(new Dimension(253, 27));
 		usernameTextField.setBorder(border);
@@ -98,8 +97,7 @@ public class PageSignUp extends ContentPage{
 
 		//Password
 		//Player password label panel
-		JPanel playerPwordLabelPanel = 
-				new JPanelWithBackground(Background.transparent, new BorderLayout());
+		JPanel playerPwordLabelPanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
 		JLabel playerPasswordLabel = new JLabel("         Player password:");
 		playerPasswordLabel.setFont(defaultFont);
 		playerPasswordLabel.setForeground(Block223MainPage.getForegroundForBackground());
@@ -158,14 +156,9 @@ public class PageSignUp extends ContentPage{
 			}
 		});
 
-	}
-
-	//End of PageSignUp constructor
-
+	}//End of PageSignUp constructor
 
 	//Animating the blocks
-	Color colorBeige = new Color(179,141,151);
-	Color colorBurgundy = new Color(235,207,178);
 	int side = 30;
 	long delay = 40;
 	private int x = 1;
@@ -238,28 +231,28 @@ public class PageSignUp extends ContentPage{
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); //ALWAYS call this method first!
-		g.setColor(new Color(179,141, 151));
+		g.setColor(darkColor);
 		block1.draw(g);
 
-		g.setColor(new Color(235, 207, 178));
+		g.setColor(mediumColor);
 		block2.draw(g);
 
-		g.setColor(new Color(179,141, 151));
+		g.setColor(darkColor);
 		block3.draw(g);
 
-		g.setColor(new Color(235, 207, 178));
+		g.setColor(mediumColor);
 		block4.draw(g);
 
-		g.setColor(new Color(179,141, 151));
+		g.setColor(darkColor);
 		block5.draw(g);
 
-		g.setColor(new Color(179,141, 151));
+		g.setColor(mediumColor);
 		block6.draw(g);
 
-		g.setColor(new Color(235, 207, 178));
+		g.setColor(mediumColor);
 		block7.draw(g);
 
-		g.setColor(new Color(235, 207, 178));
+		g.setColor(mediumColor);
 		block8.draw(g);
 	}
 

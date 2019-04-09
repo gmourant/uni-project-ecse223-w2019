@@ -31,13 +31,17 @@ public class PageWelcome extends ContentPage {
 		private static Font defaultFont = new Font("Bank Gothic",Font.PLAIN,14);
 		private static Font titleFont = new Font("Futura",Font.PLAIN,60);
 		BouncingBall ball = new BouncingBall(150,310,5,5);
+		
+		public static Color lightColor = Block223MainPage.getLightColor();
+		public static Color mediumColor = Block223MainPage.getMediumColor();
+		public static Color darkColor = Block223MainPage.getDarkColor();
+		public static Color ballColor = Block223MainPage.getBallColor();
+		public static Color paddleColor = Block223MainPage.getPaddleColor();
+		
 		//... Instance variables for the animiation
 	    private int   m_interval  = 35;  // Milliseconds between updates.
 	    private Timer m_timer;           // Timer fires to anmimate one step.
 		JLabel Block223Welcome;
-		public static Color lightColor = new Color(227, 228, 219);//grey color default
-		public static Color mediumColor = new Color(235,207,178);//beige color default
-		public static Color darkColor = new Color(213,172,169);//pink color default
 		
 		//*******************
 		//Constructor method
@@ -178,7 +182,7 @@ public class PageWelcome extends ContentPage {
 		    g.fillRect(460, 100, 50, 50); //Fills a square
 		    
 		    //g.drawRect(60, 200, 50, 50); //Draws square
-		    g.setColor(new Color(235, 207, 178));
+		    g.setColor(mediumColor);
 		    g.fillRect(60, 200, 50, 50); //Fills a square
 		    
 		    //g.drawRect(160, 200, 50, 50); //Draws square
@@ -198,7 +202,7 @@ public class PageWelcome extends ContentPage {
 		    g.fillRect(460, 200, 50, 50); //Fills a square
 		    
 		    //Paddle : 
-		    g.setColor(new Color(222, 195, 190));
+		    g.setColor(paddleColor);
 		    g.fillRect(210, 350, 150, 20); //Fills a square
 		    
 		    //Ball : 

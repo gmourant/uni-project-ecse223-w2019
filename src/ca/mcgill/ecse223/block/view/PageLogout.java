@@ -41,6 +41,10 @@ public class PageLogout extends ContentPage {
     private static Font defaultFont = new Font("Consolas", Font.PLAIN, 14);
     private static Font titleFont = new Font("Consolas", Font.PLAIN, 40);
 
+    public static Color lightColor = Block223MainPage.getLightColor();
+	public static Color mediumColor = Block223MainPage.getMediumColor();
+	public static Color darkColor = Block223MainPage.getDarkColor();
+    
 	//*******************
 	//Constructor method
 	//*******************
@@ -126,25 +130,25 @@ public class PageLogout extends ContentPage {
 	   // g.fillRect(90, 280, 30, 30); //Fills a square
 	  
 	    //Middle Blocks Pattern
-	    g.setColor(new Color(227, 228, 219));
+	    g.setColor(lightColor);
 	    g.fillRect(140, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(179,141, 151));
+	    g.setColor(darkColor);
 	    g.fillRect(240, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(227, 228, 219));
+	    g.setColor(lightColor);
 	    g.fillRect(340, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(179,141, 151));
+	    g.setColor(darkColor);
 	    g.fillRect(40, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(179,141, 151));
+	    g.setColor(darkColor);
 	    g.fillRect(290, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(227, 228, 219));
+	    g.setColor(lightColor);
 	    g.fillRect(190, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(179,141, 151));
+	    g.setColor(darkColor);
 	    g.fillRect(90, 230, 30, 30); //Fills a square
 	    
 	    //g.setColor(new Color(227, 228, 219));
@@ -153,10 +157,10 @@ public class PageLogout extends ContentPage {
 	    //g.setColor(new Color(179,141, 151));
 	    //g.fillRect(240, 230, 30, 30); //Fills a square
 	    
-	   g.setColor(new Color(227, 228, 219));
+	    g.setColor(lightColor);
 	    g.fillRect(370, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(new Color(179,141, 151));
+	    g.setColor(darkColor);
 	    g.fillRect(5, 230, 30, 30); //Fills a square
 	  
 	    }
