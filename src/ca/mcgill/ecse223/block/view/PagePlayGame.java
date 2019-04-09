@@ -156,6 +156,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		hallOfFameLabel.setBorder(blackline);
 		hallOfFameLabel.setFont(new Font("Consolas", Font.PLAIN, 15));
 		hallOfFameLabel.setBackground(Block223MainPage.getLightColor());
+		hallOfFameLabel.setForeground(Block223MainPage.getDefaultForeground());
 		// hallOfFamePane.setLayout(new GridLayout(7, 1));
 		hallOfFamePane.setOpaque(true);
 
@@ -191,6 +192,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
                             int position = entry.getPosition();
                             JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
                             hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
+                            entryFinal.setForeground(Block223MainPage.getDefaultForeground());
                     }
                 }
 
