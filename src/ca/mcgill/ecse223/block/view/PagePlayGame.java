@@ -374,12 +374,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		}
 
 		// Paddle :
-		g.setColor(Color.BLACK);
+		g.setColor(Block223MainPage.getBallColor());
 		g.fillRect((int) game.getCurrentPaddleX() + xOffset, Game.PLAY_AREA_SIDE - Paddle.VERTICAL_DISTANCE - Paddle.PADDLE_WIDTH + yOffset,
 				(int) game.getCurrentPaddleLength(), Paddle.PADDLE_WIDTH);
 
 		// Ball
-		g.setColor(Color.BLACK);
+		g.setColor(Block223MainPage.getBallColor());
 		g.fillOval((int) game.getCurrentBallX()+ xOffset - Ball.BALL_DIAMETER / 2,
 				(int) game.getCurrentBallY() + yOffset - Ball.BALL_DIAMETER / 2, Ball.BALL_DIAMETER, Ball.BALL_DIAMETER);
 

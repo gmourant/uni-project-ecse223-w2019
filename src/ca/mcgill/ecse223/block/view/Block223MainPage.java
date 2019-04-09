@@ -47,7 +47,7 @@ public class Block223MainPage extends JFrame {
 			new ViewTheme("Spring Galore", new Color(206, 236, 151), new Color(255, 202, 212), new Color(217, 187, 249),
 					new Font("Consolas", Font.PLAIN, 14), new Color(94, 133, 181), new Color(255, 238, 147),
 					new Color (245,255,198), new Color(247,225,215), new Color(154,209,212),
-					new Color(247,197,159), new Color(223,217,226)),
+					new Color(90, 170, 149), new Color(156, 122, 151)),
 
 			new ViewTheme("Last Frontier", "imageThemes/spacethemeHeader.jpg", Color.BLACK, Color.LIGHT_GRAY,
 					"imageThemes/spacethemeBackground.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE,
@@ -58,7 +58,7 @@ public class Block223MainPage extends JFrame {
 			new ViewTheme("Under The Sea", "imageThemes/water.jpg", new Color(0, 67, 133), new Color(0, 67, 133),
 					"imageThemes/water.jpg", new Font("Consolas", Font.PLAIN, 14), Color.WHITE, Color.WHITE,
 					new Color (171,210,250), new Color(118,146,255), new Color(61,81,140),
-					new Color(48,102,190), new Color(33,41,92)), 
+					new Color(192, 201, 219), new Color(192, 207, 219)), 
 			};
 	
 	public static ViewTheme currentTheme;
@@ -137,14 +137,14 @@ public class Block223MainPage extends JFrame {
 		if (topMenu != null) {
 			topMenu.repaint();
 		}
-
+		
 		return true;
 	}
 
 	public static Color getHeaderBackgroundFiller() {
 		return currentTheme.headerBackgroundFiller;
 	}
-
+	
 	public static Color getButtonBackground() {
 		return currentTheme.buttonBackground;
 	}
