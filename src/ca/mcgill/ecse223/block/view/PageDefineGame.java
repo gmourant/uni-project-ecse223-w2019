@@ -50,11 +50,11 @@ public class PageDefineGame extends ContentPage {
 		add(nrBlocksPerLevelSlider.panel);
 
 		// minBallSpeedX Slider
-		Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 0, 50, currentGame.getMinBallSpeedX());
+		Slider minBallSpeedXSlider = addSlider("Minimum Ball Speed (X)", 0, 8, currentGame.getMinBallSpeedX());
 		add(minBallSpeedXSlider.panel);
 
 		// minBallSpeedY Slider
-		Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 0, 50, currentGame.getMinBallSpeedY());
+		Slider minBallSpeedYSlider = addSlider("Minimum Ball Speed (Y)", 0, 8, currentGame.getMinBallSpeedY());
 		add(minBallSpeedYSlider.panel);
 
 		// ballSpeedIncreaseFactor Slider

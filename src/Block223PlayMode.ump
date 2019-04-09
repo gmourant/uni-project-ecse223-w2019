@@ -23,7 +23,7 @@ class Game {
 }
 
 class PlayedGame {
-   const Integer INITIAL_WAIT_TIME = 1000; // at design time, the initial wait time may be adjusted as seen fit
+   const Integer INITIAL_WAIT_TIME = 70; // at design time, the initial wait time may be adjusted as seen fit
    autounique id;
    const Integer NR_LIVES = 3;
    Integer score = 0;
@@ -58,11 +58,11 @@ class PlayedGame {
    0..1 -> 0..1 BouncePoint bounce;
    
    before setBallDirectionX { // Divide by 2 if speed is over 10
-   		if (aBallDirectionX >= 10) aBallDirectionX /= 2.0;
+   		if (aBallDirectionX >= 8) aBallDirectionX /= 2.0;
    }
    
    before setBallDirectionY { // Divide by 2 if speed is over 10
-   		if (aBallDirectionY >= 10) aBallDirectionY /= 2.0;
+   		if (aBallDirectionY >= 8) aBallDirectionY /= 2.0;
    }
    
    // Author: Kelly Ma

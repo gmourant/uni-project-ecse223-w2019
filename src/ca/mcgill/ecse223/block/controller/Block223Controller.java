@@ -978,7 +978,7 @@ public class Block223Controller {
 				game.pause(); // Pause game if use presses the space bar
 			}
 			try {
-				TimeUnit.MILLISECONDS.sleep((long) game.getWaitTime() / 30);
+				TimeUnit.MILLISECONDS.sleep((long) game.getWaitTime() / 5);
 			} catch (InterruptedException e) {
 
 			}

@@ -22,7 +22,7 @@ public class PlayedGame implements Serializable
   /**
    * at design time, the initial wait time may be adjusted as seen fit
    */
-  public static final int INITIAL_WAIT_TIME = 1000;
+  public static final int INITIAL_WAIT_TIME = 70;
   private static int nextId = 1;
   public static final int NR_LIVES = 3;
 
@@ -165,7 +165,7 @@ public class PlayedGame implements Serializable
     boolean wasSet = false;
     // line 60 "../../../../../Block223PlayMode.ump"
     // Divide by 2 if speed is over 10
-       		if (aBallDirectionX >= 10) aBallDirectionX /= 2.0;
+       		if (aBallDirectionX >= 8) aBallDirectionX /= 2.0;
     // END OF UMPLE BEFORE INJECTION
     ballDirectionX = aBallDirectionX;
     wasSet = true;
@@ -185,7 +185,7 @@ public class PlayedGame implements Serializable
     boolean wasSet = false;
     // line 64 "../../../../../Block223PlayMode.ump"
     // Divide by 2 if speed is over 10
-       		if (aBallDirectionY >= 10) aBallDirectionY /= 2.0;
+       		if (aBallDirectionY >= 8) aBallDirectionY /= 2.0;
     // END OF UMPLE BEFORE INJECTION
     ballDirectionY = aBallDirectionY;
     wasSet = true;
