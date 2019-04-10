@@ -186,11 +186,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
                     }
                     // add this list
                     List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
+                    int nrEntries = hallOfFame.size();
                     for (TOHallOfFameEntry entry : hallOfFame) {
                             String name = entry.getPlayername();
                             int scoring = entry.getScore();
-                            int position = entry.getPosition();
-                            JLabel entryFinal = new JLabel(position + " " + name + ":" + scoring);
+                            int position = nrEntries - entry.getPosition() + 1;
+                            JLabel entryFinal = new JLabel(position + " " + name + ": " + scoring);
                             hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
                             entryFinal.setForeground(Block223MainPage.getDefaultForeground());
                     }
