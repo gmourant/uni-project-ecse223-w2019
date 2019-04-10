@@ -16,7 +16,10 @@ class Game {
   /*This method returns a block for the doSetup() method*/
   /*@author : Imane Chafi*/
    public Block getRandomBlock(){
+   Random randomGenerator = new Random();
+   
    	List<Block> blocks = this.getBlocks();
+	int randomInt = randomGenerator.nextInt(blocks.size())+0;
 	Block block = this.getBlock(0);
   	return block;
    }

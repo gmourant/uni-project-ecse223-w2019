@@ -9,7 +9,7 @@ import ca.mcgill.ecse223.block.model.BouncePoint.BounceDirection;
 import java.util.*;
 
 // line 112 "../../../../../Block223Persistence.ump"
-// line 25 "../../../../../Block223PlayMode.ump"
+// line 28 "../../../../../Block223PlayMode.ump"
 // line 1 "../../../../../Block223States.ump"
 public class PlayedGame implements Serializable
 {
@@ -82,7 +82,7 @@ public class PlayedGame implements Serializable
 
   public PlayedGame(String aPlayername, Game aGame, Block223 aBlock223)
   {
-    // line 87 "../../../../../Block223PlayMode.ump"
+    // line 90 "../../../../../Block223PlayMode.ump"
     boolean didAddGameResult = setGame(aGame);
           if (!didAddGameResult)
           {
@@ -163,7 +163,7 @@ public class PlayedGame implements Serializable
   public boolean setBallDirectionX(double aBallDirectionX)
   {
     boolean wasSet = false;
-    // line 60 "../../../../../Block223PlayMode.ump"
+    // line 63 "../../../../../Block223PlayMode.ump"
     // Divide by 2 if speed is over 10
        		if (aBallDirectionX >= 8) aBallDirectionX /= 2.0;
     // END OF UMPLE BEFORE INJECTION
@@ -183,7 +183,7 @@ public class PlayedGame implements Serializable
   public boolean setBallDirectionY(double aBallDirectionY)
   {
     boolean wasSet = false;
-    // line 64 "../../../../../Block223PlayMode.ump"
+    // line 67 "../../../../../Block223PlayMode.ump"
     // Divide by 2 if speed is over 10
        		if (aBallDirectionY >= 8) aBallDirectionY /= 2.0;
     // END OF UMPLE BEFORE INJECTION
@@ -745,7 +745,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 69 "../../../../../Block223PlayMode.ump"
+  // line 72 "../../../../../Block223PlayMode.ump"
    public HallOfFameEntry getMostRecentEntry(){
     // Returns a game's most recent HallOfFameEntry
 		// Obtain game associated with this PlayedGame
@@ -756,7 +756,7 @@ public class PlayedGame implements Serializable
   /**
    * Author: Kelly Ma
    */
-  // line 75 "../../../../../Block223PlayMode.ump"
+  // line 78 "../../../../../Block223PlayMode.ump"
    public int indexOfHallOfFameEntry(){
     // Returns the index of a game's mostRecentEntry
 		HallOfFameEntry mostRecentEntry = this.getMostRecentEntry(); // Obtain most recent entry

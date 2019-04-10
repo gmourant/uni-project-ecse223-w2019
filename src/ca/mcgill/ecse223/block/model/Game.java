@@ -912,8 +912,11 @@ public class Game implements Serializable
    */
   // line 19 "../../../../../Block223PlayMode.ump"
    public Block getRandomBlock(){
-    List<Block> blocks = this.getBlocks();
-	Block block = this.getBlock(0);
+    Random randomGenerator = new Random();
+   
+   	List<Block> blocks = this.getBlocks();
+	int randomInt = randomGenerator.nextInt(blocks.size())+0;
+	Block block = this.getBlock(randomInt);
   	return block;
   }
 
