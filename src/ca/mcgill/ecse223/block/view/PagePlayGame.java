@@ -52,6 +52,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 	private JLabel currentLevel;
 	private JLabel currentScore;
 	private JLabel nrLives;
+	private int hallOfFamePage = 1; // Start with the first page
 	String gameName;
         private final boolean testGame;
         private boolean gameStarted;
@@ -196,7 +197,12 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
                             position++;
                     }
                 }
-
+        JButton viewMore = createButton("View More");
+        viewMore.setBackground(Block223MainPage.getButtonBackground());
+        JPanel nextButtonPanel = new JPanel();
+        nextButtonPanel.setBackground(Block223MainPage.getDarkColor());
+        nextButtonPanel.add(viewMore);
+        hallOfFamePane.add(nextButtonPanel, BorderLayout.SOUTH);
 		JLabel test = new JLabel("test");
 		JLabel test2 = new JLabel("test2");
 		//hallOfFamePane.add(test);
