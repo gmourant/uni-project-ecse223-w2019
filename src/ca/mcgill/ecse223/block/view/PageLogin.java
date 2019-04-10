@@ -268,35 +268,35 @@ public class PageLogin extends ContentPage {
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g); //ALWAYS call this method first!
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(30,80,30,30);
 		//block1.draw(g);
 
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(60,50,30,30);
 		//block2.draw(g);
 
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(90,20,30,30);
 		//block3.draw(g);
 
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(30,20,30,30);
 		//block4.draw(g);
 
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(480,360,30,30);
 		//block5.draw(g);
 
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(510,330,30,30);
 		//block6.draw(g);
 
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(450,390,30,30);
 		//block7.draw(g);
 
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(510,390,30,30);
 		//block8.draw(g);
 	}
