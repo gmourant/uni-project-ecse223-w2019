@@ -165,7 +165,7 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
 		playerPane.add(currentLevel);
 		playerPane.add(nrLives);
 		playerPane.add(currentScore);
-		hallOfFamePane.setLayout(new GridLayout(6,4));
+		hallOfFamePane.setLayout(new GridLayout(13,4)); // Only displays the first ten scores 
 		hallOfFamePane.add(nextLevelPane);
 		hallOfFamePane.add(hallOfFameLabel);
 		JButton startGame = createButton("Start Game");
@@ -186,14 +186,14 @@ public class PagePlayGame extends ContentPage implements Block223PlayModeInterfa
                     }
                     // add this list
                     List<TOHallOfFameEntry> hallOfFame = hallOfFameEntries.getEntries();
-                    int nrEntries = hallOfFame.size();
+                    int position = 1;
                     for (TOHallOfFameEntry entry : hallOfFame) {
                             String name = entry.getPlayername();
                             int scoring = entry.getScore();
-                            int position = nrEntries - entry.getPosition() + 1;
                             JLabel entryFinal = new JLabel(position + " " + name + ": " + scoring);
                             hallOfFamePane.add(entryFinal, BorderLayout.CENTER);
                             entryFinal.setForeground(Block223MainPage.getDefaultForeground());
+                            position++;
                     }
                 }
 
