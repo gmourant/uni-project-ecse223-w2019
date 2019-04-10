@@ -166,47 +166,47 @@ public class PageWelcome extends ContentPage {
 		g.setColor(new Color(0,0,0));
 
 		//g.drawRect(160, 100, 50, 50); //Draws square
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(160, 100, 50, 50); //Fills a square
 
 		// g.drawRect(260, 100, 50, 50); //Draws square
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(260, 100, 50, 50); //Fills a square
 
 		//g.drawRect(360, 100, 50, 50); //Draws square
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(360, 100, 50, 50); //Fills a square
 
 		// g.drawRect(460, 100, 50, 50); //Draws square
-		g.setColor(lightColor);
+		g.setColor(Block223MainPage.getLightColor());
 		g.fillRect(460, 100, 50, 50); //Fills a square
 
 		//g.drawRect(60, 200, 50, 50); //Draws square
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(60, 200, 50, 50); //Fills a square
 
 		//g.drawRect(160, 200, 50, 50); //Draws square
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(160, 200, 50, 50); //Fills a square
 
 		//g.drawRect(260, 200, 50, 50); //Draws square
-		g.setColor(lightColor);
+		g.setColor(Block223MainPage.getLightColor());
 		g.fillRect(260, 200, 50, 50); //Fills a square
 
 		//g.drawRect(360, 200, 50, 50); //Draws square
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getDarkColor());
 		g.fillRect(360, 200, 50, 50); //Fills a square
 
 		//g.drawRect(460, 200, 50, 50); //Draws square
-		g.setColor(mediumColor);
+		g.setColor(Block223MainPage.getMediumColor());
 		g.fillRect(460, 200, 50, 50); //Fills a square
 
 		//Paddle : 
-		g.setColor(paddleColor);
+		g.setColor(Block223MainPage.getPaddleColor());
 		g.fillRect(210, 350, 150, 20); //Fills a square
 
 		//Ball : 
-		g.setColor(darkColor);
+		g.setColor(Block223MainPage.getBallColor());
 		g.setColor(new Color(185, 49, 79));
 		ball.draw(g);
 	}

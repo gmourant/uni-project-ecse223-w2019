@@ -130,25 +130,25 @@ public class PageLogout extends ContentPage {
 	   // g.fillRect(90, 280, 30, 30); //Fills a square
 	  
 	    //Middle Blocks Pattern
-	    g.setColor(lightColor);
+	    g.setColor(Block223MainPage.getLightColor());
 	    g.fillRect(140, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(darkColor);
+	    g.setColor(Block223MainPage.getDarkColor());
 	    g.fillRect(240, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(lightColor);
+	    g.setColor(Block223MainPage.getLightColor());
 	    g.fillRect(340, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(darkColor);
+	    g.setColor(Block223MainPage.getDarkColor());
 	    g.fillRect(40, 280, 30, 30); //Fills a square
 	    
-	    g.setColor(darkColor);
+	    g.setColor(Block223MainPage.getDarkColor());
 	    g.fillRect(290, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(lightColor);
+	    g.setColor(Block223MainPage.getLightColor());
 	    g.fillRect(190, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(darkColor);
+	    g.setColor(Block223MainPage.getDarkColor());
 	    g.fillRect(90, 230, 30, 30); //Fills a square
 	    
 	    //g.setColor(new Color(227, 228, 219));
@@ -157,10 +157,10 @@ public class PageLogout extends ContentPage {
 	    //g.setColor(new Color(179,141, 151));
 	    //g.fillRect(240, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(lightColor);
+	    g.setColor(Block223MainPage.getLightColor());
 	    g.fillRect(370, 230, 30, 30); //Fills a square
 	    
-	    g.setColor(darkColor);
+	    g.setColor(Block223MainPage.getDarkColor());
 	    g.fillRect(5, 230, 30, 30); //Fills a square
 	  
 	    }
