@@ -86,7 +86,7 @@ public class PageLogin extends ContentPage {
 		//UI Login elements
 		//*****************
 		//Login elements 
-		Border border = BorderFactory.createLineBorder(darkColor, 3);
+		Border border = BorderFactory.createLineBorder(Block223MainPage.getDarkColor(), 3);
 
 		//Title page panel
 		JPanel titlePanel = new JPanelWithBackground(Background.transparent, new BorderLayout());
